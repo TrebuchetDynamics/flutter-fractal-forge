@@ -1,9 +1,12 @@
 """Hermetic checks for scripts/release-play.sh: ordering, refusals, evidence."""
 
+import hashlib
 import json
 import os
 from pathlib import Path
 import subprocess
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 NL = "\n"
@@ -45,7 +48,15 @@ def make_project(tmp_path, *, build_number=121, version="1.1.121", gate_exit=0):
          f'printf "%s\\n" "device-gate $*" >> "{calls}"\n')
     stub(project / "scripts/ci/play-readback.sh",
          f'printf "%s\\n" "readback $*" >> "{calls}"\n'
-         'printf \'{"found": true, "conflict": false, "versionCode": "121"}\\n\'\n')
+         '''python3 - "$1" "$2" <<'PY'
+import json, os, sys
+print(os.environ.get("READBACK_JSON") or json.dumps({
+    "found": True, "conflict": False, "versionCode": sys.argv[1],
+    "aabSha256": sys.argv[2], "track": os.environ["PLAY_TRACK"],
+    "status": os.environ["PLAY_RELEASE_STATUS"],
+}))
+PY
+''')
     stub(project / "scripts/build-upload-playstore.sh", f'''
 printf "%s\\n" "upload $*" >> "{calls}"
 mkdir -p play-console-upload
@@ -200,7 +211,15 @@ def test_successful_release_records_evidence_in_order(tmp_path):
     assert len(evidence["artifact"]["sha256"]) == 64
     assert (artifact_dir / "PLAY_RECORD_STUB.md").exists()
     assert (artifact_dir / "fractal-forge-v1.1.121-build121.aab").exists()
-    assert "live on track production" in result.stderr
+    assert "publication confirmed on track production" in result.stderr
+    assert "is live" not in result.stderr
+    assert evidence["state"] == {
+        "publication": "confirmed", "review": "not_observed",
+        "storefront_propagation": "not_observed", "end_user_availability": "not_observed",
+    }
+    gate_dir = Path(evidence["gate_evidence_dir"])
+    assert not gate_dir.is_relative_to(project)
+    assert gate_dir.parent.stat().st_mode & 0o777 == 0o700
 
 
 def test_skipped_gates_are_recorded_as_skipped(tmp_path):
@@ -213,3 +232,98 @@ def test_skipped_gates_are_recorded_as_skipped(tmp_path):
         (project / "release-artifacts/play-1.1.121/release-play-evidence.json").read_text())
     assert evidence["gates"] == {"shared_offline_gate": "skipped",
                                  "device_gate": "skipped"}
+
+
+@pytest.mark.parametrize("relative_scratch", [False, True])
+def test_gate_scratch_is_private_and_outside_checkout_by_default(tmp_path, relative_scratch):
+    project, environment, calls = make_project(tmp_path)
+    if relative_scratch:
+        environment["TMPDIR"] = ".."
+    stub(project / "scripts/ci/offline-gate.sh", '''
+python3 - "$PWD" "$TMPDIR" "$3" <<'PY'
+from pathlib import Path
+import sys
+root, scratch, logs = map(Path, sys.argv[1:])
+assert scratch.is_absolute() and logs.is_absolute()
+assert not logs.resolve().is_relative_to(root.resolve())
+assert scratch.stat().st_mode & 0o777 == 0o700
+PY
+''')
+    result = release(project, environment, "--allow-dirty", "--device", "target:5555",
+                     "--disposable-device", "target:5555",
+                     status=status_file(tmp_path, [], uploaded=[]))
+    assert result.returncode == 0, result.stderr
+    assert "upload" in calls.read_text()
+
+
+def test_scratch_creation_failure_is_a_prepublication_refusal(tmp_path):
+    project, environment, calls = make_project(tmp_path)
+    stub(tmp_path / "bin/mktemp", 'echo "scratch unavailable" >&2\nexit 1\n')
+    result = release(project, environment, status=status_file(tmp_path, [], uploaded=[]))
+    assert result.returncode == 2
+    assert "could not create private gate scratch" in result.stderr
+    assert calls.read_text() == ""
+
+
+def test_checkout_local_scratch_is_refused_before_any_gate(tmp_path):
+    project, environment, calls = make_project(tmp_path)
+    environment["TMPDIR"] = str(project)
+    result = release(project, environment, status=status_file(tmp_path, [], uploaded=[]))
+    assert result.returncode == 2
+    assert "outside the checkout" in result.stderr
+    assert calls.read_text() == ""
+
+
+@pytest.mark.parametrize("readback", [
+    {"versionCode": "120"},
+    {"track": "internal"},
+    {"track": None},
+    {"status": "draft"},
+    {"aabSha256": "b" * 64},
+    {"conflict": True},
+    {"conflict": "false"},
+    {"found": "true"},
+    [],
+])
+def test_unconfirmed_readback_never_reuploads_or_claims_success(tmp_path, readback):
+    project, environment, calls = make_project(tmp_path)
+    if isinstance(readback, dict):
+        readback = {
+            "found": True, "conflict": False, "versionCode": "121",
+            "track": "production", "status": "completed",
+            "aabSha256": hashlib.sha256(b"fake aab\n").hexdigest(),
+            **readback,
+        }
+    environment["READBACK_JSON"] = json.dumps(readback)
+    result = release(project, environment, "--skip-gate", "--skip-device-gate",
+                     status=status_file(tmp_path, [], uploaded=[]))
+    assert result.returncode == 1
+    assert "DO NOT upload again" in result.stderr
+    assert calls.read_text().count("upload ") == 1
+    assert calls.read_text().count("readback ") == 1
+    assert not (project / "release-artifacts/play-1.1.121/release-play-evidence.json").exists()
+
+
+def test_readback_receives_requested_track_and_status(tmp_path):
+    project, environment, calls = make_project(tmp_path)
+    result = release(project, environment, "--skip-gate", "--skip-device-gate",
+                     "--track", "internal", "--release-status", "draft",
+                     status=status_file(tmp_path, [], uploaded=[]))
+    assert result.returncode == 0, result.stderr
+    evidence = json.loads(
+        (project / "release-artifacts/play-1.1.121/release-play-evidence.json").read_text())
+    assert evidence["play"]["readback"]["track"] == "internal"
+    assert evidence["play"]["readback"]["status"] == "draft"
+
+
+def test_ambiguous_upload_is_unknown_not_a_prepublication_refusal(tmp_path):
+    project, environment, calls = make_project(tmp_path)
+    stub(project / "scripts/build-upload-playstore.sh",
+         f'echo "upload commit-response-lost" >> "{calls}"\nexit 17\n')
+    result = release(project, environment, "--allow-dirty", "--skip-gate", "--skip-device-gate",
+                     status=status_file(tmp_path, [], uploaded=[]))
+    assert result.returncode == 1
+    assert "publication state is unknown" in result.stderr
+    assert "DO NOT upload again" in result.stderr
+    assert calls.read_text().splitlines() == ["upload commit-response-lost"]
+    assert "publication confirmed" not in result.stderr

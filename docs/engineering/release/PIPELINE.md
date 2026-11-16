@@ -43,6 +43,35 @@ Stage 3 and 4 can be skipped only by explicit flag, and a skip is written into
 the evidence file as `skipped`. Skipping is a recorded gap, never an implicit
 pass.
 
+### Publication states and retry boundaries
+
+Qualification, publication, review and storefront propagation are separate states.
+The wrapper does not infer one state from another.
+
+| From | Event and guard | Result | Recovery |
+| --- | --- | --- | --- |
+| Prepared | Identity matches and version code is unused | Run qualification gates | A gate failure stops before upload |
+| Gates completed | Requested gates passed, or an explicit skip remains recorded as a gap | Attempt upload and commit once | A lost response can mean publication is unknown |
+| Publication unknown | Uploader or readback fails after a write may have occurred | Exit 1, no automatic reupload | Reconcile exact remote version/hash before any retry |
+| Awaiting readback | Fresh response has the requested track, status, code and hash | Publication confirmed | Storefront and review remain unobserved |
+| Any readback | Missing track identity or malformed resource | Unknown, not confirmed absence | Stop; do not authorize a publisher from this result |
+| Publication confirmed | Run the separate observer/checker | Report observed review and propagation states | Pending propagation never triggers another upload |
+
+Successful evidence records `state.publication=confirmed`. Review, storefront
+propagation and end-user availability remain `not_observed` until separate
+observations exist. A confirmed API operation is not an end-user availability
+claim. An upload error exits 1, not the exit-2 prepublication-refusal state.
+
+The wrapper has no automatic resume or cross-process publication lock. It does
+not make the standalone uploader safe to retry after an ambiguous remote write.
+Serialize publishers and retain receipts. This map covers the Play wrapper and
+readback, not every campaign or listing mutation. The scoped review also found
+unresolved uploader boundaries: no expected artifact-hash precondition, mutable
+listing inputs after validation, conflicting legacy/localized title inputs, and
+no durable intermediate upload/commit journal. These are source-supported risks,
+not observed failures in the 124 publication. They need separate uploader
+mutation/crash-window tests before a claim of safe automatic retry.
+
 ## Identity rules
 
 - `fdroid/version.properties` is the committed release identity (`versionName`,
@@ -65,7 +94,7 @@ Locations only; never commit or echo secret contents.
 | Variable / tool | Value or location | Needed by |
 | --- | --- | --- |
 | `FLUTTER_ROOT` | `/home/xel/flutter` (must match `fdroid/flutter.version`) | offline gate, builders |
-| `TMPDIR` | existing private scratch directory outside the checkout | offline gate, campaign builder |
+| `TMPDIR` | existing scratch base outside the checkout; Play wrapper creates a private child | offline gate, campaign builder |
 | `PLAY_SERVICE_ACCOUNT_JSON` | `play-console-upload/play-service-account.json` (gitignored) | status, upload, readback |
 | `PLAY_TRACK` / `PLAY_RELEASE_STATUS` | `production` / `completed` | upload defaults; override only for an explicitly requested nonproduction release |
 | `ANDROID_DEVICE` / `ANDROID_DISPOSABLE_DEVICE` | current serial, e.g. `192.168.240.112:5555` | device gate (both must match) |
@@ -131,6 +160,13 @@ fractal-forge-…-build<N>-…aab  the published artifact (+ .sha256)
 gates/offline/                 per-stage logs + offline-gate.json
 gates/device/                  device gate log and screenshots
 ```
+
+The wrapper creates gate logs in a private scratch directory **outside the
+checkout**, even when the artifact archive uses its checkout-local default.
+The logged `gate evidence dir`, evidence JSON `gate_evidence_dir`, and record
+stub identify that directory. Child tests use the same private `TMPDIR`.
+The `gates/` tree above is in that external directory, not the artifact archive.
+Retain both directories before temporary-directory cleanup.
 
 Only the publication record is committed, at
 `docs/engineering/release/PLAY_<version>.md`. Artifacts and receipts stay

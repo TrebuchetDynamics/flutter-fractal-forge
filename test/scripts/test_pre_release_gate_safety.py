@@ -19,6 +19,9 @@ def gate(tmp_path):
     (tmp_path / "scripts/pre-release-gate.sh").write_bytes(
         (ROOT / "scripts/pre-release-gate.sh").read_bytes()
     )
+    (tmp_path / "scripts/verify-restored-viewer.py").write_bytes(
+        (ROOT / "scripts/verify-restored-viewer.py").read_bytes()
+    )
     (tmp_path / "pubspec.yaml").write_text("version: 1.2.3+45\n")
     lifecycle = tmp_path / "integration_test/flows/lifecycle_restoration_test.dart"
     lifecycle.parent.mkdir(parents=True)
@@ -55,7 +58,7 @@ def gate(tmp_path):
             elif args == ["shell", "dumpsys", "activity", "activities"]:
                 print("ResumedActivity: ActivityRecord{123 u0 com.trebuchetdynamics.fractal.forge/.MainActivity t1}")
             elif args[:2] == ["exec-out", "uiautomator"]:
-                print('<hierarchy text="' + os.environ.get("RESTORED_UI", "Julia Edit fractal") + '"/>')
+                print(os.environ.get("RESTORED_UI", '<hierarchy><node content-desc="Interactive fractal canvas&#10;Julia"/></hierarchy>'))
         elif name == "flutter":
             if "integration_test" in " ".join(args):
                 # Flutter may uninstall/reinstall the production package itself.
@@ -213,8 +216,13 @@ def test_android_device_environment_accepts_only_explicit_matching_consent(gate)
     assert installed.read_text() == "release-signed app with irreplaceable presets"
 
 
-@pytest.mark.parametrize("restored_ui", ["Julia", "Edit fractal", "Julia Controls"])
-def test_restoration_requires_julia_and_current_edit_control(gate, restored_ui):
+@pytest.mark.parametrize("restored_ui", [
+    '<hierarchy><node text="Julia"/></hierarchy>',
+    '<hierarchy><node text="Edit fractal"/></hierarchy>',
+    '<hierarchy><node text="Julia Controls"/></hierarchy>',
+    '<hierarchy><node text="Julia Edit fractal"/></hierarchy>',
+])
+def test_restoration_requires_julia_canvas(gate, restored_ui):
     result, calls, _ = gate("--device", DEVICE, "--disposable-device", DEVICE,
                             restored_ui=restored_ui)
     assert result.returncode != 0

@@ -11,6 +11,7 @@
 #   5. build + upload       scripts/build-upload-playstore.sh (the only writer)
 #   6. independent readback scripts/ci/play-readback.sh
 #   7. evidence             AAB copy, release-play-evidence.json, record stub
+#                           (API confirmation is not storefront availability)
 #
 # A failed gate stops before the upload. A failed readback never triggers a
 # second upload: the edit may already be committed, so reconcile first.
@@ -58,6 +59,11 @@ DRY_RUN=0
 log() { echo "[release-play] $*" >&2; }
 warn() { echo "[release-play] WARNING: $*" >&2; }
 die() { echo "[release-play] ERROR: $*" >&2; exit 2; }
+publication_unknown() {
+  log "ERROR: $*; publication state is unknown"
+  log "DO NOT upload again. Run scripts/ci/play-status.sh --pretty and reconcile the exact version/hash first."
+  exit 1
+}
 
 usage() {
   sed -n '2,42p' "$SCRIPT_DIR/$(basename "$0")" | sed 's/^# \{0,1\}//'
@@ -198,7 +204,7 @@ PY
 }
 
 ARTIFACT_DIR="${ARTIFACT_DIR:-$ROOT/release-artifacts/play-$VERSION}"
-GATE_DIR="$ARTIFACT_DIR/gates"
+GATE_DIR=""
 
 log "release identity: $VERSION ($BUILD_NUMBER) from $COMMIT"
 log "destination: Play track $TRACK, status $RELEASE_STATUS"
@@ -236,6 +242,22 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
   printf '%s\n' "${plan_lines[@]}"
   exit 0
 fi
+
+# Gate scratch must be private and outside the checkout, even when artifacts
+# use the default checkout-local archive. Export it for child test fixtures too.
+TMPDIR="$(python3 - "$ROOT" "${TMPDIR:-/tmp}" <<'PY'
+from pathlib import Path
+import sys
+root, scratch = map(lambda value: Path(value).resolve(), sys.argv[1:])
+if not scratch.is_dir() or scratch.is_relative_to(root):
+    sys.exit("release scratch must be an existing directory outside the checkout")
+print(scratch)
+PY
+)" || die "select a scratch directory outside the checkout"
+TMPDIR="$(mktemp -d "$TMPDIR/release-play-$VERSION-XXXXXX")" || die "could not create private gate scratch"
+export TMPDIR
+GATE_DIR="$TMPDIR/gates"
+log "gate evidence dir: $GATE_DIR"
 
 # ------------------------------------------------------------------ gates ---
 if [[ "$RUN_GATE" -eq 1 ]]; then
@@ -278,11 +300,11 @@ if ! PLAY_TRACK="$TRACK" PLAY_RELEASE_STATUS="$RELEASE_STATUS" PLAY_RECEIPT_PATH
     scripts/build-upload-playstore.sh \
       --build-number="$BUILD_NUMBER" \
       --expected-version "$VERSION" --expected-build-number "$BUILD_NUMBER"; then
-  die "build/upload failed; check scripts/ci/play-status.sh before retrying, because an edit may have been committed"
+  publication_unknown "build/upload failed; an edit may already be committed"
 fi
 
 AAB_PATH="$(tr -d '\r\n' < "$ROOT/play-console-upload/LATEST_AAB.txt")"
-[[ -f "$AAB_PATH" ]] || die "uploaded AAB not found at $AAB_PATH"
+[[ -f "$AAB_PATH" ]] || publication_unknown "uploaded AAB not found at $AAB_PATH"
 AAB_SHA256="$(sha256sum "$AAB_PATH" | awk '{print $1}')"
 AAB_BYTES="$(stat -c '%s' "$AAB_PATH")"
 cp -p -- "$AAB_PATH" "$ARTIFACT_DIR/"
@@ -291,23 +313,22 @@ cp -p -- "$AAB_PATH.sha256" "$ARTIFACT_DIR/" 2>/dev/null || true
 # ---------------------------------------------------------------- readback ---
 log "independent readback of version code $BUILD_NUMBER"
 READBACK_PATH="$ARTIFACT_DIR/play-readback.json"
-if ! scripts/ci/play-readback.sh "$BUILD_NUMBER" "$AAB_SHA256" >"$READBACK_PATH" 2>"$ARTIFACT_DIR/play-readback.log"; then
+if ! PLAY_TRACK="$TRACK" PLAY_RELEASE_STATUS="$RELEASE_STATUS" \
+    scripts/ci/play-readback.sh "$BUILD_NUMBER" "$AAB_SHA256" >"$READBACK_PATH" 2>"$ARTIFACT_DIR/play-readback.log"; then
   cat "$ARTIFACT_DIR/play-readback.log" >&2 || true
-  echo "[release-play] DO NOT upload again: the Play edit may already be committed." >&2
-  echo "[release-play] Run scripts/ci/play-status.sh --pretty and reconcile the exact" >&2
-  echo "[release-play] version/hash before deciding anything." >&2
-  exit 1
+  publication_unknown "independent readback failed"
 fi
-if ! python3 - "$READBACK_PATH" <<'PY'
+if ! python3 - "$READBACK_PATH" "$BUILD_NUMBER" "$AAB_SHA256" "$TRACK" "$RELEASE_STATUS" <<'PY'
 import json, sys
 data = json.load(open(sys.argv[1], encoding="utf-8"))
-if not data.get("found") or data.get("conflict"):
-    sys.exit(f"readback did not confirm publication: {data}")
+expected = dict(zip(("versionCode", "aabSha256", "track", "status"), sys.argv[2:]))
+if (not isinstance(data, dict) or data.get("found") is not True
+        or data.get("conflict") is not False
+        or any(data.get(key) != value for key, value in expected.items())):
+    sys.exit(f"readback did not confirm the exact publication identity: {data}")
 PY
 then
-  echo "[release-play] DO NOT upload again: the Play edit may already be committed." >&2
-  echo "[release-play] Run scripts/ci/play-status.sh --pretty and reconcile first." >&2
-  exit 1
+  publication_unknown "independent readback did not confirm the exact identity"
 fi
 log "readback confirmed version code $BUILD_NUMBER with AAB $AAB_SHA256"
 
@@ -344,6 +365,13 @@ evidence = {
         "shared_offline_gate": os.environ["GATE_STATE"],
         "device_gate": os.environ["DEVICE_GATE_STATE"],
     },
+    "state": {
+        "publication": "confirmed",
+        "review": "not_observed",
+        "storefront_propagation": "not_observed",
+        "end_user_availability": "not_observed",
+    },
+    "gate_evidence_dir": os.environ["GATE_DIR"],
     "artifact": {
         "path": os.environ["ARCHIVED_AAB"],
         "bytes": int(os.environ["AAB_BYTES"]),
@@ -382,10 +410,13 @@ fill in the changelog, qualification and limits prose.
 - Readback: $(cat "$READBACK_PATH")
 - Shared offline gate: $GATE_STATE
 - Device gate: $DEVICE_GATE_STATE
+- Gate evidence: \`$GATE_DIR\`
+- Google review, storefront propagation and end-user availability: not observed
 - Evidence: \`$ARTIFACT_DIR/release-play-evidence.json\`
 EOF
 
-log "Play $VERSION ($BUILD_NUMBER) is live on track $TRACK with status $RELEASE_STATUS"
+log "Play $VERSION ($BUILD_NUMBER) publication confirmed on track $TRACK with status $RELEASE_STATUS"
+log "Google review, storefront propagation and end-user availability are not observed; run scripts/ci/play-observe.sh"
 log "AAB $AAB_SHA256 ($AAB_BYTES bytes)"
 log "evidence: $ARTIFACT_DIR/release-play-evidence.json"
 log "record stub: $ARTIFACT_DIR/PLAY_RECORD_STUB.md"
