@@ -158,6 +158,20 @@ The [quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-l
 
 Existing `VIS-006` qualification and `MEDIA-002` marketing-selection tasks are reused. `CAT-QUALITY-01` and `CAT-QUALITY-02` cover the new bounded assessment/repair outcomes; `CAT-QUALITY-03` records the proposed discovery decision. The existing Gaussian priority and active workers remain intact.
 
+### Visual-richness architecture pilot
+
+Status: Accepted outcome; implementation and platform qualification pending.
+
+The owner requested high-ROI architecture work because the fractals look “flat and boring.” The owner confirmed both stronger 3D depth/lighting and richer colors/starting views across the catalog. LGTM accepted the formula-preserving recommendation. Sculptural, natural lighting is the planner's reversible default, not a separately stated owner preference.
+
+Start with Mandelbulb, Mandelbox, Mandelbrot, Burning Ship and Newton z³−1. Reuse the existing renderer, module parameters, palettes and effective render snapshots. Share 3D surface presentation, preserve old saved appearances, and curate explicit entry states before considering wider shader changes. This is a presentation tranche within the accepted Flutter-shell/Rust-engine migration, not a competing engine rewrite or a claim that the migration is complete.
+
+Keep original mathematical and migration evidence immutable. Record deliberate appearance/default changes separately. Qualify actual framing, saved-state behavior, decoded PNG correspondence and measured cost on independent Linux, browser and designated Waydroid lanes. Image-health metrics alone do not establish attractive composition or mathematical correctness. Existing completed quality work and current device-worker ownership remain intact. Full-catalog rollout, custom-palette ABI changes and additional rendering effects remain evidence-dependent follow-ups.
+
+The [visual-richness epic #8](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/8) owns the complete batch and planner decisions. Children #9–#14 cover compatibility/evidence, shared 3D treatment, 2D defaults, and independent Linux/browser/Waydroid qualification. The 3D and 2D lanes can proceed independently after #9; qualification follows both, with existing Waydroid recovery #3 additionally required for Android.
+
+This planning session does not implement, commit, push, publish a release or start a service. Executable work is published through GitHub Issues after contract review; readiness is not execution evidence.
+
 ## Gaussian moat walking visualization
 
 Status: Accepted

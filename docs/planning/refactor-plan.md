@@ -407,6 +407,28 @@ The owner's later “Merge all main” request authorizes composition of local m
 
 That composition includes NUM-WALL-02's source and both required Number Walls test files, retaining its existing completed record and receipt. The codec's typed dependency remains, but its missing-source hold from the planning-only publication no longer describes this combined source. Both refactor tasks remain open and unimplemented; their actual execution still follows the authorized task-selection and verification workflow. Do not conflate source inclusion, task selection eligibility, live qualification and completed refactoring.
 
+## High-ROI architecture and state-machine discovery — 2026-11-15
+
+Planner-derived engineering frontier, not a new product direction or implementation result. Fractal Forge's accepted journey is browse → customize → understand → export, with honest rendering and preserved saved state. Provider/FractalController owns the working Flutter view, while the accepted Rust migration remains staged. Local inspection was `5f1ea220c7ef3aab0979b63871fffafc638d535f`; remote main was `6031f27314ad6cbe58cca3cebf9e60d10af4aaf1`. The inspected shader loader and renderer Git blobs match both. Unrelated release edits remain outside this plan.
+
+**Selected: complete the existing shader-ready transition — [issue #18](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/18), `SHADER-CACHE-RECOVERY-01`.** OBSERVED: `shaders/shader_loader.dart` under `lib/features/renderer/widgets/renderer/` installs cached programs through `_setLoadedProgram`, but that helper does not clear `_shaderError` or `_shaderErrorDetails`. Its cache-hit caller returns before the cold-load clearing code. The renderer checks `_shaderError` before painting. Source-supported, unexecuted counterexample: warm B → fail unavailable A through its retries → select cached B → program B remains accompanied by error A. This can leave the error panel visible. Concentrate the Ready postcondition in the existing helper used by both success paths. No new state-machine framework or renderer is justified. A real-renderer regression must reject the current sequence; tests have not run in planning.
+
+| State/event | Guard and effect | Required destination |
+| --- | --- | --- |
+| Ready B → select cold A | Clear stale program; begin loading A | Loading A |
+| Loading A → terminal failure | Three attempts exhausted; publish error fields | Failed A |
+| Failed A → select cached B | Cache hit calls `_setLoadedProgram` | Ready B: current program, no error/details, zero retries, not loading |
+| Failed A → successful cold C | Successful compile calls the same helper | Ready C with the same postcondition |
+| In-flight load → invalidation/disposal | Existing cache epoch and mounted checks | No stale widget publication; preserve current guards |
+
+Deletion test: deleting `_setLoadedProgram` merely spreads program/resource/error coordination across two callers. Keeping and deepening its interface improves locality and leverage. Original source-bound migration fixtures remain immutable; an explicit source-only successor must preserve existing stage policies and reject semantic or compiled-artifact changes.
+
+Builder review confirmed the defect path and required no repaint redesign. Its two material gaps are resolved in #18: the real-renderer regression uses an explicit non-auto-discovered `shader_cache_recovery_gpu.dart` command with `FORCE_GPU_RENDER=true`, while the ordinary full gate retains placeholder tests without that flag; both commands are mandatory. The maintenance evidence stage must forbid source-key additions as well as removals, with empty semantic and compiled-artifact deltas. Image byte readback proves output and identity, not arithmetic finiteness. These are proposed checks, not executed results.
+
+**Reused or excluded:** visual work remains in epic #8 and children #9–#14; proof #9 and history replay #15 are merged remotely. #10's GitHub 504 and #11's no-commit delivery stop require their same coordinator's recovery, not replacement implementation tasks. Preference-save failure changes remain deferred by the existing specification. Auto-explore already guards hidden writes. Fourier completion after hide is only a possible policy question: current acceptance does not forbid every background result, so no new executable requirement is inferred.
+
+**Coverage:** inventory covered app/navigation, catalog/modules/shaders, CPU/GPU/precision rendering, viewer/export, history/preset/storage, auto-explore/looper/Fourier, exact/Rust domains, settings/accessibility/platform I/O and release tooling. Deep reads were limited to shader loading and selected viewer/export/auto-explore/storage transitions. This is not exhaustive machine verification. `graphify_unavailable`: CLI 0.9.80 is present, but no reusable `graphify-out/graph.json` exists; extraction was not run during source review. Native search and source checks supplied the evidence. Future structural changes require concrete failure or cost evidence, not file-size heuristics.
+
 ## Flutter shell and Rust engine migration
 
 Status: Accepted
@@ -435,6 +457,14 @@ publication, host changes or GPUI implementation. Anti-goals: copied frames thro
 Dart on the interactive GPU path, renaming IDs, precision loss and regressions hidden
 by weaker tests. The supplied 60/120 Hz outcome is a qualification target, not a
 measurement made in this planning session.
+
+### Visual-richness presentation tranche
+
+The [accepted visual-richness outcome](../../PRD.md#visual-richness-architecture-pilot) adds presentation work, not another engine migration. The first batch covers Mandelbulb/Mandelbox surface depth and Mandelbrot/Burning Ship/Newton entry states. Reuse current shader-family contracts and effective snapshots. Prefer shared, deterministically materialized surface composition over a universal shader ABI or another renderer.
+
+Preserve mathematical kernels, original migration documents and old saved appearances. Intentional palette/default changes require explicit candidate evidence and narrow source/semantic evolution checks, not a relaxed clock-only transition or repinned original oracle. Independent Linux, browser and designated Waydroid evidence must distinguish functional rendering, export correspondence, aesthetic assessment and target-specific cost. No platform, Rust owner switch, hardware throughput or full migration is qualified by this plan.
+
+Planner calls and the complete executable batch are owned by [visual-richness epic #8](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/8), with executable children #9–#14. Later family adoption depends on pilot findings; no automatic planning chain or legacy executor starts here. Existing migration and device work retain their contracts and owners.
 
 ### Owner-confirmed scope and performance clarification
 
