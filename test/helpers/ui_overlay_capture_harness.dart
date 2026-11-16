@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/models/history/history_entry.dart';
 import 'package:flutter_fractals/core/models/video_export_options.dart';
 import 'package:flutter_fractals/core/models/wallpaper/wallpaper_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -652,7 +653,23 @@ Future<OverlayCaptureResult> captureOverlayRow(
       accessibility = await AccessibilityService.create();
       renderer = await RendererSettingsService.create();
       final store = await PresetStore.create();
-      history = HistoryProvider(store: await HistoryStore.create());
+      final historyStore = await HistoryStore.create();
+      if (state == 'history-populated' || state == 'favorite-rename') {
+        final entry = HistoryEntry(
+          id: 'overlay-capture-history',
+          moduleId: controller.module.id,
+          view: controller.view,
+          params: Map<String, Object>.from(controller.params),
+          visitedAt: DateTime.utc(2026, 1, 1),
+        );
+        await historyStore.saveHistory([entry]);
+        if (state == 'favorite-rename') {
+          await historyStore.saveFavorites([
+            entry.copyWith(name: 'Capture favorite'),
+          ]);
+        }
+      }
+      history = HistoryProvider(store: historyStore);
       if (state == 'controls-3d')
         controller.selectModule(registry.byId('mandelbulb'), animate: false);
       if (state == 'palette-last-selected') {
@@ -792,17 +809,6 @@ Future<OverlayCaptureResult> captureOverlayRow(
           AppLocalizations.of(tester.element(find.byType(Scaffold).first))!;
       final material =
           MaterialLocalizations.of(tester.element(find.byType(Scaffold).first));
-      if (state == 'history-populated' || state == 'favorite-rename') {
-        history!.recordLocation(
-            moduleId: controller.module.id,
-            view: controller.view,
-            params: Map<String, Object>.from(controller.params));
-        await tester.pump(
-            const Duration(milliseconds: 700)); // documented store debounce
-        if (state == 'favorite-rename') {
-          await history!.saveCurrentAsFavorite('Capture favorite');
-        }
-      }
       if (isolated) {
         launchFocus.requestFocus();
         await tester.pump();
@@ -916,9 +922,15 @@ Future<OverlayCaptureResult> captureOverlayRow(
         'gpu-report' => l10n.debugReportTitle,
         _ => throw StateError('No title contract $state'),
       };
-      final title = state == 'palette-last-selected'
-          ? find.text(titleText)
-          : find.text(titleText).last;
+      final title = state.startsWith('history-')
+          // The tab repeats the heading's label. Its geometry is not the title.
+          ? find
+              .descendant(
+                  of: find.byType(HistorySheet), matching: find.text(titleText))
+              .first
+          : state == 'palette-last-selected'
+              ? find.text(titleText)
+              : find.text(titleText).last;
       if (state == 'palette-last-selected') {
         final scrollable = find.descendant(
             of: _key('palettePickerScroll'), matching: find.byType(Scrollable));

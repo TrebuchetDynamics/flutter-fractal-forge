@@ -755,7 +755,10 @@ wallpaper or destructive action is invoked.
 
 The outer `RepaintBoundary` wraps MaterialApp/Navigator, so modal Overlay entries
 are captured. Each row uses fresh mock preferences, disposable sample data,
-controllers/routes and restored view metrics. Private viewer sheets are reached
+controllers/routes and restored view metrics. History/favorite samples are seeded
+through HistoryStore with fixed IDs and UTC timestamps, not wall-clock recording;
+title geometry uses the header rather than the identically labelled History tab.
+Private viewer sheets are reached
 via real viewer actions/stable keys, settings sheets via SettingsScreen; there
 are no copied private implementations or production hooks. Bounded frame pumping
 and route/title/control checks replace sleeps/unbounded settling. The normal

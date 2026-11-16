@@ -82,6 +82,21 @@ void main() {
         reason: 'A body-only black placeholder capture would miss the modal');
   });
 
+  testWidgets('history measures its heading and uses a fixed sample date',
+      (tester) async {
+    await loadOverlayCaptureFonts(tester);
+    final row = rows
+        .singleWhere((r) => r['id'] == 'history-populated--baseline--375x667');
+    final result = await captureOverlayRow(tester, row);
+    expect(result.errors, isEmpty);
+    final measurements = result.measurements!;
+    final title = measurements['title'] as List;
+    final action = (measurements['actions'] as List).single['rect'] as List;
+    expect(title[1], lessThan(action[3]),
+        reason: 'Measure the header beside Save favorite, not the History tab');
+    expect(measurements['semantics'], contains('Jan 1 00:00'));
+  });
+
   testWidgets('resolved theme styles use loaded fonts, not Ahem fallback',
       (tester) async {
     await loadOverlayCaptureFonts(tester);

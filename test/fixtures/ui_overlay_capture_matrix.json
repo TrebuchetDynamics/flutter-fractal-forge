@@ -171,7 +171,7 @@
         "path": "lib/features/history/history_sheet.dart",
         "symbol": "HistorySheet"
       },
-      "setup": "isolated public modal host; one recorded location and favorite",
+      "setup": "isolated public modal host; one fixed-date recorded location",
       "component_setup_mode": "isolated-public-widget",
       "browser": {
         "available": false,
