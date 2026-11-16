@@ -87,6 +87,12 @@ storefront availability checks passed. Receipts: `play-observe.json` and
 `play-live-check.json` in the final evidence directory. Do not reupload 124 to
 address propagation delay.
 
+A second read-only check at `2026-11-15T02:40:52+00:00` again reported
+production/completed/124 and **12/12 storefronts still on 1.1.123**. Propagation
+still failed the live checker. The hardened readback script also confirmed the
+exact 124 AAB hash. Evidence: `/tmp/play-124-status-JYu8qW/`.
+No bundle was uploaded by these checks.
+
 Google review status is not observable through the public API and was not
 confirmed in Console. End-user update availability remains pending observation.
 Waydroid is container evidence, not physical-device/hardware-GPU qualification.

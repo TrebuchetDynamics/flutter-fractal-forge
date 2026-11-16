@@ -546,7 +546,7 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                 "open(os.environ['FAKE_CURL_CALLS'],'a').write(method+' '+url+'\\n')",
                 "if 'oauth2.googleapis.com/token' in url: print(json.dumps({'access_token':'test-token'}))",
                 "elif url.endswith('/edits') and method == 'POST': print(json.dumps({'id':'draft-edit'}))",
-                "elif '/tracks/' in url: print(json.dumps({'releases':[{'versionCodes':['108'],'status':'completed'}]}))",
+                "elif '/tracks/' in url: print(json.dumps({'track':'production','releases':[{'versionCodes':['108'],'status':'completed'}]}))",
                 "elif url.endswith('/bundles'): print(json.dumps({'bundles':[{'versionCode':'108','sha256':os.environ['FAKE_REMOTE_SHA']}]}))",
                 "else: print('{}')",
             ]) + NL)

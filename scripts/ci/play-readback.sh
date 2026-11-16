@@ -29,15 +29,33 @@ BUNDLES_RESPONSE="$(play_get "$ACCESS_TOKEN" "$EDIT_ID" "/bundles")"
 PLAY_TRACK_RESPONSE="$TRACK_RESPONSE" PLAY_BUNDLES_RESPONSE="$BUNDLES_RESPONSE" \
   EXPECTED_BUILD_NUMBER="$EXPECTED_BUILD_NUMBER" EXPECTED_SHA256="${EXPECTED_SHA256,,}" \
   TRACK="$TRACK" RELEASE_STATUS="$RELEASE_STATUS" python3 - <<'PY'
-import base64, hashlib, json, os
+import base64, json, os, sys
 track = json.loads(os.environ["PLAY_TRACK_RESPONSE"])
-bundles = json.loads(os.environ["PLAY_BUNDLES_RESPONSE"]).get("bundles", [])
+bundle_resource = json.loads(os.environ["PLAY_BUNDLES_RESPONSE"])
+# Unknown/malformed resources cannot establish absence or authorize a retry.
+if not isinstance(track, dict) or track.get("track") != os.environ["TRACK"]:
+    sys.exit("Play readback returned a missing or mismatched track identity")
+if not isinstance(bundle_resource, dict):
+    sys.exit("Play readback returned an invalid bundle resource")
+releases = track.get("releases", [])
+bundles = bundle_resource.get("bundles", [])
+if not isinstance(releases, list) or not isinstance(bundles, list):
+    sys.exit("Play readback returned invalid release or bundle collections")
+for release in releases:
+    if (not isinstance(release, dict)
+            or release.get("status") not in {"draft", "inProgress", "halted", "completed"}
+            or not isinstance(release.get("versionCodes", []), list)
+            or any(not str(code).isdigit() for code in release.get("versionCodes", []))):
+        sys.exit("Play readback returned an invalid release")
+for bundle in bundles:
+    if (not isinstance(bundle, dict) or not str(bundle.get("versionCode", "")).isdigit()
+            or not isinstance(bundle.get("sha256"), str) or not bundle["sha256"]):
+        sys.exit("Play readback returned an invalid bundle")
 version = os.environ["EXPECTED_BUILD_NUMBER"]
 status = os.environ["RELEASE_STATUS"]
 raw_hash = bytes.fromhex(os.environ["EXPECTED_SHA256"])
 accepted_hashes = {raw_hash.hex(), base64.b64encode(raw_hash).decode(),
                    base64.urlsafe_b64encode(raw_hash).decode().rstrip("=")}
-releases = track.get("releases", [])
 track_has_version = any(version in [str(code) for code in release.get("versionCodes", [])]
                        for release in releases)
 release_matches = any(version in [str(code) for code in release.get("versionCodes", [])]
