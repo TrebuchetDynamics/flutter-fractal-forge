@@ -1,0 +1,2691 @@
+{
+  "schema": 1,
+  "source_base": "8021e74785e4d196d2c6f7a6310c031d48260f58",
+  "qualification": "component-fixture/placeholder-background; explicit test-font substitution, not browser/live-GPU/native-font parity",
+  "rounding_tolerance": 1,
+  "states": [
+    {
+      "id": "edit-menu",
+      "owner": {
+        "path": "lib/features/viewer/chrome/fractal_view_controls.dart",
+        "symbol": "FractalViewControls._showMore"
+      },
+      "setup": "viewer long-press viewerControlsButton",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "controls-2d",
+      "owner": {
+        "path": "lib/features/viewer/chrome/fractal_controls_hud.dart",
+        "symbol": "FractalControlsHud"
+      },
+      "setup": "viewer edit menu \u2192 viewerEditParametersAction; mandelbrot",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "controls-3d",
+      "owner": {
+        "path": "lib/features/viewer/chrome/fractal_controls_hud.dart",
+        "symbol": "FractalControlsHud"
+      },
+      "setup": "viewer edit menu \u2192 viewerEditParametersAction; mandelbulb",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "palette-top",
+      "owner": {
+        "path": "lib/features/viewer/fractal_viewer_screen.dart",
+        "symbol": "_FractalViewerScreenState._openPalettePicker"
+      },
+      "setup": "viewer long-press viewerPaletteButton; first option",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "palette-last-selected",
+      "owner": {
+        "path": "lib/features/viewer/fractal_viewer_screen.dart",
+        "symbol": "_FractalViewerScreenState._openPalettePicker"
+      },
+      "setup": "viewer long-press viewerPaletteButton; last option preselected",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "presets-built-in",
+      "owner": {
+        "path": "lib/features/presets/preset_sheet.dart",
+        "symbol": "PresetSheet"
+      },
+      "setup": "public modal host; reveal built-in presets",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "presets-user-empty",
+      "owner": {
+        "path": "lib/features/presets/preset_sheet.dart",
+        "symbol": "PresetSheet"
+      },
+      "setup": "public modal host; empty mock preferences; reveal user section",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "presets-user-populated",
+      "owner": {
+        "path": "lib/features/presets/preset_sheet.dart",
+        "symbol": "PresetSheet"
+      },
+      "setup": "public modal host; deterministic saved preset; reveal user section",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "preset-rename",
+      "owner": {
+        "path": "lib/features/presets/preset_sheet.dart",
+        "symbol": "_PresetSheetState._showRenameDialog"
+      },
+      "setup": "public PresetSheet host \u2192 Rename preset",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Cancel",
+        "Save"
+      ]
+    },
+    {
+      "id": "history-empty",
+      "owner": {
+        "path": "lib/features/history/history_sheet.dart",
+        "symbol": "HistorySheet"
+      },
+      "setup": "isolated public modal host; empty HistoryProvider",
+      "component_setup_mode": "isolated-public-widget",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "HistorySheet has no established shipping launcher"
+      },
+      "required_actions": [
+        "Save favorite"
+      ]
+    },
+    {
+      "id": "history-populated",
+      "owner": {
+        "path": "lib/features/history/history_sheet.dart",
+        "symbol": "HistorySheet"
+      },
+      "setup": "isolated public modal host; one recorded location and favorite",
+      "component_setup_mode": "isolated-public-widget",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "HistorySheet has no established shipping launcher"
+      },
+      "required_actions": [
+        "Save favorite"
+      ]
+    },
+    {
+      "id": "favorite-rename",
+      "owner": {
+        "path": "lib/features/history/history_sheet.dart",
+        "symbol": "_HistorySheetState._showRenameFavoriteDialog"
+      },
+      "setup": "isolated HistorySheet \u2192 Favorites \u2192 menu \u2192 Rename",
+      "component_setup_mode": "isolated-public-widget",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "nested HistorySheet fixture only"
+      },
+      "required_actions": [
+        "Cancel",
+        "Save"
+      ]
+    },
+    {
+      "id": "save-share",
+      "owner": {
+        "path": "lib/features/viewer/chrome/fractal_view_controls.dart",
+        "symbol": "FractalViewControls._showSaveShare"
+      },
+      "setup": "viewer viewerSaveShareButton",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "export-options",
+      "owner": {
+        "path": "lib/features/export/export_options_sheet.dart",
+        "symbol": "ExportOptionsSheet"
+      },
+      "setup": "viewer Save/share \u2192 viewerOpenExportAction",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close",
+        "Save",
+        "Save & share (not invoked)"
+      ]
+    },
+    {
+      "id": "export-progress",
+      "owner": {
+        "path": "lib/features/viewer/export/viewer_export_overlay.dart",
+        "symbol": "ExportOverlay"
+      },
+      "setup": "controlled public host; progress=0.5; no export job",
+      "component_setup_mode": "isolated-public-widget",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "controlled progress fixture; do not start real export jobs merely for screenshots"
+      },
+      "required_actions": [
+        "Cancel"
+      ]
+    },
+    {
+      "id": "share-preview",
+      "owner": {
+        "path": "lib/features/viewer/export/viewer_export_overlay.dart",
+        "symbol": "ShareSheet"
+      },
+      "setup": "public modal host; decoded valid synthetic PNG preview",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close",
+        "Copy (not invoked)",
+        "Share (not invoked)"
+      ]
+    },
+    {
+      "id": "share-fallback",
+      "owner": {
+        "path": "lib/features/viewer/export/viewer_export_overlay.dart",
+        "symbol": "ShareSheet"
+      },
+      "setup": "controlled public modal host; previewBytes=null",
+      "component_setup_mode": "isolated-public-widget",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "controlled missing-preview fixture, not injected failure in production browser"
+      },
+      "required_actions": [
+        "Close",
+        "Copy (not invoked)",
+        "Share (not invoked)"
+      ]
+    },
+    {
+      "id": "looper-empty",
+      "owner": {
+        "path": "lib/features/looper/looper_sheet.dart",
+        "symbol": "LooperSheet"
+      },
+      "setup": "viewer long-press viewerPlayButton; empty",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "looper-ready",
+      "owner": {
+        "path": "lib/features/looper/looper_sheet.dart",
+        "symbol": "LooperSheet"
+      },
+      "setup": "viewer long-press viewerPlayButton \u2192 Set A \u2192 Set B; no playback",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close",
+        "Export GIF (not invoked)"
+      ]
+    },
+    {
+      "id": "wallpaper-options",
+      "owner": {
+        "path": "lib/features/wallpaper/wallpaper_options_sheet.dart",
+        "symbol": "WallpaperOptionsSheet"
+      },
+      "setup": "isolated public modal host; no wallpaper action",
+      "component_setup_mode": "isolated-public-widget",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "ExportActionAvailability rejects web wallpaper"
+      },
+      "required_actions": [
+        "Close",
+        "Apply (not invoked)"
+      ]
+    },
+    {
+      "id": "video-options",
+      "owner": {
+        "path": "lib/features/export/video_export_sheet.dart",
+        "symbol": "VideoExportSheet"
+      },
+      "setup": "isolated public modal host; no export action",
+      "component_setup_mode": "isolated-public-widget",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "VideoExportSheet has no current shipping launcher"
+      },
+      "required_actions": [
+        "Close",
+        "Export (not invoked)"
+      ]
+    },
+    {
+      "id": "batch-selection",
+      "owner": {
+        "path": "lib/features/export/batch_export_dialog.dart",
+        "symbol": "BatchExportDialog"
+      },
+      "setup": "requested selection state; source preflight must verify launcher without starting job",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Cancel"
+      ]
+    },
+    {
+      "id": "fourier-settings",
+      "owner": {
+        "path": "lib/features/viewer/fractal_viewer_screen.dart",
+        "symbol": "_FractalViewerScreenState._openFourierSettings"
+      },
+      "setup": "viewer edit menu \u2192 viewerFourierFabOptions",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "text-editor",
+      "owner": {
+        "path": "lib/features/viewer/fractal_viewer_screen.dart",
+        "symbol": "_TextOverlayEditorSheet"
+      },
+      "setup": "viewer edit menu \u2192 viewerTextOverlayFabOptions",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close",
+        "Cancel",
+        "Apply"
+      ]
+    },
+    {
+      "id": "report-notes",
+      "owner": {
+        "path": "lib/features/viewer/fractal_viewer_screen.dart",
+        "symbol": "_FractalViewerScreenState._reportFractal"
+      },
+      "setup": "viewer edit menu \u2192 viewerReportFractalFab; fill notes/select tag; do not save",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "shipping viewer explicitly hides Fractal Report on web: fractal_viewer_screen.dart:1713\u20131717 and viewer_tools.dart:286"
+      },
+      "required_actions": [
+        "Close",
+        "Cancel",
+        "Save"
+      ]
+    },
+    {
+      "id": "random-options",
+      "owner": {
+        "path": "lib/features/viewer/chrome/fractal_view_controls.dart",
+        "symbol": "FractalViewControls._showRandomOptionsModal"
+      },
+      "setup": "viewer edit menu \u2192 viewerRandomOptionsAction",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "random-categories",
+      "owner": {
+        "path": "lib/features/viewer/fractal_viewer_screen.dart",
+        "symbol": "_FractalViewerScreenState._openRandomCategories"
+      },
+      "setup": "viewer long-press viewerRandomFractalFab",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "auto-explore-settings",
+      "owner": {
+        "path": "lib/features/auto_explore/auto_explore_controls.dart",
+        "symbol": "AutoExploreSettingsSheet"
+      },
+      "setup": "viewer edit menu \u2192 viewerAutoExploreButtonOptions",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "kaleidoscope-options",
+      "owner": {
+        "path": "lib/features/viewer/chrome/fractal_view_controls.dart",
+        "symbol": "FractalViewControls._showKaleidoscopeModal"
+      },
+      "setup": "viewer edit menu \u2192 viewerKaleidoscopeFabOptions",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "theme-selector",
+      "owner": {
+        "path": "lib/features/settings/settings_screen.dart",
+        "symbol": "_SettingsScreenState._showThemeSelector"
+      },
+      "setup": "SettingsScreen \u2192 palette tile",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close",
+        "Cancel"
+      ]
+    },
+    {
+      "id": "about-dialog",
+      "owner": {
+        "path": "lib/features/settings/settings_screen.dart",
+        "symbol": "_SettingsScreenState._showAboutDialog"
+      },
+      "setup": "SettingsScreen \u2192 About tile",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": true,
+        "exclusion_reason": null
+      },
+      "required_actions": [
+        "Close"
+      ]
+    },
+    {
+      "id": "gpu-report",
+      "owner": {
+        "path": "lib/features/viewer/diagnostics/viewer_debug_report.dart",
+        "symbol": "_DebugReportMixin._shareGpuDebugReport"
+      },
+      "setup": "FractalViewerScreen(exportService: fake) \u2192 CPU banner Report; saveBytes writes nothing",
+      "component_setup_mode": "shipping-action-or-public-seam",
+      "browser": {
+        "available": false,
+        "exclusion_reason": "requires owned export directory/capture effects; exercise existing fake ExportService seam only"
+      },
+      "required_actions": [
+        "Close"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "id": "edit-menu--baseline--375x667",
+      "state": "edit-menu",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "edit-menu--baseline--768x1024",
+      "state": "edit-menu",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "edit-menu--baseline--1440x900",
+      "state": "edit-menu",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-2d--baseline--375x667",
+      "state": "controls-2d",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-2d--baseline--768x1024",
+      "state": "controls-2d",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-2d--baseline--1440x900",
+      "state": "controls-2d",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-3d--baseline--375x667",
+      "state": "controls-3d",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-3d--baseline--768x1024",
+      "state": "controls-3d",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-3d--baseline--1440x900",
+      "state": "controls-3d",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-top--baseline--375x667",
+      "state": "palette-top",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-top--baseline--768x1024",
+      "state": "palette-top",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-top--baseline--1440x900",
+      "state": "palette-top",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-last-selected--baseline--375x667",
+      "state": "palette-last-selected",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-last-selected--baseline--768x1024",
+      "state": "palette-last-selected",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-last-selected--baseline--1440x900",
+      "state": "palette-last-selected",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-built-in--baseline--375x667",
+      "state": "presets-built-in",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-built-in--baseline--768x1024",
+      "state": "presets-built-in",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-built-in--baseline--1440x900",
+      "state": "presets-built-in",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-empty--baseline--375x667",
+      "state": "presets-user-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-empty--baseline--768x1024",
+      "state": "presets-user-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-empty--baseline--1440x900",
+      "state": "presets-user-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-populated--baseline--375x667",
+      "state": "presets-user-populated",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-populated--baseline--768x1024",
+      "state": "presets-user-populated",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-populated--baseline--1440x900",
+      "state": "presets-user-populated",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "preset-rename--baseline--375x667",
+      "state": "preset-rename",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "preset-rename--baseline--768x1024",
+      "state": "preset-rename",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "preset-rename--baseline--1440x900",
+      "state": "preset-rename",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-empty--baseline--375x667",
+      "state": "history-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-empty--baseline--768x1024",
+      "state": "history-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-empty--baseline--1440x900",
+      "state": "history-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-populated--baseline--375x667",
+      "state": "history-populated",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-populated--baseline--768x1024",
+      "state": "history-populated",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-populated--baseline--1440x900",
+      "state": "history-populated",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "favorite-rename--baseline--375x667",
+      "state": "favorite-rename",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "favorite-rename--baseline--768x1024",
+      "state": "favorite-rename",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "favorite-rename--baseline--1440x900",
+      "state": "favorite-rename",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "save-share--baseline--375x667",
+      "state": "save-share",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "save-share--baseline--768x1024",
+      "state": "save-share",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "save-share--baseline--1440x900",
+      "state": "save-share",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-options--baseline--375x667",
+      "state": "export-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-options--baseline--768x1024",
+      "state": "export-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-options--baseline--1440x900",
+      "state": "export-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-progress--baseline--375x667",
+      "state": "export-progress",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-progress--baseline--768x1024",
+      "state": "export-progress",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-progress--baseline--1440x900",
+      "state": "export-progress",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "share-preview--baseline--375x667",
+      "state": "share-preview",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "share-preview--baseline--768x1024",
+      "state": "share-preview",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "share-preview--baseline--1440x900",
+      "state": "share-preview",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "share-fallback--baseline--375x667",
+      "state": "share-fallback",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "share-fallback--baseline--768x1024",
+      "state": "share-fallback",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "share-fallback--baseline--1440x900",
+      "state": "share-fallback",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-empty--baseline--375x667",
+      "state": "looper-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-empty--baseline--768x1024",
+      "state": "looper-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-empty--baseline--1440x900",
+      "state": "looper-empty",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-ready--baseline--375x667",
+      "state": "looper-ready",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-ready--baseline--768x1024",
+      "state": "looper-ready",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-ready--baseline--1440x900",
+      "state": "looper-ready",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "wallpaper-options--baseline--375x667",
+      "state": "wallpaper-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "wallpaper-options--baseline--768x1024",
+      "state": "wallpaper-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "wallpaper-options--baseline--1440x900",
+      "state": "wallpaper-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "video-options--baseline--375x667",
+      "state": "video-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "video-options--baseline--768x1024",
+      "state": "video-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "video-options--baseline--1440x900",
+      "state": "video-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "batch-selection--baseline--375x667",
+      "state": "batch-selection",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "batch-selection--baseline--768x1024",
+      "state": "batch-selection",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "batch-selection--baseline--1440x900",
+      "state": "batch-selection",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "fourier-settings--baseline--375x667",
+      "state": "fourier-settings",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "fourier-settings--baseline--768x1024",
+      "state": "fourier-settings",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "fourier-settings--baseline--1440x900",
+      "state": "fourier-settings",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "text-editor--baseline--375x667",
+      "state": "text-editor",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "text-editor--baseline--768x1024",
+      "state": "text-editor",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "text-editor--baseline--1440x900",
+      "state": "text-editor",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "report-notes--baseline--375x667",
+      "state": "report-notes",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "report-notes--baseline--768x1024",
+      "state": "report-notes",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "report-notes--baseline--1440x900",
+      "state": "report-notes",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "random-options--baseline--375x667",
+      "state": "random-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "random-options--baseline--768x1024",
+      "state": "random-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "random-options--baseline--1440x900",
+      "state": "random-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "random-categories--baseline--375x667",
+      "state": "random-categories",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "random-categories--baseline--768x1024",
+      "state": "random-categories",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "random-categories--baseline--1440x900",
+      "state": "random-categories",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "auto-explore-settings--baseline--375x667",
+      "state": "auto-explore-settings",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "auto-explore-settings--baseline--768x1024",
+      "state": "auto-explore-settings",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "auto-explore-settings--baseline--1440x900",
+      "state": "auto-explore-settings",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "kaleidoscope-options--baseline--375x667",
+      "state": "kaleidoscope-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "kaleidoscope-options--baseline--768x1024",
+      "state": "kaleidoscope-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "kaleidoscope-options--baseline--1440x900",
+      "state": "kaleidoscope-options",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "theme-selector--baseline--375x667",
+      "state": "theme-selector",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "theme-selector--baseline--768x1024",
+      "state": "theme-selector",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "theme-selector--baseline--1440x900",
+      "state": "theme-selector",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "about-dialog--baseline--375x667",
+      "state": "about-dialog",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "about-dialog--baseline--768x1024",
+      "state": "about-dialog",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "about-dialog--baseline--1440x900",
+      "state": "about-dialog",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "gpu-report--baseline--375x667",
+      "state": "gpu-report",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "gpu-report--baseline--768x1024",
+      "state": "gpu-report",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 768,
+        "height": 1024,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "gpu-report--baseline--1440x900",
+      "state": "gpu-report",
+      "category": "baseline",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 1440,
+        "height": 900,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "dark",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-2d--stress--320x568",
+      "state": "controls-2d",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "controls-2d--stress--667x375",
+      "state": "controls-2d",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-populated--stress--320x568",
+      "state": "presets-user-populated",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "presets-user-populated--stress--667x375",
+      "state": "presets-user-populated",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-last-selected--stress--320x568",
+      "state": "palette-last-selected",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "palette-last-selected--stress--667x375",
+      "state": "palette-last-selected",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-options--stress--320x568",
+      "state": "export-options",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-options--stress--667x375",
+      "state": "export-options",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-progress--stress--320x568",
+      "state": "export-progress",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-progress--stress--667x375",
+      "state": "export-progress",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "text-editor--stress--320x568",
+      "state": "text-editor",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "text-editor--stress--667x375",
+      "state": "text-editor",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "report-notes--stress--320x568",
+      "state": "report-notes",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "report-notes--stress--667x375",
+      "state": "report-notes",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-populated--stress--320x568",
+      "state": "history-populated",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "history-populated--stress--667x375",
+      "state": "history-populated",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-ready--stress--320x568",
+      "state": "looper-ready",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "looper-ready--stress--667x375",
+      "state": "looper-ready",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "theme-selector--stress--320x568",
+      "state": "theme-selector",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 320,
+        "height": 568,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "theme-selector--stress--667x375",
+      "state": "theme-selector",
+      "category": "stress",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 667,
+        "height": 375,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "highContrast",
+        "text_scale": 3,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "text-editor--keyboard--375x667",
+      "state": "text-editor",
+      "category": "keyboard",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "dark",
+        "text_scale": 2,
+        "reduced_motion": true,
+        "view_insets_bottom": 300,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "preset-rename--keyboard--375x667",
+      "state": "preset-rename",
+      "category": "keyboard",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "es",
+        "theme": "dark",
+        "text_scale": 2,
+        "reduced_motion": true,
+        "view_insets_bottom": 300,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    },
+    {
+      "id": "export-options--oled--375x667",
+      "state": "export-options",
+      "category": "oled",
+      "capture_kind": "component-fixture/placeholder-background",
+      "inputs": {
+        "width": 375,
+        "height": 667,
+        "dpr": 1,
+        "locale": "en",
+        "theme": "oled",
+        "text_scale": 1,
+        "reduced_motion": true,
+        "view_insets_bottom": 0,
+        "large_targets": false,
+        "platform": "linux"
+      }
+    }
+  ],
+  "browser_derivation": {
+    "baseline": 69,
+    "stress": 14,
+    "oled": 1,
+    "total": 84,
+    "text_scale": 1,
+    "exclude_categories": [
+      "keyboard"
+    ],
+    "note": "Browser task only; component textScale3 and synthetic IME are never browser settings."
+  }
+}

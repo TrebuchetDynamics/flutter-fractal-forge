@@ -691,3 +691,108 @@ compiled deltas, unlisted paths, even allowlisted added keys, removals, stale
 maps, broken adjacency, unknown task IDs and tampered historical originals.
 Existing visual-task addition/semantic policies and original PNG/oracle bytes
 remain unchanged. See [source-bound rationale](../tasks/source-bound-review-gates.md#shader-cache-recovery).
+
+## Responsive UI overlay captures
+
+Issue #20 adds **component fixture evidence**, not browser, native-font,
+physical-IME or live-GPU qualification. The schema1 inventory is
+[`ui_overlay_capture_matrix.json`](../../test/fixtures/ui_overlay_capture_matrix.json).
+It declares 32 stable state IDs, shipping owners/setup, required actions and the
+nine exact browser exclusions. Its explicit rows contain capture kind and all
+synthetic input identities: 96 dark EN baseline rows (375×667, 768×1024,
+1440×900), 20 ES high-contrast 3× text narrow/landscape rows (320×568,
+667×375), two ES 2× text/300px injected-inset rows, and one actual app OLED
+export-options row: **119**, without caps or sampling. Reduced motion and DPR1
+are fixture inputs, not claims about the host OS. The Flutter target-platform
+override is Linux; the report-notes state uses the existing debug-mode preference. The separate browser task
+has 84 derived rows (69 baseline, 14 stress at **unmodified browser text scale1**,
+one OLED); it must not inherit component 3× text or synthetic keyboard settings.
+
+### Entry point and failure/repair journey
+
+Select the pinned SDK/cache and Python/Rust tools exactly as in root `AGENTS.md`;
+compare `flutter --version` with `fdroid/flutter.version`, validate the Python
+imports, and use an owned mode0700 `TMPDIR` outside the checkout. Regenerate only
+local package metadata with `flutter pub get --offline --enforce-lockfile`.
+Then, from the isolated task checkout:
+
+```sh
+timeout 120 flutter test --no-pub test/overlays/ui_overlay_responsive_capture_test.dart
+timeout 900 flutter test --no-pub \
+  --dart-define=UI_OVERLAY_CAPTURE_DIR="$TMPDIR/components" \
+  test/overlays/ui_overlay_responsive_capture_test.dart
+timeout 120 flutter analyze --no-pub test/overlays test/helpers/ui_overlay_capture_harness.dart
+```
+
+The ordinary tests validate exact expansion and omission/mutation negatives,
+missing/incorrect PNGs, missing measurements/actions and real Flutter overflow
+accounting, controlled 50% progress cancellation and a decoded modal preview
+inside the outer capture boundary. These smoke tests prove the harness works,
+not that a measured shipping target meets the 48px policy. The explicit command attempts **every** row,
+retains PNGs whenever surface visibility was established, and writes
+`captures.json` and `report.md` to the fresh, empty private external directory after each row.
+Unavailable evidence is null/NOT_RUN, not zero/pass. A missing row/image,
+measurement, exception, overflow, undersized or unreachable required action
+makes `layout_qualified=false` and the explicit command exits nonzero. A complete
+failed audit is useful evidence, **not** UI qualification or a green capture run.
+Repair setup failures at the test seam or report genuine UI defects separately;
+never drop rows, bless an unmeasured result or change production UI in this task.
+
+Source tracing found an inventory conflict worth retaining explicitly:
+`batch-selection` has no current selection widget/launcher.
+`PresetSheet.onBatchExport` is declared but unused; `BatchExportDialog._run`
+automatically starts export. Those requested rows fail with that exact cause;
+the harness neither starts jobs nor wires a new feature. Browser availability
+in the planner manifest remains the requested declaration, **not verified browser
+reachability**; the browser worker must resolve this conflict rather than count
+these three targets as passed. History/video/wallpaper are isolated public
+widgets, not newly reachable app features. GPU report uses the existing viewer
+fake-ExportService seam; `saveBytes` writes nothing. Preview uses a decoded valid
+synthetic image; fallback has no preview; neither sends a share. No OS export,
+wallpaper or destructive action is invoked.
+
+### Measurement and evidence interpretation
+
+The outer `RepaintBoundary` wraps MaterialApp/Navigator, so modal Overlay entries
+are captured. Each row uses fresh mock preferences, disposable sample data,
+controllers/routes and restored view metrics. Private viewer sheets are reached
+via real viewer actions/stable keys, settings sheets via SettingsScreen; there
+are no copied private implementations or production hooks. Bounded frame pumping
+and route/title/control checks replace sleeps/unbounded settling. The normal
+renderer test placeholder remains explicitly labelled; the GPU report's CPU
+banner fixture is not a live GPU image.
+
+This isolate loads the pinned SDK's 12 `material_fonts/Roboto-*.ttf` faces using
+FontLoader under Roboto, monospace and the app's Poppins/Inter/JetBrains Mono
+family names, plus the pinned `MaterialIcons-Regular.otf`. Theme text styles
+receive the same Roboto test-font family (including non-inheriting styles with
+no declared family); shipping sizes, weights and colors are preserved. The
+fixture suppresses only the test host's debug banner. Every rendered RichText
+paragraph must name one of these loaded families; unbound/Ahem paragraphs fail.
+This is **explicit test-font substitution**, not Ahem or production/native-font
+parity; it installs nothing. The report records every filename/SHA256, SDK/Dart
+identity, source base/HEAD/dirty diff and capture-source file hashes, both lock
+hashes, actual theme colors and all expected/captured/failed counts.
+
+PNG signature/IHDR sizes and actual decoding must agree with the requested
+logical viewport at DPR1. Measurements include actual surface/title rectangles,
+content scroll viewports/extents, viewport/insets/text scale and named action
+rectangles, visibility and hit testing after real scrolling. Horizontal safe
+viewport tolerance is 1 logical pixel. Vertical content scrolling is permitted;
+required actions must fit above the bottom inset and have at least 48px pointer
+targets (fixtures leave the larger-target option off). Keyboard rows also measure
+the focused field and simultaneous action visibility above the injected IME,
+then dismiss the route and verify restored focus. These are synthetic keyboard
+fixtures, not physical keyboard acceptance. Images show the title or declared
+content anchor; later action measurements identify the scrolled reachability
+position rather than pretending all scroll content fits simultaneously.
+
+Retain the private directory for review. Inspect decoded headers/statuses for
+all 119 rows and read representative images at all three baseline breakpoints
+and each stress category (keyboard, landscape, large text, OLED), describing
+visible clipping in accessible text. Record exact failures and durable paths in
+the task evidence/comment. Do not check in PNGs or use these as goldens. Run the
+unchanged shared-sheet/history/preset/export/looper/GPU/text-editor regressions,
+focused analyzer, `git diff --check`, and the root common offline gate once for
+final source. Preserve both locks and original overlay migration/APP-005 evidence;
+browser/device/production gates and Runner independent review remain separate.
