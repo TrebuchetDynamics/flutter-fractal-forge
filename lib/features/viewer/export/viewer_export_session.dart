@@ -66,9 +66,9 @@ class ViewerExportAutoExplorePlayback {
 
 /// Pure pause/resume plan for export flows that temporarily suspend auto-explore.
 ///
-/// Keeping this decision outside the viewer mixin makes the hidden replay order
-/// visible: the export flow should resume auto-explore only when it paused
-/// active auto-motion itself.
+/// Pause any armed, unpaused service, including one yielded to a user gesture.
+/// Resume only when export paused active auto-motion itself; a yielded service
+/// stays paused until the user explicitly resumes it.
 @immutable
 class ViewerExportAutoExplorePausePlan {
   final bool pauseService;
@@ -86,7 +86,7 @@ class ViewerExportAutoExplorePausePlan {
         !playback.isPaused &&
         !playback.pausedByUserCorrection;
     return ViewerExportAutoExplorePausePlan(
-      pauseService: ownsAutoMotion,
+      pauseService: playback.isExploring && !playback.isPaused,
       resumeWhenFinished: ownsAutoMotion,
     );
   }
