@@ -462,7 +462,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     _refreshBackendDecision();
 
     // Record view/config changes into history
-    _recordHistory(context);
+    if (!isNavigationBlocked) _recordHistory(context);
     if (controller.module.id == 'number_wall') {
       _autoExploreService?.stop();
       _looperController?.stop();
@@ -520,6 +520,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _persistViewerSession() {
+    // Batch preset frames and other export state must remain transient.
+    if (isNavigationBlocked) return;
     // Keep animation frames transient. Pause/lifecycle saves the frozen state.
     if (_looperController?.isPlaying ?? false) return;
     final store = _viewerSessionStore;

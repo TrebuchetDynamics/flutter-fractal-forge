@@ -76,17 +76,6 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
     final presetStore = context.read<PresetStore>();
     final l10n = AppLocalizations.of(context)!;
 
-    if (!await _exportService.chooseLinuxExportDirectory()) {
-      if (!mounted) return;
-      setState(() {
-        _running = false;
-        _cancelled = true;
-        _status = l10n.batchExportCancelled;
-      });
-      return;
-    }
-    if (!mounted) return;
-
     final initialModule = controller.module;
     final initialParams = Map<String, Object>.from(controller.params);
     final initialView = controller.view;
@@ -97,6 +86,17 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
     });
 
     try {
+      if (!await _exportService.chooseLinuxExportDirectory()) {
+        if (!mounted) return;
+        setState(() {
+          _running = false;
+          _cancelled = true;
+          _status = l10n.batchExportCancelled;
+        });
+        return;
+      }
+      if (!mounted) return;
+
       final builtIn = controller.module.builtInPresets;
       final user = await presetStore.loadUserPresets(controller.module.id);
       if (!mounted) return;
@@ -123,7 +123,7 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       final result = await _service.exportPresets(
         boundaryKey: widget.boundaryKey,
         applyPreset: (preset) async {
-          if (preset.moduleId != controller.module.id) return;
+          if (!presetBelongsToModule(preset, controller.module.id)) return;
           controller.applyPreset(preset);
         },
         presets: presets,

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:flutter/gestures.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
@@ -28,6 +30,7 @@ import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/features/looper/looper_sheet.dart';
+import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -204,6 +207,17 @@ class _BlockingWallpaperService extends WallpaperService {
     publicationStarted.complete();
     await releasePublication.future;
     return true;
+  }
+}
+
+class _BatchDirectoryExportService extends ExportService {
+  final releaseDirectory = Completer<bool>();
+  int pickerCalls = 0;
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() {
+    pickerCalls++;
+    return releaseDirectory.future;
   }
 }
 
@@ -1443,6 +1457,90 @@ void main() {
         isFalse,
       );
     });
+
+    for (final visibility in ['visible', 'hidden', 'returned']) {
+      testWidgets(
+          'preset batch owns auto-explore and persistence while $visibility',
+          (tester) async {
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        final exports = _BatchDirectoryExportService();
+        await tester.pumpWidget(buildTestWidget(
+          exportService: exports,
+          provideViewerSessionStore: true,
+        ));
+        await tester.pumpAndSettle();
+        final autoButton =
+            await revealMoreAction(tester, 'viewerAutoExploreButton');
+        final service = tester.element(autoButton).read<AutoExploreService>();
+        await tester.tap(autoButton);
+        await tester.pump(const Duration(milliseconds: 32));
+        expect(service.isPaused, isFalse);
+        await tester.binding.handlePopRoute();
+        await tester.pump(const Duration(milliseconds: 400));
+        await tester.tapAt(const Offset(400, 200),
+            buttons: kSecondaryMouseButton, kind: PointerDeviceKind.mouse);
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Open Presets'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.byKey(const ValueKey('presetBatchExportButton')));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        expect(find.byType(BatchExportDialog), findsOneWidget);
+        expect(exports.pickerCalls, 1);
+        expect(service.isPaused, isTrue);
+        final routeState = tester
+            .state<FractalViewerRouteState>(find.byType(FractalViewerScreen));
+        expect(routeState.isNavigationBlocked, isTrue);
+        final frozenView = _cameraBytes(controller.view);
+        await tester.pump(const Duration(seconds: 1));
+        expect(_cameraBytes(controller.view), frozenView);
+        final prefs = await SharedPreferences.getInstance();
+        final savedSession = prefs.getString(ViewerSessionStore.preferencesKey);
+        final historyCount = historyProvider.historyCount;
+        // Replay the same controller notifications emitted by batch presets.
+        controller.applyPreset(controller.module.builtInPresets.last);
+        await tester.pump(const Duration(seconds: 1));
+        expect(
+            prefs.getString(ViewerSessionStore.preferencesKey), savedSession);
+        expect(historyProvider.historyCount, historyCount);
+
+        if (visibility != 'visible') {
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+        }
+        if (visibility == 'returned') {
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        }
+        exports.releaseDirectory.complete(false);
+        await tester.pump();
+        // Force a frame so Back can be exercised while the app is hidden too.
+        tester.binding.scheduleForcedFrame();
+        await tester.pump();
+        await tester.binding.handlePopRoute();
+        tester.binding.scheduleForcedFrame();
+        await tester.pump(const Duration(milliseconds: 400));
+        expect(service.isPaused, visibility != 'visible');
+        expect(routeState.isNavigationBlocked, isFalse);
+        if (visibility == 'hidden') {
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+        }
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        await tester.pumpWidget(const SizedBox.shrink());
+        historyProvider.cancelPendingRecord();
+      });
+    }
 
     testWidgets('hidden auto-explore waits for explicit visible Resume',
         (tester) async {

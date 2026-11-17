@@ -34,6 +34,13 @@ class _FakeExportService extends ExportService {
   Future<bool> chooseLinuxExportDirectory() async => true;
 }
 
+class _ThrowingDirectoryExportService extends ExportService {
+  @override
+  Future<bool> chooseLinuxExportDirectory() async {
+    throw FileSystemException('Directory access denied');
+  }
+}
+
 /// A 1x1 transparent PNG, so the tiles' Image.file has something to decode.
 const _onePixelPng = <int>[
   0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, //
@@ -53,8 +60,10 @@ class _FakeBatchExportService implements BatchExportService {
     this.itemCount = 0,
     this.throwError = false,
     this.contactSheet,
+    this.onAppliedPreset,
   });
 
+  final void Function(FractalPreset)? onAppliedPreset;
   final Directory directory;
   final int itemCount;
   final bool throwError;
@@ -76,6 +85,12 @@ class _FakeBatchExportService implements BatchExportService {
     required bool Function() isCancelled,
   }) async {
     if (throwError) throw StateError('capture failed on preset 2 of 12');
+    if (onAppliedPreset != null) {
+      for (final preset in presets) {
+        await applyPreset(preset);
+        onAppliedPreset!(preset);
+      }
+    }
     final items = <BatchExportItemResult>[];
     for (var i = 0; i < itemCount; i++) {
       final file = File('${directory.path}/item$i.png');
@@ -199,6 +214,76 @@ void main() {
       ));
       await pumpAccessibilityTestFrames(tester);
     }
+
+    for (final (moduleId, legacyId) in [
+      ('burning_ship', 'burning_ship_power4'),
+      ('ostrowski_squared_16', 'neta_order16'),
+    ]) {
+      testWidgets('dialog applies the visible legacy preset $legacyId',
+          (tester) async {
+        fractal.selectModule(registry.byId(moduleId));
+        final legacy = fractal.module.defaultPreset.copyWith(
+          id: 'legacy-saved',
+          moduleId: legacyId,
+          name: 'Legacy saved',
+          view: fractal.view.copyWith(zoom: 7),
+        );
+        await store.saveUserPreset(legacy);
+        final initialView = fractal.view;
+        var appliedLegacy = false;
+        await pumpDialog(tester,
+            batchExportService: _FakeBatchExportService(
+              directory: dir,
+              onAppliedPreset: (preset) {
+                if (preset.id != legacy.id) return;
+                appliedLegacy = true;
+                expect(fractal.module.id, moduleId);
+                expect(fractal.view.zoom, 7);
+                if (moduleId == 'burning_ship') {
+                  expect(fractal.params['power'], 4);
+                }
+              },
+            ));
+        expect(appliedLegacy, isTrue);
+        expect(fractal.module.id, moduleId);
+        expect(fractal.view.zoom, initialView.zoom);
+      });
+    }
+
+    testWidgets('directory failure shows the error and Back closes the dialog',
+        (tester) async {
+      await tester.pumpWidget(MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: fractal),
+          Provider.value(value: store),
+        ],
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+              builder: (context) => TextButton(
+                    onPressed: () => showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) => BatchExportDialog(
+                        boundaryKey: GlobalKey(),
+                        exportService: _ThrowingDirectoryExportService(),
+                      ),
+                    ),
+                    child: const Text('Open batch'),
+                  )),
+        ),
+      ));
+      await tester.tap(find.text('Open batch'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Export failed'), findsOneWidget);
+      expect(find.textContaining('Directory access denied'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(find.byType(BatchExportDialog), findsNothing);
+      expect(find.text('Open batch'), findsOneWidget);
+    });
 
     // With the services built inline the dialog never got past awaiting a
     // directory: status stayed empty and only the title, the close button and

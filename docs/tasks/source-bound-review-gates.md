@@ -525,3 +525,31 @@ terminal stage. No Rust mathematical owner switch or speedup is claimed.
   qualification, not browser/device/hardware performance or new mathematical
   evidence; no UI layout change or UI screenshot claim is made. GitHub Actions
   on the eventual PR remain the delivery check authority.
+
+## Preset batch export (#26)
+
+`PRESET-BATCH-EXPORT-26` is a source-only successor to shader cache recovery at
+base `6d907b014a4abdaccfe4e6c3dfbc94d1bebf1723`. It binds the pinned native preset
+footer, existing export-session ownership, directory-error recovery, legacy
+preset membership, and history/session write guards. It does not change the
+retained physical-event scenarios, fractal mathematics, presets, shaders or
+compiled artifacts.
+
+Following the existing source-transition procedure, all eleven complete before
+maps equal the preceding terminal after maps. Only existing occurrences of these
+paths receive their final on-disk SHA-256 values:
+
+- `lib/core/services/export/batch_export_service.dart`
+- `lib/core/services/storage/preset_store.dart`
+- `lib/features/export/batch_export_dialog.dart`
+- `lib/features/presets/preset_sheet.dart`
+- `lib/features/viewer/dialogs/viewer_dialogs.dart`
+- `lib/features/viewer/fractal_viewer_screen.dart`
+- `test/migration/support/provenance_transition.dart`
+- `test/migration/support/visual_presentation_evolution.dart`
+
+The exact task allowlist requires identical key sets and empty semantic deltas
+and compiled artifacts. Historical records and their hashes remain unchanged;
+current-byte checks belong to the new terminal stage. Regression tests preserve
+complete-bundle ordering and reject unauthorized or stale bindings. The new
+record is `migration/oracles/visual-presentation/preset-batch-export.json`.
