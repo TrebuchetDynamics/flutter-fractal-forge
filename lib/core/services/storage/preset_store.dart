@@ -10,6 +10,14 @@ const Map<String, List<String>> legacyModuleIdAliases = {
   'ostrowski_squared_16': ['neta_order16'],
 };
 
+/// Whether a visible preset can be applied to the current module, including
+/// saved presets that retain ownership under a legacy storage id.
+bool presetBelongsToModule(FractalPreset preset, String moduleId) =>
+    preset.moduleId == moduleId ||
+    (moduleId == 'burning_ship' &&
+        burningShipDegrees.containsKey(preset.moduleId)) ||
+    (legacyModuleIdAliases[moduleId]?.contains(preset.moduleId) ?? false);
+
 class PresetStore {
   final SharedPreferences _prefs;
 

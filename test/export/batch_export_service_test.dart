@@ -325,6 +325,26 @@ void main() {
   });
 
   group('BatchExportPlan', () {
+    for (final (moduleId, legacyId) in [
+      ('burning_ship', 'burning_ship_power4'),
+      ('ostrowski_squared_16', 'neta_order16'),
+    ]) {
+      test('includes visible legacy presets for $moduleId only', () {
+        final plan = BatchExportPlan.forModule(
+          moduleId: moduleId,
+          presets: [
+            _makePreset('Current').copyWith(moduleId: moduleId),
+            _makePreset('Legacy').copyWith(moduleId: legacyId),
+            _makePreset('Unrelated').copyWith(moduleId: 'julia'),
+          ],
+        );
+        expect(plan.entries.map((entry) => entry.preset.name),
+            ['Current', 'Legacy']);
+        expect(plan.entries.map((entry) => entry.sourceIndex), [0, 1]);
+        expect(plan.entries.map((entry) => entry.exportIndex), [0, 1]);
+      });
+    }
+
     test('filters presets to the requested module before export', () {
       final plan = BatchExportPlan.forModule(
         moduleId: 'mandelbrot',

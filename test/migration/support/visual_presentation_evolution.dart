@@ -23,6 +23,7 @@ const visualProofTask = 'VISUAL-RICHNESS-PROOF';
 const visualSurfaceTask = 'VISUAL-RICHNESS-SCULPTURAL-SURFACE';
 const visualDefaultsTask = 'VISUAL-RICHNESS-CURATED-DEFAULTS';
 const shaderCacheRecoveryTask = 'SHADER-CACHE-RECOVERY-01';
+const presetBatchExportTask = 'PRESET-BATCH-EXPORT-26';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -48,6 +49,16 @@ const _surfacePaths = [
 ];
 const _shaderCacheRecoveryPaths = [
   'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
+const _presetBatchExportPaths = [
+  'lib/core/services/export/batch_export_service.dart',
+  'lib/core/services/storage/preset_store.dart',
+  'lib/features/export/batch_export_dialog.dart',
+  'lib/features/presets/preset_sheet.dart',
+  'lib/features/viewer/dialogs/viewer_dialogs.dart',
+  'lib/features/viewer/fractal_viewer_screen.dart',
   'test/migration/support/provenance_transition.dart',
   'test/migration/support/visual_presentation_evolution.dart',
 ];
@@ -91,6 +102,7 @@ void validateVisualStage(Map stage) {
     visualSurfaceTask => _surfacePaths,
     visualDefaultsTask => _defaultsPaths,
     shaderCacheRecoveryTask => _shaderCacheRecoveryPaths,
+    presetBatchExportTask => _presetBatchExportPaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -128,7 +140,8 @@ void validateVisualStage(Map stage) {
     }
     visualRequire(before.keys.toSet().difference(after.keys.toSet()).isEmpty,
         'removed binding');
-    if (stage['task'] == shaderCacheRecoveryTask) {
+    if (stage['task'] == shaderCacheRecoveryTask ||
+        stage['task'] == presetBatchExportTask) {
       visualRequire(_equal.equals(before.keys.toSet(), after.keys.toSet()),
           'maintenance binding key sets');
     }
@@ -147,7 +160,8 @@ void validateVisualStage(Map stage) {
   if (stage['task'] == visualProofTask) {
     visualRequire(deltas.isEmpty, 'proof cannot change semantics');
   }
-  if (stage['task'] == shaderCacheRecoveryTask) {
+  if (stage['task'] == shaderCacheRecoveryTask ||
+      stage['task'] == presetBatchExportTask) {
     visualRequire(deltas.isEmpty, 'maintenance cannot change semantics');
     visualRequire((stage['compiled_artifacts'] as List).isEmpty,
         'maintenance cannot change compiled artifacts');

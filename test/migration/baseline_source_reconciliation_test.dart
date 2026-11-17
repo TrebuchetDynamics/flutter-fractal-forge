@@ -108,7 +108,7 @@ void main() {
               '27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659');
         } else {
           expect(record['after'][path],
-              sha256.convert(File(path).readAsBytesSync()).toString());
+              'e6ceeabf474cfd59e1eca0144da4dffbed4fca970486d8a793e62634dc72e309');
         }
       }
       verifySourceStages(id, stages.first['binding_maps'][id]['before'] as Map,
@@ -168,8 +168,11 @@ void main() {
                   ['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString());
         } else {
-          expect(record['after'][path],
-              sha256.convert(File(path).readAsBytesSync()).toString());
+          expect(
+              record['after'][path],
+              path == 'lib/features/viewer/fractal_viewer_screen.dart'
+                  ? 'da8c6a54c4e918cd908c93b06cb246d75e3bce79c35b57e3252ea1707b587f03'
+                  : sha256.convert(File(path).readAsBytesSync()).toString());
         }
       }
       for (final order in [
@@ -192,6 +195,7 @@ void main() {
     expect(candidates.map((s) => s['task']).toSet(), {
       visualProofTask,
       shaderCacheRecoveryTask,
+      presetBatchExportTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -208,7 +212,11 @@ void main() {
     final maps = recovery['binding_maps'] as Map;
     expect(maps.length, 11);
     for (final order in [candidates, candidates.reversed.toList()]) {
-      expect(orderedVisualStages(order), [proof, recovery]);
+      expect(orderedVisualStages(order), [
+        proof,
+        recovery,
+        candidates.singleWhere((s) => s['task'] == presetBatchExportTask),
+      ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
         final before = record['before'] as Map;
@@ -218,15 +226,66 @@ void main() {
         for (final path in after.keys.cast<String>()) {
           expect(
               after[path],
-              allowed.contains(path)
-                  ? sha256.convert(File(path).readAsBytesSync()).toString()
-                  : before[path],
+              path == 'test/migration/support/provenance_transition.dart'
+                  ? '2ca789e4a08ba67d41129b00ec7632d5c93c0489980079c6c9ad2d55dc6a3fca'
+                  : path ==
+                          'test/migration/support/visual_presentation_evolution.dart'
+                      ? 'e9b0ec2a49982b7dcb5f7a92c55c2a00dd206a716d58cbf6cd8c58125171c914'
+                      : allowed.contains(path)
+                          ? sha256
+                              .convert(File(path).readAsBytesSync())
+                              .toString()
+                          : before[path],
               reason: '$id: $path');
         }
         verifySourceStages(
             id, historical.first['binding_maps'][id]['before'] as Map, after,
-            stages: [...order, ...historical.reversed]);
+            stages: [
+              ...order.where((s) => s['task'] != presetBatchExportTask),
+              ...historical.reversed
+            ]);
       }
+    }
+  });
+
+  test('preset batch successor binds only the changed export sources', () {
+    final candidates = readVisualStages();
+    final ordered = orderedVisualStages(candidates);
+    final batch = ordered.last;
+    expect(batch['task'], presetBatchExportTask);
+    expect(batch['base_revision'], '6d907b014a4abdaccfe4e6c3dfbc94d1bebf1723');
+    expect(batch['semantic_deltas'], isEmpty);
+    expect(batch['compiled_artifacts'], isEmpty);
+    const allowed = {
+      'lib/core/services/export/batch_export_service.dart',
+      'lib/core/services/storage/preset_store.dart',
+      'lib/features/export/batch_export_dialog.dart',
+      'lib/features/presets/preset_sheet.dart',
+      'lib/features/viewer/dialogs/viewer_dialogs.dart',
+      'lib/features/viewer/fractal_viewer_screen.dart',
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    };
+    final maps = batch['binding_maps'] as Map;
+    expect(maps.length, 11);
+    for (final id in maps.keys.cast<String>()) {
+      final before = maps[id]['before'] as Map;
+      final after = maps[id]['after'] as Map;
+      expect(before, ordered[ordered.length - 2]['binding_maps'][id]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      for (final path in after.keys.cast<String>()) {
+        expect(
+            after[path],
+            allowed.contains(path)
+                ? sha256.convert(File(path).readAsBytesSync()).toString()
+                : before[path],
+            reason: '$id: $path');
+      }
+      verifySourceStages(
+          id,
+          readProvenanceStages().first['binding_maps'][id]['before'] as Map,
+          after,
+          stages: [...readProvenanceStages().reversed, ...candidates.reversed]);
     }
   });
 
