@@ -205,6 +205,9 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
         }
       } finally {
         _gpuProbe.endProbe();
+        if (mounted && _gpuProbe.needsConfirmationProbe) {
+          _scheduleGpuHealthCheck();
+        }
       }
     });
   }

@@ -461,8 +461,12 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     _refreshPrecisionDecision(controller);
     _refreshBackendDecision();
 
+    // Export frames and transient export state are not navigation: they must
+    // not enter history or replace the saved session.
+    final exportOwnsController = isNavigationBlocked;
+
     // Record view/config changes into history
-    _recordHistory(context);
+    if (!exportOwnsController) _recordHistory(context);
     if (controller.module.id == 'number_wall') {
       _autoExploreService?.stop();
       _looperController?.stop();
@@ -480,7 +484,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     }
 
     _sessionTracker?.onControllerChanged(controller);
-    _persistViewerSession();
+    if (!exportOwnsController) _persistViewerSession();
   }
 
   Future<void> _restoreViewerSession(FractalController controller) async {

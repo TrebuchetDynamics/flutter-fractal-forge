@@ -381,8 +381,23 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
       return;
     }
 
-    if (!await _exportService.chooseLinuxExportDirectory()) {
+    final bool directoryChosen;
+    try {
+      directoryChosen = await _exportService.chooseLinuxExportDirectory();
+    } catch (error) {
+      // The session is already open; a picker failure must not leave it open.
       if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        appFeedbackSnackBar(
+          message: l10n.exportFailed(error.toString()),
+          success: false,
+        ),
+      );
+      setState(_finishExportFlow);
+      return;
+    }
+    if (!mounted) return;
+    if (!directoryChosen) {
       setState(() {
         _finishExportFlow();
       });

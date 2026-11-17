@@ -89,6 +89,21 @@ void main() {
       expect(probe.gpuHealthFailed, isFalse);
     });
 
+    test('confirmation probe is needed only for an unconfirmed failure', () {
+      final probe = GpuHealthProbe();
+      expect(probe.needsConfirmationProbe, isFalse);
+
+      probe.evaluateFrame(frameData: _blackFrame, width: 4, height: 4);
+      expect(probe.needsConfirmationProbe, isTrue);
+
+      probe.evaluateFrame(frameData: _blackFrame, width: 4, height: 4);
+      expect(probe.gpuHealthFailed, isTrue);
+      expect(probe.needsConfirmationProbe, isFalse);
+
+      probe.resetHealth();
+      expect(probe.needsConfirmationProbe, isFalse);
+    });
+
     test('two consecutive black frames: streak=2, healthFailed=true', () {
       final probe = GpuHealthProbe();
 

@@ -2609,6 +2609,93 @@ void main() {
       historyProvider.cancelPendingRecord();
     });
 
+    testWidgets('looper export frames never enter navigation history',
+        (tester) async {
+      final initialZoom = controller.view.zoom;
+      final exportService = _BlockingLooperPublicationExportService();
+      final zoomAtExport = await exportLooper(
+        tester,
+        exportService,
+        settleAfterExport: false,
+      );
+      for (var attempt = 0;
+          attempt < 100 && !exportService.shareStarted.isCompleted;
+          attempt++) {
+        await tester.pump();
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 10)),
+        );
+      }
+      await exportService.shareStarted.future;
+
+      void expectOnlyUserLocations() {
+        expect(
+          historyProvider.history.map((entry) => entry.view.zoom),
+          everyElement(anyOf(initialZoom, zoomAtExport)),
+        );
+      }
+
+      // Longer than the history debounce while the share sheet is still open.
+      await tester.pump(const Duration(milliseconds: 600));
+      expectOnlyUserLocations();
+
+      exportService.releaseShare.complete();
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 600));
+      expectOnlyUserLocations();
+      expect(controller.view.zoom, zoomAtExport);
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('keyboard navigation is ignored while an export is running',
+        (tester) async {
+      final exportService = _BlockingLooperPublicationExportService();
+      await exportLooper(tester, exportService, settleAfterExport: false);
+      for (var attempt = 0;
+          attempt < 100 && !exportService.shareStarted.isCompleted;
+          attempt++) {
+        await tester.pump();
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 10)),
+        );
+      }
+      await exportService.shareStarted.future;
+
+      final panBefore = controller.view.pan.x;
+      final zoomBefore = controller.view.zoom;
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.arrowRight);
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.equal);
+      await tester.pump();
+      expect(controller.view.pan.x, panBefore);
+      expect(controller.view.zoom, zoomBefore);
+
+      exportService.releaseShare.complete();
+      await tester.pumpAndSettle();
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('quick share recovers when the directory picker fails',
+        (tester) async {
+      final exportService = _LooperExportService(pickerThrows: true);
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+
+      for (var attempt = 1; attempt <= 2; attempt++) {
+        await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+        await tester.pumpAndSettle();
+        await tapVisibleAction(tester, 'viewerShareImageAction');
+        await tester.pumpAndSettle();
+
+        expect(tester.takeException(), isNull);
+        expect(exportService.pickerCalls, attempt);
+        expect(find.textContaining('picker unavailable'), findsOneWidget);
+        // Let the failure message leave before the next attempt.
+        await tester.pump(const Duration(seconds: 5));
+        await tester.pumpAndSettle();
+      }
+      historyProvider.cancelPendingRecord();
+    });
+
     testWidgets('looper reports a directory picker failure', (tester) async {
       final exportService = _LooperExportService(pickerThrows: true);
       await exportLooper(tester, exportService);

@@ -288,6 +288,13 @@ class GpuHealthProbe {
     _gpuProbeActive = false;
   }
 
+  /// True after a failed frame that has not yet reached the failure threshold.
+  ///
+  /// One probe runs per module, so the caller must schedule another probe to
+  /// confirm or clear the failure.
+  bool get needsConfirmationProbe =>
+      _gpuHealthFailureStreak > 0 && !_gpuHealthFailed;
+
   void recordProbeError(Object error) {
     lastGpuHealthError = error;
   }
