@@ -4581,7 +4581,7 @@
         "lib/features/controls/widgets/number_wall_prime_control.dart": "5e80c0a1f3c4b953471a751453d96f5afe1484f590299b6d425621f73df7bf56",
         "lib/features/controls/widgets/number_wall_style_controls.dart": "a7a933b6405f73d472e0aa2bbc50b24575d9d82be1dffe3a0a70ec638ffe4f33",
         "lib/features/debug/shader_lab_screen.dart": "5d1852f17f5e2d563d1e961be8a3acdd506d6433ebf338a92499c29204a88c1d",
-        "lib/features/export/batch_export_dialog.dart": "9b9b640ef935d2ec908250b4658d97211d5a0be4c9b453fe3c3d2d43356877da",
+        "lib/features/export/batch_export_dialog.dart": "bcf21d99ec2f91b75bec42cf4d12da9adde18cb314d6844a278d54967f138198",
         "lib/features/export/custom_export_dimensions.dart": "dfc9344f7bd239018d083ea3e252f3d93a7b33809759757681d8b83258913258",
         "lib/features/export/export_actions.dart": "3ff11be4cc0473552b927b8a18e83f4805f9a150270e0413f166aa573acfddc9",
         "lib/features/export/export_options_sheet.dart": "17bddc0cbf6b4687eb53b19b2076d0e2ad639cef5ed6eb03e0ac99ab31cff5df",
@@ -10086,7 +10086,7 @@
       }
     }
   },
-  "candidate_identity": "4a15caa8345db15b07642536075d930eccf28cb548383e15c7b60852ed52e116",
+  "candidate_identity": "ea82201d4927723d2cb6c4eaf9ead7c288a9045becb7c9a3f8105b7a1a8fa585",
   "compiled_artifacts": [],
   "schema": 1,
   "semantic_deltas": {},

@@ -89,7 +89,6 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       if (!await _exportService.chooseLinuxExportDirectory()) {
         if (!mounted) return;
         setState(() {
-          _running = false;
           _cancelled = true;
           _status = l10n.batchExportCancelled;
         });
@@ -104,7 +103,6 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
 
       if (presets.isEmpty) {
         setState(() {
-          _running = false;
           _status = l10n.batchExportNoPresets;
         });
         return;
@@ -124,7 +122,7 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
         boundaryKey: widget.boundaryKey,
         applyPreset: (preset) async {
           if (!presetBelongsToModule(preset, controller.module.id)) return;
-          controller.applyPreset(preset);
+          await controller.applyPreset(preset);
         },
         presets: presets,
         options: options,
@@ -153,14 +151,12 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       setState(() {
         _outDir = result.directory;
         _contactSheet = result.contactSheet;
-        _running = false;
         _status = _cancelled ? l10n.batchExportCancelled : l10n.batchExportDone;
         _progress = 1.0;
       });
     } on ExportCancelledException {
       if (!mounted) return;
       setState(() {
-        _running = false;
         _cancelled = true;
         _status = l10n.batchExportCancelled;
       });
@@ -168,18 +164,30 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       if (!mounted) return;
       setState(() {
         _error = e;
-        _running = false;
         // Left as-is this still read "Preparing…" under "Export failed".
         _status = '';
       });
     } finally {
-      controller.loadState(
-        module: initialModule,
-        params: initialParams,
-        view: initialView,
-        transparentBackground: initialTransparent,
-        animateModule: false,
-      );
+      // Number Walls certifies presets and restores its grid asynchronously.
+      // Keep the dialog/export session owned until the original state commits.
+      try {
+        await controller.loadState(
+          module: initialModule,
+          params: initialParams,
+          view: initialView,
+          transparentBackground: initialTransparent,
+          animateModule: false,
+        );
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            _error = e;
+            _status = '';
+          });
+        }
+      } finally {
+        if (mounted) setState(() => _running = false);
+      }
     }
   }
 

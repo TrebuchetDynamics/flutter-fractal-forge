@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/export/batch_export_service.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
@@ -38,6 +40,47 @@ class _ThrowingDirectoryExportService extends ExportService {
   @override
   Future<bool> chooseLinuxExportDirectory() async {
     throw FileSystemException('Directory access denied');
+  }
+}
+
+/// Models asynchronous preset certification/restoration (as used by Number
+/// Walls), without relying on grid computation timing in a widget test.
+class _DeferredBatchController extends FractalController {
+  _DeferredBatchController(super.registry);
+
+  final releasePreset = Completer<void>();
+  final releaseRestore = Completer<void>();
+  bool restoring = false;
+
+  @override
+  Future<void> applyPreset(FractalPreset preset) async {
+    await releasePreset.future;
+    await super.applyPreset(preset);
+  }
+
+  @override
+  Future<bool> loadState({
+    FractalModule? module,
+    String? moduleId,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    bool transparentBackground = false,
+    bool animateModule = false,
+    VoidCallback? onCommitted,
+    bool Function()? shouldCommit,
+  }) async {
+    restoring = true;
+    await releaseRestore.future;
+    return super.loadState(
+      module: module,
+      moduleId: moduleId,
+      params: params,
+      view: view,
+      transparentBackground: transparentBackground,
+      animateModule: animateModule,
+      onCommitted: onCommitted,
+      shouldCommit: shouldCommit,
+    );
   }
 }
 
@@ -214,6 +257,58 @@ void main() {
       ));
       await pumpAccessibilityTestFrames(tester);
     }
+
+    testWidgets(
+        'batch awaits preset application and restoration before closing',
+        (tester) async {
+      fractal.dispose();
+      final deferred = _DeferredBatchController(registry);
+      fractal = deferred;
+      final initialView = fractal.view;
+      final applied = <FractalPreset>[];
+      await pumpDialog(tester,
+          batchExportService: _FakeBatchExportService(
+            directory: dir,
+            onAppliedPreset: applied.add,
+          ));
+      expect(applied, isEmpty,
+          reason: 'Capture must wait for asynchronous preset certification');
+      expect(deferred.restoring, isFalse);
+
+      deferred.releasePreset.complete();
+      await tester.pump();
+      expect(applied.length, fractal.module.builtInPresets.length);
+      expect(deferred.restoring, isTrue);
+      final popScope = find.byWidgetPredicate((widget) => widget is PopScope);
+      expect(tester.widget<PopScope>(popScope).canPop, isFalse,
+          reason: 'Export ownership must cover asynchronous restoration');
+
+      deferred.releaseRestore.complete();
+      await tester.pump();
+      expect(tester.widget<PopScope>(popScope).canPop, isTrue);
+      expect(fractal.view.zoom, initialView.zoom);
+      expect(fractal.view.pan, initialView.pan);
+      expect(fractal.view.rotation, initialView.rotation);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('restoration failure is reported and leaves Back enabled',
+        (tester) async {
+      fractal.dispose();
+      final deferred = _DeferredBatchController(registry);
+      fractal = deferred;
+      deferred.releasePreset.complete();
+      await pumpDialog(tester,
+          batchExportService: _FakeBatchExportService(directory: dir));
+      expect(deferred.restoring, isTrue);
+      deferred.releaseRestore.completeError(StateError('Restore failed'));
+      await tester.pump();
+      await tester.pump();
+      expect(find.textContaining('Restore failed'), findsOneWidget);
+      final popScope = find.byWidgetPredicate((widget) => widget is PopScope);
+      expect(tester.widget<PopScope>(popScope).canPop, isTrue);
+      expect(tester.takeException(), isNull);
+    });
 
     for (final (moduleId, legacyId) in [
       ('burning_ship', 'burning_ship_power4'),
