@@ -1,0 +1,1 @@
+Improved viewer and export reliability, including safer state handling during export. Fixed shader recovery so cached renders clear previous failure states. Refined history navigation and preset keyboard access.
