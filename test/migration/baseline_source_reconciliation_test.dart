@@ -167,6 +167,13 @@ void main() {
               orderedVisualStages(readVisualStages()).last['binding_maps'][id]
                   ['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString());
+        } else if (path == 'lib/features/viewer/fractal_viewer_screen.dart') {
+          expect(record['after'][path],
+              'da8c6a54c4e918cd908c93b06cb246d75e3bce79c35b57e3252ea1707b587f03');
+          expect(
+              orderedVisualStages(readVisualStages()).last['binding_maps'][id]
+                  ['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
         } else {
           expect(record['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString());
@@ -192,10 +199,13 @@ void main() {
     expect(candidates.map((s) => s['task']).toSet(), {
       visualProofTask,
       shaderCacheRecoveryTask,
+      viewerExportStateTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
         candidates.singleWhere((s) => s['task'] == shaderCacheRecoveryTask);
+    final viewer =
+        candidates.singleWhere((s) => s['task'] == viewerExportStateTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -208,7 +218,7 @@ void main() {
     final maps = recovery['binding_maps'] as Map;
     expect(maps.length, 11);
     for (final order in [candidates, candidates.reversed.toList()]) {
-      expect(orderedVisualStages(order), [proof, recovery]);
+      expect(orderedVisualStages(order), [proof, recovery, viewer]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
         final before = record['before'] as Map;
@@ -216,15 +226,24 @@ void main() {
         expect(before, proof['binding_maps'][id]['after'], reason: id);
         expect(after.keys.toSet(), before.keys.toSet(), reason: id);
         for (final path in after.keys.cast<String>()) {
+          const historicalHelpers = {
+            'test/migration/support/provenance_transition.dart':
+                '2ca789e4a08ba67d41129b00ec7632d5c93c0489980079c6c9ad2d55dc6a3fca',
+            'test/migration/support/visual_presentation_evolution.dart':
+                'e9b0ec2a49982b7dcb5f7a92c55c2a00dd206a716d58cbf6cd8c58125171c914',
+          };
           expect(
               after[path],
-              allowed.contains(path)
-                  ? sha256.convert(File(path).readAsBytesSync()).toString()
-                  : before[path],
+              historicalHelpers[path] ??
+                  (allowed.contains(path)
+                      ? sha256.convert(File(path).readAsBytesSync()).toString()
+                      : before[path]),
               reason: '$id: $path');
         }
         verifySourceStages(
-            id, historical.first['binding_maps'][id]['before'] as Map, after,
+            id,
+            historical.first['binding_maps'][id]['before'] as Map,
+            viewer['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

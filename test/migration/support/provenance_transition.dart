@@ -318,7 +318,8 @@ void verifySourceStages(String id, Map before, Map current,
   final visual = selected
       .where((s) =>
           (s['task'] as String).startsWith('VISUAL-RICHNESS-') ||
-          s['task'] == shaderCacheRecoveryTask)
+          s['task'] == shaderCacheRecoveryTask ||
+          s['task'] == viewerExportStateTask)
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
   _require(

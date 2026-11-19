@@ -525,3 +525,48 @@ terminal stage. No Rust mathematical owner switch or speedup is claimed.
   qualification, not browser/device/hardware performance or new mathematical
   evidence; no UI layout change or UI screenshot claim is made. GitHub Actions
   on the eventual PR remain the delivery check authority.
+
+## Viewer export state reconciliation
+
+`VIEWER-EXPORT-STATE-01` accounts for the source changes introduced by
+`04401d3d6c5cd9de3c826dff543e5edd28b59b58`, based on
+`92a36981966eddc4b48a6d7c6820bf39e7e8ac25`. The viewer fix keeps transient
+export frames out of history/persistence, closes export ownership on directory
+failure, blocks keyboard navigation during export and confirms failed GPU health
+probes. No mathematics, shader, preset or retained oracle output changes are
+admitted by this reconciliation.
+
+The source-only successor is
+`migration/oracles/visual-presentation/viewer-export-state.json`. Its exact policy
+permits only these five production files and the two comparison helpers:
+
+- `lib/features/viewer/diagnostics/gpu_health_probe.dart`
+- `lib/features/viewer/diagnostics/viewer_gpu_health.dart`
+- `lib/features/viewer/export/viewer_export_actions.dart`
+- `lib/features/viewer/fractal_viewer_screen.dart`
+- `lib/features/viewer/navigation/viewer_interactions.dart`
+- `test/migration/support/provenance_transition.dart`
+- `test/migration/support/visual_presentation_evolution.dart`
+
+Every complete before map equals the shader-recovery terminal after map. The
+five production changes occur only in physical-events; collected helper changes
+occur in interpolation, physical-events, precision-replay, randomization,
+reference and state-replay. All five inventory maps remain identities. No added
+or removed keys, semantic deltas or compiled artifacts are allowed. Earlier
+stages, original archives, oracle/PNG/manifest bytes, independent anchors and
+both lockfiles stay immutable. Historical viewer/helper assertions retain their
+recorded hashes; only the terminal successor is compared with current source.
+
+The initial Play 125 full gate failed the physical-events current-map check and
+the historical history-stage viewer assertion (3565 passed, 9 skipped, 2 failed).
+The same two failures were reproduced together before this repair. The new
+regressions require exact per-map changed sets, complete ordering in both input
+orders, current changed-path hashes and rejection of self-consistent unlisted,
+added/removed, semantic, compiled, unknown, stale, missing and duplicate claims.
+
+Provisional source claims require two byte-identical private post-validation
+exports from all seven existing migration modules, exactly twelve observations
+per export, with every complete current map matching the successor (both
+manifests use reference). The unchanged full offline gate and the separate
+Waydroid/build/publication gates must still pass. Focused results alone do not
+qualify this release or claim device/hardware performance.

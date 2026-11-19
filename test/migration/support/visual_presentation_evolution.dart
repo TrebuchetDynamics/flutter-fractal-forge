@@ -23,6 +23,7 @@ const visualProofTask = 'VISUAL-RICHNESS-PROOF';
 const visualSurfaceTask = 'VISUAL-RICHNESS-SCULPTURAL-SURFACE';
 const visualDefaultsTask = 'VISUAL-RICHNESS-CURATED-DEFAULTS';
 const shaderCacheRecoveryTask = 'SHADER-CACHE-RECOVERY-01';
+const viewerExportStateTask = 'VIEWER-EXPORT-STATE-01';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -48,6 +49,15 @@ const _surfacePaths = [
 ];
 const _shaderCacheRecoveryPaths = [
   'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
+const _viewerExportStatePaths = [
+  'lib/features/viewer/diagnostics/gpu_health_probe.dart',
+  'lib/features/viewer/diagnostics/viewer_gpu_health.dart',
+  'lib/features/viewer/export/viewer_export_actions.dart',
+  'lib/features/viewer/fractal_viewer_screen.dart',
+  'lib/features/viewer/navigation/viewer_interactions.dart',
   'test/migration/support/provenance_transition.dart',
   'test/migration/support/visual_presentation_evolution.dart',
 ];
@@ -91,12 +101,15 @@ void validateVisualStage(Map stage) {
     visualSurfaceTask => _surfacePaths,
     visualDefaultsTask => _defaultsPaths,
     shaderCacheRecoveryTask => _shaderCacheRecoveryPaths,
+    viewerExportStateTask => _viewerExportStatePaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
       stage['schema'] == 1 &&
           RegExp(r'^[a-f0-9]{40}$').hasMatch(stage['base_revision'] as String),
       'stage identity');
+  final maintenance = stage['task'] == shaderCacheRecoveryTask ||
+      stage['task'] == viewerExportStateTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
@@ -128,7 +141,7 @@ void validateVisualStage(Map stage) {
     }
     visualRequire(before.keys.toSet().difference(after.keys.toSet()).isEmpty,
         'removed binding');
-    if (stage['task'] == shaderCacheRecoveryTask) {
+    if (maintenance) {
       visualRequire(_equal.equals(before.keys.toSet(), after.keys.toSet()),
           'maintenance binding key sets');
     }
@@ -147,7 +160,7 @@ void validateVisualStage(Map stage) {
   if (stage['task'] == visualProofTask) {
     visualRequire(deltas.isEmpty, 'proof cannot change semantics');
   }
-  if (stage['task'] == shaderCacheRecoveryTask) {
+  if (maintenance) {
     visualRequire(deltas.isEmpty, 'maintenance cannot change semantics');
     visualRequire((stage['compiled_artifacts'] as List).isEmpty,
         'maintenance cannot change compiled artifacts');
