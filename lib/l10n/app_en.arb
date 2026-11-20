@@ -298,6 +298,7 @@
   "fourierFlux": "spectral flux",
   "fourierViewportAnalysis": "Finite numerical base-field analysis of the current viewport.",
   "fourierBaseFieldNote": "Analysis replays the visible renderer's effective base field. Fluid, morph, celebration, and interface overlays are excluded.",
+  "compareDivider": "Comparison divider",
   "fourierSpatialPane": "Rendered spatial base field",
   "fourierSpectrumPane": "Sampled Fourier magnitude",
   "uncertaintyLabTitle": "Fractal Uncertainty Lab",

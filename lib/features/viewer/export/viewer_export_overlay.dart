@@ -25,91 +25,95 @@ class ExportOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-      child: Container(
-        color: AppColors.background.withValues(alpha: 0.7),
-        child: SafeArea(
-          maintainBottomViewPadding: true,
-          minimum: EdgeInsets.only(
-            bottom: math.max(MediaQuery.systemGestureInsetsOf(context).bottom,
-                MediaQuery.viewInsetsOf(context).bottom),
-          ),
-          child: Center(
-            child: SingleChildScrollView(
-              child: FadeIn(
-                child: Container(
-                  padding: const EdgeInsets.all(AppSpacing.xxl),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(AppSpacing.xl),
-                    border: Border.all(
-                        color: AppColors.border.withValues(alpha: 0.5)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        blurRadius: 20,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(AppSpacing.lg),
-                        decoration: BoxDecoration(
-                          gradient: AppColors.primaryGradient,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.downloading_rounded,
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      Text(
-                        l10n.exporting,
-                        style: AppTypography.titleMedium,
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      SizedBox(
-                        width: 200,
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: LinearProgressIndicator(
-                                value: progress,
-                                minHeight: 6,
-                                backgroundColor: AppColors.surfaceVariant,
-                                valueColor: const AlwaysStoppedAnimation<Color>(
-                                    AppColors.primary),
-                              ),
-                            ),
-                            if (progress != null) ...[
-                              const SizedBox(height: AppSpacing.sm),
-                              Text(
-                                '${(progress! * 100).round()}%',
-                                style: AppTypography.labelSmall.copyWith(
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      if (onCancel != null) ...[
-                        const SizedBox(height: AppSpacing.lg),
-                        TextButton.icon(
-                          key: const ValueKey('cancelActiveExportButton'),
-                          onPressed: onCancel,
-                          icon: const Icon(Icons.close_rounded),
-                          label: Text(l10n.actionCancel),
+    return Theme(
+      data: overlayActionTheme(Theme.of(context)),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          color: AppColors.background.withValues(alpha: 0.7),
+          child: SafeArea(
+            maintainBottomViewPadding: true,
+            minimum: EdgeInsets.only(
+              bottom: math.max(MediaQuery.systemGestureInsetsOf(context).bottom,
+                  MediaQuery.viewInsetsOf(context).bottom),
+            ),
+            child: Center(
+              child: SingleChildScrollView(
+                child: FadeIn(
+                  child: Container(
+                    padding: const EdgeInsets.all(AppSpacing.xxl),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(AppSpacing.xl),
+                      border: Border.all(
+                          color: AppColors.border.withValues(alpha: 0.5)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.3),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
                         ),
                       ],
-                    ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(AppSpacing.lg),
+                          decoration: BoxDecoration(
+                            gradient: AppColors.primaryGradient,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.downloading_rounded,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        Text(
+                          l10n.exporting,
+                          style: AppTypography.titleMedium,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        SizedBox(
+                          width: 200,
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: LinearProgressIndicator(
+                                  value: progress,
+                                  minHeight: 6,
+                                  backgroundColor: AppColors.surfaceVariant,
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
+                                          AppColors.primary),
+                                ),
+                              ),
+                              if (progress != null) ...[
+                                const SizedBox(height: AppSpacing.sm),
+                                Text(
+                                  '${(progress! * 100).round()}%',
+                                  style: AppTypography.labelSmall.copyWith(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        if (onCancel != null) ...[
+                          const SizedBox(height: AppSpacing.lg),
+                          TextButton.icon(
+                            key: const ValueKey('cancelActiveExportButton'),
+                            onPressed: onCancel,
+                            icon: const Icon(Icons.close_rounded),
+                            label: Text(l10n.actionCancel),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
               ),

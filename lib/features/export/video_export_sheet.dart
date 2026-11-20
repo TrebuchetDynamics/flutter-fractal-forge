@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 import 'package:flutter_fractals/core/models/video_export_options.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -51,7 +52,7 @@ class VideoExportSheet extends StatelessWidget {
                 onExport(initialOptions);
               },
               icon: const Icon(Icons.movie_creation_outlined),
-              label: const Text('Export'),
+              label: Text(AppLocalizations.of(context)!.exportTitle),
             ),
           ),
         ],

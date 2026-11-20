@@ -561,6 +561,8 @@ class _SheetIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final targetSize = AccessibleSizing.minTouchTarget +
+        Theme.of(context).visualDensity.baseSizeAdjustment.dx.clamp(0, 8);
     // The tappable area is 48 while the coloured pill stays 40, so the chrome is
     // unchanged. It was a flat 40x40 before, which failed the minimum target —
     // and went unnoticed because the earlier audit caught these buttons in their
@@ -571,10 +573,9 @@ class _SheetIconButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius:
-              BorderRadius.circular(AccessibleSizing.minTouchTarget / 2),
+          borderRadius: BorderRadius.circular(targetSize / 2),
           child: SizedBox.square(
-            dimension: AccessibleSizing.minTouchTarget,
+            dimension: targetSize,
             child: Center(
               child: Container(
                 width: 40,

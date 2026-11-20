@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
@@ -108,25 +110,28 @@ class CompareRenderer extends StatelessWidget {
         final width = constraints.maxWidth;
         final clamped = divider.clamp(0.05, 0.95);
         final x = width * clamped;
+        final targetWidth = AccessibleSizing.minTouchTarget +
+            Theme.of(context).visualDensity.baseSizeAdjustment.dx.clamp(0, 8);
 
         return Stack(
           children: [
             Positioned.fill(child: paneA),
             Positioned.fill(
               child: ClipRect(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  widthFactor: 1.0 - clamped,
-                  child: paneB,
-                ),
+                clipper: _CompareWipeClipper(clamped),
+                child: paneB,
               ),
             ),
             Positioned(
-              left: x - 18,
-              top: 0,
-              bottom: 0,
-              width: 36,
+              // Only the affordance owns input, not a canvas-height strip.
+              left: (x - targetWidth / 2).clamp(0, width - targetWidth),
+              top: (constraints.maxHeight - 64) / 2,
+              height: 64,
+              width: targetWidth,
               child: _CompareDividerHandle(
+                value: clamped,
+                onStep: (delta) =>
+                    onDividerChanged((clamped + delta).clamp(0.05, 0.95)),
                 onDrag: (dx) {
                   final next = (x + dx) / width;
                   onDividerChanged(next.clamp(0.05, 0.95));
@@ -144,6 +149,21 @@ class CompareRenderer extends StatelessWidget {
   void onOpenPane(int pane) {
     onActivePaneChanged(pane);
   }
+}
+
+// A full-size pane is clipped for painting AND hit testing. Align.widthFactor
+// under Positioned.fill's tight constraints did neither, hiding pane A's input.
+class _CompareWipeClipper extends CustomClipper<Rect> {
+  final double divider;
+  const _CompareWipeClipper(this.divider);
+
+  @override
+  Rect getClip(Size size) =>
+      Rect.fromLTRB(size.width * divider, 0, size.width, size.height);
+
+  @override
+  bool shouldReclip(_CompareWipeClipper oldClipper) =>
+      divider != oldClipper.divider;
 }
 
 class _ComparePane extends StatelessWidget {
@@ -208,48 +228,86 @@ class _ComparePane extends StatelessWidget {
   }
 }
 
-class _CompareDividerHandle extends StatelessWidget {
+class _CompareDividerHandle extends StatefulWidget {
+  final double value;
+  final ValueChanged<double> onStep;
   final ValueChanged<double> onDrag;
   final VoidCallback onTapLeft;
   final VoidCallback onTapRight;
 
   const _CompareDividerHandle({
+    required this.value,
+    required this.onStep,
     required this.onDrag,
     required this.onTapLeft,
     required this.onTapRight,
   });
 
   @override
+  State<_CompareDividerHandle> createState() => _CompareDividerHandleState();
+}
+
+class _CompareDividerHandleState extends State<_CompareDividerHandle> {
+  bool _focused = false;
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onHorizontalDragUpdate: (d) => onDrag(d.delta.dx),
-      onTapUp: (details) {
-        final localX = details.localPosition.dx;
-        if (localX < 18) {
-          onTapLeft();
-        } else {
-          onTapRight();
-        }
-      },
-      child: Center(
-        child: Container(
-          width: 28,
-          height: 64,
-          decoration: BoxDecoration(
-            color: AppColors.surfaceVariant.withValues(alpha: 0.75),
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.35),
-                blurRadius: 14,
-                offset: const Offset(0, 6),
+    final percent = (widget.value * 100).round();
+    return Semantics(
+      label: AppLocalizations.of(context)!.compareDivider,
+      slider: true,
+      value: '$percent%',
+      increasedValue:
+          '${((widget.value + .05).clamp(.05, .95) * 100).round()}%',
+      decreasedValue:
+          '${((widget.value - .05).clamp(.05, .95) * 100).round()}%',
+      onIncrease: () => widget.onStep(.05),
+      onDecrease: () => widget.onStep(-.05),
+      child: CallbackShortcuts(
+        bindings: {
+          const SingleActivator(LogicalKeyboardKey.arrowLeft): () =>
+              widget.onStep(-.05),
+          const SingleActivator(LogicalKeyboardKey.arrowRight): () =>
+              widget.onStep(.05),
+        },
+        child: Focus(
+          onFocusChange: (value) => setState(() => _focused = value),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onHorizontalDragUpdate: (d) => widget.onDrag(d.delta.dx),
+            onTapUp: (details) {
+              if (details.localPosition.dx < context.size!.width / 2) {
+                widget.onTapLeft();
+              } else {
+                widget.onTapRight();
+              }
+            },
+            child: Center(
+              child: Container(
+                width: 28,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceVariant.withValues(alpha: 0.75),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(
+                    color: _focused
+                        ? AppColors.primaryLight
+                        : Colors.white.withValues(alpha: 0.18),
+                    width: _focused ? AccessibleSizing.focusIndicatorWidth : 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.35),
+                      blurRadius: 14,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.drag_handle_rounded,
+                    color: AppColors.textPrimary),
               ),
-            ],
+            ),
           ),
-          child: const Icon(Icons.drag_handle_rounded,
-              color: AppColors.textPrimary),
         ),
       ),
     );

@@ -934,6 +934,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'El análisis reproduce el campo base efectivo del renderizador visible. Se excluyen los efectos de fluido, transformación, celebración y la interfaz.';
 
   @override
+  String get compareDivider => 'Divisor de comparación';
+
+  @override
   String get fourierSpatialPane => 'Campo base espacial renderizado';
 
   @override

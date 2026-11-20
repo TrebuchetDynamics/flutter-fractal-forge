@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/models/video_export_options.dart';
 import 'package:flutter_fractals/features/export/video_export_sheet.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 void main() {
   testWidgets('short large-text video sheet scrolls and closes before export',
@@ -13,6 +14,9 @@ void main() {
     VideoExportOptions? exported;
     var routeClosedAtExport = false;
     await tester.pumpWidget(MaterialApp(
+      locale: const Locale('es'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       builder: (context, child) => MediaQuery(
         data: MediaQuery.of(context).copyWith(
           textScaler: const TextScaler.linear(3),
@@ -43,11 +47,12 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
-    final export = find.widgetWithText(ElevatedButton, 'Export');
+    final export = find.widgetWithText(ElevatedButton, 'Exportar');
     await tester.ensureVisible(export);
     await tester.pumpAndSettle();
     expect(tester.getRect(export).bottom, lessThanOrEqualTo(216));
-    await tester.tap(export);
+    final rect = tester.getRect(export);
+    await tester.tapAt(Offset(rect.left + 1, rect.top + 1));
     await tester.pumpAndSettle();
     expect(exported, same(options));
     expect(routeClosedAtExport, isTrue);

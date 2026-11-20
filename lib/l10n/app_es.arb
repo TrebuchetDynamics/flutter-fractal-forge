@@ -290,6 +290,7 @@
   "fourierFlux": "flujo espectral",
   "fourierViewportAnalysis": "Análisis numérico finito del campo base de la vista actual.",
   "fourierBaseFieldNote": "El análisis reproduce el campo base efectivo del renderizador visible. Se excluyen los efectos de fluido, transformación, celebración y la interfaz.",
+  "compareDivider": "Divisor de comparación",
   "fourierSpatialPane": "Campo base espacial renderizado",
   "fourierSpectrumPane": "Magnitud de Fourier muestreada",
   "uncertaintyLabTitle": "Laboratorio de incertidumbre fractal",

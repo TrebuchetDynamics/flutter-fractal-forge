@@ -22,7 +22,8 @@ Map stageFor(String task) {
   final maintenance = task == shaderCacheRecoveryTask ||
       task == presetBatchExportTask ||
       task == phoneSliderTask ||
-      task == directEditControlsTask;
+      task == directEditControlsTask ||
+      task == overlayHitTargetsTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -65,7 +66,8 @@ void main() {
     shaderCacheRecoveryTask,
     presetBatchExportTask,
     phoneSliderTask,
-    directEditControlsTask
+    directEditControlsTask,
+    overlayHitTargetsTask
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);
@@ -178,16 +180,19 @@ void main() {
 
   test('direct Edit successor binds only its exact UI and policy sources', () {
     final stages = orderedVisualStages(readVisualStages());
-    final stage = stages.last;
+    final stage =
+        stages.singleWhere((s) => s['task'] == directEditControlsTask);
+    final historical = stages.take(stages.indexOf(stage) + 1).toList();
     expect(stage['task'], directEditControlsTask);
     expect(stage['base_revision'], '8087a167cbf369b19bcff3d24394878d28c8b263');
-    expect(stages[stages.length - 2]['task'], phoneSliderTask);
+    expect(historical[historical.length - 2]['task'], phoneSliderTask);
     expect(stage['semantic_deltas'], isEmpty);
     expect(stage['compiled_artifacts'], isEmpty);
     for (final id in (stage['binding_maps'] as Map).keys.cast<String>()) {
       final before = stage['binding_maps'][id]['before'] as Map;
       final after = stage['binding_maps'][id]['after'] as Map;
-      expect(before, stages[stages.length - 2]['binding_maps'][id]['after']);
+      expect(before,
+          historical[historical.length - 2]['binding_maps'][id]['after']);
       expect(after.keys.toSet(), before.keys.toSet());
       expect(
           before.keys.where((p) => before[p] != after[p]).toSet(),
@@ -213,9 +218,83 @@ void main() {
             ],
           },
           reason: id);
+      const retainedHashes = {
+        'lib/l10n/app_localizations.dart':
+            'bf729e66c052277b855b36440fe1720125dd4f9358ac03ed2315b5f60c8fbe5c',
+        'lib/l10n/app_localizations_en.dart':
+            '2bd631a591bba20ad33c545b7d3a7de4acd19920ed597689ba5dd850790c94b9',
+        'lib/l10n/app_localizations_es.dart':
+            '20af13f408e4ce8ae43f0436c7b86bbda3bad53c2484261d6774e6be963f64e3',
+        'test/migration/support/provenance_transition.dart':
+            '9c5e65894fd164774228fe278b37007a7cc604e3e8eed6d2e05a6a3c7882db1e',
+        'test/migration/support/visual_presentation_evolution.dart':
+            '0cdbb662905521af1ca7b7190e097a74e24e72bb2154e51f74fddad229ddc974',
+      };
       for (final path in after.keys.where((p) => before[p] != after[p])) {
-        expect(after[path],
+        expect(
+            after[path],
+            retainedHashes[path] ??
+                sha256
+                    .convert(File(path as String).readAsBytesSync())
+                    .toString());
+        expect(stages.last['binding_maps'][id]['after'][path],
             sha256.convert(File(path as String).readAsBytesSync()).toString());
+      }
+      for (final order in [historical, historical.reversed.toList()]) {
+        validateVisualSourceChain(id,
+            stages.first['binding_maps'][id]['before'] as Map, after, order);
+      }
+    }
+  });
+
+  test('overlay targets successor binds only exact input and policy sources',
+      () {
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    expect(stage['task'], overlayHitTargetsTask);
+    expect(stage['base_revision'], 'cfd18a890fd2dfea5758fc68f5db03e1acbd20dc');
+    expect(stages[stages.length - 2]['task'], directEditControlsTask);
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    const l10n = {
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+    };
+    const helpers = {
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    };
+    for (final id in (stage['binding_maps'] as Map).keys.cast<String>()) {
+      final before = stage['binding_maps'][id]['before'] as Map;
+      final after = stage['binding_maps'][id]['after'] as Map;
+      expect(before, stages[stages.length - 2]['binding_maps'][id]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      final changed = before.keys.where((p) => before[p] != after[p]).toSet();
+      expect(
+          changed,
+          {
+            ...l10n,
+            if (const {
+              'param-interpolation',
+              'physical-events',
+              'precision-replay',
+              'randomization',
+              'reference',
+              'state-replay'
+            }.contains(id))
+              ...helpers,
+            if (id == 'physical-events') ...{
+              'lib/features/presets/preset_sheet.dart',
+              'lib/features/viewer/export/viewer_export_overlay.dart',
+              'lib/features/viewer/rendering/compare_renderer.dart',
+              'lib/shared/widgets/app_bottom_sheet.dart',
+            },
+          },
+          reason: id);
+      for (final path in changed.cast<String>()) {
+        expect(after[path],
+            sha256.convert(File(path).readAsBytesSync()).toString());
       }
       for (final order in [stages, stages.reversed.toList()]) {
         validateVisualSourceChain(id,

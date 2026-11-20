@@ -616,7 +616,10 @@ Future<void> _activate(WidgetTester tester, Finder finder,
 /// A new complete disposable host for every row. The boundary is OUTSIDE the
 /// MaterialApp/Navigator, so modal Overlay entries cannot escape the image.
 Future<OverlayCaptureResult> captureOverlayRow(
-    WidgetTester tester, Map<String, dynamic> row) async {
+  WidgetTester tester,
+  Map<String, dynamic> row, {
+  void Function(String name, Finder action)? inspectAction,
+}) async {
   final result = OverlayCaptureResult(row);
   final inputs = row['inputs'] as Map;
   final state = row['state'] as String;
@@ -644,6 +647,7 @@ Future<OverlayCaptureResult> captureOverlayRow(
       tester.binding.handleMetricsChanged();
       SharedPreferences.setMockInitialValues({
         'accessibility_reduced_motion': true,
+        'accessibility_large_targets': inputs['large_targets'] == true,
         'debug_mode_enabled': state == 'report-notes',
         'app_theme_mode':
             AppThemeMode.values.indexWhere((t) => t.name == inputs['theme']),
@@ -687,12 +691,18 @@ Future<OverlayCaptureResult> captureOverlayRow(
           createdAt: DateTime.utc(2026, 1, 1),
         ));
       }
-      final theme = switch (inputs['theme']) {
+      final baseTheme = switch (inputs['theme']) {
         'dark' => AppTheme.dark,
         'highContrast' => AppTheme.highContrast,
         'oled' => AppTheme.oled,
         _ => throw StateError('Unknown theme'),
       };
+      final theme = inputs['large_targets'] == true
+          ? baseTheme.copyWith(
+              visualDensity: const VisualDensity(horizontal: 4, vertical: 4),
+              materialTapTargetSize: MaterialTapTargetSize.padded,
+            )
+          : baseTheme;
       final fakeExport = _ReportExportService();
       final isolated = state.startsWith('presets-') ||
           state == 'preset-rename' ||
@@ -1081,7 +1091,7 @@ Future<OverlayCaptureResult> captureOverlayRow(
         actions.add(('Share (not invoked)', _button(l10n.shareViewLinkShare)));
       }
       if (state == 'video-options')
-        actions.add(('Export (not invoked)', _button('Export')));
+        actions.add(('Export (not invoked)', _button(l10n.exportTitle)));
       if (state == 'wallpaper-options')
         actions.add(('Apply (not invoked)', _button(l10n.actionApply)));
       if (state == 'looper-ready')
@@ -1103,6 +1113,7 @@ Future<OverlayCaptureResult> captureOverlayRow(
         await tester.ensureVisible(action);
         await pumpAccessibilityTestFrames(tester);
         final rect = tester.getRect(action);
+        inspectAction?.call(name, action);
         (result.measurements!['actions'] as List).add({
           'name': name,
           'rect': _rectangle(tester, action),

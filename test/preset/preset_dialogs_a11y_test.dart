@@ -20,6 +20,7 @@ Future<void> _pumpSheet(
   WidgetTester tester, {
   double textScale = 1.0,
   Size? size,
+  bool largeTargets = false,
 }) async {
   if (size != null) {
     await tester.binding.setSurfaceSize(size);
@@ -45,7 +46,10 @@ Future<void> _pumpSheet(
         Provider.value(value: store),
       ],
       child: MaterialApp(
-        theme: AppTheme.dark,
+        theme: largeTargets
+            ? AppTheme.dark.copyWith(
+                visualDensity: const VisualDensity(horizontal: 4, vertical: 4))
+            : AppTheme.dark,
         locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -62,6 +66,26 @@ Future<void> _pumpSheet(
 }
 
 void main() {
+  testWidgets('preset rename keeps a 56px invisible target in large mode',
+      (tester) async {
+    await _pumpSheet(tester, largeTargets: true, size: const Size(320, 568));
+    final rename = find.byTooltip('Rename preset').first;
+    await tester.ensureVisible(rename);
+    await tester.pumpAndSettle();
+    final rect = tester.getRect(rename);
+    expect(rect.width, greaterThanOrEqualTo(56));
+    expect(rect.height, greaterThanOrEqualTo(56));
+    await tester.tapAt(Offset(rect.right - 1, rect.center.dy));
+    await tester.pumpAndSettle();
+    expect(find.text('Rename Preset'), findsOneWidget);
+    final cancel = find.widgetWithText(TextButton, 'Cancel');
+    final cancelRect = tester.getRect(cancel);
+    await tester.tapAt(Offset(cancelRect.center.dx, cancelRect.bottom - 1));
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(find.text(_longName), findsOneWidget);
+  });
+
   // A sheet's audit does not cover what the sheet opens. These dialogs were
   // checked for semantics but not layout until this file existed.
   for (final dialog in const {

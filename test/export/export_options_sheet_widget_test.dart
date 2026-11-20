@@ -100,7 +100,8 @@ void main() {
       tester,
       initialOptions: initialOptions,
     );
-    await tester.tap(submitButton);
+    final rect = tester.getRect(submitButton);
+    await tester.tapAt(Offset(rect.right - 1, rect.bottom - 1));
     await tester.pumpAndSettle();
     return harness.submission;
   }

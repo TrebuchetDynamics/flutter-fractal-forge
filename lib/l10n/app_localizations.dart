@@ -1797,6 +1797,12 @@ abstract class AppLocalizations {
   /// **'Analysis replays the visible renderer\'s effective base field. Fluid, morph, celebration, and interface overlays are excluded.'**
   String get fourierBaseFieldNote;
 
+  /// No description provided for @compareDivider.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison divider'**
+  String get compareDivider;
+
   /// No description provided for @fourierSpatialPane.
   ///
   /// In en, this message translates to:

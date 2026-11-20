@@ -28,6 +28,7 @@ const presetBatchExportTask = 'PRESET-BATCH-EXPORT-26';
 const viewerExportIntegrationTask = 'PR24-VIEWER-EXPORT-INTEGRATION';
 const phoneSliderTask = 'PHONE-SINGLE-SLIDER-32';
 const directEditControlsTask = 'DIRECT-EDIT-CONTROLS-31';
+const overlayHitTargetsTask = 'OVERLAY-HIT-TARGETS-34';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -88,6 +89,17 @@ const _directEditControlsPaths = [
   'lib/features/viewer/chrome/fractal_view_controls.dart',
   'lib/features/viewer/chrome/viewer_tools.dart',
   'lib/features/viewer/fractal_viewer_screen.dart',
+  'lib/l10n/app_localizations.dart',
+  'lib/l10n/app_localizations_en.dart',
+  'lib/l10n/app_localizations_es.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
+const _overlayHitTargetsPaths = [
+  'lib/features/presets/preset_sheet.dart',
+  'lib/features/viewer/export/viewer_export_overlay.dart',
+  'lib/features/viewer/rendering/compare_renderer.dart',
+  'lib/shared/widgets/app_bottom_sheet.dart',
   'lib/l10n/app_localizations.dart',
   'lib/l10n/app_localizations_en.dart',
   'lib/l10n/app_localizations_es.dart',
@@ -176,6 +188,7 @@ void validateVisualStage(Map stage) {
     viewerExportIntegrationTask => _viewerExportIntegrationPaths,
     phoneSliderTask => _phoneSliderPaths,
     directEditControlsTask => _directEditControlsPaths,
+    overlayHitTargetsTask => _overlayHitTargetsPaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -187,7 +200,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == presetBatchExportTask ||
       stage['task'] == viewerExportIntegrationTask ||
       stage['task'] == phoneSliderTask ||
-      stage['task'] == directEditControlsTask;
+      stage['task'] == directEditControlsTask ||
+      stage['task'] == overlayHitTargetsTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
