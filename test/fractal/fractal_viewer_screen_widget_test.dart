@@ -665,10 +665,9 @@ void main() {
 
     Future<Finder> revealMoreAction(WidgetTester tester, String key) async {
       await tester
-          .ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
+          .ensureVisible(find.byKey(const ValueKey('viewerToolsButton')));
       await tester.pumpAndSettle();
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
       await tester.pumpAndSettle();
       final action = find.byKey(ValueKey(key));
       await tester.ensureVisible(action);
@@ -983,10 +982,6 @@ void main() {
         await tester.pumpAndSettle();
         await tester
             .longPress(find.byKey(const ValueKey('viewerControlsButton')));
-        await tester.pumpAndSettle();
-        // The Edit sheet's first row opens the HUD.
-        await tester
-            .tap(find.byKey(const ValueKey('viewerEditParametersAction')));
         await tester.pumpAndSettle();
         expect(find.byType(FractalControlsHud), findsOneWidget);
 
@@ -2016,8 +2011,9 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+      final tools = find.byKey(const ValueKey('viewerToolsButton'));
+      await tester.ensureVisible(tools);
+      await tester.tap(tools);
       await tester.pumpAndSettle();
       expect(
           find.byKey(const ValueKey('viewerReportFractalFab')), findsNothing);
@@ -2403,10 +2399,6 @@ void main() {
 
       await tester
           .longPress(find.byKey(const ValueKey('viewerControlsButton')));
-      await tester.pumpAndSettle();
-      // The Edit sheet's first row opens the HUD.
-      await tester
-          .tap(find.byKey(const ValueKey('viewerEditParametersAction')));
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);

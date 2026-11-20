@@ -153,9 +153,8 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
 
 Finder _tool(String key) => find.byKey(ValueKey(key));
 Future<void> _openMore(WidgetTester tester) async {
-  await tester.ensureVisible(_tool('viewerControlsButton'));
-  // A long press opens the Edit sheet; a quick press randomizes.
-  await tester.longPress(_tool('viewerControlsButton'));
+  await tester.ensureVisible(_tool('viewerToolsButton'));
+  await tester.tap(_tool('viewerToolsButton'));
   await tester.pumpAndSettle();
 }
 

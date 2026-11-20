@@ -92,8 +92,7 @@ void main() {
       await tester.pumpAndSettle();
       final palette = find.byKey(const ValueKey('viewerPaletteButton'));
       if (palette.evaluate().isEmpty) {
-        await tester
-            .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+        await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
         await tester.pumpAndSettle();
       }
       // A wrapped rail builds offscreen cells too; existence is not visibility.

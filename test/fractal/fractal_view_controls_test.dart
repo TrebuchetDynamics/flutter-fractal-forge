@@ -143,6 +143,7 @@ const _primaryKeys = [
   'viewerPaletteButton',
   'viewerRandomFractalFab',
   'viewerSaveShareButton',
+  'viewerToolsButton',
 ];
 const _saveShareKeys = {
   'viewerOpenExportAction',
@@ -176,14 +177,9 @@ Future<void> _openTools(WidgetTester tester, String key) async {
   }
   final button = _saveShareKeys.contains(key)
       ? 'viewerSaveShareButton'
-      : 'viewerControlsButton';
+      : 'viewerToolsButton';
   await tester.ensureVisible(_key(button));
-  // Save opens on a press; the Edit sheet opens on a long press.
-  if (button == 'viewerControlsButton') {
-    await tester.longPress(_key(button));
-  } else {
-    await tester.tap(_key(button));
-  }
+  await tester.tap(_key(button));
   await tester.pumpAndSettle();
 }
 
@@ -223,6 +219,73 @@ Future<void> _focus(WidgetTester tester, String key) async {
 }
 
 void main() {
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    for (final method in ['pointer', 'keyboard', 'semantics']) {
+      testWidgets(
+          'Tools opens without holding via $method ${locale.languageCode}',
+          (tester) async {
+        final handle = tester.ensureSemantics();
+        await _pumpControls(tester,
+            locale: locale, isExporting: false, onOpenWallpaper: () {});
+        await _focus(tester, 'viewerToolsButton');
+        final focusBefore = FocusManager.instance.primaryFocus;
+        final label = locale.languageCode == 'en' ? 'Tools' : 'Herramientas';
+        final node = tester.getSemantics(find.bySemanticsLabel(label));
+        expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+        expect(node.getSemanticsData().hasAction(SemanticsAction.longPress),
+            isFalse);
+        if (method == 'keyboard') {
+          await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        } else if (method == 'semantics') {
+          tester.binding.renderViews.single.owner!.semanticsOwner!
+              .performAction(node.id, SemanticsAction.tap);
+        } else {
+          await tester.tap(_key('viewerToolsButton'));
+        }
+        await tester.pumpAndSettle();
+        expect(_key('viewerEditParametersAction'), findsOneWidget);
+        expect(_key('viewerRandomOptionsAction'), findsOneWidget);
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pumpAndSettle();
+        expect(FocusManager.instance.primaryFocus, focusBefore);
+        expect(_key('viewerToolsButton').hitTestable(), findsOneWidget);
+        expect(tester.takeException(), isNull);
+        handle.dispose();
+      });
+    }
+    testWidgets(
+        'Edit Shift+Enter and semantic hold open Controls ${locale.languageCode}',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      var opened = 0;
+      var randomized = 0;
+      await _pumpControls(tester,
+          locale: locale,
+          isExporting: false,
+          onOpenControls: () => opened++,
+          onRandomizeParams: () => randomized++,
+          onOpenWallpaper: () {});
+      await _focus(tester, 'viewerControlsButton');
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.pumpAndSettle();
+      expect(opened, 1);
+      final l10n =
+          AppLocalizations.of(tester.element(_key('viewerControlsButton')))!;
+      final node =
+          tester.getSemantics(find.bySemanticsLabel(l10n.hudRandomizeTooltip));
+      expect(node.getSemanticsData().hint, l10n.viewerSecondaryActionHint);
+      tester.binding.renderViews.single.owner!.semanticsOwner!
+          .performAction(node.id, SemanticsAction.longPress);
+      await tester.pumpAndSettle();
+      expect(opened, 2);
+      expect(randomized, 0);
+      expect(find.byType(BottomSheet), findsNothing);
+      handle.dispose();
+    });
+  }
+
   testWidgets('exact walls retain ordinary tools but omit auxiliary tools',
       (tester) async {
     for (final supported in [false, true]) {
@@ -631,7 +694,8 @@ void main() {
   });
 
   for (final locale in const [Locale('en'), Locale('es')]) {
-    testWidgets('Edit replaces More and the tip row ${locale.languageCode}',
+    testWidgets(
+        'Edit opens Controls directly without the tip row ${locale.languageCode}',
         (tester) async {
       var opened = 0;
       var randomized = 0;
@@ -647,10 +711,8 @@ void main() {
       expect(find.byType(BottomSheet), findsNothing);
       expect(randomized, 1);
       await _tapTool(tester, 'viewerControlsButton', secondary: true);
-      expect(find.byType(BottomSheet), findsOneWidget);
+      expect(find.byType(BottomSheet), findsNothing);
       expect(randomized, 1);
-      await tester.tap(_key('viewerEditParametersAction'));
-      await tester.pumpAndSettle();
       expect(opened, 1);
       expect(find.byType(BottomSheet), findsNothing);
       expect(tester.takeException(), isNull);
@@ -832,9 +894,9 @@ void main() {
     expect(randomized, 2);
     expect(opened, 1);
     await _tapTool(tester, 'viewerControlsButton', secondary: true);
-    expect(find.byType(BottomSheet), findsOneWidget);
+    expect(find.byType(BottomSheet), findsNothing);
     expect(randomized, 2);
-    expect(opened, 1);
+    expect(opened, 2);
   });
 
   for (final secondary in [false, true]) {

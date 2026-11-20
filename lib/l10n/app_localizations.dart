@@ -4527,10 +4527,16 @@ abstract class AppLocalizations {
   /// **'Choose colors. Long press to randomize'**
   String get viewerChooseColors;
 
+  /// No description provided for @viewerToolsCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get viewerToolsCompact;
+
   /// No description provided for @viewerMoreTools.
   ///
   /// In en, this message translates to:
-  /// **'More'**
+  /// **'Tools'**
   String get viewerMoreTools;
 
   /// No description provided for @viewerToolOptions.

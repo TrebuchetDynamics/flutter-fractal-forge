@@ -169,7 +169,7 @@ void main() {
     expect(find.byKey(const ValueKey('viewerOverflowMenu')), findsNothing);
     expect(find.byKey(const ValueKey('viewerDismissRandomHint')), findsNothing);
     expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
-    // A quick press randomizes; a long press opens the Edit sheet.
+    // A quick press randomizes; a long press opens Controls directly.
     await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
     expect(randomized, 1);
@@ -177,10 +177,12 @@ void main() {
     await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
     expect(randomized, 1);
-    expect(find.byType(BottomSheet), findsOneWidget);
-    await tester.tap(find.byKey(const ValueKey('viewerEditParametersAction')));
-    await tester.pumpAndSettle();
+    expect(find.byType(BottomSheet), findsNothing);
     expect(opened, 1);
+    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.pumpAndSettle();
+    expect(opened, 2);
+    expect(randomized, 1);
     expect(tester.takeException(), isNull);
   });
 
@@ -304,15 +306,16 @@ void main() {
     calls.clear();
     await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
-    expect(calls, isEmpty);
-    expect(find.text('Edit fractal'), findsOneWidget);
+    expect(calls, ['controls-sheet']);
+    expect(find.byType(BottomSheet), findsNothing);
   });
 
   testWidgets('More preserves named secondary tools and their callbacks',
       (tester) async {
     var toggled = 0;
     await pumpToolbar(tester, onFourier: () => toggled++);
-    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.ensureVisible(find.byKey(const ValueKey('viewerToolsButton')));
+    await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
     await tester.pumpAndSettle();
     expect(find.text('Fourier view off'), findsOneWidget);
     expect(find.text('Kaleidoscope off'), findsOneWidget);

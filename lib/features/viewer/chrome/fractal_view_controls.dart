@@ -112,6 +112,14 @@ class FractalViewControls extends StatelessWidget {
                       for (final (index, tool) in ViewerToolLayout.rail.indexed)
                         if (viewerToolVisible(tool, toolContext))
                           _railTool(tool, toolContext, index, showLabel: true),
+                      _ViewerTool(
+                        toolKey: const ValueKey('viewerToolsButton'),
+                        icon: Icons.more_horiz_rounded,
+                        label: l10n.viewerToolsCompact,
+                        semanticLabel: l10n.viewerMoreTools,
+                        sortOrder: ViewerToolLayout.rail.length.toDouble(),
+                        onPressed: isExporting ? null : toolContext.onShowMore,
+                      ),
                     ];
                     // Measure whole captions, not individual words. Never wrap
                     // the toolbar or shrink a touch target to fit a phone.

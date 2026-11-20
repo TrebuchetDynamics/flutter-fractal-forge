@@ -595,6 +595,11 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         pauseMotion: () => _looperController?.stop(),
       );
 
+  void _openControlsHud() {
+    if (_showControlsHud || _exportFlowActive) return;
+    _toggleControlsHud();
+  }
+
   void _toggleControlsHud() {
     _looperController?.stop();
     setState(() {
@@ -1743,7 +1748,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             ),
                           ),
                           presentation: ViewerPresentationCommands(
-                            openControls: () => _toggleControlsHud(),
+                            openControls: _openControlsHud,
                             randomizeParams: () {
                               HapticFeedback.mediumImpact();
                               final activeController = _activeController(context);

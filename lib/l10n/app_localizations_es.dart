@@ -2456,7 +2456,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Elegir colores. Mantén pulsado para aleatorizar';
 
   @override
-  String get viewerMoreTools => 'Más';
+  String get viewerToolsCompact => 'Herram.';
+
+  @override
+  String get viewerMoreTools => 'Herramientas';
 
   @override
   String get viewerToolOptions => 'Opciones';

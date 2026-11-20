@@ -205,6 +205,7 @@ void main() {
       presetBatchExportTask,
       viewerExportIntegrationTask,
       phoneSliderTask,
+      directEditControlsTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -212,6 +213,7 @@ void main() {
     final viewer =
         candidates.singleWhere((s) => s['task'] == viewerExportIntegrationTask);
     final phone = candidates.singleWhere((s) => s['task'] == phoneSliderTask);
+    final directEdit = candidates.singleWhere((s) => s['task'] == directEditControlsTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -230,6 +232,7 @@ void main() {
         candidates.singleWhere((s) => s['task'] == presetBatchExportTask),
         viewer,
         phone,
+        directEdit,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -255,7 +258,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            phone['binding_maps'][id]['after'] as Map,
+            directEdit['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }
