@@ -1,5 +1,7 @@
 # Flutter Fractal Forge — Refactor & Enhancement Plan
 
+> **Retained research/planning snapshot, not current implementation guidance.** Upstream capabilities, performance figures, “current” app paths and proposed work below have not been revalidated in this sweep; they carry no current endorsement. Use the [provenance workflow](reference-corpus-workflow.md), [current renderer policy](../../docs/engineering/spec.md#rendering-interface) and [verification plan](../../docs/engineering/test-plan.md) before reuse. Ignored clone paths are not resolvable tracked documentation links or proof of license compatibility.
+
 **Based on**: Analysis of 8 open-source fractal projects (see `opensource-tools-fractals.md`)
 **Current state**: ~200 shaders, escape-time catalog pattern, Mandelbulb 3D, Provider state management
 **Dart SDK**: 3.10.7 · **Platforms**: Linux desktop, Android (Impeller/GLES), iOS (Impeller/Metal)

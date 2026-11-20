@@ -1,5 +1,7 @@
 # GPU Rendering Fix for Android Emulator (SwiftShader)
 
+> **Historical SwiftShader incident, not a current emulator policy or test recipe.** The retained failure/proposals below do not establish today's driver behavior. Use the [current backend policy](../../../lib/features/renderer/policy/backend_policy.dart) and [designated Waydroid testing contract](../testing/waydroid-headless.md). No physical-phone prerequisite, new installation or blanket GPU-disable rule follows from this report.
+
 **Status:** In Progress
 **Issue:** GPU shaders produce 100% black output on Android emulator despite clean compilation
 **Platform:** Android emulator with SwiftShader (software GPU)

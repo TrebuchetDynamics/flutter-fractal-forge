@@ -1,7 +1,7 @@
 # Fractal Research Pipeline Tooling
 
 Python tooling for the fractal catalog research pipeline.
-See `docs/superpowers/specs/2026-04-12-fractal-research-pipeline-design.md`.
+The former pipeline-design snapshot is no longer tracked. Use the [actual CLI](forge.py), [research registry](../../docs/catalog/fractal_registry.yaml) and [documentation/workflow owners](../../docs/README.md#queues-and-history). Setup below is optional standalone setup, not permission for offline workers to install packages; use the [provisioned offline gate](../../AGENTS.md#common-offline-integration-gate) for repository checks.
 
 ## Install
 

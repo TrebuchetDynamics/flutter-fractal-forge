@@ -1,5 +1,7 @@
 # Claude Code Configuration - Claude Flow V3
 
+> **Historical third-party agent template, not this project's setup contract.** Its npm build/test/lint, swarm, event-sourcing and `/src`/`/tests` instructions do not describe this Flutter repository and do not authorize installing or running those tools. Use the current [root agent contract](../../../AGENTS.md), [development guide](DEVELOPMENT.md) and [actual package scripts](../../../package.json). The retained template below is not evidence that Claude Flow is installed or required.
+
 ## Behavioral Rules (Always Enforced)
 
 - Do what has been asked; nothing more, nothing less

@@ -1,5 +1,7 @@
 # Gesture Navigation System
 
+> **Historical gesture design/implementation snapshot, not the current gesture contract.** The retained constants, line numbers and DONE labels below are not current qualification. Use the [current controls summary](../../README.md#controls), [renderer](../../lib/features/renderer/widgets/renderer/fractal_renderer.dart) and [gesture regressions](../../test/fractal/fractal_renderer_gesture_test.dart). In particular, one-finger drag rotates 3D views, and current two-finger 3D pan must not be inferred from the old tilt description. This note changes no captured result.
+
 ## 1. Cooperative vs Greedy
 
 | Mode | Behaviour |

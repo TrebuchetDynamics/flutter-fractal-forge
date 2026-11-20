@@ -1,5 +1,7 @@
 # Dependency modernization plan
 
+> **Historical generated upgrade snapshot, not a current package inventory.** The original observation has no source revision/date binding; its “Current” and “latest” columns must not be used for today's upgrade decisions. Read the [declared dependencies](../../../pubspec.yaml), [resolved lockfile](../../../pubspec.lock) and [pinned offline setup](../../../AGENTS.md#common-offline-integration-gate). The old wrapper paths and commands below describe the earlier layout; the current [share wrapper](../../../lib/core/services/export/share_service.dart) and [export service](../../../lib/core/services/export/export_service.dart) own integration. Re-evaluate a bounded upgrade against those sources, not the retained recommendation order.
+
 Generated while implementing the technical-audit quick wins. Evidence command:
 
 ```bash

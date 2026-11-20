@@ -11,7 +11,7 @@ This document explains how to choose between CPU and GPU fractal rendering in Fl
 5. Optimize shaders first: LOD for iterations during navigation, reduce branching in palettes, precompute constants.
 6. Rendering many fractals: reuse the same `FragmentProgram`, but set uniforms per draw; lower iterations/resolution for thumbnails.
 7. Keep interaction smooth: update uniforms from gestures, consider dynamic resolution during gestures, and isolate repaint to the renderer with `RepaintBoundary`.
-8. Deep zoom needs a plan: float32 precision will break eventually; switch to a CPU precision path (or implement perturbation later).
+8. Deep zoom follows the [precision ladder](../../../lib/features/renderer/policy/precision_ladder_policy.dart): ordinary GPU, extended GPU preview, then CPU Precision only where a native formula is eligible. Perturbation is already implemented for supported modules, not a universal future fallback.
 9. CPU fallback should render into a pixel buffer (not per-pixel canvas ops); use isolates if you need it to scale.
 10. Test on real devices early: emulator/driver behavior varies; measure shader compile stalls and frame pacing in profile mode.
 
@@ -35,14 +35,14 @@ This document explains how to choose between CPU and GPU fractal rendering in Fl
 - If you update per gesture/frame, you need careful throttling/debouncing.
 
 **Repo implementation**
-- CPU fallback widget: `lib/features/renderer/cpu_fractal_renderer.dart`
-- CPU formulas registry: `lib/features/renderer/cpu_formulas.dart`
+- CPU fallback widget: [CPU renderer](../../../lib/features/renderer/cpu/cpu_fractal_renderer.dart)
+- CPU formulas registry: [formula resolver](../../../lib/features/renderer/cpu/formulas/cpu_formulas.dart)
 
 Key implementation details in this repo's CPU path:
 - Debounced re-render to avoid doing a full render on every micro-update.
 - Double-precision math for deep zoom stability.
 - 2x2 multi-sample anti-aliasing (configurable) for less grain.
-- Validates frames for "nearly black" output and uses a safe fallback view.
+- A failed frame/health signal is not mathematical validation; unavailable formulas must remain explicitly approximate or unsupported, not silently presented as exact output.
 
 ### Option B: GPU rendering (FragmentProgram + fragment shader)
 
@@ -62,7 +62,7 @@ Key implementation details in this repo's CPU path:
 - You must respect runtime-effect restrictions (uniform layout, loops, precision).
 
 **Repo implementation**
-- Shader painter: `lib/features/renderer/fractal_canvas.dart`
+- Shader painter: [shader painter](../../../lib/features/renderer/widgets/canvas/fractal_canvas.dart)
 - Main renderer widget: `lib/features/renderer/widgets/renderer/fractal_renderer.dart`
 - Shader assets: `shaders/*.frag` (declared in `pubspec.yaml`)
 
@@ -70,7 +70,7 @@ Key shader conventions used here:
 - Runtime effect include: `#include <flutter/runtime_effect.glsl>`
 - Pixel coordinates: `FlutterFragCoord().xy` (not `gl_FragCoord`)
 - Uniforms are laid out as a flat float buffer. Shaders keep an explicit index map:
-  - Example: `shaders/mandelbrot.frag`
+  - Check each module's declared `shaderAsset` and matching setter; the minimal shader below is illustrative, not this repository's uniform ABI.
 
 ## Recommendation (For This App): GPU First, CPU As A Targeted Fallback
 
@@ -79,18 +79,17 @@ For a fractal exploration app with real-time interaction and lots of fractal mod
 - **CPU fallback only when the GPU path is known to be unreliable or imprecise**
 
 This repo already follows that strategy:
-- Backend selection logic: `lib/features/renderer/backend_policy.dart`
+- Backend selection logic: [backend policy](../../../lib/features/renderer/policy/backend_policy.dart)
 - Viewer wiring (manual toggle, GPU health probe, emulator guard, deep zoom): `lib/features/viewer/fractal_viewer_screen.dart`
 - Deep-zoom thresholding: `lib/features/renderer/policy/precision_ladder_policy.dart`
 - Capability notes: `renderer_backend_matrix.md`
 
-CPU fallback is used when any of these are true:
-- Forced via build flag (`FORCE_CPU_FALLBACK=true`).
-- User manually requests the stable renderer.
-- Device is an Android emulator (deterministic output policy).
-- A GPU "health check" frame probe indicates invalid output.
-- Zoom exceeds the per-module float32 precision threshold (deep zoom).
-- Module is unsupported on the GPU path.
+Backend selection follows the policy above, not a blanket emulator rule:
+- `FORCE_CPU_FALLBACK=true` forces the CPU decision for debugging; it does not create a missing CPU formula.
+- GPU-required 3D modules stay on GPU under ordinary user preferences; CPU-only preference does not manufacture a 3D CPU renderer.
+- For ordinary 2D selection, explicit CPU-only/GPU-only preferences take precedence over auto-mode health and deep-zoom signals.
+- In auto mode, emulator status alone does not force CPU; runtime GPU health checks and the precision policy decide fallback.
+- CPU Precision requires a native formula. Synthetic fallback output remains approximate; see the [coverage limitation](formula_coverage_limitation.md).
 
 ## Flutter Shader Reality Check (Corrections That Matter)
 
@@ -144,15 +143,15 @@ void main() {
 
 In this repo, the concrete "how to set uniforms" lives in each module's `setUniforms` callback:
 - Module interface: `lib/core/modules/fractal_module.dart`
-- Examples: `lib/core/modules/*_module.dart`
+- Examples: [module builders](../../../lib/core/modules/builders/)
 
 ## Practical Performance Notes (What To Optimize First)
 
 For GPU:
 - Reduce branch divergence in palettes and shading where practical (see `../performance/SHADER_OPTIMIZATIONS.md`).
-- Use LOD (iteration scaling) at low zoom and/or during gestures (see `../performance/PERFORMANCE.md`).
+- Consider iteration/resolution scaling only within a module's explicit preview contract; this is tuning advice, not a claim of project-wide LOD (see [performance evidence](../performance/PERFORMANCE.md)).
 - Use a compile-time iteration cap and early break (runtime-effect friendly).
-- Warm common shaders at startup to reduce first-frame "jank" (see `../performance/PERFORMANCE.md`).
+- Evaluate warmup against measured shader-load/frame evidence; the [performance guide](../performance/PERFORMANCE.md) separates loader elapsed time from GPU compilation and frame metrics.
   - Note: uniform updates are usually cheap; the real cost is per-pixel iteration work.
 
 For CPU:
@@ -169,8 +168,8 @@ Best practice for this style of app is to keep coloring on the GPU:
 - If you see gradient banding, add lightweight dithering in-shader (or prefer higher-precision pipelines where available).
 
 Repo examples:
-- Smooth coloring pattern: `shaders/mandel_step_smooth.frag` and `shaders/julia_gpu.frag`
-- Palette infrastructure (texture or legacy stop uniforms): `lib/core/services/palette_service.dart`
+- Smooth coloring ownership and bounded coverage: [shader optimization guide](../performance/SHADER_OPTIMIZATIONS.md#coloring-coverage). Check live module-to-asset bindings before reuse.
+- Palette infrastructure: [palette service](../../../lib/core/services/rendering/palette/palette_service.dart).
 
 ## Deep Zoom: Why CPU Still Matters
 
@@ -179,18 +178,16 @@ Fragment shaders run in float32 on most targets. Even with `highp`, you only get
 - incorrect boundary detail
 - banding/quantization artifacts in the geometry itself (not just color)
 
-This repo's `PrecisionLadderPolicy` (`lib/features/renderer/policy/precision_ladder_policy.dart`) flips to CPU at conservative per-fractal thresholds, because CPU can use `double` and stay stable longer.
-
-If you later want GPU deep zoom beyond float32, look into perturbation/series approximation techniques (often implemented as a hybrid: CPU computes a reference orbit, GPU shades deltas).
+The [precision ladder](../../../lib/features/renderer/policy/precision_ladder_policy.dart) already selects double-float/perturbation-backed GPU previews for eligible modules and CPU Precision where a native formula exists. Thresholds and hysteresis belong to that source, not a copied universal zoom limit. Preview-grade perturbation is not certified arbitrary-depth accuracy.
 
 ## Validation And "Stable Renderer" UX
 
 This repo treats "a fast wrong frame" as worse than "a slower correct-ish frame".
 - GPU output is probed periodically with a tiny `RenderRepaintBoundary` capture pair and validated:
-  - `lib/features/renderer/render_validation.dart`
+  - [render validation](../../../lib/features/renderer/validation/render_validation.dart)
   - Used in `lib/features/viewer/fractal_viewer_screen.dart`
 - Users get release-safe copy like "Using stable renderer..." rather than internal engine labels:
-  - `lib/features/renderer/backend_policy.dart`
+  - [backend policy](../../../lib/features/renderer/policy/backend_policy.dart)
 
 ## Open-Source Projects To Study (Ideas To Borrow)
 

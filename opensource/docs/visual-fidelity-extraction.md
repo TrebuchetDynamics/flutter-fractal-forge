@@ -1,5 +1,7 @@
 # Visual Fidelity Reference Corpus Extraction
 
+> **Retained research/planning snapshot, not current implementation guidance.** Original source commits and validation receipts below are preserved, including former app paths. Use the [current renderer contract](../../docs/engineering/spec.md#rendering-interface), [shader evidence](../../docs/engineering/performance/SHADER_OPTIMIZATIONS.md) and [provenance workflow](reference-corpus-workflow.md) before reuse; no upstream capability or performance claim was revalidated here.
+
 Status: second Reference Corpus mining lane. This note distills low-risk visual polish patterns that can improve Flutter Fractal Forge screenshots, catalog thumbnails, and the Browser Web Preview without treating upstream code as app source.
 
 ## Current app fit

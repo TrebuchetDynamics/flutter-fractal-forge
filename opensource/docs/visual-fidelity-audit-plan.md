@@ -1,5 +1,7 @@
 # Visual Fidelity Audit and Fix Plan
 
+> **Retained research/planning snapshot, not current implementation guidance.** Upstream capabilities, performance figures, “current” app paths and proposed work below have not been revalidated in this sweep; they carry no current endorsement. Use the [provenance workflow](reference-corpus-workflow.md), [current renderer policy](../../docs/engineering/spec.md#rendering-interface) and [verification plan](../../docs/engineering/test-plan.md) before reuse. Ignored clone paths are not resolvable tracked documentation links or proof of license compatibility.
+
 Status: historical implementation-planning note. The current scoped audit, canonical nine-module set, asset policy, and remaining checks are maintained in [`docs/planning/visual-fidelity-audit-next.md`](../../docs/planning/visual-fidelity-audit-next.md). The broad audit-first direction remains useful, but this note's static-thumbnail requirements and proposed 10–20-item set are superseded or unconfirmed. Current policy renders catalog thumbnails at runtime; 320×320 applies to launch-set media outputs only. Do not execute its asset-bundling steps under the current policy.
 
 ## Decision
