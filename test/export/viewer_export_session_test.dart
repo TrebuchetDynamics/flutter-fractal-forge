@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ViewerExportAutoExplorePausePlan', () {
-    test('does not resume auto-explore that was already yielded to the user',
+    test('pauses without resuming auto-explore already yielded to the user',
         () {
       const playback = ViewerExportAutoExplorePlayback(
         isExploring: true,
@@ -14,7 +14,7 @@ void main() {
       final plan = ViewerExportAutoExplorePausePlan.fromPlayback(playback);
 
       expect(playback.isArmedButTemporarilyYielded, isTrue);
-      expect(plan.pauseService, isFalse);
+      expect(plan.pauseService, isTrue);
       expect(plan.resumeWhenFinished, isFalse);
     });
 

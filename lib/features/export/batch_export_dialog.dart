@@ -76,17 +76,6 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
     final presetStore = context.read<PresetStore>();
     final l10n = AppLocalizations.of(context)!;
 
-    if (!await _exportService.chooseLinuxExportDirectory()) {
-      if (!mounted) return;
-      setState(() {
-        _running = false;
-        _cancelled = true;
-        _status = l10n.batchExportCancelled;
-      });
-      return;
-    }
-    if (!mounted) return;
-
     final initialModule = controller.module;
     final initialParams = Map<String, Object>.from(controller.params);
     final initialView = controller.view;
@@ -97,6 +86,16 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
     });
 
     try {
+      if (!await _exportService.chooseLinuxExportDirectory()) {
+        if (!mounted) return;
+        setState(() {
+          _cancelled = true;
+          _status = l10n.batchExportCancelled;
+        });
+        return;
+      }
+      if (!mounted) return;
+
       final builtIn = controller.module.builtInPresets;
       final user = await presetStore.loadUserPresets(controller.module.id);
       if (!mounted) return;
@@ -104,7 +103,6 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
 
       if (presets.isEmpty) {
         setState(() {
-          _running = false;
           _status = l10n.batchExportNoPresets;
         });
         return;
@@ -123,8 +121,8 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       final result = await _service.exportPresets(
         boundaryKey: widget.boundaryKey,
         applyPreset: (preset) async {
-          if (preset.moduleId != controller.module.id) return;
-          controller.applyPreset(preset);
+          if (!presetBelongsToModule(preset, controller.module.id)) return;
+          await controller.applyPreset(preset);
         },
         presets: presets,
         options: options,
@@ -153,14 +151,12 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       setState(() {
         _outDir = result.directory;
         _contactSheet = result.contactSheet;
-        _running = false;
         _status = _cancelled ? l10n.batchExportCancelled : l10n.batchExportDone;
         _progress = 1.0;
       });
     } on ExportCancelledException {
       if (!mounted) return;
       setState(() {
-        _running = false;
         _cancelled = true;
         _status = l10n.batchExportCancelled;
       });
@@ -168,18 +164,30 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       if (!mounted) return;
       setState(() {
         _error = e;
-        _running = false;
         // Left as-is this still read "Preparing…" under "Export failed".
         _status = '';
       });
     } finally {
-      controller.loadState(
-        module: initialModule,
-        params: initialParams,
-        view: initialView,
-        transparentBackground: initialTransparent,
-        animateModule: false,
-      );
+      // Number Walls certifies presets and restores its grid asynchronously.
+      // Keep the dialog/export session owned until the original state commits.
+      try {
+        await controller.loadState(
+          module: initialModule,
+          params: initialParams,
+          view: initialView,
+          transparentBackground: initialTransparent,
+          animateModule: false,
+        );
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            _error = e;
+            _status = '';
+          });
+        }
+      } finally {
+        if (mounted) setState(() => _running = false);
+      }
     }
   }
 

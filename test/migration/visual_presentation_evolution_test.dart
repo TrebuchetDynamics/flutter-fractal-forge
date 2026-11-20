@@ -17,7 +17,8 @@ void seal(Map stage) => stage['candidate_identity'] = visualHash({
         key: stage[key],
     });
 Map stageFor(String task) {
-  final maintenance = task == 'SHADER-CACHE-RECOVERY-01';
+  final maintenance =
+      task == shaderCacheRecoveryTask || task == presetBatchExportTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -52,61 +53,63 @@ int indexOf(Map document, String id) => (document['payload']['records'] as List)
     .indexWhere((r) => r['module_id'] == id);
 
 void main() {
-  test(
-      'shader recovery is exact source-only maintenance with unchanged key sets',
-      () {
-    final stage = stageFor('SHADER-CACHE-RECOVERY-01');
-    validateVisualStage(stage);
-    expect(evolveVisualDocument('presets', retained('presets'), [stage]),
-        retained('presets'));
-    for (final mutation in [
-      'semantic',
-      'compiled',
-      'unrelated',
-      'add-allowed',
-      'remove',
-      'unknown',
-      'gap',
-      'stale',
-      'identity',
-    ]) {
-      final bad = copy(stage);
-      final record = bad['binding_maps']['presets'] as Map;
-      switch (mutation) {
-        case 'semantic':
-          bad['semantic_deltas']['presets'] = [];
-        case 'compiled':
-          bad['compiled_artifacts'] = [{}];
-        case 'unrelated':
-          record['after']['pubspec.lock'] = 'c' * 64;
-        case 'add-allowed':
-          // This path is allowlisted but absent in this collector's map.
-          record['after'][
-                  'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart'] =
-              'c' * 64;
-        case 'remove':
-          (record['after'] as Map).remove('pubspec.lock');
-        case 'unknown':
-          bad['task'] = 'SHADER-CACHE-RECOVERY-02';
-        case 'gap':
-          record['before']['pubspec.lock'] = 'c' * 64;
-        case 'stale':
-          bad['binding_maps']['physical-events']['after']
-              ['test/migration/support/provenance_transition.dart'] = 'c' * 64;
-      }
-      seal(bad);
-      if (mutation == 'identity') bad['candidate_identity'] = 'c' * 64;
-      expect(() {
-        for (final name in (stage['binding_maps'] as Map).keys.cast<String>()) {
-          validateVisualSourceChain(
-              name,
-              stage['binding_maps'][name]['before'] as Map,
-              stage['binding_maps'][name]['after'] as Map,
-              [bad]);
+  for (final task in [shaderCacheRecoveryTask, presetBatchExportTask]) {
+    test('$task is exact source-only maintenance with unchanged key sets', () {
+      final stage = stageFor(task);
+      validateVisualStage(stage);
+      expect(evolveVisualDocument('presets', retained('presets'), [stage]),
+          retained('presets'));
+      for (final mutation in [
+        'semantic',
+        'compiled',
+        'unrelated',
+        'add-allowed',
+        'remove',
+        'unknown',
+        'gap',
+        'stale',
+        'identity',
+      ]) {
+        final bad = copy(stage);
+        final record = bad['binding_maps']['presets'] as Map;
+        switch (mutation) {
+          case 'semantic':
+            bad['semantic_deltas']['presets'] = [];
+          case 'compiled':
+            bad['compiled_artifacts'] = [{}];
+          case 'unrelated':
+            record['after']['pubspec.lock'] = 'c' * 64;
+          case 'add-allowed':
+            // This path is allowlisted but absent in this collector's map.
+            record['after'][
+                    'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart'] =
+                'c' * 64;
+          case 'remove':
+            (record['after'] as Map).remove('pubspec.lock');
+          case 'unknown':
+            bad['task'] = 'SHADER-CACHE-RECOVERY-02';
+          case 'gap':
+            record['before']['pubspec.lock'] = 'c' * 64;
+          case 'stale':
+            bad['binding_maps']['physical-events']['after']
+                    ['test/migration/support/provenance_transition.dart'] =
+                'c' * 64;
         }
-      }, throwsStateError, reason: mutation);
-    }
-  });
+        seal(bad);
+        if (mutation == 'identity') bad['candidate_identity'] = 'c' * 64;
+        expect(() {
+          for (final name
+              in (stage['binding_maps'] as Map).keys.cast<String>()) {
+            validateVisualSourceChain(
+                name,
+                stage['binding_maps'][name]['before'] as Map,
+                stage['binding_maps'][name]['after'] as Map,
+                [bad]);
+          }
+        }, throwsStateError, reason: mutation);
+      }
+    });
+  }
 
   test('changed pilot default/schema is not an unchanged historical baseline',
       () {

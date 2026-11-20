@@ -17,6 +17,7 @@ import '../helpers/overflow_guard.dart';
 Future<void> _pumpSheet(
   WidgetTester tester, {
   double textScale = 1.0,
+  VoidCallback? onBatchExport,
 }) async {
   SharedPreferences.setMockInitialValues({});
   final controller = FractalController(ModuleRegistry());
@@ -47,7 +48,7 @@ Future<void> _pumpSheet(
               .copyWith(textScaler: TextScaler.linear(textScale)),
           child: child!,
         ),
-        home: const Scaffold(body: PresetSheet()),
+        home: Scaffold(body: PresetSheet(onBatchExport: onBatchExport)),
       ),
     ),
   );
@@ -56,6 +57,25 @@ Future<void> _pumpSheet(
 
 void main() {
   group('PresetSheet accessibility', () {
+    testWidgets('batch footer is pinned, 48px and usable at 2x text',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 568));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await expectNoOverflow(
+        () => _pumpSheet(tester, textScale: 2, onBatchExport: () {}),
+      );
+      final button = find.byKey(const ValueKey('presetBatchExportButton'));
+      expect(button.hitTestable(), findsOneWidget);
+      expect(tester.getSize(button).height, greaterThanOrEqualTo(48));
+      expect(tester.getSize(button).width, greaterThanOrEqualTo(48));
+      final rect = tester.getRect(button);
+      await tester.drag(
+          find.byType(SingleChildScrollView).first, const Offset(0, -300));
+      await tester.pumpAndSettle();
+      expect(tester.getRect(button), rect);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('short large-text presets retain a usable scroll viewport',
         (tester) async {
       await tester.binding.setSurfaceSize(const Size(640, 200));

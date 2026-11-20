@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
+import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -22,6 +23,49 @@ Future<double> nextZoomChange(FractalController controller) {
 
 void main() {
   group('AutoExploreService', () {
+    testWidgets('export during a gesture stays paused until explicit Resume',
+        (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(() {
+        service.dispose();
+        controller.dispose();
+      });
+
+      service.start();
+      await tester.pump(const Duration(milliseconds: 32));
+      service.onUserInteractionStart();
+      expect(service.pausedByUserCorrection, isTrue);
+      expect(service.isPaused, isFalse);
+
+      final plan = ViewerExportAutoExplorePausePlan.fromPlayback(
+        ViewerExportAutoExplorePlayback(
+          isExploring: service.isExploring,
+          isPaused: service.isPaused,
+          pausedByUserCorrection: service.pausedByUserCorrection,
+        ),
+      );
+      if (plan.pauseService) service.pause();
+      expect(plan.resumeWhenFinished, isFalse);
+      final zoom = controller.view.zoom;
+      var writes = 0;
+      controller.addListener(() => writes++);
+
+      service.onUserInteractionEnd();
+      await tester.pump(const Duration(seconds: 1));
+      expect(writes, 0);
+      expect(controller.view.zoom, zoom);
+      expect(service.isPaused, isTrue);
+      expect(service.debugHasPendingAnimation, isFalse);
+
+      service.toggle();
+      await tester.pump(const Duration(milliseconds: 32));
+      expect(service.isPaused, isFalse);
+      expect(controller.view.zoom, isNot(zoom));
+      expect(writes, greaterThan(0));
+      service.stop();
+    });
+
     testWidgets('visibility suspension requires an explicit visible resume',
         (tester) async {
       for (final playback in ['active', 'paused', 'corrected', 'idle']) {

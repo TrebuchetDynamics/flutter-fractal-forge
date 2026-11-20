@@ -24,6 +24,8 @@ const visualSurfaceTask = 'VISUAL-RICHNESS-SCULPTURAL-SURFACE';
 const visualDefaultsTask = 'VISUAL-RICHNESS-CURATED-DEFAULTS';
 const shaderCacheRecoveryTask = 'SHADER-CACHE-RECOVERY-01';
 const viewerExportStateTask = 'VIEWER-EXPORT-STATE-01';
+const presetBatchExportTask = 'PRESET-BATCH-EXPORT-26';
+const viewerExportIntegrationTask = 'PR24-VIEWER-EXPORT-INTEGRATION';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -61,6 +63,20 @@ const _viewerExportStatePaths = [
   'test/migration/support/provenance_transition.dart',
   'test/migration/support/visual_presentation_evolution.dart',
 ];
+const _viewerExportIntegrationPaths = [
+  ..._viewerExportStatePaths,
+  'lib/features/viewer/export/viewer_export_session.dart',
+];
+const _presetBatchExportPaths = [
+  'lib/core/services/export/batch_export_service.dart',
+  'lib/core/services/storage/preset_store.dart',
+  'lib/features/export/batch_export_dialog.dart',
+  'lib/features/presets/preset_sheet.dart',
+  'lib/features/viewer/dialogs/viewer_dialogs.dart',
+  'lib/features/viewer/fractal_viewer_screen.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
 const _defaultsPaths = [
   'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart',
   'lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart',
@@ -77,10 +93,47 @@ void visualRequire(bool condition, String message) {
 Map _copy(Map value) => jsonDecode(jsonEncode(value)) as Map;
 List<Map> readVisualStages() {
   final directory = Directory(visualStageRoot);
-  if (!directory.existsSync()) return [];
+  final archive = Directory('$visualStageRoot/archived-candidates');
+  final archived = validateVisualArchive({
+    if (archive.existsSync())
+      for (final entry in archive.listSync(recursive: true, followLinks: false))
+        entry.path.substring(archive.path.length + 1):
+            entry is File ? entry.readAsBytesSync() : <int>[],
+  });
   final files = directory.listSync().whereType<File>().toList()
     ..sort((a, b) => a.path.compareTo(b.path));
-  return [for (final file in files) jsonDecode(file.readAsStringSync()) as Map];
+  final stages = [
+    for (final file in files) jsonDecode(file.readAsStringSync()) as Map
+  ];
+  final historical = orderedVisualStages([
+    ...stages.where(
+        (s) => [visualProofTask, shaderCacheRecoveryTask].contains(s['task'])),
+    archived,
+  ]);
+  visualRequire(
+      _equal.equals(historical.map((s) => s['task']).toList(),
+          [visualProofTask, shaderCacheRecoveryTask, viewerExportStateTask]),
+      'exact archived historical chain');
+  return stages;
+}
+
+/// The one historical sibling is mandatory custody, never an active DAG edge.
+Map validateVisualArchive(Map<String, List<int>> entries) {
+  visualRequire(
+      _equal.equals(entries.keys.toSet(), {'viewer-export-state.json'}),
+      'exact archived candidate inventory');
+  final bytes = entries['viewer-export-state.json']!;
+  visualRequire(
+      sha256.convert(bytes).toString() ==
+          '6487cb8d58956c4610c60b39fc9b33d8939af3db24bc98bbdf9023192a2663e7',
+      'archived candidate raw hash');
+  final stage = jsonDecode(utf8.decode(bytes)) as Map;
+  visualRequire(
+      stage['task'] == viewerExportStateTask &&
+          stage['base_revision'] == '92a36981966eddc4b48a6d7c6820bf39e7e8ac25',
+      'archived candidate identity');
+  validateVisualStage(stage);
+  return stage;
 }
 
 /// Complete maps are evidence, not a wildcard for future paths or hashes.
@@ -102,6 +155,8 @@ void validateVisualStage(Map stage) {
     visualDefaultsTask => _defaultsPaths,
     shaderCacheRecoveryTask => _shaderCacheRecoveryPaths,
     viewerExportStateTask => _viewerExportStatePaths,
+    presetBatchExportTask => _presetBatchExportPaths,
+    viewerExportIntegrationTask => _viewerExportIntegrationPaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -109,7 +164,9 @@ void validateVisualStage(Map stage) {
           RegExp(r'^[a-f0-9]{40}$').hasMatch(stage['base_revision'] as String),
       'stage identity');
   final maintenance = stage['task'] == shaderCacheRecoveryTask ||
-      stage['task'] == viewerExportStateTask;
+      stage['task'] == viewerExportStateTask ||
+      stage['task'] == presetBatchExportTask ||
+      stage['task'] == viewerExportIntegrationTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {

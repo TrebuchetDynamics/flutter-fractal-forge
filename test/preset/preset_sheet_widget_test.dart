@@ -12,6 +12,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  testWidgets('PresetSheet exposes batch export only with a callback',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final controller = FractalController(ModuleRegistry());
+    final store = await PresetStore.create();
+    addTearDown(controller.dispose);
+    var calls = 0;
+
+    Future<void> pumpSheet(VoidCallback? onBatchExport) async {
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: controller),
+            Provider.value(value: store),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Scaffold(body: PresetSheet(onBatchExport: onBatchExport)),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    final button = find.byKey(const ValueKey('presetBatchExportButton'));
+    await pumpSheet(() => calls++);
+    expect(button, findsOneWidget);
+    expect(find.text('Export all presets'), findsOneWidget);
+    await tester.tap(button);
+    expect(calls, 1);
+
+    await pumpSheet(null);
+    expect(button, findsNothing);
+  });
+
   testWidgets('PresetSheet renders empty state and accepts a name',
       (tester) async {
     SharedPreferences.setMockInitialValues({});

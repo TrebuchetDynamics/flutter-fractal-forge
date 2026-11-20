@@ -570,3 +570,86 @@ per export, with every complete current map matching the successor (both
 manifests use reference). The unchanged full offline gate and the separate
 Waydroid/build/publication gates must still pass. Focused results alone do not
 qualify this release or claim device/hardware performance.
+
+## Preset batch export (#26)
+
+`PRESET-BATCH-EXPORT-26` is a source-only successor to shader cache recovery at
+base `6d907b014a4abdaccfe4e6c3dfbc94d1bebf1723`. It binds the pinned native preset
+footer, existing export-session ownership, directory-error recovery, legacy
+preset membership, and history/session write guards. It does not change the
+retained physical-event scenarios, fractal mathematics, presets, shaders or
+compiled artifacts.
+
+Following the existing source-transition procedure, all eleven complete before
+maps equal the preceding terminal after maps. Only existing occurrences of these
+paths receive their final on-disk SHA-256 values:
+
+- `lib/core/services/export/batch_export_service.dart`
+- `lib/core/services/storage/preset_store.dart`
+- `lib/features/export/batch_export_dialog.dart`
+- `lib/features/presets/preset_sheet.dart`
+- `lib/features/viewer/dialogs/viewer_dialogs.dart`
+- `lib/features/viewer/fractal_viewer_screen.dart`
+- `test/migration/support/provenance_transition.dart`
+- `test/migration/support/visual_presentation_evolution.dart`
+
+The exact task allowlist requires identical key sets and empty semantic deltas
+and compiled artifacts. Historical records and their hashes remain unchanged;
+current-byte checks belong to the new terminal stage. Regression tests preserve
+complete-bundle ordering and reject unauthorized or stale bindings. The new
+record is `migration/oracles/visual-presentation/preset-batch-export.json`.
+
+## PR24 viewer export integration custody
+
+`PR24-VIEWER-EXPORT-INTEGRATION` is a bounded source-only successor to the
+immutable `PRESET-BATCH-EXPORT-26` receipt, not a DAG or union of historical
+policies. Its complete eleven before maps copy batch's after maps. Only observed
+changes to the five original viewer paths, `viewer_export_session.dart`, and the
+two provenance/visual helper paths may update existing bindings. Key sets remain
+identical; semantic deltas and compiled artifacts must be empty. The new receipt
+is `migration/oracles/visual-presentation/viewer-export-integration.json`.
+
+The immutable viewer sibling has moved byte-identically to
+`migration/oracles/visual-presentation/archived-candidates/viewer-export-state.json`.
+Normal reads require exactly this one flat archive entry, independently pin its
+raw SHA-256 to `6487cb8d58956c4610c60b39fc9b33d8939af3db24bc98bbdf9023192a2663e7`,
+and validate its original task policy and historical proof → shader recovery →
+viewer complete-bundle chain. Missing, altered, extra or nested entries fail.
+Explicitly supplying that sibling to active ordering still fails as a fork.
+Active ordering remains proof → shader recovery → batch → integration, with
+unique full-bundle adjacency, all eleven maps and existing source/semantic guards.
+Earlier receipts, collectors, oracles, images and lockfiles remain unchanged.
+
+Finalize helpers before provisional integration maps. Only the new integration
+receipt may be regenerated. Provisional claims are not evidence: seven migration
+modules must validate two private `MIGRATION_TRANSITION_OUT` exports, each exactly
+twelve documents, complete current maps matching integration after maps (both
+manifests use reference), with byte difference zero. Historical base assertions
+and hashes remain pinned; only terminal integration comparisons bind current
+bytes. Focused local checks and validated exports do not establish full offline,
+Waydroid, browser, hardware or release qualification. The parent runs the full
+offline gate separately; no device or publication action is part of this repair.
+
+### Executed bounded integration checks
+
+Pinned Flutter 3.47.9 / Dart 3.13.7, provisioned pub cache and private external
+TMPDIR were used. Focused baseline/visual/viewer-transition/physical checks passed
+24 tests; viewer/GPU checks passed 229 tests (including main's added regressions).
+The combined run passed 253 tests with no skips; after pinning every historical
+batch-path hash explicitly, all eight baseline reconciliation tests passed again.
+Main's merged batch/session/auto-explore/preset/accessibility tests also passed
+137 tests. Analyzer found no issues;
+format verification and `git diff --check` passed. Formatting the resolved viewer
+changed layout only, retaining the export-ownership snapshot and both history
+and persistence guards.
+
+Two final seven-module exports (`export-5`, `export-6`) each passed 24 tests,
+produced exactly twelve expected documents, matched all eleven complete terminal
+after maps (both reference manifests included), and had byte difference zero.
+Independent Git-byte readback verified all 53 migration/lock files from each
+branch snapshot, accounting only for the viewer receipt's byte-identical move.
+The archive also matched commit `67eb5cf607a3176ce403668356605778193533cd`
+independently. Logs, exports and readback scripts are retained privately under
+`/tmp/pr24-repair.Qw1bkR/`; these are local observations, not checked-in oracles.
+The full offline gate was deliberately not run here and remains the parent's
+separate qualification step. No Android, device, GitHub merge or push occurred.

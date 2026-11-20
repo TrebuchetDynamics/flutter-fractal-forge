@@ -41,16 +41,23 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
       builder: (_) => ChangeNotifierProvider.value(
         value: controller,
         child: PresetSheet(
-          onBatchExport: () => _openBatchExport(context),
+          onBatchExport: kIsWeb ? null : () => _openBatchExport(context),
         ),
       ),
     );
   }
 
-  void _openBatchExport(BuildContext context) {
+  Future<void> _openBatchExport(BuildContext context) async {
+    if (_exportFlowActive) return;
     final boundaryKey = _activeBoundaryKey();
+    final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
+    setState(() {
+      _exportSession = _exportSession.openSheet(
+        resumeAutoExploreWhenFinished: shouldResumeAutoExplore,
+      );
+    });
 
-    showDialog<void>(
+    await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (_) => MultiProvider(
@@ -58,8 +65,12 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
           ChangeNotifierProvider.value(value: _activeController(context)),
           Provider.value(value: context.read<PresetStore>()),
         ],
-        child: BatchExportDialog(boundaryKey: boundaryKey),
+        child: BatchExportDialog(
+          boundaryKey: boundaryKey,
+          exportService: _exportService,
+        ),
       ),
     );
+    if (mounted) setState(_finishExportFlow);
   }
 }

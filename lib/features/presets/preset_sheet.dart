@@ -68,6 +68,28 @@ class _PresetSheetState extends State<PresetSheet> {
       title: l10n.presetsTitle,
       subtitle: controller.module.displayName(l10n),
       onClose: () => Navigator.of(context).pop(),
+      actions: widget.onBatchExport == null
+          ? null
+          : Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                0,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  key: const ValueKey('presetBatchExportButton'),
+                  onPressed: widget.onBatchExport,
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(48, 48),
+                  ),
+                  icon: const Icon(Icons.collections_rounded),
+                  label: Text(l10n.batchExportAllPresets),
+                ),
+              ),
+            ),
       bodyPadding: const EdgeInsets.all(AppSpacing.lg),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

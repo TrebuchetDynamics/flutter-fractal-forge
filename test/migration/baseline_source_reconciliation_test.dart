@@ -108,7 +108,7 @@ void main() {
               '27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659');
         } else {
           expect(record['after'][path],
-              sha256.convert(File(path).readAsBytesSync()).toString());
+              'e6ceeabf474cfd59e1eca0144da4dffbed4fca970486d8a793e62634dc72e309');
         }
       }
       verifySourceStages(id, stages.first['binding_maps'][id]['before'] as Map,
@@ -175,8 +175,11 @@ void main() {
                   ['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString());
         } else {
-          expect(record['after'][path],
-              sha256.convert(File(path).readAsBytesSync()).toString());
+          expect(
+              record['after'][path],
+              path == 'lib/features/viewer/fractal_viewer_screen.dart'
+                  ? 'da8c6a54c4e918cd908c93b06cb246d75e3bce79c35b57e3252ea1707b587f03'
+                  : sha256.convert(File(path).readAsBytesSync()).toString());
         }
       }
       for (final order in [
@@ -199,13 +202,14 @@ void main() {
     expect(candidates.map((s) => s['task']).toSet(), {
       visualProofTask,
       shaderCacheRecoveryTask,
-      viewerExportStateTask,
+      presetBatchExportTask,
+      viewerExportIntegrationTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
         candidates.singleWhere((s) => s['task'] == shaderCacheRecoveryTask);
     final viewer =
-        candidates.singleWhere((s) => s['task'] == viewerExportStateTask);
+        candidates.singleWhere((s) => s['task'] == viewerExportIntegrationTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -218,7 +222,12 @@ void main() {
     final maps = recovery['binding_maps'] as Map;
     expect(maps.length, 11);
     for (final order in [candidates, candidates.reversed.toList()]) {
-      expect(orderedVisualStages(order), [proof, recovery, viewer]);
+      expect(orderedVisualStages(order), [
+        proof,
+        recovery,
+        candidates.singleWhere((s) => s['task'] == presetBatchExportTask),
+        viewer,
+      ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
         final before = record['before'] as Map;
@@ -246,6 +255,65 @@ void main() {
             viewer['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
+    }
+  });
+
+  test('preset batch successor binds only the changed export sources', () {
+    final candidates = readVisualStages();
+    final ordered = orderedVisualStages(candidates);
+    final batch =
+        ordered.singleWhere((s) => s['task'] == presetBatchExportTask);
+    final integration = ordered.last;
+    const historicalHashes = {
+      'lib/core/services/export/batch_export_service.dart':
+          '652900e79cc77a25e87fc72ed246ef7d7428f4ac46af5ad933afca4c8d453025',
+      'lib/core/services/storage/preset_store.dart':
+          'db6d68780c737a0261ee04f7e1317213211971b5051f018c6cafc00e19911847',
+      'lib/features/export/batch_export_dialog.dart':
+          'bcf21d99ec2f91b75bec42cf4d12da9adde18cb314d6844a278d54967f138198',
+      'lib/features/presets/preset_sheet.dart':
+          '07fb53afb571dbab8deaa55e8e7a8f49077c1fb3e14a4dcd5a8d9cb69964c56e',
+      'lib/features/viewer/dialogs/viewer_dialogs.dart':
+          '209a90e099a5eccda273064a463eb48e2c02f5c76887962157c6eac46b5cbc2a',
+      'test/migration/support/provenance_transition.dart':
+          'baf90f16755dcf1578cc32c835d0d96b32a8722e83f655b76bfddf06a34fdb11',
+      'test/migration/support/visual_presentation_evolution.dart':
+          '1c52828f4c8790d55ccfcec699ab54286558095c849e80b47884d42076eb3d06',
+      'lib/features/viewer/fractal_viewer_screen.dart':
+          '2fa7e006a864c607628994beb664c9422cbe1088822744c501c8293f80c47a12',
+    };
+    expect(batch['task'], presetBatchExportTask);
+    expect(batch['base_revision'], '6d907b014a4abdaccfe4e6c3dfbc94d1bebf1723');
+    expect(batch['semantic_deltas'], isEmpty);
+    expect(batch['compiled_artifacts'], isEmpty);
+    const allowed = {
+      'lib/core/services/export/batch_export_service.dart',
+      'lib/core/services/storage/preset_store.dart',
+      'lib/features/export/batch_export_dialog.dart',
+      'lib/features/presets/preset_sheet.dart',
+      'lib/features/viewer/dialogs/viewer_dialogs.dart',
+      'lib/features/viewer/fractal_viewer_screen.dart',
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    };
+    final maps = batch['binding_maps'] as Map;
+    expect(maps.length, 11);
+    for (final id in maps.keys.cast<String>()) {
+      final before = maps[id]['before'] as Map;
+      final after = maps[id]['after'] as Map;
+      expect(before,
+          ordered[ordered.indexOf(batch) - 1]['binding_maps'][id]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      for (final path in after.keys.cast<String>()) {
+        expect(after[path],
+            allowed.contains(path) ? historicalHashes[path] : before[path],
+            reason: '$id: $path');
+      }
+      verifySourceStages(
+          id,
+          readProvenanceStages().first['binding_maps'][id]['before'] as Map,
+          integration['binding_maps'][id]['after'] as Map,
+          stages: [...readProvenanceStages().reversed, ...candidates.reversed]);
     }
   });
 
