@@ -91,10 +91,27 @@ void main() {
     expect(result.errors, isEmpty);
     final measurements = result.measurements!;
     final title = measurements['title'] as List;
-    final action = (measurements['actions'] as List).single['rect'] as List;
+    final action = (measurements['actions'] as List)
+            .singleWhere((action) => action['name'] == 'Save favorite')['rect']
+        as List;
     expect(title[1], lessThan(action[3]),
         reason: 'Measure the header beside Save favorite, not the History tab');
     expect(measurements['semantics'], contains('Jan 1 00:00'));
+  });
+
+  testWidgets('populated History stress route has scrollable entry space',
+      (tester) async {
+    await loadOverlayCaptureFonts(tester);
+    final row = rows
+        .singleWhere((r) => r['id'] == 'history-populated--stress--667x375');
+    final result = await captureOverlayRow(tester, row);
+    expect(result.errors, isEmpty);
+    final extents = result.measurements!['scroll_extents'] as List;
+    final vertical = extents.where((extent) => extent['axis'] == 'vertical');
+    expect(vertical, isNotEmpty);
+    expect(vertical,
+        everyElement(predicate((dynamic extent) => extent['viewport'] > 0)));
+    expect(result.measurements!['semantics'], contains('mandelbrot @ 0.3x'));
   });
 
   testWidgets('resolved theme styles use loaded fonts, not Ahem fallback',

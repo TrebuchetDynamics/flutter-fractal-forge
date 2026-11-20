@@ -52,17 +52,42 @@ class _HistorySheetState extends State<HistorySheet>
       minChildSize: 0.3,
       maxChildSize: 0.9,
       childrenBuilder: (context, scrollController) => [
-        _buildHeader(context, l10n),
-        const SizedBox(height: AppSpacing.md),
-        _buildTabBar(l10n),
-        const SizedBox(height: AppSpacing.sm),
         Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildHistoryList(context, scrollController, l10n),
-              _buildFavoritesList(context, scrollController, l10n),
-            ],
+          child: FocusTraversalGroup(
+            policy: WidgetOrderTraversalPolicy(
+              // Tab can wrap from the list back to an offscreen header.
+              requestFocusCallback: (node,
+                  {alignmentPolicy, alignment, duration, curve}) {
+                node.requestFocus();
+                Scrollable.ensureVisible(node.context!, alignment: 0.5);
+              },
+            ),
+            // Keep wrap-around traversal under this reveal policy, rather
+            // than the modal route's directional keep-visible policy.
+            child: FocusScope(
+              child: NestedScrollView(
+                controller: scrollController,
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        _buildHeader(context, l10n),
+                        const SizedBox(height: AppSpacing.md),
+                        _buildTabBar(l10n),
+                        const SizedBox(height: AppSpacing.sm),
+                      ],
+                    ),
+                  ),
+                ],
+                body: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildHistoryList(context, l10n),
+                    _buildFavoritesList(context, l10n),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ],
@@ -74,60 +99,66 @@ class _HistorySheetState extends State<HistorySheet>
       builder: (context, history, _) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Title
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Bounded: this header is a fixed child of the sheet's
-                    // Column, so what it takes comes off the tab body rather
-                    // than scrolling. Uncapped it reached 412px inside a 341px
-                    // sheet at a 3x text scale and the TabBarView collapsed to
-                    // zero, hiding every entry until the sheet was dragged up.
-                    Text(
-                      l10n.historyTitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTypography.headlineMedium,
-                    ),
-                    if (history.historyCount > 0)
+              Row(children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        l10n.historyPosition(
-                          history.currentPosition,
-                          history.historyCount,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTypography.bodySmall,
+                        l10n.historyTitle,
+                        style: AppTypography.headlineMedium,
                       ),
-                  ],
+                      if (history.historyCount > 0)
+                        Text(
+                          l10n.historyPosition(
+                            history.currentPosition,
+                            history.historyCount,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTypography.bodySmall,
+                        ),
+                    ],
+                  ),
                 ),
-              ),
+                IconButton(
+                  constraints:
+                      const BoxConstraints.tightFor(width: 48, height: 48),
+                  tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ]),
+              // Keep full-size actions on their own wrapping row. The title and
+              // tabs scroll with the lists instead of consuming their viewport.
+              Wrap(
+                alignment: WrapAlignment.end,
+                spacing: AppSpacing.sm,
+                children: [
+                  _NavigationButton(
+                    icon: Icons.arrow_back_rounded,
+                    onPressed: history.canGoBack
+                        ? () => _navigateBack(context, history)
+                        : null,
+                    tooltip: l10n.historyGoBack,
+                  ),
+                  _NavigationButton(
+                    icon: Icons.arrow_forward_rounded,
+                    onPressed: history.canGoForward
+                        ? () => _navigateForward(context, history)
+                        : null,
+                    tooltip: l10n.historyGoForward,
+                  ),
 
-              // Navigation buttons
-              _NavigationButton(
-                icon: Icons.arrow_back_rounded,
-                onPressed: history.canGoBack
-                    ? () => _navigateBack(context, history)
-                    : null,
-                tooltip: l10n.historyGoBack,
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              _NavigationButton(
-                icon: Icons.arrow_forward_rounded,
-                onPressed: history.canGoForward
-                    ? () => _navigateForward(context, history)
-                    : null,
-                tooltip: l10n.historyGoForward,
-              ),
-              const SizedBox(width: AppSpacing.md),
-
-              // Save as favorite button
-              _SaveFavoriteButton(
-                isFavorite: history.isCurrentFavorite(),
-                onSave: () => _showSaveFavoriteDialog(context, history),
+                  // Save as favorite button
+                  _SaveFavoriteButton(
+                    isFavorite: history.isCurrentFavorite(),
+                    onSave: () => _showSaveFavoriteDialog(context, history),
+                  ),
+                ],
               ),
             ],
           ),
@@ -215,7 +246,6 @@ class _HistorySheetState extends State<HistorySheet>
 
   Widget _buildHistoryList(
     BuildContext context,
-    ScrollController scrollController,
     AppLocalizations l10n,
   ) {
     return Consumer<HistoryProvider>(
@@ -233,7 +263,6 @@ class _HistorySheetState extends State<HistorySheet>
         final currentId = history.currentEntry?.id;
 
         return ListView.builder(
-          controller: scrollController,
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.sm,
@@ -263,7 +292,6 @@ class _HistorySheetState extends State<HistorySheet>
 
   Widget _buildFavoritesList(
     BuildContext context,
-    ScrollController scrollController,
     AppLocalizations l10n,
   ) {
     return Consumer<HistoryProvider>(
@@ -279,7 +307,6 @@ class _HistorySheetState extends State<HistorySheet>
         final favorites = history.favorites.reversed.toList();
 
         return ListView.builder(
-          controller: scrollController,
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.sm,
