@@ -6,17 +6,18 @@ This runbook covers local development and the repository's existing CI/release e
 
 ## Prerequisites
 
-- Flutter SDK and Dart bundled with Flutter, available on `PATH`.
-- Repository dependencies resolved with `flutter pub get`.
+- Select Flutter from [`fdroid/flutter.version`](../../fdroid/flutter.version) (3.47.9 / Dart 3.13.7 at this revision) and the existing provisioned SDK/package cache using the [common offline setup](../../AGENTS.md#common-offline-integration-gate). Do not fall back to an ambient SDK or install tooling when the provisioned cache is missing.
+- Repository dependencies resolved from this checkout with `flutter pub get --offline --enforce-lockfile`; preserve `pubspec.lock` and `rust/Cargo.lock`.
 - A configured Flutter device for interactive or integration runs. Linux builds also require the platform build tools described by Flutter's Linux desktop setup.
 
 ## Start and validate locally
 
-1. From the repository root, run `flutter pub get`.
+1. From the repository root, select the pinned provisioned environment above and run `flutter pub get --offline --enforce-lockfile`.
 2. Run `flutter devices` and select an available target.
 3. Run `flutter run -d <device-id>`; use `chrome` for a browser preview or `linux` for a Linux desktop run when those targets are configured.
 4. Confirm the catalog appears and a selected module opens in the viewer. A visible catalog alone does not verify every shader or platform feature.
-5. Run `flutter analyze` and `flutter test` for code changes. For device behavior, use the relevant integration test and record the device/backend.
+5. For focused local checks, run `flutter analyze --no-pub` and `flutter test --no-pub`. For the full offline gate use the common setup's complete command: locked offline dependency preparation, Cargo fmt, warning-denying clippy and locked/offline Rust tests, analyzer, Flutter host tests, Python and Bats, with both lockfiles unchanged. These are not device/browser or release qualification.
+6. For local device behavior, run the relevant integration test with an explicit authorized target and record the device/backend. Under reserved-port Linux execution, use [the native wrapper recipe](#owned-linux-runtime-with-reserved-ports), not bare `flutter test integration_test/`; require its protocol-success and cleanup receipts.
 
 Expected signals are successful process completion and passing test output. If dependencies cannot resolve, confirm the Flutter SDK and lockfile match the repository before changing dependency constraints. If a shader fails to load, capture the test/log output and check `pubspec.yaml` asset registration and module uniform bindings. Do not treat a software-rendered emulator as proof of hardware GPU correctness.
 
@@ -42,7 +43,7 @@ GitLab execution is currently deferred by the [owner release policy](../../PRD.m
 
 `.gitlab-ci.yml` is the CI pipeline source. Standard validation runs tracked-artifact checks, script tests, dependency resolution, analysis, and unit/widget tests. Release pipelines run on protected refs when triggered through GitLab’s API or web interface with `RELEASE_MODE=prepare` or `publish`; preflight checks require the applicable secret variables. Keep secrets in the CI secret store; do not copy them into logs or repository files.
 
-The public release entry point is root `release.sh`; protected CI jobs use `scripts/release.sh` as their stage worker. Follow `docs/engineering/release/` and the specific platform checklist. Do not publish, deploy, or change a live release as a diagnostic step.
+For Play-only releases use `scripts/release-play.sh --device "$ANDROID_DEVICE" --disposable-device "$ANDROID_DISPOSABLE_DEVICE"`; its default destination is production/completed. Internal/draft testing requires an explicit requested override, not a staging default. Independent lanes use `./release.sh --best-effort --prepare=X.Y.Z --build-number=N`, then `./release.sh --best-effort --publish=X.Y.Z --build-number=N` after verification of the same frozen campaign. (Use `--best-effort` on **both** invocations.) Bare `./release.sh`, including `--target play` without `--best-effort`, selects deferred `scripts/gitlab_release.py`, not the Play wrapper. `scripts/release.sh` is a stage worker, not the public Play entry point. Follow the [pipeline](release/PIPELINE.md) and specific platform checklist. Do not publish, deploy, or change a live release as a diagnostic step.
 
 ## Diagnosis and recovery limits
 
@@ -120,9 +121,11 @@ This prerequisite does **not** qualify Number Walls or close NUM-WALL-04/NUM-WAL
 
 ## Offline-check export preparation
 
+**Historical evidence (2026-10-20, Flutter 3.44.6), not current SDK setup or a current full-gate result.** New runs use the [common offline gate](../../AGENTS.md#common-offline-integration-gate), including Cargo and both locks. The following receipts predate those Cargo stages.
+
 The retained main-check run at `76db6aa` reported clean analysis, then `flutter test --no-pub` crashed before completing tests with `Bad state: No element` in `testCompilerBuildNativeAssets`. This is failed/incomplete history, not verification of a later commit. Its scratch checkout has been removed, so its generated dependency metadata cannot now be confirmed.
 
-The inspected pinned Flutter 3.44.6 native-assets builder looks up a package whose resolved root URI exactly equals the current project URI. Before retrying in a fresh isolated export, inspect that binding, the actual SDK and lockfile, and whether `.dart_tool` points outside the candidate. The common offline gate now begins with `flutter pub get --offline --enforce-lockfile` from the execution checkout root, regenerating only checkout-local dependency metadata with the pinned toolchain and provisioned offline cache; preserve and verify `pubspec.lock`. A stale root URI is not a confirmed cause of the removed attempt. Do not rewrite shared metadata or SDK sources, install tools, bypass native-assets checks, or record an interrupted suite as passing. Retain the actual test aggregates and exit codes for every family. This prerequisite repair neither starts a runner nor grants wider operations.
+The historically inspected Flutter 3.44.6 native-assets builder looks up a package whose resolved root URI exactly equals the current project URI. Before retrying in a fresh isolated export, inspect that binding, the actual SDK and lockfile, and whether `.dart_tool` points outside the candidate. The common offline gate now begins with `flutter pub get --offline --enforce-lockfile` from the execution checkout root, regenerating only checkout-local dependency metadata with the pinned toolchain and provisioned offline cache; preserve and verify `pubspec.lock` and `rust/Cargo.lock`. A stale root URI is not a confirmed cause of the removed attempt. Do not rewrite shared metadata or SDK sources, install tools, bypass native-assets checks, or record an interrupted suite as passing. Retain the actual test aggregates and exit codes for every family. This prerequisite repair neither starts a runner nor grants wider operations.
 
 A controlled reproduction for `ACAD-008-74` exported source `ea7cc6e77e8cd6c2dfbb6a4d3761f4deae65bd81` into a private checkout and deliberately left its `flutter_fractals` package entry bound to the producer checkout. With the pinned Flutter 3.44.6, `flutter test --no-pub test/screens/app_version_test.dart --reporter expanded` exited 1 with the same `Bad state: No element` stack in `testCompilerBuildNativeAssets`. Running `flutter pub get --offline --enforce-lockfile` in that private checkout and repeating the identical test command exited 0. This confirms the failure mechanism and bounded repair, not the unavailable historical metadata. No SDK sources or dependency constraints were edited, and no application/shader code or package installation was introduced.
 

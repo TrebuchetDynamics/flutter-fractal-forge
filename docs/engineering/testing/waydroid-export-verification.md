@@ -35,11 +35,21 @@ An attempted `TestTextInput.hide()` was removed: the live integration binding
 uses the real platform text-input connection, not the registered widget-test
 text-input double. The final passing test does not use it or force unfocus.
 
-## Device runs
+## Historical device runs — 2026-10-24
 
-Use the pinned Flutter 3.44.6/Dart 3.12.2 and provisioned package cache as described
-in [the local runbook](../runbook.md). The test device was
-`192.168.240.112:5555`; discover the current address for future runs.
+The recorded runs used then-pinned Flutter 3.44.6/Dart 3.12.2 and the provisioned
+package cache. This is dated evidence, not the current SDK selection recipe.
+For new runs select [`fdroid/flutter.version`](../../../fdroid/flutter.version)
+(3.47.9 at this revision) and the provisioned cache via
+[the common offline setup](../../../AGENTS.md#common-offline-integration-gate).
+The full offline gate now includes Cargo fmt/clippy/locked offline tests,
+analyzer/Flutter/Python/Bats and both unchanged locks (`pubspec.lock`,
+`rust/Cargo.lock`); the historical checks below do not prove that current gate.
+The test device was `192.168.240.112:5555`; rediscover and verify the designated
+Waydroid instance's current serial using [the setup guide](waydroid-headless.md#working-android-test-sequence).
+
+The following are the historical local Android integration invocations, not
+current-candidate qualification or the [reserved-port Linux wrapper](../runbook.md#owned-linux-runtime-with-reserved-ports):
 
 ```bash
 flutter test --no-pub integration_test/flows/critical_journey_test.dart \
@@ -141,8 +151,8 @@ PNG decoding to accept that polluted stream.
 The later authorized production attempt completed the common offline command with
 exit 0: clean analysis, **2,986 Flutter tests passed with 8 skipped**, **282 Python
 tests passed with 1 skipped and 103 subtests passed**, and **25 Bats tests passed**.
-This supersedes the earlier timeout as the current common-gate result for these
-unchanged inputs. Log: `/tmp/fractal-play-release-common-gate.log`.
+This superseded the earlier timeout for those historical
+unchanged inputs, not for later source/SDK/Cargo changes. Log: `/tmp/fractal-play-release-common-gate.log`.
 
 A live Android Publisher API inventory found production
 **Fractal Forge 1.1.107 (107), status `completed`**, with highest visible bundle/APK/
@@ -223,10 +233,15 @@ Final validation:
 - Device log: `/tmp/fractal-play-111-device-gate-fixed.log`; detailed soak and
   device evidence: `/tmp/fractal-play-111-device-gate-fixed/`.
 
-No AAB upload or release publication occurred during the repair. Next, freeze the
+No AAB upload or release publication occurred during the repair. The next action
+at that 2026-10-25 handoff was to freeze the
 release source/artifact identity, build and verify the signed Play AAB and required
 ABI artifacts, recheck consumed live version codes, publish through the existing
 approved uploader, and read back its exact version/hash/production status.
 Retain debug-journey, signed-device-APK and AAB evidence as distinct identities;
-none is an automatic substitute for another. The [release policy](../release/MULTIPLATFORM.md)
+none is an automatic substitute for another. This historical handoff is not an
+instruction to republish 111. For the latest cited outcome see [Play 125](../release/PLAY_1.1.125.md):
+production/completed code 125 from `6f63c28b`, with propagation still pending at
+2026-11-20T05:05:45Z. Do not reupload for pending propagation; other lanes were
+not requalified by that Play-only receipt. The [release policy](../release/MULTIPLATFORM.md)
 and existing task verdicts are not waived or marked complete by this note.

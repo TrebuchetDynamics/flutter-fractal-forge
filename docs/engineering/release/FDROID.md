@@ -2,9 +2,11 @@
 
 Fractal Forge targets the official F-Droid catalog with reproducible builds. F-Droid builds each Android ABI package from the public source commit, verifies it against the developer-signed reference APK, and publishes the verified developer-signed package.
 
+Current source identity is read from [`fdroid/version.properties`](../../../fdroid/version.properties) (1.1.125/125 at this revision), and the SDK from [`fdroid/flutter.version`](../../../fdroid/flutter.version) (3.47.9). Neither a version marker nor the [Play 125 receipt](PLAY_1.1.125.md) establishes F-Droid distribution qualification. Play publication does not supply signed reference APKs, official reproducibility, Adreno confirmation, maintainer acceptance or catalog readback. The dated blocker records below retain their original candidate identities and unknown outcomes; no fresh catalog status was probed for this documentation update.
+
 ## Deployment blockers and recovery — 2026-11-10
 
-**Deployment: BLOCKED. No qualified mitigated release or catalog publication is established.**
+**Dated deployment verdict (2026-11-10): BLOCKED. No qualified mitigated release or catalog publication was established by that observation.**
 This is a planning-only reconciliation at main `44dc32f629ae975dbf1e3fc57b3be174b5948c58`.
 It preserves the [accepted continuation](#kifs-crash-and-catalog-submission-continuation)
 and [detailed evidence](../../qa/fdroid-kifs/README.md). It does not restart execution.
@@ -46,7 +48,7 @@ locks, receipts, remote MR and release artifacts are unchanged by this pass.
 
 ## Automated release contract
 
-`./release.sh all --publish=X.Y.Z` includes the `fdroid` stage before publication. The stage:
+Use the [independent-lane campaign](MULTIPLATFORM.md#independent-platform-release-campaign) with explicit `--best-effort` on both prepare and publish, not bare `./release.sh all`, which selects deferred GitLab. The campaign's F-Droid builder calls the local `scripts/release.sh fdroid --prepare=...` stage worker; this is not a Play publisher. That stage:
 
 1. verifies `fdroid/version.properties` matches `X.Y.Z` and the Android version code;
 2. validates the upstream Fastlane listing and version-code changelog;
@@ -55,13 +57,17 @@ locks, receipts, remote MR and release artifacts are unchanged by this pass.
 5. deletes build output, builds all three a second time, and requires byte-for-byte equality;
 6. creates a deterministic fdroiddata metadata archive bound to the full release commit and the upstream reference-binary URLs.
 
-The GitLab `fdroid` and `fdroid-scan` jobs repeat the source-build and reproducibility gates, then run official `fdroid lint` and `fdroid scanner` checks before release publication. Start the pipeline with root `release.sh`.
+The legacy GitLab `fdroid` and `fdroid-scan` jobs are reference configuration only while GitLab execution is deferred. They are not the current preparation route.
 
-Prepare the next release through GitLab (including F-Droid):
+Select the pinned provisioned SDK/cache using the [common offline setup](../../../AGENTS.md#common-offline-integration-gate), including Cargo fmt/clippy/locked offline tests, analyzer/Flutter/Python/Bats and both unchanged locks (`pubspec.lock`, `rust/Cargo.lock`). That host gate is not F-Droid distribution qualification. For an authorized independent-lane campaign, use placeholders replaced with one reconciled, frozen candidate identity:
 
 ```bash
-./release.sh all --prepare=1.1.105
+./release.sh --best-effort --prepare=X.Y.Z --build-number=N
+# Only after campaign verification, for an explicit release request:
+./release.sh --best-effort --publish=X.Y.Z --build-number=N
 ```
+
+Keep the same artifact directory and campaign file on both invocations (defaults: `release-artifacts/` and `release-artifacts/campaign.json`). These commands assess all independent lanes, not F-Droid alone. Missing F-Droid proof remains a lane skip, not a qualification waiver; publishing the eligible campaign subset is not official catalog acceptance.
 
 Outputs are written below `release-artifacts/fdroid/`:
 
@@ -102,7 +108,7 @@ After that merge, `UpdateCheckMode: Tags` and `fdroid/version.properties` allow 
 - Flutter `3.47.9` is pinned in `fdroid/flutter.version`; the fdroiddata recipe extracts that pin and checks out the same revision from F-Droid's `flutter@stable` srclib.
 - Android builds use F-Droid NDK alias `r28c`, corresponding to upstream NDK `28.2.13676358`.
 - The unused Google Play Feature Delivery dependency was removed so both Play and F-Droid builds avoid a non-free runtime dependency. Android dependencies resolve only from Google Maven or Maven Central.
-- Flutter 3.44.6's official Android embedding retains unused Play Store deferred-component type references. The app declares no deferred components and `releaseRuntimeClasspath` contains no Play Core dependency; this is recorded in the generated `MaintainerNotes` for packager review.
+- Historical Flutter 3.44.6 evidence from the v1.1.104 submission (reviewed 2026-10-09) records unused Play Store deferred-component type references in the official Android embedding; this is not current 3.47.9 verification. The app declares no deferred components and `releaseRuntimeClasspath` contains no Play Core dependency; this is recorded in the generated `MaintainerNotes` for packager review.
 - Reference APKs are signed with the dedicated upstream upload key whose certificate SHA-256 is pinned as `AllowedAPKSigningKeys`. Keep the private key and credentials outside the repository, with tested offline backups.
 - Google Play App Signing may use a different distribution key. Users switching between Play and F-Droid builds may therefore need to uninstall the existing app first.
 
@@ -112,13 +118,13 @@ Status: Accepted
 
 The owner requested F-Droid deployment, then requested this planning-only pass for the unresolved Adreno 610 crash, updated release qualification, and maintainer acceptance. This section records that scope. It does not claim a fix, a qualified candidate, or catalog publication.
 
-### Evidence and current state
+### Historical planning evidence — retained as of 2026-11-10
 
 - [Reviewer finding](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920): on 2026-10-09, MiggiV2 reported that opening KIFS Menger Sponge in v1.1.104 (1042, arm64-v8a) reproducibly killed the app on Redmi Note 8T, Android 13, Adreno 610. The log included `IOCTL_KGSL_GPU_COMMAND failed: errno 35`, followed by SIGKILL. Menger Cross 3D and Mandelbulb worked.
 - [Pipeline #2832429861](https://gitlab.com/fdroid/fdroiddata/-/pipelines/2832429861) passed for fdroiddata commit `16238180cb87bc3e488bfa0bc461ca99e51eea67`. This predates the reviewer finding and cannot qualify a newer app candidate.
 - The existing MR was reopened in the preceding deployment attempt. [Follow-up note 4185349142](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920#note_4185349142) acknowledges the unresolved finding. Reopening is not publication.
-- Current main already contains a candidate mitigation integrated by `fffb687a2a261afecebbb076af039ef4ffc6a19a`: `mengerSpongeDE` uses `MAX_KIFS_ITERATIONS = 8` and returns early for removed cells. The catalog sets default/max iterations to 8. `test/modules/kifs_menger_gpu_safety_test.dart` covers bounds, distinct Sponge/Cross pixels, a 64px maximum-quality render, Mandelbulb, and two analytic distance samples. These are not Adreno watchdog or release-resolution proofs. No tests or device journeys ran during this planning pass.
-- `fdroid/version.properties` currently reads 1.1.122/122. This is an observed marker, not a reserved release identity or a qualified release. Reconcile live tags, reference assets, and consumed version codes before freezing the candidate. `fdroid/flutter.version` currently pins 3.47.9. Earlier MR prose uses 3.44.6.
+- Main at that planning observation already contained a candidate mitigation integrated by `fffb687a2a261afecebbb076af039ef4ffc6a19a`: `mengerSpongeDE` uses `MAX_KIFS_ITERATIONS = 8` and returns early for removed cells. The catalog sets default/max iterations to 8. `test/modules/kifs_menger_gpu_safety_test.dart` covers bounds, distinct Sponge/Cross pixels, a 64px maximum-quality render, Mandelbulb, and two analytic distance samples. These are not Adreno watchdog or release-resolution proofs. No tests or device journeys ran during this planning pass.
+- In those retained planning notes, `fdroid/version.properties` read 1.1.122/122. This was an observed marker, not a reserved release identity or a qualified release. Reconcile live tags, reference assets, and consumed version codes before freezing a later candidate; read the committed files rather than reusing this dated marker. `fdroid/flutter.version` pinned 3.47.9 at that observation. Earlier MR prose used 3.44.6.
 - Existing release task `RELEASE-002-75` is closed and retains pending F-Droid/live gates. Preserve its history. The saved FDROID-001 through FDROID-005 batch below owns the KIFS/Adreno continuation. Planning observed an in-flight Waydroid task, `ACAD-013-4142ef42`; recheck device ownership before a device run.
 
 ### Planner decisions and bounds

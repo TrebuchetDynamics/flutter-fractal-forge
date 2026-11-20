@@ -88,8 +88,10 @@ device; wait for that instance to finish booting and recheck.
 
 ### 4. Run the selected candidate's tests
 
-Keep both exported IDs in the test terminal. Select pinned Flutter 3.44.6 and its
-provisioned cache, regenerate dependencies offline with the lockfile enforced,
+Keep both exported IDs in the test terminal. Select the SDK named by
+[`fdroid/flutter.version`](../../../fdroid/flutter.version) (3.47.9 at this revision)
+and its provisioned cache via the [common offline setup](../../../AGENTS.md#common-offline-integration-gate),
+not an ambient SDK. Regenerate dependencies offline with the lockfile enforced,
 then use [the direct release-gate invocation](#standing-owner-designation-use-this-waydroid-target)
 or [the focused test commands](#run-tests-without-confusing-setup-with-qualification).
 Retain source/build identity, real gate output and new PNG/MediaStore/gallery
@@ -149,7 +151,7 @@ The campaign forwards both environment variables to the gate. Supplying the
 matching acknowledgement here records the standing Waydroid authorization; it
 is not permission to acknowledge arbitrary discovered devices. Preserve explicit
 selection and safety checks. See [the gate contract](../release/ANDROID_GATE_SAFETY.md).
-This documentation pass ran only `adb devices -l`, not the example gate.
+The 2026-10-26 documentation pass ran only `adb devices -l`, not the example gate; this is a dated observation, not a current readiness check.
 
 Waydroid is emulator/container evidence, **not physical-device or hardware-GPU
 proof**. Availability/authorization does not mean tests passed: retain the exact
@@ -413,7 +415,13 @@ ADB through a public interface/router or turn off authentication.
 Use the repository-pinned Flutter SDK from [`../../../fdroid/flutter.version`](../../../fdroid/flutter.version)
 and its provisioned package cache, not an ambient SDK. Follow the
 [root offline setup instructions](../../../AGENTS.md#common-offline-integration-gate)
-for selecting those tools and preserving `pubspec.lock`.
+for selecting those tools and preserving `pubspec.lock` and `rust/Cargo.lock`.
+The full host gate includes Cargo fmt, warning-denying clippy and locked/offline
+Rust tests, analyzer, Flutter/Python/Bats; it does not run Android tests or prove
+saved-gallery or production-artifact qualification. The commands below are local
+Android integration checks, not the reserved-port Linux host-protocol route:
+Linux workers must use [the native wrapper](../runbook.md#owned-linux-runtime-with-reserved-ports)
+with a real allocation and retained protocol/cleanup evidence.
 
 **Device-data warning:** Flutter integration tests install instrumented debug
 packages. In the observed run a version-code downgrade (38 versus installed 105)

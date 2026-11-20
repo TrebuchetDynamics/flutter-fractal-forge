@@ -16,14 +16,14 @@ mirrors repositories, or authorizes a new destination.
 | --- | --- |
 | Release the current `main` to Play production | `scripts/release-play.sh --device <id> --disposable-device <id>` |
 | See what Play serves right now | `scripts/ci/play-status.sh --pretty` |
-| Run only the shared offline gate | `scripts/ci/offline-gate.sh --json` |
+| Run only the shared offline gate | [Provisioned common offline command](../../../AGENTS.md#common-offline-integration-gate), ending in `scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 --json` |
 | Run only the Android device gate | `scripts/pre-release-gate.sh --device <id> --disposable-device <id>` |
-| Prepare every independent lane | `/usr/bin/python3 scripts/release_platform_lanes.py --best-effort --prepare X.Y.Z --build-number N --artifact-dir … --campaign-file …` |
-| Publish those prepared lanes | the same command with `--publish X.Y.Z` |
+| Prepare every independent lane | `./release.sh --best-effort --prepare=X.Y.Z --build-number=N` |
+| Publish those prepared lanes | `./release.sh --best-effort --publish=X.Y.Z --build-number=N` using the same frozen campaign/artifact paths |
 
 `scripts/release-play.sh` is the Play-only path. It is *fail-closed*: no gate, no
 upload; a failed readback never triggers a second upload. The lane campaign is
-the multi-platform path and keeps its own per-lane evidence contract.
+the multi-platform path and keeps its own per-lane evidence contract. Both campaign invocations require `--best-effort`; optionally set the same `--artifact-dir` and `--campaign-file` on both. The bare root `./release.sh` (even with `--target play`) dispatches `scripts/gitlab_release.py` and remains deferred. It is not a Play-only shortcut. Play defaults to production/completed; internal testing/draft requires an explicit nonproduction request and override.
 
 ## Play pipeline stages
 
@@ -34,7 +34,7 @@ the stage actually proves and what it does not.
 | --- | --- | --- | --- |
 | 1. Identity preflight | git/`fdroid/version.properties`/`pubspec.yaml` checks | the requested version matches the committed identity, the tree is clean, and an existing tag does not point elsewhere | that the version code is free on Play |
 | 2. Play preflight | `scripts/ci/play-status.sh` (or `--play-status-json`) | the version code is unused and newer than the latest consumed code | that Google accepted anything |
-| 3. Shared offline gate | `scripts/ci/offline-gate.sh` | pinned SDK, unchanged lockfile, analyzer, Flutter host tests, Python tests, Bats tests | device, browser, GPU, store or review behaviour |
+| 3. Shared offline gate | `scripts/ci/offline-gate.sh` | pinned SDK, unchanged `pubspec.lock` and `rust/Cargo.lock`, cargo fmt, warning-denying clippy and locked/offline Rust tests, analyzer, Flutter host tests, Python tests, Bats tests | device, browser, GPU, store or review behaviour |
 | 4. Device gate | `scripts/pre-release-gate.sh --skip-host` | install/journey/rendering/accessibility/performance/restoration/offline/soak on the designated target | physical-device or hardware-GPU qualification |
 | 5. Build + upload | `scripts/build-upload-playstore.sh` | a signed AAB with the expected version code/hash was uploaded to the requested track and the edit committed | review outcome or storefront propagation |
 | 6. Readback + evidence | `scripts/ci/play-readback.sh`, then evidence files | a fresh edit reports the exact version code, hash, track and status | end-user availability |
@@ -93,7 +93,8 @@ Locations only; never commit or echo secret contents.
 
 | Variable / tool | Value or location | Needed by |
 | --- | --- | --- |
-| `FLUTTER_ROOT` | `/home/xel/flutter` (must match `fdroid/flutter.version`) | offline gate, builders |
+| `FLUTTER_ROOT`, `PUB_CACHE` | `$AUTOWORK_CACHE/flutter-3.47.9`, `$AUTOWORK_CACHE/pub-cache`; SDK must match [`fdroid/flutter.version`](../../../fdroid/flutter.version) | offline gate, builders |
+| `CARGO_HOME`, `RUSTUP_HOME` | `$AUTOWORK_CACHE/cargo-1.95.0`, `$AUTOWORK_CACHE/rustup-1.95.0`; existing Rust 1.95.0 toolchain on `PATH` | Cargo stages of the offline gate |
 | `TMPDIR` | existing scratch base outside the checkout; Play wrapper creates a private child | offline gate, campaign builder |
 | `PLAY_SERVICE_ACCOUNT_JSON` | `play-console-upload/play-service-account.json` (gitignored) | status, upload, readback |
 | `PLAY_TRACK` / `PLAY_RELEASE_STATUS` | `production` / `completed` | upload defaults; override only for an explicitly requested nonproduction release |
@@ -110,9 +111,18 @@ A missing prerequisite is reported as a refusal (Play pipeline) or a lane skip
 (campaign). A lane marked `skipped-unavailable` means the invocation did not
 supply the prerequisite, not that the repository lacks a tool.
 
+Use the [common offline setup](../../../AGENTS.md#common-offline-integration-gate) and its version/Python-import probes before release commands. Its cache defaults to the absolute Git common directory, not a guessed home SDK path. The following environment is process-local; run it in the same subshell as the selected authorized command. Missing provisioned tools/cache is a refusal: install nothing, change no pin and do not fall back to ambient tools.
+
 ```bash
-export FLUTTER_ROOT=/home/xel/flutter
-export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
+export AUTOWORK_CACHE="${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}"
+export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.47.9"
+export PUB_CACHE="$AUTOWORK_CACHE/pub-cache"
+export CARGO_HOME="$AUTOWORK_CACHE/cargo-1.95.0"
+export RUSTUP_HOME="$AUTOWORK_CACHE/rustup-1.95.0"
+test -x "$FLUTTER_ROOT/bin/flutter" && test -d "$PUB_CACHE" &&
+  test -x "$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo" &&
+  test -d "$CARGO_HOME/registry" || exit 2
+export PATH="$FLUTTER_ROOT/bin:$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:/usr/bin:$PATH"
 export TMPDIR=/path/outside/checkout
 export PLAY_SERVICE_ACCOUNT_JSON="$PWD/play-console-upload/play-service-account.json"
 export ANDROID_DEVICE=192.168.240.112:5555
@@ -120,6 +130,8 @@ export ANDROID_DISPOSABLE_DEVICE="$ANDROID_DEVICE"
 waydroid adb connect
 adb devices -l
 ```
+
+The offline gate is local host evidence only; omitted later stages after a failure are NOT_RUN. Android's device-changing gate is not an offline substitute. For reserved-port Linux integration use [the native wrapper recipe](../runbook.md#owned-linux-runtime-with-reserved-ports) and its real allocation/protocol/cleanup receipts; local `flutter test integration_test/` does not supply them.
 
 Full multi-lane environment (ports, keystore pair, F-Droid adapter, Cloudflare,
 Node/wrangler) is in the campaign section of [MULTIPLATFORM.md](MULTIPLATFORM.md#local-campaign-execution-environment).
@@ -133,7 +145,7 @@ Node/wrangler) is in the campaign section of [MULTIPLATFORM.md](MULTIPLATFORM.md
 | `requested … does not match fdroid/version.properties` | identity not prepared/committed | commit the release preparation first |
 | `working tree is dirty` | uncommitted changes | commit, or pass `--allow-dirty` and accept a recorded warning |
 | `Flutter X does not match pinned Y` | wrong SDK on `PATH` | select the SDK named by `fdroid/flutter.version` |
-| `pubspec.lock changed during …` | dependency metadata drift | restore the lockfile; do not publish |
+| `pubspec.lock or rust/Cargo.lock changed during …` | dependency metadata drift | stop and investigate; preserve the committed locks, do not publish |
 | `shared offline gate failed; nothing was published` | host gate red | read `gates/offline-gate.json`, fix, rerun |
 | `device gate failed; nothing was published` | device gate red | read `gates/device-gate.log`; do not retry the upload |
 | `DO NOT upload again` | upload committed but readback unconfirmed | run `scripts/ci/play-status.sh --pretty`, reconcile version/hash, then decide |
@@ -228,7 +240,7 @@ consumed-code check.
 
 ## Observing the live release
 
-Publication is not the end state. Two scripts cover the post-release checks:
+Publication is not the end state. The latest cited receipt is [Play 1.1.125](PLAY_1.1.125.md), production/completed code 125 from `6f63c28b`. At 2026-11-20T05:05:45Z propagation was still pending (12/12 storefronts showed 1.1.124); this is a dated observation, not a live status claim or instruction to reupload. Other lanes were not requalified. Two scripts cover the post-release checks. The following **historical 1.1.121 / 2026-11-06 example** is not the current release identity; use the actual receipt's version/date and private output path for a new authorized observation:
 
 ```bash
 # Record track state, review (Console page or inference), propagation and availability.

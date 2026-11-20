@@ -72,3 +72,52 @@ def test_current_queue_links_resolve_to_task_store():
     handoff = section(RUNBOOK, "Queue and retained-check handoff")
     assert "tasks/items/" in handoff and "tasks/goals/" in handoff
     assert "authoritative" in handoff.lower()
+
+
+@pytest.mark.parametrize("path", [
+    RUNBOOK,
+    "docs/engineering/release/PIPELINE.md",
+    "docs/engineering/release/MULTIPLATFORM.md",
+    "docs/store_listing/PLAY_UPLOAD_CHECKLIST.md",
+    "docs/store_listing/UPLOAD_CHECKLIST.md",
+])
+def test_current_play_guidance_selects_play_wrapper_and_production(path):
+    current = (ROOT / path).read_text()
+    assert "scripts/release-play.sh" in current
+    assert "production/completed" in current
+    assert "GitLab" in current and "deferred" in current
+    assert "explicit" in current  # nonproduction must not become the default
+
+
+@pytest.mark.parametrize("path", [
+    RUNBOOK,
+    "docs/engineering/release/PIPELINE.md",
+    "docs/engineering/release/MULTIPLATFORM.md",
+    "docs/engineering/release/FDROID.md",
+])
+def test_current_independent_lane_recipes_are_explicit_best_effort(path):
+    current = (ROOT / path).read_text()
+    assert "./release.sh --best-effort --prepare=X.Y.Z --build-number=N" in current
+    assert "./release.sh --best-effort --publish=X.Y.Z --build-number=N" in current
+    assert "rust/Cargo.lock" in current and "pubspec.lock" in current
+    assert "clippy" in current
+
+
+def test_testing_requirements_distinguish_local_and_reserved_port_integration():
+    current = section("AGENTS.md", "Testing Requirements")
+    assert "fdroid/flutter.version" in current
+    assert "common-offline-integration-gate" in current
+    assert "scripts/run-native-integration.sh" in current
+    assert "AUTOWORK_PORT_BASE" in current and "TMPDIR" in current
+    assert "local" in current.lower() and "qualification" in current.lower()
+
+
+def test_waydroid_current_recipe_uses_pin_without_rewriting_dated_evidence():
+    current = section("docs/engineering/testing/waydroid-headless.md", "4. Run the selected candidate's tests")
+    assert "fdroid/flutter.version" in current
+    assert "AGENTS.md#common-offline-integration-gate" in current
+    assert "3.44.6" not in current
+    evidence = (ROOT / "docs/engineering/testing/waydroid-export-verification.md").read_text()
+    assert "Historical device runs" in evidence and "2026-10-24" in evidence
+    assert "3.44.6/Dart 3.12.2" in evidence
+    assert "fdroid/flutter.version" in evidence

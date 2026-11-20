@@ -1,6 +1,32 @@
 # Google Play First Upload Checklist — Flutter Fractal Forge
 
-> Current listing copy, images, validation and publishing: [Store listing guide](README.md). Binary-release notes below may describe older releases.
+## Current operational route
+
+Use the [current Play upload checklist](PLAY_UPLOAD_CHECKLIST.md#current-operational-route)
+and [pipeline](../engineering/release/PIPELINE.md), not the first-upload snapshot below.
+Play-only binary releases use `scripts/release-play.sh --device "$ANDROID_DEVICE" --disposable-device "$ANDROID_DISPOSABLE_DEVICE"`,
+defaulting to **production/completed**. Internal testing/draft requires an explicit
+nonproduction request and override; it is not the default first step.
+Bare `./release.sh` selects deferred GitLab. Independent lanes require explicit
+`--best-effort` on both prepare and publish, with the same frozen campaign.
+
+The current checklist links the [pinned SDK/provisioned offline setup](../../AGENTS.md#common-offline-integration-gate)
+and distinguishes local checks from device/browser and release qualification.
+Listing-only changes follow the [store listing guide](README.md).
+The latest cited [Play 1.1.125/125 receipt](../engineering/release/PLAY_1.1.125.md)
+is production/completed from `6f63c28b`, with propagation still pending at
+2026-11-20T05:05:45Z, not an instruction to reupload. Other lanes were not requalified.
+For website/privacy-policy deployment use the separate
+[web procedure](../deployment/WEB_PREVIEW_GITHUB_PAGES.md), not a Play upload.
+
+## Historical checklist — 2026-02-17
+
+The snapshot below retains its original artifact sizes, test counts, identity,
+manual steps and observations. DONE/pending boxes and first-upload instructions
+are dated history, not current readiness or an instruction to create the app,
+reupload an AAB, choose internal testing, or deploy the website again. The current
+route above supersedes those operational recommendations.
+
 Updated: 2026-02-17 02:18 CST (America/Monterrey)
 
 Legend:
@@ -77,5 +103,5 @@ repository, record it here so this check can point at the right address.
 - 🟡 Configure app access/content declarations
 - 🟡 Roll out to internal testing or production
 
-## Final status
+## Historical final status (2026-02-17)
 Repository-side pre-upload work is complete. Remaining blockers are Play Console and hosting actions owned by Juan.
