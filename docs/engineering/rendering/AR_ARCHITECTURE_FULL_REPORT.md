@@ -1,4 +1,6 @@
 
+
+> **Historical AR analysis — 2026-02-18, not current app behavior.** The [current product/release contract](../../../PRD.md#active-release-contract) treats camera/AR and MP4 work as historical or deferred. The current [manifest](../../../android/app/src/main/AndroidManifest.xml) has no camera permission and the [dependencies](../../../pubspec.yaml) do not include the camera plugin. The named screens/services and “Current Reality” below are retained design/audit context, not a runnable entry point. The Camera looper animates the fractal view; it does not open a device camera.
 Date: 2026-02-18
 
 ## 1) Current Reality (Short Version)

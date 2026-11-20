@@ -86,3 +86,83 @@ def test_retired_queue_files_are_not_recreated_or_linked():
     preamble = text("todo.archive.md").split("## Repository interview", 1)[0]
     assert "historical" in preamble.lower() and "(docs/README.md#queues-and-history)" in preamble
     assert "not actionable current navigation" in preamble
+
+
+def test_document_roles_contextualize_retained_payloads_and_generated_guides():
+    index = text('docs/README.md')
+    for owner in ('../AGENTS.md', '../pubspec.yaml', 'analysis/', 'qa/',
+                  '../research/', '../opensource/', '../packages/', '../migration/'):
+        assert f']({owner})' in index, owner
+    assert 'not current instructions' in index
+    assert 'external urls' in index.lower()
+    assert 'generated directory inventories' in text('AGENTS.md').lower()
+    assert 'retained snapshot' in text('CHECKLIST.md').split('## Now', 1)[0]
+
+
+@pytest.mark.parametrize('path,owner', [
+    ('AI_RULES.md', 'AGENTS.md'),
+    ('docs/engineering/development/CLAUDE.md', '../../../AGENTS.md'),
+    ('docs/engineering/development/DEPENDENCY_MODERNIZATION.md', '../../../pubspec.lock'),
+    ('docs/engineering/rendering/AR_ARCHITECTURE_FULL_REPORT.md', '../../../PRD.md#active-release-contract'),
+    ('docs/qa/gesture_table.md', '../../lib/features/renderer/widgets/renderer/fractal_renderer.dart'),
+    ('docs/qa/gesture-navigation.md', '../../lib/features/renderer/widgets/renderer/fractal_renderer.dart'),
+])
+def test_stale_instruction_snapshots_start_with_current_owner(path, owner):
+    preamble = text(path).split('\n## ', 1)[0]
+    assert 'historical' in preamble.lower(), path
+    assert f']({owner})' in preamble, path
+    for link in links(preamble):
+        if '://' not in link and not link.startswith('#'):
+            assert ((ROOT / path).parent / link.split('#', 1)[0]).exists(), (path, link)
+
+
+def test_formula_coverage_uses_capability_source_not_unsupported_parity_or_analytics():
+    coverage = text('docs/engineering/rendering/formula_coverage_limitation.md')
+    for source in ('cpu/formulas/cpu_formulas.dart', 'policy/precision_ladder_policy.dart'):
+        assert source in coverage
+    assert '100% coverage' not in coverage
+    assert 'full CPU parity' not in coverage
+    assert 'based on usage analytics' not in coverage
+    assert 'no remote usage analytics' in coverage
+    resolver = text('lib/features/renderer/cpu/formulas/cpu_formulas.dart')
+    for predicate in ('hasNativeCpuFormula', 'hasCuratedCpuFormula'):
+        assert f'bool {predicate}(' in resolver
+        assert f'`{predicate}`' in coverage
+    assert '`hasCpuFormula`' not in coverage
+    playbook = text('docs/engineering/rendering/cpu_vs_gpu_rendering.md')
+    assert 'emulator status alone does not force CPU' in playbook
+    assert 'or implement perturbation later' not in playbook
+
+
+def test_current_navigation_separates_fibonacci_implementation_from_qualification():
+    assert "id: 'fibonacci_complex_julia'" in text('lib/core/modules/builders/fibonacci_complex_module.dart')
+    for path in ('PRD.md', 'docs/engineering/README.md', 'docs/engineering/spec.md',
+                 'research/fibonacci-prime-degree-julia.md'):
+        content = text(path)
+        assert 'builders/fibonacci_complex_module.dart' in content, path
+        assert 'qualification' in content.lower(), path
+    assert 'not an implemented catalog addition' not in text('docs/engineering/README.md')
+
+
+def test_current_readme_and_glossary_do_not_endorse_removed_or_planned_only_ux():
+    readme = text('README.md')
+    assert 'are planned work, not shipped controls' not in readme
+    assert 'one selected parameter' in readme
+    context = text('CONTEXT.md')
+    assert 'Historical music terminology' in context
+    assert 'Fourier Music was removed' in context
+    landing = text('web/landing.html')
+    assert 'downloads reported by the project owner' not in landing
+    assert '#-getting-started' not in landing
+    assert 'WebAssembly builds locally' not in landing
+    assert 'Historical WebAssembly build evidence' in landing
+
+
+def test_backend_matrix_distinguishes_dated_emulator_receipt_from_current_policy():
+    matrix = text('docs/engineering/rendering/renderer_backend_matrix.md')
+    policy = text('lib/features/renderer/policy/backend_policy.dart')
+    current = matrix.split('## Deterministic backend policy', 1)[1].split('## Web validation', 1)[0]
+    assert 'RendererBackendPolicy.explain' in current
+    assert 'emulator status alone does not force CPU' in current
+    assert 'Emulator targets are handled like physical devices in auto mode' in policy
+    assert 'Deterministic policy routes emulator to CPU' in matrix  # preserved dated observation

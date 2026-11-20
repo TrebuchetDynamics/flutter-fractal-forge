@@ -1,5 +1,7 @@
 # Renderer Backend Capability Matrix (2026-06-03)
 
+> **Dated environment observations, not a current platform-support certificate.** The tables and receipts retain their original targets, failures and unknowns. In particular, the old emulator-to-CPU row is historical policy, not today's routing. Use the current source policy below and the [designated Waydroid contract](../testing/waydroid-headless.md) for new Android checks. No physical phone, browser or installed artifact was reverified by this documentation sweep.
+
 ## Verdict legend
 
 - **PASS**: backend renders with sane output + progression checks.
@@ -17,15 +19,16 @@
 
 ## Deterministic backend policy
 
-Priority order implemented:
+Current priority is owned by [RendererBackendPolicy.explain](../../../lib/features/renderer/policy/backend_policy.dart), with [precision capability/hysteresis](../../../lib/features/renderer/policy/precision_ladder_policy.dart) resolved separately:
 
-1. `forced_by_flag` (`FORCE_CPU_FALLBACK=true`)
-2. `manual_toggle`
-3. `module_unsupported` (non-2D)
-4. `android_emulator`
-5. `gpu_health_check_failed`
-6. `deep_zoom_precision`
-7. GPU healthy path (`none`)
+1. Forced CPU launch flag (`FORCE_CPU_FALLBACK=true`).
+2. GPU-required non-2D module handling; ordinary CPU-only preference does not create a 3D CPU renderer.
+3. Explicit CPU-only or GPU-only user preference for 2D modules.
+4. Auto-mode GPU health failure.
+5. Auto-mode deep-zoom CPU decision.
+6. Healthy GPU path.
+
+Emulator detection is advisory: emulator status alone does not force CPU. A backend choice is not proof that a native CPU formula exists, nor a correctness/parity claim. The previous `android_emulator` priority remains operating history in the dated receipts above.
 
 Policy output is exposed in:
 

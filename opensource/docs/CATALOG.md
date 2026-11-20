@@ -1,5 +1,7 @@
 # Flutter Fractal Forge — Opensource Learning Catalog
 
+> **Retained research/planning snapshot, not current implementation guidance.** Upstream capabilities, performance figures, “current” app paths and proposed work below have not been revalidated in this sweep; they carry no current endorsement. Use the [provenance workflow](reference-corpus-workflow.md), [current renderer policy](../../docs/engineering/spec.md#rendering-interface) and [verification plan](../../docs/engineering/test-plan.md) before reuse. Ignored clone paths are not resolvable tracked documentation links or proof of license compatibility.
+
 **19 projects analyzed · All techniques mapped to our codebase · Ready to implement**
 
 Cross-references our actual files in `lib/` and `shaders/`. Companion to

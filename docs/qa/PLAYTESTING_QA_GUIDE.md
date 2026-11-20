@@ -1,4 +1,6 @@
 # Automated Playtesting & QA Guide for Blind Developers
+
+> **Historical ecosystem proposal — 2026-02-27, not the configured test entry point.** Package names, widget keys, tool scores and CI/device examples below are illustrative, not current runnable contracts or completed acceptance. Use the [verification plan](../engineering/test-plan.md), [pinned offline setup](../../AGENTS.md#common-offline-integration-gate) and [designated Waydroid target](../engineering/testing/waydroid-headless.md). Semantics assertions do not replace rendered-image, device or screen-reader qualification.
 ## Flutter on Android Emulators — Complete Tool Ecosystem
 
 **Project:** Flutter Fractal Forge

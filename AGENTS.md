@@ -6,6 +6,8 @@
 
 Start with the [current product contract](PRD.md) and [workflow queues and history](docs/README.md#queues-and-history): GitHub issues/Orbi delivery, scoped Autowork tasks, and the historical archive have different owners.
 
+Generated directory inventories in nested `AGENTS.md` files and the historical `AI_RULES.md` are snapshots, not current catalog counts, API examples or SDK pins. Keep applicable manual safety instructions; resolve volatile details through the [toolchain pin](fdroid/flutter.version), [manifest](pubspec.yaml), actual source and [documentation roles](docs/README.md#artifact-roles-and-evidence-boundaries).
+
 ## Key Files
 
 | File | Description |

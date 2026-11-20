@@ -748,6 +748,8 @@ No runner restart/settings change or unrelated implementation is authorized.
 
 Status: Accepted
 
+Current source status: the [module builder](../../lib/core/modules/builders/fibonacci_complex_module.dart), [orbit model](../../lib/core/models/fibonacci_complex_model.dart) and [export adapter](../../lib/features/viewer/export/fibonacci_complex_export.dart) are integrated. The original planning contract below is retained; its wording is not a claim that the module is absent. [Target qualification](test-plan.md#fibonacci-prime-degree-julia-verification) and release inclusion require their own evidence; source presence alone qualifies neither.
+
 Source: [owner outcome](../../PRD.md#fibonacci-prime-degree-julia-fractal), [research and independent mathematical review](../../research/fibonacci-prime-degree-julia.md). The implementation approach below is a delegated planner choice; this saved plan does not execute it.
 
 ### Mathematical and numeric contract

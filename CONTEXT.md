@@ -28,6 +28,12 @@ _Avoid_: Visual vibes, global shader pass, polish sweep
 A deterministic color variation chosen from a thumbnail generation seed and a stable fractal/module ID. It should feel visually varied while keeping regenerated catalog thumbnails reviewable and reproducible.
 _Avoid_: True random thumbnail colors, one-off palette shuffle, unreviewable visual diff
 
+### Historical music terminology
+
+Fourier Music was removed. The four music terms below and music-related example dialogue are retained design history, not available controls. The silent Camera looper is separate; use the [current Fourier/uncertainty guide](docs/research/fractal-uncertainty-and-fourier-mode.md) for implemented tools.
+
+<details><summary>Retained music design vocabulary</summary>
+
 **Fractal Music**:
 A viewer audio mode that composes deterministic music conditioned on the current fractal image. Its identity — key, mode, tempo, register, density, and phrase shape — must be traceable to measured image features, but individual audible events may come from musical rules the image does not supply. The ensemble itself is fixed; the image chooses how it is played, not what it is. It is not a generic background soundtrack, an ML song model, or a MIDI export promise.
 _Avoid_: AI song, opaque music generator, soundtrack mode
@@ -44,7 +50,9 @@ _Avoid_: Live remap, per-frame recompute, restart on any pixel change
 The rotating center-out beam that both extracts Fractal Music's image features and shows loop position while audio plays. It is the feature source and the visible playhead, not a per-event provenance claim: pan and phrase position follow the beam, but the note under it comes from the composer.
 _Avoid_: Listening path, beam explains every note, exact shader readback
 
-**Performance Fractals**:
+</details>
+
+**Performance Fractals** (proposed family boundary):
 A separate catalog family for reactive, instrument-like fractal visuals whose parameters may be driven by time, gestures, or modulation. They do not change the behavior, controls, presets, or render contracts of existing mathematical fractal modules.
 _Avoid_: Global perform mode, retrofitted modulator, all-fractal audio mode
 

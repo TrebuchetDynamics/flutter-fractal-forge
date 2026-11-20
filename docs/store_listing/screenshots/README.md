@@ -1,5 +1,7 @@
 # Play Store Screenshot Assets
 
+> **Historical generated asset inventory — 2026-02-17.** Use the [current store asset manifest](../assets.json), [capture provenance](../screenshot_captures.json) and [store maintenance guide](../README.md) for current image groups and generation commands; the old dimensions below describe only the retained files, not all current campaign assets.
+
 Generated: 2026-02-17 00:48 CST (America/Monterrey)
 
 ## Phone screenshots (portrait, 9:16)

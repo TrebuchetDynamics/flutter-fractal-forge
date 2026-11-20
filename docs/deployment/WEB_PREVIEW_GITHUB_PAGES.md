@@ -110,7 +110,7 @@ For the first soft launch, the download/install CTA should remain a source-build
 Do not market this as full web parity yet:
 
 - Web JavaScript target is runtime viable in Chrome smoke tests.
-- WebAssembly builds locally on Flutter 3.44.6, but has not completed browser smoke testing.
+- The [backend matrix](../engineering/rendering/renderer_backend_matrix.md) retains a 2026-08-02 Flutter 3.44.6 WebAssembly build observation, not a current pinned-SDK build or completed browser smoke qualification.
 - Export/share, CPU precision fallback, deep zoom, and real hardware GPU performance still need browser QA.
 
 ## Rollback

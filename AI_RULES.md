@@ -1,5 +1,7 @@
 # AI Development Rules - Flutter Fractal Forge
 
+> **Historical generated rules snapshot, not current instructions.** Use the root [agent contract](AGENTS.md), [toolchain pin](fdroid/flutter.version) and [dependency manifest](pubspec.yaml). Format with `dart format <files>` from that SDK, not the obsolete formatter below. The actual [module constructor and UniformSetter](lib/core/modules/fractal_module.dart) and [shader conventions](docs/engineering/performance/SHADER_OPTIMIZATIONS.md) supersede the illustrative subclass/GLSL example below. No host package installation is required by this snapshot.
+
 ## Project Overview
 
 This document defines the rules and patterns for AI agents working on Flutter Fractal Forge.

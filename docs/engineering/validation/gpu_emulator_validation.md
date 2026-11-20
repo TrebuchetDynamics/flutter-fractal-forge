@@ -1,5 +1,7 @@
 # GPU Emulator Validation Results
 
+> **Historical SwiftShader incident, not a current emulator policy or test recipe.** The retained failure/proposals below do not establish today's driver behavior. Use the [current backend policy](../../../lib/features/renderer/policy/backend_policy.dart) and [designated Waydroid testing contract](../testing/waydroid-headless.md). No physical-phone prerequisite, new installation or blanket GPU-disable rule follows from this report.
+
 **Date:** 2026-02-12
 **Emulator:** fractal_test (emulator-5554), swiftshader_indirect GPU mode
 **Build:** debug APK with `SKIP_EMULATOR_GUARD=true` (bypasses androidEmulator policy guard)

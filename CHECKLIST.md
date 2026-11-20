@@ -1,5 +1,7 @@
 # Flutter Fractal Forge — Execution TODO
 
+> **Historical retained snapshot, not an execution queue or current readiness.** Counts, pending boxes, SDK examples and literal `TODO.md` links below preserve the older planning record. Use the [workflow queue owners](docs/README.md#queues-and-history), [current product contract](PRD.md) and [toolchain pin](fdroid/flutter.version); this contextual note changes no task state, order, ownership or acceptance.
+
 [Backlog history](todo.archive.md). Scope authority is resolved; see [the accepted release contract](PRD.md#active-release-contract).
 
 > **Last comprehensive update:** 2026-08-25 recursive-object 3D expansion. Catalog counts below are reconciled to the current integrity test.

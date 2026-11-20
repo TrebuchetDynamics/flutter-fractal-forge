@@ -1,5 +1,7 @@
 # Open-Source Fractal Tools — Reference Document
 
+> **Retained research/planning snapshot, not current implementation guidance.** Upstream capabilities, performance figures, “current” app paths and proposed work below have not been revalidated in this sweep; they carry no current endorsement. Use the [provenance workflow](reference-corpus-workflow.md), [current renderer policy](../../docs/engineering/spec.md#rendering-interface) and [verification plan](../../docs/engineering/test-plan.md) before reuse. Ignored clone paths are not resolvable tracked documentation links or proof of license compatibility.
+
 Analysis of eight open-source projects for applicability to Flutter Fractal Forge (GPU shader-based
 interactive fractal explorer). Each section extracts concrete algorithms, formulas, parameter ranges,
 and GPU patterns that can be directly ported or adapted.
@@ -8,7 +10,7 @@ and GPU patterns that can be directly ported or adapted.
 
 ## Table of Contents
 
-1. [glChAoS.P — Strange Attractors & Particle Systems](#1-glchaos-p)
+1. [glChAoS.P — Strange Attractors & Particle Systems](#1-glchaosp)
 2. [Mandelbulber2 — 3D Fractal Ray-Marcher](#2-mandelbulber2)
 3. [Psychtoolbox-3 — GPU Procedural Rendering & Color Science](#3-psychtoolbox-3)
 4. [FractalExplorer — Multi-Type 2D Fractal Viewer (C++/raylib)](#4-fractalexplorer)
@@ -16,7 +18,7 @@ and GPU patterns that can be directly ported or adapted.
 6. [FractalShark — Deep-Zoom with Perturbation Theory (CUDA)](#6-fractalshark)
 7. [giulia — Interactive Julia/Mandelbrot GPU Renderer](#7-giulia)
 8. [shader-fractals — GLSL Shader Library (2D + 3D)](#8-shader-fractals)
-9. [Cross-Project Synthesis & Implementation Roadmap](#9-synthesis)
+9. [Cross-Project Synthesis & Implementation Roadmap](#9-cross-project-synthesis--implementation-roadmap)
 
 ---
 
