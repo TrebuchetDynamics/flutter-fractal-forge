@@ -4662,7 +4662,7 @@
         "lib/features/viewer/export/viewer_export_feedback.dart": "ebaf2a9605f23c6781f9d20bd36e26e27148a14be2b0b6843c6f2fe49c10359e",
         "lib/features/viewer/export/viewer_export_overlay.dart": "5c957cbd0b3e3580a86825902e4a26e57898f90be6bf2bd0a628b36327780e13",
         "lib/features/viewer/export/viewer_export_session.dart": "ac8542656e74769144103b1801ccdd4df61cf0394b5a7e01eeee848f75111435",
-        "lib/features/viewer/fractal_viewer_screen.dart": "0a2673c01a8c106154de7ea5e53881bfb5ad6b284f9a1bdd10116c695c95c846",
+        "lib/features/viewer/fractal_viewer_screen.dart": "fc9fb32c7bc6986f2edf35b25e702391223dfaa3cdbc933efa68654de4076136",
         "lib/features/viewer/gaussian_moat_map.dart": "ede7df1f31d1e2d2c9c91852d498ce8330784c0cf3a55959f099253149d786a0",
         "lib/features/viewer/gaussian_moat_plot.dart": "b04d49e785ce20042e9e766087bfc26ad05d92f050e31c5c4bcf6eb90701e31d",
         "lib/features/viewer/navigation/viewer_history.dart": "0f3496f1925db9a33753a389bdffa8a8d4819fcf2cf280abf73377e6f50744c9",
@@ -10086,7 +10086,7 @@
       }
     }
   },
-  "candidate_identity": "c7cb36b3f238a5d498e1ffa750e60586cea48d21966ee8cd0fe4a5d75fc39e34",
+  "candidate_identity": "88555d7fbbf9f1cd51bd57af16460bd9003f313ad20e821bb4d763d4fc184f21",
   "compiled_artifacts": [],
   "schema": 1,
   "semantic_deltas": {},

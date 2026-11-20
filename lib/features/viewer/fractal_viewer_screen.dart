@@ -1394,136 +1394,127 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final headerKey = GlobalKey();
     var initialRevealScheduled = false;
 
-    _overlayFlow
-        .present<void>(
-          builder: (sheetContext) =>
-              LayoutBuilder(builder: (context, constraints) {
-            final textScaler = MediaQuery.textScalerOf(context);
-            // Width and scaled text both constrain the grid. At phone widths even
-            // 2x text needs one column; fixed scale-only breakpoints made four
-            // cramped columns at normal scale and clipped enlarged palette names.
-            final availableWidth = constraints.maxWidth - AppSpacing.md * 2;
-            final minTileWidth =
-                math.max(140.0, textScaler.scale(12) / 12 * 140);
-            final columnCount = ((availableWidth + AppSpacing.sm) /
-                    (minTileWidth + AppSpacing.sm))
+    _overlayFlow.present<void>(
+      builder: (sheetContext) => LayoutBuilder(builder: (context, constraints) {
+        final textScaler = MediaQuery.textScalerOf(context);
+        // Width and scaled text both constrain the grid. At phone widths even
+        // 2x text needs one column; fixed scale-only breakpoints made four
+        // cramped columns at normal scale and clipped enlarged palette names.
+        final availableWidth = constraints.maxWidth - AppSpacing.md * 2;
+        final minTileWidth = math.max(140.0, textScaler.scale(12) / 12 * 140);
+        final columnCount =
+            ((availableWidth + AppSpacing.sm) / (minTileWidth + AppSpacing.sm))
                 .floor()
                 .clamp(1, 4);
-            final tileWidth =
-                (availableWidth - AppSpacing.sm * (columnCount - 1)) /
-                    columnCount;
-            final labelStyle = AppTypography.labelSmall.copyWith(
-              fontSize: 12,
-              height: 1.2,
-              fontWeight: FontWeight.w700,
-            );
-            var labelHeight = 0.0;
-            for (final option in options) {
-              final painter = TextPainter(
-                text: TextSpan(text: option.label(l10n), style: labelStyle),
-                textDirection: Directionality.of(context),
-                textScaler: textScaler,
-              )..layout(maxWidth: math.max(1, tileWidth - 16));
-              labelHeight = math.max(labelHeight, painter.height);
-              painter.dispose();
+        final tileWidth =
+            (availableWidth - AppSpacing.sm * (columnCount - 1)) / columnCount;
+        final labelStyle = AppTypography.labelSmall.copyWith(
+          fontSize: 12,
+          height: 1.2,
+          fontWeight: FontWeight.w700,
+        );
+        var labelHeight = 0.0;
+        for (final option in options) {
+          final painter = TextPainter(
+            text: TextSpan(text: option.label(l10n), style: labelStyle),
+            textDirection: Directionality.of(context),
+            textScaler: textScaler,
+          )..layout(maxWidth: math.max(1, tileWidth - 16));
+          labelHeight = math.max(labelHeight, painter.height);
+          painter.dispose();
+        }
+        final tileHeight = 16 + 56 + 8 + labelHeight.ceilToDouble();
+        final selectedRow = math.max(0, selectedIndex ~/ columnCount);
+        paletteScrollController ??= ScrollController(
+            initialScrollOffset: selectedRow * (tileHeight + AppSpacing.sm));
+        if (!initialRevealScheduled) {
+          initialRevealScheduled = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final scroll = paletteScrollController;
+            final header = headerKey.currentContext?.findRenderObject();
+            if (scroll == null || !scroll.hasClients || header is! RenderBox) {
+              return;
             }
-            final tileHeight = 16 + 56 + 8 + labelHeight.ceilToDouble();
-            final selectedRow = math.max(0, selectedIndex ~/ columnCount);
-            paletteScrollController ??= ScrollController(
-                initialScrollOffset:
-                    selectedRow * (tileHeight + AppSpacing.sm));
-            if (!initialRevealScheduled) {
-              initialRevealScheduled = true;
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                final scroll = paletteScrollController;
-                final header = headerKey.currentContext?.findRenderObject();
-                if (scroll == null ||
-                    !scroll.hasClients ||
-                    header is! RenderBox) {
-                  return;
-                }
-                // Header height depends on localization and text scaling. Reveal
-                // the selected row using its actual laid-out height, retaining the
-                // header on screen when both it and the selection fit together.
-                final position = scroll.position;
-                final selectedTop = header.size.height +
-                    AppSpacing.sm +
-                    selectedRow * (tileHeight + AppSpacing.sm);
-                final offset = tileHeight > position.viewportDimension
-                    ? selectedTop
-                    : math.max(0.0,
-                        selectedTop + tileHeight - position.viewportDimension);
-                scroll.jumpTo(offset.clamp(0.0, position.maxScrollExtent));
-              });
-            }
-            return StatefulBuilder(
-              builder: (context, setSheetState) {
-                final current = controller.params['colorScheme'];
-                return AppBottomSheet(
-                  maxHeightFactor: 0.68,
-                  children: [
-                    Flexible(
-                      // Header and grid share one viewport: a large translated
-                      // header must never consume the entire palette scroll area.
-                      child: CustomScrollView(
-                        key: const ValueKey('palettePickerScroll'),
-                        controller: paletteScrollController,
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: AppBottomSheetHeader(
-                              key: headerKey,
-                              icon: Icons.palette_rounded,
-                              title: l10n.paramColorScheme,
-                              subtitle: l10n.palettePickerSubtitle,
-                              onClose: () => Navigator.of(context).pop(),
-                            ),
-                          ),
-                          SliverPadding(
-                            padding: const EdgeInsets.fromLTRB(
-                              AppSpacing.md,
-                              AppSpacing.sm,
-                              AppSpacing.md,
-                              AppSpacing.lg,
-                            ),
-                            sliver: SliverGrid(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: columnCount,
-                                mainAxisSpacing: AppSpacing.sm,
-                                crossAxisSpacing: AppSpacing.sm,
-                                mainAxisExtent: tileHeight,
-                              ),
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                                  final option = options[index];
-                                  final selected = option.value == current;
-                                  return _PaletteChoiceTile(
-                                    key: ValueKey(
-                                        'paletteChoice${option.value}'),
-                                    label: option.label(l10n),
-                                    value: option.value,
-                                    selected: selected,
-                                    onTap: () {
-                                      controller.updateParam(
-                                          'colorScheme', option.value);
-                                      setSheetState(() {});
-                                    },
-                                  );
-                                },
-                                childCount: options.length,
-                              ),
-                            ),
-                          ),
-                        ],
+            // Header height depends on localization and text scaling. Reveal
+            // the selected row using its actual laid-out height, retaining the
+            // header on screen when both it and the selection fit together.
+            final position = scroll.position;
+            final selectedTop = header.size.height +
+                AppSpacing.sm +
+                selectedRow * (tileHeight + AppSpacing.sm);
+            final offset = tileHeight > position.viewportDimension
+                ? selectedTop
+                : math.max(
+                    0.0, selectedTop + tileHeight - position.viewportDimension);
+            scroll.jumpTo(offset.clamp(0.0, position.maxScrollExtent));
+          });
+        }
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            final current = controller.params['colorScheme'];
+            return AppBottomSheet(
+              maxHeightFactor: 0.68,
+              children: [
+                Flexible(
+                  // Header and grid share one viewport: a large translated
+                  // header must never consume the entire palette scroll area.
+                  child: CustomScrollView(
+                    key: const ValueKey('palettePickerScroll'),
+                    controller: paletteScrollController,
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: AppBottomSheetHeader(
+                          key: headerKey,
+                          icon: Icons.palette_rounded,
+                          title: l10n.paramColorScheme,
+                          subtitle: l10n.palettePickerSubtitle,
+                          onClose: () => Navigator.of(context).pop(),
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(
+                          AppSpacing.md,
+                          AppSpacing.sm,
+                          AppSpacing.md,
+                          AppSpacing.lg,
+                        ),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: columnCount,
+                            mainAxisSpacing: AppSpacing.sm,
+                            crossAxisSpacing: AppSpacing.sm,
+                            mainAxisExtent: tileHeight,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final option = options[index];
+                              final selected = option.value == current;
+                              return _PaletteChoiceTile(
+                                key: ValueKey('paletteChoice${option.value}'),
+                                label: option.label(l10n),
+                                value: option.value,
+                                selected: selected,
+                                onTap: () {
+                                  controller.updateParam(
+                                      'colorScheme', option.value);
+                                  setSheetState(() {});
+                                },
+                              );
+                            },
+                            childCount: options.length,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             );
-          }),
-        )
-        .whenComplete(() => paletteScrollController?.dispose());
+          },
+        );
+      }),
+    ).whenComplete(() => paletteScrollController?.dispose());
   }
 
   KeyEventResult _onKeyEvent(BuildContext context, KeyEvent event) =>
@@ -1717,7 +1708,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                         kaleidoscopeSectors:
                             activeController.kaleidoscopeSectors,
                         kaleidoscopeMirror: activeController.kaleidoscopeMirror,
-                        looperPlaying: _looperController?.isPlaying ?? false,
+                        looperPlaying:
+                            _looperController?.isPlaying ?? false,
                         looperAvailable: _looperController != null,
                         canGoPreviousFractal:
                             context.watch<HistoryProvider?>()?.canGoBack ??
@@ -1754,8 +1746,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             openControls: () => _toggleControlsHud(),
                             randomizeParams: () {
                               HapticFeedback.mediumImpact();
-                              final activeController =
-                                  _activeController(context);
+                              final activeController = _activeController(context);
                               activeController.randomizeParams();
                             },
                             openRandomFractal: () =>
@@ -1781,8 +1772,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             toggleTextOverlay: _toggleTextOverlay,
                             editTextOverlay: _editTextOverlay,
                             randomizePalette: () => _randomizePalette(context),
-                            previousFractal: () =>
-                                _goToPreviousFractal(context),
+                            previousFractal: () => _goToPreviousFractal(context),
                             openRandomCategories: () =>
                                 _openRandomCategories(context),
                           ),
@@ -2019,8 +2009,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                       FilledButton.icon(
                         key: const ValueKey('viewerDeepZoomCpuButton'),
                         style: FilledButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.surface,
+                          backgroundColor: Theme.of(context).colorScheme.surface,
                           foregroundColor:
                               Theme.of(context).colorScheme.secondary,
                           side: BorderSide(
