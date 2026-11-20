@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_fractals/core/models/history/history_entry.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -14,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/overflow_guard.dart';
+import '../helpers/ui_overlay_capture_harness.dart'
+    show loadOverlayCaptureFonts;
 
 /// Pumps the sheet with one recorded location and one favourite, so the entry
 /// tiles, count badges and the position label are all present.
@@ -65,6 +70,79 @@ Future<void> _pumpSheet(
   await provider.saveCurrentAsFavorite('Favourite One');
   onReady?.call(provider);
   await tester.pumpAndSettle();
+}
+
+/// Uses the shipping modal route, not a sheet embedded directly in a Scaffold.
+Future<(HistoryProvider, FractalController)> _pumpHistoryRoute(
+    WidgetTester tester) async {
+  SharedPreferences.setMockInitialValues({});
+  final controller = FractalController(ModuleRegistry());
+  final store = await HistoryStore.create();
+  final entries = List.generate(
+      8,
+      (index) => HistoryEntry(
+            id: 'view-$index',
+            name: 'Vista $index',
+            moduleId: controller.module.id,
+            view: controller.view.copyWith(zoom: index + 2.0),
+            params: controller.params,
+            visitedAt: DateTime.utc(2026, 1, 1, 0, index),
+          ));
+  await store.saveHistory(entries);
+  await store.saveFavorites([entries[0].copyWith(name: 'Mi favorito')]);
+  final history = HistoryProvider(store: store);
+  addTearDown(controller.dispose);
+  addTearDown(history.dispose);
+  await tester.pumpWidget(MultiProvider(
+    providers: [
+      ChangeNotifierProvider.value(value: controller),
+      ChangeNotifierProvider.value(value: history),
+    ],
+    child: MaterialApp(
+      theme: AppTheme.highContrast,
+      locale: const Locale('es'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          textScaler: TextScaler.linear(3),
+          highContrast: true,
+          disableAnimations: true,
+          accessibleNavigation: true,
+        ),
+        child: child!,
+      ),
+      home: Builder(
+          builder: (context) => Scaffold(
+                  body: TextButton(
+                onPressed: () => showAppBottomSheet<void>(
+                    context: context, builder: (_) => const HistorySheet()),
+                child: const Text('Abrir historial'),
+              ))),
+    ),
+  ));
+  await tester.tap(find.text('Abrir historial'));
+  await tester.pumpAndSettle();
+  return (history, controller);
+}
+
+Future<void> _tabTo(WidgetTester tester, Finder target) async {
+  for (var attempt = 0; attempt < 40; attempt++) {
+    await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+    await tester.pumpAndSettle();
+    final context = FocusManager.instance.primaryFocus?.context;
+    if (context != null &&
+        find
+            .descendant(
+              of: find
+                  .byElementPredicate((element) => identical(element, context)),
+              matching: target,
+              matchRoot: true,
+            )
+            .evaluate()
+            .isNotEmpty) return;
+  }
+  fail('Keyboard could not reach $target');
 }
 
 class _ControlledReplayController extends FractalController {
@@ -337,20 +415,94 @@ void main() {
       }
     }
 
-    testWidgets('the tab body keeps height at a 3x text scale', (tester) async {
+    testWidgets('the tab body is reachable at a 3x text scale', (tester) async {
       await tester.binding.setSurfaceSize(const Size(320, 568));
       addTearDown(() => tester.binding.setSurfaceSize(null));
       await _pumpSheet(tester, textScale: 3.0);
 
-      // The header is a fixed child of the sheet's Column, so an unbounded one
-      // takes its space from the tab body instead of scrolling. Uncapped it
-      // reached 412px inside a 341px sheet and the body collapsed to zero,
-      // hiding every entry until the sheet was dragged taller.
-      expect(
-        tester.getSize(find.byType(TabBarView).first).height,
-        greaterThan(0),
-        reason: 'tab body collapsed to nothing',
-      );
+      // Header and tabs may initially fill a short viewport, but they must
+      // scroll away so the recorded location can be reached without resizing.
+      final entry = find.text('mandelbrot @ 0.3x');
+      for (var attempt = 0;
+          attempt < 10 && entry.hitTestable().evaluate().isEmpty;
+          attempt++) {
+        await tester.drag(find.byType(HistorySheet), const Offset(0, -100));
+        await tester.pumpAndSettle();
+      }
+      expect(entry.hitTestable(), findsOneWidget);
+      expect(tester.getSize(find.byType(TabBarView)).height, greaterThan(0));
     });
+
+    // Match the capture harness's deterministic SDK font substitution. Keep
+    // these after the Ahem-based guideline checks: font registration is global.
+    for (final size in [const Size(667, 375), const Size(375, 667)]) {
+      testWidgets('populated Spanish 3x actual modal is reachable on $size',
+          (tester) async {
+        await loadOverlayCaptureFonts(tester);
+        await tester.binding.setSurfaceSize(size);
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        late HistoryProvider history;
+        late FractalController controller;
+        await expectNoOverflow(() async {
+          (history, controller) = await _pumpHistoryRoute(tester);
+        });
+        expect(find.byType(ModalBarrier), findsWidgets);
+        // Scroll the real route by touch to an older, uniquely named entry.
+        for (var attempt = 0;
+            attempt < 25 &&
+                find.text('Vista 1').hitTestable().evaluate().isEmpty;
+            attempt++) {
+          await tester.drag(find.byType(HistorySheet), const Offset(0, -100));
+          await tester.pumpAndSettle();
+        }
+        expect(find.text('Vista 1').hitTestable(), findsOneWidget);
+        await tester.tap(find.text('Vista 1'));
+        await tester.pumpAndSettle();
+        expect(history.currentEntry!.id, 'view-1');
+        expect(controller.view.zoom, 3);
+
+        // Keyboard traversal must reveal offscreen tabs and list entries too.
+        await _tabTo(tester, find.text('Favoritos'));
+        expect(find.text('Favoritos').hitTestable(), findsOneWidget);
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        await _tabTo(tester, find.text('Mi favorito'));
+        expect(find.text('Mi favorito').hitTestable(), findsOneWidget);
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        expect(history.historyCount, 3);
+        expect(history.currentPosition, 3);
+        expect(controller.view.zoom, 2);
+        await history.removeFavorite(history.favorites.single.id);
+        await tester.pumpAndSettle();
+        await tester.ensureVisible(find.text('Sin favoritos'));
+        expect(find.text('Sin favoritos'), findsOneWidget);
+        await _tabTo(tester, find.text('Historial').last);
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        final close = find.byIcon(Icons.close_rounded);
+        await _tabTo(tester, find.byIcon(Icons.close_rounded));
+        expect(close.hitTestable(), findsOneWidget);
+        expect(find.text('Historial').first.hitTestable(), findsOneWidget);
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        expect(find.byType(HistorySheet), findsNothing);
+        // Reopen the same real route and replay a specific history entry using
+        // only traversal and activation keys, as well as the touch path above.
+        await tester.tap(find.text('Abrir historial'));
+        await tester.pumpAndSettle();
+        await _tabTo(tester, find.text('Vista 1'));
+        expect(find.text('Vista 1').hitTestable(), findsOneWidget);
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        expect(history.currentPosition, 2);
+        expect(controller.view.zoom, 3);
+        await _tabTo(tester, find.byIcon(Icons.close_rounded));
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        expect(find.byType(HistorySheet), findsNothing);
+        expect(tester.takeException(), isNull);
+      });
+    }
   });
 }
