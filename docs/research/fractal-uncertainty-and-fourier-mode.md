@@ -1,18 +1,24 @@
 # Fractal Fourier and Uncertainty Mode
 
-> Historical scope: Fourier Music has been removed from the application. The music
-> discussion below is retained as research context, not a current feature claim.
-> Fourier View and Fractal Uncertainty Lab remain available.
+> Current-source clarification (2026-11-20): Fourier Music has been removed from
+> the application. The music discussion below is retained as historical research,
+> not a current feature or setup requirement. Fourier View and Fractal Uncertainty
+> Lab remain wired in the [viewer](../../lib/features/viewer/fractal_viewer_screen.dart).
+> This source status is not cross-platform qualification or release-inclusion proof.
+>
+> The silent Camera looper is separate from these numerical tools. The interim
+> parameter-breathing animation was also removed; [Play 1.1.121 change notes](../engineering/release/PLAY_1.1.121.md#what-changed-since-the-published-11120)
+> describe Play running the camera path, not music.
 
 ## Scope
 
-Fractal Forge's Fourier mode is a finite numerical and creative laboratory. It
-has three distinct layers:
+Fractal Forge's Fourier work separates two current finite numerical tools from
+one historical creative layer:
 
 1. **Fourier View** computes a two-dimensional discrete Fourier transform of a
    sampled, finite-resolution image of the current viewport.
-2. **Fourier Music** maps measured spatial-spectrum features into artistic
-   orchestration controls.
+2. **Fourier Music (removed)** mapped measured spatial-spectrum features into
+   artistic orchestration controls; the description is retained below as research.
 3. **Fractal Uncertainty Lab** estimates a restricted unitary Fourier operator
    norm for exact finite self-similar masks.
 
@@ -107,7 +113,10 @@ Hertz. Magnitude orientation is an axis modulo `π`, not a signed left/right
 arrow. Image edges are perpendicular to the corresponding Fourier-energy
 direction.
 
-## Fourier Music claims
+## Fourier Music claims (historical)
+
+This section preserves the former design's claim boundaries, not current UI or
+playback instructions. In that design:
 
 The transform is a stable feature extractor, not an oscillator bank. Measured
 features may include radial power distribution, centroid, rolloff, entropy,

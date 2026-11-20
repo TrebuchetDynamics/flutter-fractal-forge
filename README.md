@@ -64,7 +64,9 @@ Once the catalog opens, follow [the first-use sequence](#browser-preview). Use A
 - **Shape a view** — pan, zoom, presets, 64 color schemes and family-specific parameters, with deeper GPU preview and CPU paths where supported.
 - **Keep a result** — image export, sharing and wallpaper tools on supported installable targets. These tools do not establish the cross-platform release gate below.
 
-Experimental tools include dual Mandelbrot/Julia views and live Fourier analysis.
+Experimental tools on main include dual Mandelbrot/Julia views, **Fourier View** (finite image-spectrum analysis) and **Fractal Uncertainty Lab** (finite-mask experiments). Neither numerical tool is audio playback or a continuous-theorem proof. Fourier Music was removed; the silent Camera looper is a separate animation tool. See the [Fourier guide and historical music scope](docs/research/fractal-uncertainty-and-fourier-mode.md).
+
+The existing `gaussian_prime_lattice` viewer now wires **GaussianMoatMap** for bounded prime walking. Integration, test source, dated Linux/Chromium execution and unverified release inclusion are separated in the [Gaussian status](PRD.md#gaussian-moat-walking-visualization). Presence on main does not imply availability in the Play artifact.
 
 ### Privacy, accessibility and security
 
@@ -132,7 +134,7 @@ Precision is capability-based. A synthetic fallback is **not** CPU Precision. Se
 
 ## Current development priority
 
-Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is **proposed, not implemented**. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [scoped Autowork tasks](tasks/items/), [workflow queue owners](docs/README.md#queues-and-history) and [verification plan](docs/engineering/test-plan.md).
+Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is **proposed, not implemented**. The phone-overlay epic [#30](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/30) and children [#31](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/31), [#32](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/32), [#33](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/33) and [#34](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/34) are planned work, not shipped controls. Gaussian map/walk code is integrated on main; local evidence is not full platform qualification or release-inclusion proof. See [the owner decision](PRD.md#quality-first-planning-priority), [scoped Autowork tasks](tasks/items/), [workflow queue owners](docs/README.md#queues-and-history) and [verification plan](docs/engineering/test-plan.md).
 
 ## Architecture
 

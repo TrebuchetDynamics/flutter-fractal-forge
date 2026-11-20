@@ -176,11 +176,18 @@ This planning session does not implement, commit, push, publish a release or sta
 
 ## Gaussian moat walking visualization
 
-Status: Accepted
+Status (source inspection 2026-11-20): bounded map/walk integrated on main; qualification remains partial.
 
 Source: Owner request in this conversation: `/autoresearch_plan /repo_docs we need to add gaussian moat walking on primes visualization to our app`.
 
-Accepted outcome: extend the app with a Gaussian-prime map that lets a user explore bounded-step walking and reachable clusters. This is planned work, not an implemented or released feature. Preserve the pending Play release obligation separately; this request does not add an unimplemented feature to a release candidate.
+Accepted outcome: extend the app with a Gaussian-prime map that lets a user explore bounded-step walking and reachable clusters. The original request was planning-only; the existing `gaussian_prime_lattice` viewer now wires `GaussianMoatMap`. Do not equate that integration with complete acceptance or release inclusion.
+
+| Evidence level | Current basis and limits |
+| --- | --- |
+| Main integration | [Viewer wiring](lib/features/viewer/fractal_viewer_screen.dart) opens [GaussianMoatMap](lib/features/viewer/gaussian_moat_map.dart) from the existing lattice entry's Walk mode; it does not add a second catalog identity. |
+| Test source | [Model fixtures](test/modules/gaussian_moat_model_test.dart), [walk/widget tests](test/features/viewer/gaussian_moat_walk_test.dart) and [native journey](integration_test/flows/gaussian_moat_journey_test.dart) exist. File presence alone is not an executed pass. |
+| Documented execution | [GAUSS-LOCAL-01](docs/qa/gaussian-local-20261026/README.md) records 2026-10-25 Linux/Xvfb software-backend execution, 44 focused tests, retained PNGs and B=128 telemetry on its named source/SDK. The [test plan](docs/engineering/test-plan.md#gaussian-moat-visualization) separately records Linux and production Chromium journeys. These are dated, scoped results, not a rerun on today's main or Android/hardware-GPU/full accessibility qualification. |
+| Release inclusion | Gaussian-specific inclusion in Play is **not verified** here. The [1.1.121 production record](docs/engineering/release/PLAY_1.1.121.md) identifies source `d2046cf7` and the artifact, but is not a Gaussian-specific journey receipt. Main integration alone cannot establish what a released artifact contains or how it behaves. |
 
 - Reuse the existing `gaussian_prime_lattice` catalog identity, favorites and normal viewer navigation. Do not create a second Gaussian lattice or promote the historical spiral candidate as a separate system.
 - Show exact Gaussian primes within an explicitly bounded integer domain. Let a user select a prime, set a maximum Euclidean step, follow a path without revisiting points, undo/reset it, and inspect the starting prime's full reachable component.
@@ -190,9 +197,9 @@ Accepted outcome: extend the app with a Gaussian-prime map that lets a user expl
 
 Acceptance: exact positive/negative primality fixtures pass; every accepted path step meets the inclusive distance bound and avoids repeats; reachable-component results match independent small-domain fixtures; boundary status is honest; navigation, accessibility and PNG artifact checks pass separately on the supported targets.
 
-Refined experience: separate candidate selection from the Step action; preserve pan/zoom gestures; use the existing mobile HUD/sheets and a responsive wide-screen control panel. Show computation-boundary and component states continuously. Apply finite work caps, cancellable chunks and serialized radius playback. Export one completed, paused graph snapshot. The [UI and performance contract](docs/engineering/spec.md#ui-layout-and-interaction-contract) is planned engineering detail, not measured device qualification.
+Refined experience: separate candidate selection from the Step action; preserve pan/zoom gestures; use the existing mobile HUD/sheets and a responsive wide-screen control panel. Show computation-boundary and component states continuously. Apply finite work caps, cancellable chunks and serialized radius playback. Export one completed, paused graph snapshot. The [UI and performance contract](docs/engineering/spec.md#ui-layout-and-interaction-contract) remains the broader acceptance target, not a claim that every detail is implemented or device-qualified.
 
-Implementation defaults, bounded architecture, planned checks and research sources are in [the feature specification](docs/engineering/spec.md#gaussian-moat-walking-visualization). Ordered tasks are `GAUSS-MOAT-01-MAP`, `GAUSS-MOAT-02-WALK`, `GAUSS-MOAT-04-GROWTH`, and `GAUSS-MOAT-03-QUALIFY` in the [Autowork task records](tasks/items/). Existing focus, queue priorities, active workers and release gates remain unchanged.
+Implementation defaults, bounded architecture, current integration limits and research sources are in [the feature specification](docs/engineering/spec.md#gaussian-moat-walking-visualization). The original ordered tasks are `GAUSS-MOAT-01-MAP`, `GAUSS-MOAT-02-WALK`, `GAUSS-MOAT-04-GROWTH`, and `GAUSS-MOAT-03-QUALIFY` in the [Autowork task records](tasks/items/). Existing focus, queue priorities, active workers and release gates remain unchanged.
 
 ## Prime-norm quaternion companion
 
@@ -441,8 +448,10 @@ Each new fractal must pass:
 - Schema-driven controls per fractal
 - No minimap feature is present in the current tree
 - Debug overlay for shader troubleshooting
-- Live Fourier analysis and finite-grid uncertainty laboratory. Fourier Music was later removed and replaced by silent parameter animation.
+- Live Fourier analysis and finite-grid uncertainty laboratory.
 - 50+ sub-agent improvements (haptics, stats, video export, accessibility)
+
+Later status clarification (2026-11-20): this dated list is not a current release inventory. Fourier Music was removed; [Fourier View and Uncertainty Lab](docs/research/fractal-uncertainty-and-fourier-mode.md) remain distinct numerical tools. The interim silent parameter-breathing loop was also removed: [Play 1.1.121 change notes](docs/engineering/release/PLAY_1.1.121.md#what-changed-since-the-published-11120) describe Play opening the Camera looper, not music or parameter animation.
 
 ### Known Issues
 - ~~**CRITICAL: Flutter 3.38+ Impeller shader rendering**~~ — **RESOLVED** (2026-04-05). The black-screen was caused by SkSL-incompatible `%` and `clamp(int, int, int)` operators in shaders; replaced with integer-division modulo and `float(clamp(...))` patterns. All 3D and escape-time shaders compile and render on GPU.
