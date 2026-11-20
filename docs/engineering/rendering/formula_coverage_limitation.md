@@ -5,7 +5,7 @@ CPU availability is module-specific, not a fixed fraction of the catalog and not
 ## Capability boundaries
 
 - `hasNativeCpuFormula` identifies native recurrences eligible for the precision ladder. A deterministic synthetic approximation is **not CPU Precision** or mathematical certification.
-- `hasCpuFormula` also includes curated synthetic previews. A successful lookup or nonblank image alone does not establish equivalence to the module's GPU formula.
+- `hasCuratedCpuFormula` also includes curated synthetic previews. A successful lookup or nonblank image alone does not establish equivalence to the module's GPU formula.
 - Modules without an eligible native formula must not acquire an exactness claim merely because zoom crossed a threshold. Extended GPU preview remains preview-grade.
 - GPU-required modules and exact discrete visualizations can have specialized paths or explicit unsupported states; do not infer universal CPU support from the generic resolver.
 - Catalog thumbnails are runtime-rendered. Consult the [thumbnail plan](../../../lib/features/catalog/data/catalog_thumbnail_plan.dart) for availability/fallback labels, rather than assuming every missing CPU formula displays Mandelbrot artwork.

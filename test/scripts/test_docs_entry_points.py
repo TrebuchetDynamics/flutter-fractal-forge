@@ -124,6 +124,11 @@ def test_formula_coverage_uses_capability_source_not_unsupported_parity_or_analy
     assert 'full CPU parity' not in coverage
     assert 'based on usage analytics' not in coverage
     assert 'no remote usage analytics' in coverage
+    resolver = text('lib/features/renderer/cpu/formulas/cpu_formulas.dart')
+    for predicate in ('hasNativeCpuFormula', 'hasCuratedCpuFormula'):
+        assert f'bool {predicate}(' in resolver
+        assert f'`{predicate}`' in coverage
+    assert '`hasCpuFormula`' not in coverage
     playbook = text('docs/engineering/rendering/cpu_vs_gpu_rendering.md')
     assert 'emulator status alone does not force CPU' in playbook
     assert 'or implement perturbation later' not in playbook
@@ -149,6 +154,8 @@ def test_current_readme_and_glossary_do_not_endorse_removed_or_planned_only_ux()
     landing = text('web/landing.html')
     assert 'downloads reported by the project owner' not in landing
     assert '#-getting-started' not in landing
+    assert 'WebAssembly builds locally' not in landing
+    assert 'Historical WebAssembly build evidence' in landing
 
 
 def test_backend_matrix_distinguishes_dated_emulator_receipt_from_current_policy():
