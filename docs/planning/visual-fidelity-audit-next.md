@@ -12,6 +12,8 @@ Review true module defaults, runtime catalog previews, and first viewer renders.
 
 ## Evidence checked
 
+Historical `TODO.md` evidence references below name the former backlog. For present status and ownership use the applicable [workflow queue](../README.md#queues-and-history); retained completed bodies are in the [task archive](../../todo.archive.md). This navigation correction does not refresh the recorded audit results.
+
 - `CONTEXT.md`: defines Featured Launch Set, Trust-Breaking First-Impression Defect, Visual Fidelity Audit, Seeded Thumbnail Palette.
 - `TODO.md`: app icon visual sign-off and the full visual playtest audit remain open; catalog thumbnail improvements and continuous auto-zoom are marked complete.
 - `docs/planning/PRD.md`: current policy keeps catalog thumbnails runtime-rendered, with no static catalog PNGs in the bundle. The 320×320 Launch Thumbnail Standard applies to launch-set thumbnail media outputs; 256×256 remains valid for staged smoke output.
@@ -42,7 +44,7 @@ Corrected default command: `xvfb-run -a env CATALOG_THUMB_ONLY=core.mimura_murra
 
 Real-GPU checks use `--dart-define=FORCE_GPU_RENDER=true`. Default and runtime-preview checks now have evidence for Julia, Nova, Newton z³, Koch Snowflake, Burning Ship, Four-Wing, Lorenz 2D, Mandelbrot, Rössler 2D, and Thomas Attractor. Viewer-start checks cover all nine Featured Launch Set IDs: seven in `user_flows_test.dart`, plus dedicated Nova and Newton z³ tests. Koch's 256×256 default capture reports 1,591 unique RGB colors and 17.09% black pixels. Its runtime preview is 384×346. These are focused samples, not full-catalog coverage.
 
-The visual inventory reconciles 1,028 Explore IDs (core=1,028; performance=0) and 200 research-manifest IDs. It records default capture/runtime-preview evidence for 207 Explore rows, including ten preserved historical captures from the rejected initial VIS-006-BATCH-20 selection; 820 rows remain marked uncaptured in VIS-005 and `core.coral_growth_3d` separately lacks a GPU runtime preview. All 200 research rows are `missing_app_renderer`. The `first_view` field is populated for 14 Explore rows. `cpu_formula` is `not audited` in 1,134 of 1,228 rows after the corrected batch and the five targeted native CPU checks. These are recorded inventory values, not fresh artifact checks for every historical capture. The validator checks references and shader paths, not render quality. Remaining coverage is tracked in [`TODO.md`](../../TODO.md).
+The visual inventory reconciles 1,028 Explore IDs (core=1,028; performance=0) and 200 research-manifest IDs. It records default capture/runtime-preview evidence for 207 Explore rows, including ten preserved historical captures from the rejected initial VIS-006-BATCH-20 selection; 820 rows remain marked uncaptured in VIS-005 and `core.coral_growth_3d` separately lacks a GPU runtime preview. All 200 research rows are `missing_app_renderer`. The `first_view` field is populated for 14 Explore rows. `cpu_formula` is `not audited` in 1,134 of 1,228 rows after the corrected batch and the five targeted native CPU checks. These are recorded inventory values, not fresh artifact checks for every historical capture. The validator checks references and shader paths, not render quality. Remaining coverage records are in the [scoped Autowork task store](../../tasks/items/).
 
 An earlier 1,020-entry GPU capture timed out. Its report did not reconcile with the 907 PNG files found. It is not complete-coverage evidence. Four-Wing, Lorenz, Rössler, and Thomas captures also have documented visual findings that need follow-up. Keep their established formulas unchanged unless an implementation defect is demonstrated.
 
@@ -134,12 +136,12 @@ Before launch screenshots:
 
 The accepted visual-improvement task also covers both Explore groups and the 200 reference definitions in `research/fractals-library/data/fractal_manifest.json`. This is separate from the Featured Launch Set media policy above. The ID inventory is reconciled, but rendering, CPU-formula, and first-view evidence is partial. The 200 reference definitions have no app renderer in the current inventory.
 
-The next bounded steps are tracked in [`TODO.md`](../../TODO.md):
+The bounded steps below have records in the [scoped Autowork task store](../../tasks/items/):
 
 - `VIS-004`: the nine Featured Launch Set first-view checks have executed evidence, including dedicated Nova and Newton z³ tests.
 - `VIS-005`: ID and renderer-status reconciliation is complete. It does not prove visual output or CPU-formula coverage.
 
-`VIS-006` in `TODO.md` tracks the remaining GPU captures, runtime previews, first viewer renders, and supported CPU checks. The next batch should name ten uncaptured Explore IDs. Do not count a batch as complete until its selected, generated, failed, and skipped counts reconcile. Keep formula redesign and static catalog assets out of scope.
+`VIS-006` in the [Autowork task store](../../tasks/items/) tracks the remaining GPU captures, runtime previews, first viewer renders, and supported CPU checks. The next batch should name ten uncaptured Explore IDs. Do not count a batch as complete until its selected, generated, failed, and skipped counts reconcile. Keep formula redesign and static catalog assets out of scope.
 
 ## Current execution frontier
 

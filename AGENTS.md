@@ -4,6 +4,8 @@
 
 ## Purpose
 
+Start with the [current product contract](PRD.md) and [workflow queues and history](docs/README.md#queues-and-history): GitHub issues/Orbi delivery, scoped Autowork tasks, and the historical archive have different owners.
+
 ## Key Files
 
 | File | Description |
@@ -12,8 +14,10 @@
 | `pubspec.yaml` | Dependencies and shader/asset declarations |
 | `l10n.yaml` | Localization configuration |
 | `analysis_options.yaml` | Dart analyzer rules |
-| `PRD.md` | Product requirements document |
-| `TODO.md` | Remaining tasks and features |
+| [PRD.md](PRD.md) | Current product contract |
+| [docs/README.md](docs/README.md) | Documentation index and workflow queue owners |
+| [tasks/items/](tasks/items/) | Scoped Autowork task records, not the GitHub/Orbi issue queue |
+| [todo.archive.md](todo.archive.md) | Historical task bodies and provenance, not current eligibility |
 | `docs/engineering/performance/PERFORMANCE.md` | Performance optimization notes |
 | `docs/engineering/performance/SHADER_OPTIMIZATIONS.md` | GPU shader optimization strategies |
 

@@ -1,6 +1,8 @@
 # Backlog history
 
-Historical records only. `goals.json` and `TODO.md` own current status and eligibility.
+Historical records only, not an execution queue. Use the [current product contract](PRD.md) and applicable [workflow queue owners](docs/README.md#queues-and-history): [GitHub issues / Orbi delivery](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues) or scoped Autowork [task items](tasks/items/) and [goals](tasks/goals/). This archive does not establish current status or eligibility.
+
+Literal `TODO.md` / `goals.json` references, links and commands inside retained records describe the former files at the time of recording; they are historical provenance, not actionable current navigation. Do not recreate those files or infer new task state from archived checkboxes.
 
 ## Repository interview — 2026-10-11
 
@@ -106,7 +108,7 @@ These summaries restore missing task-body navigation from retained completed led
 
 ## Superseded changelog planning list
 
-Source: CHANGELOG.md, Unreleased / Planned, before the current documentation correction. Preserved verbatim below; current completion state is in TODO.md/goals.json, not this historical list.
+Source: CHANGELOG.md, Unreleased / Planned, before the current documentation correction. Preserved verbatim below; use the applicable [current workflow records](docs/README.md#queues-and-history) for completion state, not this historical list.
 
 ### Planned
 

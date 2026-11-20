@@ -1,5 +1,7 @@
 # Julia-Variant Perturbation Implementation Plan
 
+> **Historical queue references — 2026-07-02 plan.** Literal `TODO.md` paths and queue-update commands below describe the former backlog and are retained as provenance, not present queue instructions. Use the applicable [workflow queue](../../README.md#queues-and-history) for current status; do not recreate the retired file.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Fix the flat-render bug in core Julia GPU perturbation and extend deep-zoom perturbation to ~31 Julia-variant fractals via a julia-mode flag, with zero new shader delta functions.
