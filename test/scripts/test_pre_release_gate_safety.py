@@ -117,8 +117,11 @@ def gate(tmp_path):
 
     def run(*args, fail_gate=None, android_device=None, restored_ui=None,
             complete_soak=False, terminal_failure=None, terminal_jank=None,
-            through_release=False):
+            through_release=False, scratch_base=None):
         run_env = env.copy()
+        if scratch_base is not None:
+            scratch_base.mkdir()
+            run_env["TMPDIR"] = str(scratch_base)
         if complete_soak:
             subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
             run_env.update(BASH_ENV=str(clock), SOAK_DONE=str(tmp_path / "soak-done"),
@@ -347,10 +350,13 @@ def test_terminal_snapshot_completes_real_soak_parser(gate):
 
 @pytest.mark.parametrize("metric", ["meminfo", "gfxinfo", "battery", "thermalservice"])
 @pytest.mark.parametrize("failure", ["exit", "marker"])
-def test_terminal_collector_failure_blocks_real_release_upload(gate, metric, failure):
+@pytest.mark.parametrize("external_scratch", [False, True])
+def test_terminal_collector_failure_blocks_real_release_upload(
+        gate, metric, failure, external_scratch, tmp_path):
     result, calls, installed = gate("--device", DEVICE, "--disposable-device", DEVICE,
                                     complete_soak=True, terminal_failure=f"{metric}:{failure}",
-                                    through_release=True)
+                                    through_release=True,
+                                    scratch_base=tmp_path / "ambient-scratch" if external_scratch else None)
     assert result.returncode != 0
     assert "Terminal soak evidence collection failed" in result.stdout + result.stderr
     assert "completed successfully" not in result.stdout
@@ -361,7 +367,14 @@ def test_terminal_collector_failure_blocks_real_release_upload(gate, metric, fai
     # An earlier mature success must never mask a failed terminal collector.
     frames_calls = [call for call in calls if call[-1:] == ["framestats"]]
     assert len(frames_calls) == 2
-    raw_frames = next((installed.parent / "lane").glob("release-play-*/gates/device/soak-frames.log")).read_text()
+    # Follow the wrapper's reported path: ambient TMPDIR can place evidence
+    # outside the lane fixture, just as it does in the real offline pipeline.
+    evidence = re.search(r"^\[release-play\] gate evidence dir: (.+)$", result.stderr, re.M)
+    assert evidence is not None, result.stderr
+    evidence_dir = Path(evidence.group(1))
+    if external_scratch:
+        assert evidence_dir.is_relative_to(tmp_path / "ambient-scratch")
+    raw_frames = (evidence_dir / "device/soak-frames.log").read_text()
     assert "Total frames rendered: 20\nJanky frames: 0 (0.00%)" in raw_frames
 
 
