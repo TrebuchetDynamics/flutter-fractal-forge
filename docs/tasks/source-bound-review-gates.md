@@ -526,6 +526,51 @@ terminal stage. No Rust mathematical owner switch or speedup is claimed.
   evidence; no UI layout change or UI screenshot claim is made. GitHub Actions
   on the eventual PR remain the delivery check authority.
 
+## Viewer export state reconciliation
+
+`VIEWER-EXPORT-STATE-01` accounts for the source changes introduced by
+`04401d3d6c5cd9de3c826dff543e5edd28b59b58`, based on
+`92a36981966eddc4b48a6d7c6820bf39e7e8ac25`. The viewer fix keeps transient
+export frames out of history/persistence, closes export ownership on directory
+failure, blocks keyboard navigation during export and confirms failed GPU health
+probes. No mathematics, shader, preset or retained oracle output changes are
+admitted by this reconciliation.
+
+The source-only successor is
+`migration/oracles/visual-presentation/viewer-export-state.json`. Its exact policy
+permits only these five production files and the two comparison helpers:
+
+- `lib/features/viewer/diagnostics/gpu_health_probe.dart`
+- `lib/features/viewer/diagnostics/viewer_gpu_health.dart`
+- `lib/features/viewer/export/viewer_export_actions.dart`
+- `lib/features/viewer/fractal_viewer_screen.dart`
+- `lib/features/viewer/navigation/viewer_interactions.dart`
+- `test/migration/support/provenance_transition.dart`
+- `test/migration/support/visual_presentation_evolution.dart`
+
+Every complete before map equals the shader-recovery terminal after map. The
+five production changes occur only in physical-events; collected helper changes
+occur in interpolation, physical-events, precision-replay, randomization,
+reference and state-replay. All five inventory maps remain identities. No added
+or removed keys, semantic deltas or compiled artifacts are allowed. Earlier
+stages, original archives, oracle/PNG/manifest bytes, independent anchors and
+both lockfiles stay immutable. Historical viewer/helper assertions retain their
+recorded hashes; only the terminal successor is compared with current source.
+
+The initial Play 125 full gate failed the physical-events current-map check and
+the historical history-stage viewer assertion (3565 passed, 9 skipped, 2 failed).
+The same two failures were reproduced together before this repair. The new
+regressions require exact per-map changed sets, complete ordering in both input
+orders, current changed-path hashes and rejection of self-consistent unlisted,
+added/removed, semantic, compiled, unknown, stale, missing and duplicate claims.
+
+Provisional source claims require two byte-identical private post-validation
+exports from all seven existing migration modules, exactly twelve observations
+per export, with every complete current map matching the successor (both
+manifests use reference). The unchanged full offline gate and the separate
+Waydroid/build/publication gates must still pass. Focused results alone do not
+qualify this release or claim device/hardware performance.
+
 ## Preset batch export (#26)
 
 `PRESET-BATCH-EXPORT-26` is a source-only successor to shader cache recovery at
@@ -553,3 +598,67 @@ and compiled artifacts. Historical records and their hashes remain unchanged;
 current-byte checks belong to the new terminal stage. Regression tests preserve
 complete-bundle ordering and reject unauthorized or stale bindings. The new
 record is `migration/oracles/visual-presentation/preset-batch-export.json`.
+
+## PR24 viewer export integration custody
+
+`PR24-VIEWER-EXPORT-INTEGRATION` is a bounded source-only successor to the
+immutable `PRESET-BATCH-EXPORT-26` receipt, not a DAG or union of historical
+policies. Its complete eleven before maps copy batch's after maps. Only observed
+changes to the five original viewer paths, `viewer_export_session.dart`, and the
+two provenance/visual helper paths may update existing bindings. Key sets remain
+identical; semantic deltas and compiled artifacts must be empty. The new receipt
+is `migration/oracles/visual-presentation/viewer-export-integration.json`.
+
+The immutable viewer sibling has moved byte-identically to
+`migration/oracles/visual-presentation/archived-candidates/viewer-export-state.json`.
+Normal reads require exactly this one flat archive entry, independently pin its
+raw SHA-256 to `6487cb8d58956c4610c60b39fc9b33d8939af3db24bc98bbdf9023192a2663e7`,
+and validate its original task policy and historical proof → shader recovery →
+viewer complete-bundle chain. Missing, altered, extra or nested entries fail.
+Explicitly supplying that sibling to active ordering still fails as a fork.
+Active ordering remains proof → shader recovery → batch → integration, with
+unique full-bundle adjacency, all eleven maps and existing source/semantic guards.
+Earlier receipts, collectors, oracles, images and lockfiles remain unchanged.
+
+Finalize helpers before provisional integration maps. Only the new integration
+receipt may be regenerated. Provisional claims are not evidence: seven migration
+modules must validate two private `MIGRATION_TRANSITION_OUT` exports, each exactly
+twelve documents, complete current maps matching integration after maps (both
+manifests use reference), with byte difference zero. Historical base assertions
+and hashes remain pinned; only terminal integration comparisons bind current
+bytes. Focused local checks and validated exports do not establish full offline,
+Waydroid, browser, hardware or release qualification. The parent runs the full
+offline gate separately; no device or publication action is part of this repair.
+
+### Executed bounded integration checks
+
+Pinned Flutter 3.47.9 / Dart 3.13.7, provisioned pub cache and private external
+TMPDIR were used. Focused baseline/visual/viewer-transition/physical checks passed
+24 tests; viewer/GPU checks passed 229 tests (including main's added regressions).
+The combined run passed 253 tests with no skips; after pinning every historical
+batch-path hash explicitly, all eight baseline reconciliation tests passed again.
+Main's merged batch/session/auto-explore/preset/accessibility tests also passed
+137 tests. Analyzer found no issues; helper/test format verification and
+`git diff --check` passed. Independent review removed unrelated whole-viewer
+formatting in follow-up `8fd541259b03196517d08aabdd8183776151b127`, preserving
+main's exact formatting outside the export-ownership/history/persistence guards.
+
+After that correction, the focused run again passed 253 tests. Two final
+seven-module exports (`export-7`, `export-8`) each produced exactly twelve
+expected documents, matched all eleven complete terminal after maps (both
+reference manifests included), and had byte difference zero. Independent
+Git-byte readback verified all 53 migration/lock files from each branch snapshot,
+accounting only for the viewer receipt's byte-identical move. The archive also
+matched commit `67eb5cf607a3176ce403668356605778193533cd` independently. Logs,
+exports and readback scripts are retained privately under
+`/tmp/pr24-repair.Qw1bkR/`; these are local observations, not checked-in oracles.
+
+The parent then ran the unchanged full offline gate against `8fd54125`, with
+pinned Flutter/Rust/Python bindings and external evidence at
+`/tmp/pr24-offline-uj04qV/`. All eight stages exited zero; terminal verdict
+`passed`, failed stage null. Flutter passed 3586 tests (9 existing skips), Python
+passed 682 tests plus 204 subtests (1 existing skip), and Bats passed 34 cases;
+Cargo fmt, warning-denying clippy, locked/offline tests and Flutter analysis also
+passed. Both lockfiles remained byte-identical. This does not qualify the
+separate Waydroid soak, device/hardware performance or Play publication; no
+Android/device action or GitHub merge occurred during this PR repair.

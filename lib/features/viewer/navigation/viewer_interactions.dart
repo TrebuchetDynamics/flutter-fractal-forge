@@ -18,6 +18,10 @@ KeyEventResult _viewerOnKeyEvent(
   if (event is! KeyDownEvent) {
     return KeyEventResult.ignored;
   }
+  // The export overlay blocks pointers only; keys must not move a frozen view.
+  if (state.isNavigationBlocked) {
+    return KeyEventResult.ignored;
+  }
 
   final controller = state._activeController(context);
   const panStep = 0.08;
