@@ -93,8 +93,16 @@ still failed the live checker. The hardened readback script also confirmed the
 exact 124 AAB hash. Evidence: `/tmp/play-124-status-JYu8qW/`.
 No bundle was uploaded by these checks.
 
+At `2026-11-18T05:19:39+00:00`, a fresh observation confirmed **12/12 probed
+storefronts show 1.1.124**, with `Updated on` **Nov 14, 2026**. The live checker
+passed track, version code, availability and propagation. Fresh independent
+readback again confirmed the exact AAB hash. Evidence:
+`/tmp/play-release-status-q0yNJy/` (`play-observe-all.json`,
+`play-live-check.json`, `play-readback.json`). No new upload was needed or made.
+
 Google review status is not observable through the public API and was not
-confirmed in Console. End-user update availability remains pending observation.
+confirmed in Console. Public listing propagation is confirmed for the probed
+countries, not installation availability for every device or account.
 Waydroid is container evidence, not physical-device/hardware-GPU qualification.
 Other platform lanes, GitLab, listing copy and screenshots were not published by
 this Play-only request. Release-code fixes and this record are local commits;
