@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import textwrap
@@ -34,7 +35,7 @@ def gate(tmp_path):
     double = bin_dir / "double"
     double.write_text(
         "#!/usr/bin/python3\n" + textwrap.dedent('''\
-        import json, os, pathlib, sys
+        import json, os, pathlib, sys, time
         name = pathlib.Path(sys.argv[0]).name
         args = sys.argv[1:]
         with open(os.environ["COMMANDS"], "a") as log:
@@ -43,6 +44,11 @@ def gate(tmp_path):
         if name == "adb":
             if args[:2] == ["-s", os.environ["TEST_DEVICE"]]:
                 args = args[2:]
+            if "SOAK_DONE" in os.environ and pathlib.Path(os.environ["SOAK_DONE"]).exists():
+                failure = os.environ.get("TERMINAL_FAILURE", "").split(":")
+                if args[:3] == ["shell", "dumpsys", failure[0]]:
+                    print("collector returned no required marker")
+                    sys.exit(19 if failure[-1] == "exit" else 0)
             if args == ["shell", "date", "+%m-%d_%H:%M:%S.000"]:
                 print("11-08_00:00:00.000")
             elif args == ["shell", "getprop", "ro.product.cpu.abi"]:
@@ -57,6 +63,18 @@ def gate(tmp_path):
                 print("1")
             elif args == ["shell", "dumpsys", "activity", "activities"]:
                 print("ResumedActivity: ActivityRecord{123 u0 com.trebuchetdynamics.fractal.forge/.MainActivity t1}")
+            elif args[:3] == ["shell", "dumpsys", "meminfo"]:
+                print("TOTAL PSS: 100000")
+            elif args[:3] == ["shell", "dumpsys", "gfxinfo"]:
+                terminal = pathlib.Path(os.environ["SOAK_DONE"]).exists() if "SOAK_DONE" in os.environ else False
+                frames = 20 if terminal or os.environ.get("TERMINAL_FAILURE") or os.environ.get("TERMINAL_JANK") else 4
+                jank = os.environ.get("TERMINAL_JANK", "0.00") if terminal else "0.00"
+                janky_frames = int(frames * float(jank) / 100)
+                print(f"Total frames rendered: {frames}\\nJanky frames: {janky_frames} ({jank}%)")
+            elif args == ["shell", "dumpsys", "battery"]:
+                print("level: 85")
+            elif args == ["shell", "dumpsys", "thermalservice"]:
+                print("Thermal Status: 0")
             elif args[:2] == ["exec-out", "uiautomator"]:
                 print(os.environ.get("RESTORED_UI", '<hierarchy><node content-desc="Interactive fractal canvas&#10;Julia"/></hierarchy>'))
         elif name == "flutter":
@@ -66,10 +84,28 @@ def gate(tmp_path):
             if os.environ.get("FAIL_GATE", "NEVER") in " ".join(args):
                 sys.exit(17)
         elif name == "timeout":
+            if "SOAK_DONE" in os.environ:
+                # Synchronize with a complete periodic snapshot, then simulate
+                # expiry of the unchanged 300-second deadline (no real device).
+                ready = pathlib.Path(os.environ["SOAK_READY"])
+                deadline = time.monotonic() + 5
+                while not ready.exists():
+                    assert time.monotonic() < deadline, "periodic sample never completed"
+                    time.sleep(0.01)
+                pathlib.Path(os.environ["SOAK_DONE"]).touch()
+                sys.exit(124)
             # No soak evidence: the real gate must reject this fast/empty run.
             sys.exit(0)
+        elif name == "sleep" and args == ["60"] and "SOAK_DONE" in os.environ:
+            pathlib.Path(os.environ["SOAK_READY"]).touch()
+            while not pathlib.Path(os.environ["SOAK_DONE"]).exists():
+                time.sleep(0.01)
+            time.sleep(0.1)
         ''')
     )
+    # Advance Bash's clock only when the timeout double has completed.
+    clock = tmp_path / "clock.bash"
+    clock.write_text("set -T\ntrap 'if [[ -e \"$SOAK_DONE\" ]]; then SECONDS=300; else SECONDS=0; fi' DEBUG\n")
     double.chmod(0o755)
     for name in ("adb", "flutter", "waydroid", "sleep", "timeout"):
         (bin_dir / name).symlink_to(double)
@@ -79,19 +115,44 @@ def gate(tmp_path):
     env.update(PATH=f"{bin_dir}:/usr/bin:/bin", COMMANDS=str(commands),
                INSTALLED=str(installed), TEST_DEVICE=DEVICE)
 
-    def run(*args, fail_gate=None, android_device=None, restored_ui=None):
+    def run(*args, fail_gate=None, android_device=None, restored_ui=None,
+            complete_soak=False, terminal_failure=None, terminal_jank=None,
+            through_release=False, scratch_base=None):
         run_env = env.copy()
+        if scratch_base is not None:
+            scratch_base.mkdir()
+            run_env["TMPDIR"] = str(scratch_base)
+        if complete_soak:
+            subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+            run_env.update(BASH_ENV=str(clock), SOAK_DONE=str(tmp_path / "soak-done"),
+                           SOAK_READY=str(tmp_path / "soak-ready"))
+        if terminal_failure:
+            run_env["TERMINAL_FAILURE"] = terminal_failure
+        if terminal_jank:
+            run_env["TERMINAL_JANK"] = terminal_jank
         if restored_ui is not None:
             run_env["RESTORED_UI"] = restored_ui
         if android_device is not None:
             run_env["ANDROID_DEVICE"] = android_device
         if fail_gate:
             run_env["FAIL_GATE"] = fail_gate
-        result = subprocess.run(
-            ["bash", str(tmp_path / "scripts/pre-release-gate.sh"),
-             "--log-dir", str(tmp_path / "evidence"), *args],
-            cwd=tmp_path, env=run_env, text=True, capture_output=True, timeout=20,
-        )
+        if through_release:
+            from test_release_play_pipeline import make_project, release, status_file
+
+            lane = tmp_path / "lane"
+            lane.mkdir()
+            project, lane_env, _ = make_project(lane)
+            for script in ("pre-release-gate.sh", "verify-restored-viewer.py"):
+                (project / "scripts" / script).write_bytes((tmp_path / "scripts" / script).read_bytes())
+            lane_env.update(run_env)
+            result = release(project, lane_env, "--allow-dirty", *args,
+                             status=status_file(lane, [], uploaded=[]))
+        else:
+            result = subprocess.run(
+                ["bash", str(tmp_path / "scripts/pre-release-gate.sh"),
+                 "--log-dir", str(tmp_path / "evidence"), *args],
+                cwd=tmp_path, env=run_env, text=True, capture_output=True, timeout=20,
+            )
         calls = [json.loads(line) for line in commands.read_text().splitlines()] if commands.exists() else []
         return result, calls, installed
 
@@ -260,4 +321,68 @@ def test_disposable_route_runs_mandatory_gates_and_rejects_missing_soak(
     # Arbitrary keys can bypass the disabled system/navigation categories.
     assert "--pct-anyevent" in soak
     assert soak[soak.index("--pct-anyevent") + 1] == "0"
+    assert soak[soak.index("monkey") + 3:soak.index("monkey") + 7] == ["-s", "1", "-v", "-v"]
     assert "completed successfully" not in result.stdout
+
+
+def test_terminal_snapshot_completes_real_soak_parser(gate):
+    result, calls, installed = gate("--device", DEVICE, "--disposable-device", DEVICE,
+                                    complete_soak=True)
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "Soak final janky frames: 0% (limit 10%)" in result.stdout
+    assert "Monkey seed: 1 (fixed); verbosity: -v -v" in result.stdout
+    evidence = installed.parent / "evidence"
+    for metric in ("memory", "frames", "battery", "thermal"):
+        raw = (evidence / f"soak-{metric}.log").read_text()
+        assert len(re.findall(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", raw, re.M)) == 2
+    frames = (evidence / "soak-frames.log").read_text()
+    assert re.findall(r"Total frames rendered: (\d+)", frames) == ["4", "20"]
+    # Exactly one periodic and one terminal framestats collection; the final
+    # post-validation evidence command does not request framestats.
+    samples = [i for i, call in enumerate(calls) if call[-1:] == ["framestats"]]
+    assert len(samples) == 2
+    cleanup = [i for i, call in enumerate(calls)
+               if call == ["adb", "-s", DEVICE, "shell", "ps", "-A"]]
+    assert any(samples[0] < i < samples[1] for i in cleanup)
+    timeout = next(call for call in calls if call[0] == "timeout")
+    assert timeout[3] == "300s"
+
+
+@pytest.mark.parametrize("metric", ["meminfo", "gfxinfo", "battery", "thermalservice"])
+@pytest.mark.parametrize("failure", ["exit", "marker"])
+@pytest.mark.parametrize("external_scratch", [False, True])
+def test_terminal_collector_failure_blocks_real_release_upload(
+        gate, metric, failure, external_scratch, tmp_path):
+    result, calls, installed = gate("--device", DEVICE, "--disposable-device", DEVICE,
+                                    complete_soak=True, terminal_failure=f"{metric}:{failure}",
+                                    through_release=True,
+                                    scratch_base=tmp_path / "ambient-scratch" if external_scratch else None)
+    assert result.returncode != 0
+    assert "Terminal soak evidence collection failed" in result.stdout + result.stderr
+    assert "completed successfully" not in result.stdout
+    lane_calls = (installed.parent / "lane/calls.log").read_text()
+    assert "offline-gate" in lane_calls
+    assert "upload" not in lane_calls
+    assert "readback" not in lane_calls
+    # An earlier mature success must never mask a failed terminal collector.
+    frames_calls = [call for call in calls if call[-1:] == ["framestats"]]
+    assert len(frames_calls) == 2
+    # Follow the wrapper's reported path: ambient TMPDIR can place evidence
+    # outside the lane fixture, just as it does in the real offline pipeline.
+    evidence = re.search(r"^\[release-play\] gate evidence dir: (.+)$", result.stderr, re.M)
+    assert evidence is not None, result.stderr
+    evidence_dir = Path(evidence.group(1))
+    if external_scratch:
+        assert evidence_dir.is_relative_to(tmp_path / "ambient-scratch")
+    raw_frames = (evidence_dir / "device/soak-frames.log").read_text()
+    assert "Total frames rendered: 20\nJanky frames: 0 (0.00%)" in raw_frames
+
+
+def test_terminal_jank_cannot_fall_back_to_earlier_mature_success(gate):
+    result, _, installed = gate("--device", DEVICE, "--disposable-device", DEVICE,
+                                complete_soak=True, terminal_jank="15.00")
+    assert result.returncode != 0
+    assert "Final janky frames exceeded 10% (15%)" in result.stderr
+    raw = (installed.parent / "evidence/soak-frames.log").read_text()
+    assert re.findall(r"Janky frames: .*", raw) == [
+        "Janky frames: 0 (0.00%)", "Janky frames: 3 (15.00%)"]
