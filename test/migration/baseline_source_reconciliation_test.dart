@@ -204,12 +204,14 @@ void main() {
       shaderCacheRecoveryTask,
       presetBatchExportTask,
       viewerExportIntegrationTask,
+      phoneSliderTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
         candidates.singleWhere((s) => s['task'] == shaderCacheRecoveryTask);
     final viewer =
         candidates.singleWhere((s) => s['task'] == viewerExportIntegrationTask);
+    final phone = candidates.singleWhere((s) => s['task'] == phoneSliderTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -227,6 +229,7 @@ void main() {
         recovery,
         candidates.singleWhere((s) => s['task'] == presetBatchExportTask),
         viewer,
+        phone,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -252,7 +255,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            viewer['binding_maps'][id]['after'] as Map,
+            phone['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }
@@ -263,7 +266,7 @@ void main() {
     final ordered = orderedVisualStages(candidates);
     final batch =
         ordered.singleWhere((s) => s['task'] == presetBatchExportTask);
-    final integration = ordered.last;
+    final terminal = ordered.last;
     const historicalHashes = {
       'lib/core/services/export/batch_export_service.dart':
           '652900e79cc77a25e87fc72ed246ef7d7428f4ac46af5ad933afca4c8d453025',
@@ -312,7 +315,7 @@ void main() {
       verifySourceStages(
           id,
           readProvenanceStages().first['binding_maps'][id]['before'] as Map,
-          integration['binding_maps'][id]['after'] as Map,
+          terminal['binding_maps'][id]['after'] as Map,
           stages: [...readProvenanceStages().reversed, ...candidates.reversed]);
     }
   });

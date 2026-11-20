@@ -321,7 +321,8 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == shaderCacheRecoveryTask ||
           s['task'] == viewerExportStateTask ||
           s['task'] == presetBatchExportTask ||
-          s['task'] == viewerExportIntegrationTask)
+          s['task'] == viewerExportIntegrationTask ||
+          s['task'] == phoneSliderTask)
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
   _require(

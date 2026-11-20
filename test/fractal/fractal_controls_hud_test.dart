@@ -21,6 +21,67 @@ void main() {
     Widget buildTestWidget() =>
         harness.wrapScaffold(const FractalControlsHud());
 
+    testWidgets('phone selection leaves one slider and reopens current values',
+        (tester) async {
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = const Size(375, 667);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPhysicalSize);
+      harness.controller.updateParam('iterations', 420);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final surface = find.byKey(const ValueKey('controlsHudSurface'));
+      final expandedHeight = tester.getSize(surface).height;
+      expect(find.byType(Slider), findsNothing,
+          reason: 'phone starts with a parameter chooser, not many sliders');
+      await tester.tap(find.text('Iterations'));
+      await tester.pumpAndSettle();
+      expect(find.byType(Slider), findsOneWidget);
+      expect(find.text('Iterations'), findsOneWidget);
+      expect(find.text('420'), findsOneWidget);
+      expect(find.text('Bailout'), findsNothing);
+      expect(tester.getSize(surface).height, lessThan(expandedHeight));
+      await tester.drag(find.byType(Slider), const Offset(60, 0));
+      await tester.pumpAndSettle();
+      final edited = harness.controller.params['iterations'];
+      expect(edited, isNot(420));
+      await tester
+          .tap(find.byKey(const ValueKey('controlsHudParameterChooser')));
+      await tester.pumpAndSettle();
+      expect(find.byType(Slider), findsNothing);
+      expect(find.text('$edited'), findsOneWidget);
+      await tester.tap(find.text('Iterations'));
+      await tester.pumpAndSettle();
+      expect(find.byType(Slider), findsOneWidget);
+      expect(find.text('$edited'), findsOneWidget);
+    });
+
+    testWidgets('module without selected parameter returns to chooser',
+        (tester) async {
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = const Size(375, 667);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPhysicalSize);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Iterations'));
+      await tester.pumpAndSettle();
+      final original = harness.controller.module;
+      final other = harness.registry.modules
+          .firstWhere((m) => !m.parameters.any((p) => p.id == 'iterations'));
+      harness.controller.selectModule(other);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('controlsHudParameterChooser')),
+          findsNothing);
+      expect(find.text('Iterations'), findsNothing);
+      expect(tester.takeException(), isNull);
+      harness.controller.selectModule(original);
+      await tester.pumpAndSettle();
+      expect(find.byType(Slider), findsNothing,
+          reason: 'invalid transient selection must not come back');
+      expect(find.text('Iterations'), findsOneWidget);
+    });
+
     testWidgets('renders core param sliders', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();

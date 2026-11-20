@@ -107,6 +107,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
   static const double _dragSnapThreshold = 24;
 
   bool _isCollapsed = false;
+  String? _selectedParameterId;
   bool _dragSnapCommitted = false;
   double _dragOffset = 0;
 
@@ -147,7 +148,17 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     final reduceMotion =
         media.disableAnimations || accessibility?.reducedMotionEnabled == true;
     final bottomInset = metrics.bottomInset;
-    final header = GestureDetector(
+    final phoneChooser = widget.content == null && media.size.width < 768;
+    final selectedParameter = controller.module.parameters
+        .where((p) =>
+            p.id == _selectedParameterId &&
+            p.resolvedControl == FractalParamControl.slider)
+        .firstOrNull;
+    // Selection belongs to this viewer, never to saved parameter state. Drop
+    // stale IDs immediately so returning to a previous module cannot revive one.
+    if (selectedParameter == null) _selectedParameterId = null;
+    final singleSlider = phoneChooser && selectedParameter != null;
+    Widget header = GestureDetector(
       key: const ValueKey('controlsHudDragHandle'),
       behavior: HitTestBehavior.opaque,
       onVerticalDragStart: _onHandleDragStart,
@@ -207,7 +218,38 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
         ],
       ),
     );
-    final content = widget.content ??
+    if (singleSlider) {
+      final close = AppToolButton(
+        icon: Icons.close_rounded,
+        tooltip: l10n.semanticCloseButton,
+        onPressed: widget.onClose ?? () => Navigator.of(context).pop(),
+      );
+      header = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 4, 4, 0),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          // A full-height HUD owns navigation too. Give its chooser a whole
+          // row so large text cannot be squeezed between Back and Close.
+          if (widget.leading != null)
+            Row(children: [widget.leading!, const Spacer(), close]),
+          Row(children: [
+            Expanded(
+              child: TextButton.icon(
+                key: const ValueKey('controlsHudParameterChooser'),
+                style: TextButton.styleFrom(
+                  minimumSize: Size(metrics.touchTarget, metrics.touchTarget),
+                  alignment: Alignment.centerLeft,
+                ),
+                onPressed: () => setState(() => _selectedParameterId = null),
+                icon: const Icon(Icons.tune_rounded),
+                label: Text(l10n.controlsTitle),
+              ),
+            ),
+            if (widget.leading == null) close,
+          ]),
+        ]),
+      );
+    }
+    Widget content = widget.content ??
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
           child: Column(
@@ -245,6 +287,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                   param,
                   value,
                   l10n,
+                  chooseSlider: phoneChooser,
                 );
               }),
 
@@ -263,6 +306,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                   param,
                   value,
                   l10n,
+                  chooseSlider: phoneChooser,
                 );
               }),
 
@@ -297,6 +341,20 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
           ),
         );
 
+    if (singleSlider) {
+      content = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+        child: _buildExtraParamControl(
+          context,
+          controller,
+          selectedParameter,
+          controller.params[selectedParameter.id] ??
+              selectedParameter.defaultValue,
+          l10n,
+        ),
+      );
+    }
+
     // Only the material surface paints and receives input. In a short body,
     // scroll the header too, rather than reserving a header taller than the
     // remaining viewport. The OS navigation area stays outside that viewport.
@@ -323,8 +381,11 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: Material(
             key: const ValueKey('controlsHudSurface'),
-            color:
-                Theme.of(context).colorScheme.surface.withValues(alpha: 0.86),
+            color: Theme.of(context).colorScheme.surface.withValues(
+                alpha: media.highContrast ||
+                        accessibility?.highContrastEnabled == true
+                    ? 1
+                    : 0.86),
             elevation: 12,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             clipBehavior: Clip.antiAlias,
@@ -363,8 +424,9 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     FractalController controller,
     FractalParameter param,
     Object value,
-    AppLocalizations l10n,
-  ) {
+    AppLocalizations l10n, {
+    bool chooseSlider = false,
+  }) {
     switch (param.resolvedControl) {
       case FractalParamControl.color:
         return NumberWallColorControl(
@@ -377,6 +439,36 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
           param: param,
           value: value,
         );
+        if (chooseSlider) {
+          return SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                minimumSize:
+                    Size.square(ControlsHudMetrics.of(context).touchTarget),
+                alignment: Alignment.centerLeft,
+              ),
+              onPressed: () => setState(() {
+                _selectedParameterId = param.id;
+                _isCollapsed = false;
+              }),
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(param.label(l10n),
+                      style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500)),
+                  Text(plan.valueLabel),
+                  const Icon(Icons.chevron_right_rounded, size: 18),
+                ],
+              ),
+            ),
+          );
+        }
         return Padding(
           padding: const EdgeInsets.only(bottom: 4),
           child: _CompactHudSliderRow(
