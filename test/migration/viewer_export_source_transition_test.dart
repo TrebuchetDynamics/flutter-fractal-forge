@@ -125,7 +125,8 @@ void main() {
 
   test('viewer export successor binds only the exact maintenance source delta',
       () {
-    final stages = orderedVisualStages(readVisualStages())
+    final allStages = orderedVisualStages(readVisualStages());
+    final stages = allStages
         .takeWhile((s) => s['task'] != phoneSliderTask)
         .toList();
     final stage = stages.last;
@@ -159,11 +160,18 @@ void main() {
           'test/migration/support/visual_presentation_evolution.dart':
               'ca25ca71ae01c978e1b4e47c866c3e38d2dc3a362107d640a408561819287766',
         };
-        expect(
-            after[path],
-            historicalHelpers[path] ??
-                sha256.convert(File(path).readAsBytesSync()).toString(),
-            reason: '$id: $path');
+        if (path == 'lib/features/viewer/fractal_viewer_screen.dart') {
+          expect(after[path],
+              'fc9fb32c7bc6986f2edf35b25e702391223dfaa3cdbc933efa68654de4076136');
+          expect(allStages.last['binding_maps'][id]['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
+        } else {
+          expect(
+              after[path],
+              historicalHelpers[path] ??
+                  sha256.convert(File(path).readAsBytesSync()).toString(),
+              reason: '$id: $path');
+        }
       }
       for (final order in [
         stages,

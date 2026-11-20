@@ -101,6 +101,7 @@ void main() {
             'Randomize palette. Long press for palette settings',
         'viewerRandomFractalFab': 'Random Fractal',
         'viewerSaveShareButton': 'Save & share',
+        'viewerToolsButton': 'Tools',
       };
       final visible = toolbarNames.entries.where((entry) {
         final finder = find.byKey(ValueKey(entry.key));
@@ -131,12 +132,9 @@ void main() {
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
-      // A long press opens the Edit sheet; its first row opens the HUD.
+      // A long press opens Controls directly.
       await tester
           .longPress(find.byKey(const ValueKey('viewerControlsButton')));
-      await pumpAccessibilityTestFrames(tester);
-      await tester
-          .tap(find.byKey(const ValueKey('viewerEditParametersAction')));
       await pumpAccessibilityTestFrames(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
@@ -204,10 +202,9 @@ void main() {
         await tester.sendKeyEvent(LogicalKeyboardKey.escape);
         await pumpAccessibilityTestFrames(tester);
         await tester
-            .ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
+            .ensureVisible(find.byKey(const ValueKey('viewerToolsButton')));
         await pumpAccessibilityTestFrames(tester);
-        await tester
-            .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+        await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
         await pumpAccessibilityTestFrames(tester);
 
         final tools = {
@@ -249,7 +246,8 @@ void main() {
       await pumpAccessibilityTestFrames(tester);
 
       await tester
-          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+          .ensureVisible(find.byKey(const ValueKey('viewerToolsButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
       await pumpAccessibilityTestFrames(tester);
       final fullscreen = find.byKey(const ValueKey('viewerFullscreenButton'));
       await tester.ensureVisible(fullscreen);
@@ -305,8 +303,7 @@ void main() {
           await pumpAccessibilityTestFrames(tester);
           final palette = find.byKey(const ValueKey('viewerPaletteButton'));
           if (palette.evaluate().isEmpty) {
-            await tester
-                .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+            await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
             await pumpAccessibilityTestFrames(tester);
             await tester.ensureVisible(palette);
             await pumpAccessibilityTestFrames(tester);

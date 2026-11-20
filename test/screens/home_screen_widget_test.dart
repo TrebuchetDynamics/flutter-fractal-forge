@@ -500,7 +500,8 @@ void main() {
         expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
         if (mode == 'fullscreen') {
           await tester
-              .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+              .ensureVisible(find.byKey(const ValueKey('viewerToolsButton')));
+          await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
           await tester.pumpAndSettle();
           final fullscreen =
               find.byKey(const ValueKey('viewerFullscreenButton'));
@@ -509,12 +510,9 @@ void main() {
           await tester.tap(fullscreen);
           await tester.pumpAndSettle();
         } else if (mode == 'controls') {
-          // Holding Edit opens the Edit sheet; its first row opens the HUD.
+          // Holding Edit opens the HUD directly.
           await tester
               .longPress(find.byKey(const ValueKey('viewerControlsButton')));
-          await tester.pumpAndSettle();
-          await tester
-              .tap(find.byKey(const ValueKey('viewerEditParametersAction')));
           await tester.pumpAndSettle();
         }
         final back = find.byKey(const Key('viewerBackToCatalogButton'));

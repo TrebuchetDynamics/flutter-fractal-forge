@@ -32,27 +32,26 @@ Future<void> pumpForUiTransition(
   await tester.pump(settle);
 }
 
-/// Open the viewer's secondary tools through its Edit entry point.
+/// Open the viewer's secondary tools through its labeled Tools entry point.
 /// Call again after each action: selecting a row dismisses the tools sheet.
 Future<void> openViewerTools(WidgetTester tester) async {
-  final more = find.byKey(const ValueKey('viewerControlsButton'));
+  final more = find.byKey(const ValueKey('viewerToolsButton'));
   expect(more, findsOneWidget);
   await tester.ensureVisible(more);
   await pumpForUiTransition(tester);
   expect(more.hitTestable(), findsOneWidget);
-  // A quick press randomizes; a long press opens the Edit sheet.
-  await tester.longPress(more);
+  await tester.tap(more);
   await pumpForUiTransition(tester);
-  expect(find.byKey(const ValueKey('viewerRandomOptionsAction')), findsOneWidget);
+  expect(
+      find.byKey(const ValueKey('viewerRandomOptionsAction')), findsOneWidget);
 }
 
-/// Open the parameter HUD: hold Edit, then choose Controls in the Edit sheet.
+/// Open the parameter HUD directly by holding Edit.
 Future<void> openViewerControlsHud(WidgetTester tester) async {
-  await openViewerTools(tester);
-  final controls = find.byKey(const ValueKey('viewerEditParametersAction'));
+  final controls = find.byKey(const ValueKey('viewerControlsButton'));
   await tester.ensureVisible(controls);
   await pumpForUiTransition(tester);
-  await tester.tap(controls);
+  await tester.longPress(controls);
   await pumpForUiTransition(tester);
 }
 

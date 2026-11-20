@@ -59,9 +59,9 @@ Future<void> openReportSheet(
   ));
   await pumpAccessibilityTestFrames(tester);
 
-  final more = find.byKey(const ValueKey('viewerControlsButton'));
+  final more = find.byKey(const ValueKey('viewerToolsButton'));
   await tester.ensureVisible(more);
-  await tester.longPress(more);
+  await tester.tap(more);
   await tester.pumpAndSettle();
   final report = find.byKey(const ValueKey('viewerReportFractalFab'));
   await tester.ensureVisible(report);

@@ -2428,7 +2428,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewerChooseColors => 'Choose colors. Long press to randomize';
 
   @override
-  String get viewerMoreTools => 'More';
+  String get viewerToolsCompact => 'Tools';
+
+  @override
+  String get viewerMoreTools => 'Tools';
 
   @override
   String get viewerToolOptions => 'Options';

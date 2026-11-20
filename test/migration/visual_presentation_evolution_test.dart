@@ -21,7 +21,8 @@ void seal(Map stage) => stage['candidate_identity'] = visualHash({
 Map stageFor(String task) {
   final maintenance = task == shaderCacheRecoveryTask ||
       task == presetBatchExportTask ||
-      task == phoneSliderTask;
+      task == phoneSliderTask ||
+      task == directEditControlsTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -43,9 +44,11 @@ Map stageFor(String task) {
       ? 'lib/core/modules/fractals/mandelbulb_module.dart'
       : task == visualDefaultsTask
           ? 'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart'
-          : task == phoneSliderTask
-              ? 'lib/features/viewer/chrome/fractal_controls_hud.dart'
-              : 'test/migration/support/provenance_transition.dart';
+          : task == directEditControlsTask
+              ? 'lib/features/viewer/fractal_viewer_screen.dart'
+              : task == phoneSliderTask
+                  ? 'lib/features/viewer/chrome/fractal_controls_hud.dart'
+                  : 'test/migration/support/provenance_transition.dart';
   (stage['binding_maps'] as Map)[maintenance ? 'physical-events' : 'presets']
       ['after'][path] = 'a' * 64;
   seal(stage);
@@ -61,7 +64,8 @@ void main() {
   for (final task in [
     shaderCacheRecoveryTask,
     presetBatchExportTask,
-    phoneSliderTask
+    phoneSliderTask,
+    directEditControlsTask
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);
@@ -122,8 +126,8 @@ void main() {
 
   test('phone slider successor binds exactly HUD and provenance helpers', () {
     final stages = orderedVisualStages(readVisualStages());
-    final stage = stages.last;
-    final prior = stages[stages.length - 2];
+    final stage = stages.singleWhere((s) => s['task'] == phoneSliderTask);
+    final prior = stages[stages.indexOf(stage) - 1];
     expect(stage['task'], phoneSliderTask);
     expect(prior['task'], viewerExportIntegrationTask);
     expect(stage['base_revision'], 'b6a67e1e38c008762a6daf4d23e8154a098c3dda');
@@ -159,10 +163,59 @@ void main() {
         if (changed.contains(path)) {
           // Current bytes are checked only at the new terminal stage. Historical
           // receipts continue to assert their original exact source hashes.
-          expect(after[path],
+          expect(stages.last['binding_maps'][id]['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString(),
               reason: '$id: $path');
         }
+      }
+      final historical = stages.take(stages.indexOf(stage) + 1).toList();
+      for (final order in [historical, historical.reversed.toList()]) {
+        validateVisualSourceChain(id,
+            stages.first['binding_maps'][id]['before'] as Map, after, order);
+      }
+    }
+  });
+
+  test('direct Edit successor binds only its exact UI and policy sources', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    expect(stage['task'], directEditControlsTask);
+    expect(stage['base_revision'], '8087a167cbf369b19bcff3d24394878d28c8b263');
+    expect(stages[stages.length - 2]['task'], phoneSliderTask);
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    for (final id in (stage['binding_maps'] as Map).keys.cast<String>()) {
+      final before = stage['binding_maps'][id]['before'] as Map;
+      final after = stage['binding_maps'][id]['after'] as Map;
+      expect(before, stages[stages.length - 2]['binding_maps'][id]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      expect(
+          before.keys.where((p) => before[p] != after[p]).toSet(),
+          {
+            'lib/l10n/app_localizations.dart',
+            'lib/l10n/app_localizations_en.dart',
+            'lib/l10n/app_localizations_es.dart',
+            if (id == 'physical-events') ...[
+              'lib/features/viewer/chrome/fractal_view_controls.dart',
+              'lib/features/viewer/chrome/viewer_tools.dart',
+              'lib/features/viewer/fractal_viewer_screen.dart',
+            ],
+            if ([
+              'param-interpolation',
+              'physical-events',
+              'precision-replay',
+              'randomization',
+              'reference',
+              'state-replay'
+            ].contains(id)) ...[
+              'test/migration/support/provenance_transition.dart',
+              'test/migration/support/visual_presentation_evolution.dart',
+            ],
+          },
+          reason: id);
+      for (final path in after.keys.where((p) => before[p] != after[p])) {
+        expect(after[path],
+            sha256.convert(File(path as String).readAsBytesSync()).toString());
       }
       for (final order in [stages, stages.reversed.toList()]) {
         validateVisualSourceChain(id,

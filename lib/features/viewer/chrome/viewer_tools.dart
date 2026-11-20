@@ -325,14 +325,14 @@ ViewerToolPresentation resolveViewerTool(
         onPressed: gated(commands.motion.toggleLooper),
         onLongPress: gated(commands.motion.openLooper),
       );
-    // A quick press on Edit and Color randomizes; a long press opens the sheet.
+    // A quick press on Edit and Color randomizes; hold opens their controls.
     case ViewerTool.controls:
       return ViewerToolPresentation(
         icon: Icons.tune_rounded,
         semanticLabel: l10n.hudRandomizeTooltip,
         caption: l10n.viewerEditCompact,
         onPressed: gated(commands.presentation.randomizeParams),
-        onLongPress: gated(context.onShowMore),
+        onLongPress: gated(commands.presentation.openControls),
       );
     case ViewerTool.palette:
       return ViewerToolPresentation(

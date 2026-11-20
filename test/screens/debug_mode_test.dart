@@ -16,9 +16,9 @@ void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
   Future<void> openTools(WidgetTester tester) async {
-    final more = find.byKey(const ValueKey('viewerControlsButton'));
+    final more = find.byKey(const ValueKey('viewerToolsButton'));
     await tester.ensureVisible(more);
-    await tester.longPress(more);
+    await tester.tap(more);
     await tester.pumpAndSettle();
   }
 

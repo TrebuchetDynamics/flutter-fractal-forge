@@ -840,7 +840,7 @@ Future<OverlayCaptureResult> captureOverlayRow(
       } else if (state == 'random-categories') {
         await _activate(tester, _key('viewerRandomFractalFab'), long: true);
       } else if (state != 'export-progress') {
-        await _activate(tester, _key('viewerControlsButton'), long: true);
+        await _activate(tester, _key('viewerToolsButton'));
         final action = switch (state) {
           'edit-menu' => null,
           'controls-2d' || 'controls-3d' => 'viewerEditParametersAction',

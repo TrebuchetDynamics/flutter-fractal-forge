@@ -46,7 +46,8 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 2));
 
-    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.ensureVisible(find.byKey(const ValueKey('viewerToolsButton')));
+    await tester.tap(find.byKey(const ValueKey('viewerToolsButton')));
     await tester.pump(const Duration(milliseconds: 500));
     final options = find.byKey(const ValueKey('viewerTextOverlayFabOptions'));
     await tester.ensureVisible(options);

@@ -42,7 +42,7 @@ void main() {
     accessibility.dispose();
   });
 
-  Future<void> open(
+  Future<FractalViewControls> open(
     WidgetTester tester, {
     Size size = const Size(320, 200),
     double scale = 1,
@@ -106,15 +106,39 @@ void main() {
     expect(tester.getRect(controls).top, greaterThanOrEqualTo(24));
     expect(
         tester.getRect(controls).bottom, lessThanOrEqualTo(size.height - 48));
-    // A long press opens the Edit sheet; its first row opens the HUD.
-    await tester.longPress(controls);
+    final toolbar =
+        tester.widget<FractalViewControls>(find.byType(FractalViewControls));
+    if (more) {
+      final tools = find.byKey(const ValueKey('viewerToolsButton'));
+      await tester.ensureVisible(tools);
+      await tester.pumpAndSettle();
+      await tester.tap(tools);
+    } else {
+      await tester.longPress(controls);
+    }
     await tester.pumpAndSettle();
-    if (!more) {
-      final open = find.byKey(const ValueKey('viewerEditParametersAction'));
-      await tester.ensureVisible(open);
-      await tester.pumpAndSettle();
-      await tester.tap(open);
-      await tester.pumpAndSettle();
+    return toolbar;
+  }
+
+  for (final size in [const Size(360, 780), const Size(1200, 800)]) {
+    for (final locale in const [Locale('en'), Locale('es')]) {
+      testWidgets('Edit hold preserves parameters and stays open $size $locale',
+          (tester) async {
+        final before = Map<String, dynamic>.of(controller.params);
+        final controls = await open(tester, size: size, locale: locale);
+        expect(controller.params, before);
+        expect(find.byType(BottomSheet), findsNothing);
+        expect(find.byType(FractalControlsHud), findsOneWidget);
+        // The toolbar is hidden behind the HUD; repeat its public command to
+        // prove opening does not toggle the already-visible HUD closed.
+        controls.commands.presentation.openControls();
+        controls.commands.presentation.openControls();
+        await tester.pumpAndSettle();
+        expect(find.byType(FractalControlsHud), findsOneWidget);
+        expect(controller.params, before);
+        expect(find.byType(BottomSheet), findsNothing);
+        expect(tester.takeException(), isNull);
+      });
     }
   }
 
@@ -202,7 +226,7 @@ void main() {
           await reveal(tester, controls);
           await tester.longPress(controls);
           await tester.pumpAndSettle();
-          expect(find.byType(BottomSheet), findsOneWidget);
+          expect(find.byType(FractalControlsHud), findsOneWidget);
           await tester.binding.handlePopRoute();
           await tester.pumpAndSettle();
           final back = find.byKey(const Key('viewerBackToCatalogButton'));
@@ -316,9 +340,9 @@ void main() {
           await tester.pumpAndSettle();
           tester.view.physicalSize = const Size(320, 200);
           await tester.pumpAndSettle();
-          final moreButton = find.byKey(const ValueKey('viewerControlsButton'));
+          final moreButton = find.byKey(const ValueKey('viewerToolsButton'));
           await reveal(tester, moreButton);
-          await tester.longPress(moreButton);
+          await tester.tap(moreButton);
           await tester.pumpAndSettle();
           final report = find.byKey(const ValueKey('viewerReportFractalFab'));
           await reveal(tester, report);
