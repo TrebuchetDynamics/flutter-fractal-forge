@@ -6,4 +6,4 @@ status = "done"
 goal = "GOAL-MEDIA-002"
 +++
 
-- Archived: TODO.archive.md
+- Archived: [todo.archive.md](../../todo.archive.md)

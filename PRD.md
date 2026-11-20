@@ -4,11 +4,13 @@
 
 Fractal Forge is a Flutter application for exploring mathematical systems, tuning views, and exporting images. The owner selected the current README/backlog as the active scope baseline on 2026-10-11. The accepted release contract below adds the shared Android/web/Linux journey. Older conflicting requirements remain historical or deferred until explicitly reaccepted.
 
+For execution, use the applicable [workflow queue](docs/README.md#queues-and-history): GitHub issues/Orbi delivery and scoped Autowork [task items](tasks/items/)/[goals](tasks/goals/) are separate systems. The [task archive](todo.archive.md) and [historical readiness snapshot](docs/planning/PRD.md) preserve dated evidence, not current eligibility. Older `TODO.md` / `goals.json` mentions below name former queue files, not instructions to recreate them.
+
 ## Active release contract
 
 Status: Accepted
 
-Owner decision: Juan Tamez accepted this contract in the 2026-10-11 repository interview. The current `README.md` and `TODO.md` govern active scope. Conflicting older PRD requirements remain historical or deferred until explicitly accepted again. This section records the newly accepted release outcome. It does not claim that qualification is complete.
+Owner decision: Juan Tamez accepted this contract in the 2026-10-11 repository interview. The [README](README.md) and backlog were the accepted baseline (then named `TODO.md`; see [current workflow queues](docs/README.md#queues-and-history)). Conflicting older PRD requirements remain historical or deferred until explicitly accepted again. This section records the newly accepted release outcome. It does not claim that qualification is complete.
 
 ### Outcome and users
 
@@ -51,7 +53,7 @@ This decision supersedes the separate post-preparation owner-approval requiremen
 
 | Requirement or historical claim | Current classification |
 |---|---|
-| Browse, customize, mathematical descriptions and PNG export | Active release outcome. Verify through `REL-JOURNEY-01-WEB`, `REL-JOURNEY-02-LINUX`, and `REL-JOURNEY-03-ANDROID` in `TODO.md`. |
+| Browse, customize, mathematical descriptions and PNG export | Active release outcome. Verify through `REL-JOURNEY-01-WEB`, `REL-JOURNEY-02-LINUX`, and `REL-JOURNEY-03-ANDROID` in the [Autowork task records](tasks/items/). |
 | Stable IDs, favorites and saved presets | Active compatibility constraint in those same tasks. |
 | Parameter locking, a premultiplied-alpha UI toggle, and at least five built-in presets for each required fractal | Historical requirements unless independently present in the current backlog. This decision adds no new implementation obligation. Existing controls and presets remain supported. |
 | Startup shader compilation below 200 ms and ten-minute animation memory stability | Historical numerical gates. Reliable controls and crash-free completion remain active, but this interview accepts no new latency or endurance threshold. |
@@ -190,7 +192,7 @@ Acceptance: exact positive/negative primality fixtures pass; every accepted path
 
 Refined experience: separate candidate selection from the Step action; preserve pan/zoom gestures; use the existing mobile HUD/sheets and a responsive wide-screen control panel. Show computation-boundary and component states continuously. Apply finite work caps, cancellable chunks and serialized radius playback. Export one completed, paused graph snapshot. The [UI and performance contract](docs/engineering/spec.md#ui-layout-and-interaction-contract) is planned engineering detail, not measured device qualification.
 
-Implementation defaults, bounded architecture, planned checks and research sources are in [the feature specification](docs/engineering/spec.md#gaussian-moat-walking-visualization). Ordered tasks are `GAUSS-MOAT-01-MAP`, `GAUSS-MOAT-02-WALK`, `GAUSS-MOAT-04-GROWTH`, and `GAUSS-MOAT-03-QUALIFY` in `TODO.md`. Existing focus, queue priorities, active workers and release gates remain unchanged.
+Implementation defaults, bounded architecture, planned checks and research sources are in [the feature specification](docs/engineering/spec.md#gaussian-moat-walking-visualization). Ordered tasks are `GAUSS-MOAT-01-MAP`, `GAUSS-MOAT-02-WALK`, `GAUSS-MOAT-04-GROWTH`, and `GAUSS-MOAT-03-QUALIFY` in the [Autowork task records](tasks/items/). Existing focus, queue priorities, active workers and release gates remain unchanged.
 
 ## Prime-norm quaternion companion
 
@@ -446,13 +448,13 @@ Each new fractal must pass:
 - ~~**CRITICAL: Flutter 3.38+ Impeller shader rendering**~~ — **RESOLVED** (2026-04-05). The black-screen was caused by SkSL-incompatible `%` and `clamp(int, int, int)` operators in shaders; replaced with integer-division modulo and `float(clamp(...))` patterns. All 3D and escape-time shaders compile and render on GPU.
 
 ### Remaining / TODO
-- See `TODO.md` for current gaps and `docs/planning/PRD.md` for the historical readiness snapshot; this status section is dated 2026-08-25
+- This status section is dated 2026-08-25. For current work use the applicable [workflow queue](docs/README.md#queues-and-history); see the [historical readiness snapshot](docs/planning/PRD.md) for older evidence.
 - Evaluate platform-native Android MP4 encoding only if GIF export proves insufficient
 - Physical Android device verification of MediaStore export and gallery visibility
 
 ### Open question: active product scope
 
-**Resolved 2026-10-11:** the owner chose the current backlog/README as the active baseline. Conflicting older requirements remain historical or deferred. See [Active release contract](#active-release-contract), resolved `BLK-20261005-004` in `BLOCKERS.md`, and `DOC-PRD-001` in `TODO.md`.
+**Resolved 2026-10-11:** the owner chose the current backlog/README as the active baseline. Conflicting older requirements remain historical or deferred. See [Active release contract](#active-release-contract), resolved `BLK-20261005-004` in `BLOCKERS.md`, and `DOC-PRD-001` in the [historical task archive](todo.archive.md).
 
 ## Number walls catalog category
 
@@ -462,7 +464,7 @@ Owner scope: research and plan a Number Walls category inspired by Mathologer’
 
 Planner calls: begin with one stable mathematical construction and six sequence choices; genuine exact modular computation with separate shader presentation; custom decimal primes validated exactly with visible resource limits/cancellation; manual rather than continuous randomization. The randomizer wording was dictated and is interpreted as optional manual control, not autoplay. Very large prime validation can remain unverified, never silently rounded or substituted. These implementation defaults are recommendations within the requested outcome, not claims of owner selection or existing capability.
 
-Success: find the category, open attractive honest defaults, change sequence/prime, inspect divisibility windows, colour/randomize/restore settings and export the same completed wall on Android, web and Linux. Preserve existing IDs/favorites/presets and viewer/pilot order. Do not promise all walls are fractals or all input sizes finish instantly. See [the decided plan](docs/engineering/spec.md#number-walls-and-modular-windows) and NUM-WALL-01 through NUM-WALL-05 in TODO.md.
+Success: find the category, open attractive honest defaults, change sequence/prime, inspect divisibility windows, colour/randomize/restore settings and export the same completed wall on Android, web and Linux. Preserve existing IDs/favorites/presets and viewer/pilot order. Do not promise all walls are fractals or all input sizes finish instantly. See [the decided plan](docs/engineering/spec.md#number-walls-and-modular-windows) and NUM-WALL-01 through NUM-WALL-05 in the [Autowork task records](tasks/items/).
 
 ## Academic research library
 
@@ -472,7 +474,7 @@ Owner request: improve academic research across all catalog fractals; plan a ded
 
 Planner recommendation: use `research/academic/` as the shared paper/evidence hub, ResearchForge as the primary retrieval/provenance workflow, and Feynman only as optional source-checked synthesis/review assistance. Preserve existing topic packages and the 200-definition library. Map sources and exact equations to effective formulas/builders/shaders/CPU paths and tests; distinguish discovery, accessible text, human-reviewed claims, numerical fidelity and visual quality. Account for every scoped stable identity without pretending that a filled coverage row certifies its mathematics. Reuse existing IDs, source groups and visual-quality evidence.
 
-See [the library plan](research/academic/README.md), [integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence) and ACAD-01 through ACAD-05 in TODO.md. Initial rollout is a representative pilot followed by bounded family batches, not an unbounded all-papers scrape. Existing viewer/pilot and Number Walls priorities remain intact. ResearchForge's human screening, legal acquisition and accepted-claim gates remain; no owner approval is invented.
+See [the library plan](research/academic/README.md), [integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence) and ACAD-01 through ACAD-05 in the [Autowork task records](tasks/items/). Initial rollout is a representative pilot followed by bounded family batches, not an unbounded all-papers scrape. Existing viewer/pilot and Number Walls priorities remain intact. ResearchForge's human screening, legal acquisition and accepted-claim gates remain; no owner approval is invented.
 
 ## MCP-assisted architecture and UI improvement
 
@@ -510,7 +512,7 @@ Add optional random camera points to the existing Camera looper, retaining manua
 
 Status: Accepted
 
-Owner outcome: research and plan implementation of the Fibonacci prime-degree Julia fractal. This `/plan-for-me` occurrence saves the plan, not implementation or a timed schedule. Preserve TODO.md as the central queue and synchronize goals.json, as explicitly requested; do not migrate formats, reset historical slots or change the existing focus/order to make this work run.
+Owner outcome: research and plan implementation of the Fibonacci prime-degree Julia fractal. This `/plan-for-me` occurrence saves the plan, not implementation or a timed schedule. Historical queue instruction for that planning occurrence: preserve `TODO.md` and synchronize `goals.json`, as explicitly requested; do not migrate formats, reset historical slots or change the existing focus/order to make this work run. For present navigation, see the [workflow queue owners](docs/README.md#queues-and-history) and [FIB-PRIME task records](tasks/items/); this note changes no task state or membership.
 
 Deliver one native `fibonacci_complex_julia` identity using the published complex Fibonacci map H_c(z,w)=(zw+c,z), initially sliced by (z,w)=(p,p). Highlight prime Fibonacci polynomial degrees truthfully, support genuine GPU and native CPU paths, explain finite-budget/numeric uncertainty, and preserve saved states and PNG ownership. Two complex coordinates mean four real state coordinates, not a new full-4D viewer. The recurrence, proof, sources and planner choices are in [the spec](docs/engineering/spec.md#fibonacci-prime-degree-julia); [the research note](research/fibonacci-prime-degree-julia.md) separates evidence from proposals.
 

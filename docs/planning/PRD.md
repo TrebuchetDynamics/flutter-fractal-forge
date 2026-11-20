@@ -4,11 +4,11 @@
 
 ---
 
-Current scope follows the README/backlog and the [accepted release contract](../../PRD.md#active-release-contract). This document does not supersede that owner decision or establish present release qualification.
+Current scope follows the root [accepted release contract](../../PRD.md#active-release-contract) and [README](../../README.md). Use the applicable [workflow queue](../README.md#queues-and-history) for execution and the [task archive](../../todo.archive.md) for provenance. This document does not supersede that owner decision or establish present release qualification.
 
 ## 1. Current State Audit (historical snapshot)
 
-This audit records evidence collected in February 2026; its counts and pass claims are not current verification. Current architecture and verification guidance is in [`../engineering/spec.md`](../engineering/spec.md) and [`../engineering/test-plan.md`](../engineering/test-plan.md). The current backlog is [`../../TODO.md`](../../TODO.md).
+This audit records evidence collected in February 2026; its counts and pass claims are not current verification. Current architecture and verification guidance is in [`../engineering/spec.md`](../engineering/spec.md) and [`../engineering/test-plan.md`](../engineering/test-plan.md). The former `TODO.md` backlog is a historical reference; current [GitHub/Orbi and scoped Autowork queue navigation](../README.md#queues-and-history) is separate from this snapshot.
 
 ### 1.1 Validation Runs
 

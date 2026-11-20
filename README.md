@@ -132,7 +132,7 @@ Precision is capability-based. A synthetic fallback is **not** CPU Precision. Se
 
 ## Current development priority
 
-Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is **proposed, not implemented**. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [live work queue](tasks/items/) and [verification plan](docs/engineering/test-plan.md).
+Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is **proposed, not implemented**. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [scoped Autowork tasks](tasks/items/), [workflow queue owners](docs/README.md#queues-and-history) and [verification plan](docs/engineering/test-plan.md).
 
 ## Architecture
 
@@ -154,11 +154,16 @@ See the [test conventions and focused lanes](test/README.md) and the [Linux cata
 
 ## Project references
 
+- [Current product contract](PRD.md)
+- [Documentation index, workflow queues and history](docs/README.md#queues-and-history)
+- [GitHub issues / Orbi delivery](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues)
 - [Renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md)
 - [Performance engineering docs](docs/engineering/performance/README.md)
 - [Shader optimization notes](docs/engineering/performance/SHADER_OPTIMIZATIONS.md)
 - [Formula coverage limitation](docs/engineering/rendering/formula_coverage_limitation.md)
-- [Current tasks and status](tasks/items/)
+- [Scoped Autowork tasks and status](tasks/items/) and [goals](tasks/goals/)
+- [Historical task archive](todo.archive.md) — not current eligibility
+- [Historical readiness snapshot](docs/planning/PRD.md) and [pipeline state — 2026-04-12](docs/planning/PIPELINE_STATE.md)
 - [System specification](docs/engineering/spec.md)
 - [Verification plan](docs/engineering/test-plan.md)
 - [Local operations runbook](docs/engineering/runbook.md)

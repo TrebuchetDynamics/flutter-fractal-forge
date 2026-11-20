@@ -528,4 +528,4 @@ ValueKey('field')
 ---
 
 *Generated as part of the Semantic-First QA Framework implementation.*
-*See also: TODO.md (implementation checklist), test/helpers/semantics_test_helper.dart (test utilities)*
+*See also: [workflow queues and history](../README.md#queues-and-history), [scoped Autowork task records](../../tasks/items/) (implementation contracts), test/helpers/semantics_test_helper.dart (test utilities)*

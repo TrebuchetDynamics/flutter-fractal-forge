@@ -1,6 +1,6 @@
 # Fibonacci prime-degree Julia — retained research
 
-Research/design only, now used by the saved implementation plan. [Product](../PRD.md#fibonacci-prime-degree-julia-fractal), [spec](../docs/engineering/spec.md#fibonacci-prime-degree-julia), [verification](../docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification), [central queue](../TODO.md).
+Research/design only, now used by the saved implementation plan. [Product](../PRD.md#fibonacci-prime-degree-julia-fractal), [spec](../docs/engineering/spec.md#fibonacci-prime-degree-julia), [verification](../docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification), [scoped Autowork task records](../tasks/items/), [workflow queue owners and history](../docs/README.md#queues-and-history).
 
 The published complex Fibonacci map is H_c(z,w)=(zw+c,z). For initial (p,p), the first-coordinate polynomial after k updates has degree F(k+2), using F0=0,F1=1. Multiplication of monic polynomials adds degrees; a constant c cannot cancel their leading term. Thus prime-degree coloring is tied to actual Fibonacci polynomial growth for every fixed c, not to a decorative spiral. C² has four real state coordinates, displayed initially through a two-real-dimensional initial-condition slice; the diagonal is not preserved by iteration.
 

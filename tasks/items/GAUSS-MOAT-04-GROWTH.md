@@ -6,4 +6,4 @@ status = "done"
 goal = "GAUSS-MOAT-001"
 +++
 
-- Archived: TODO.archive.md
+- Archived: [todo.archive.md](../../todo.archive.md)
