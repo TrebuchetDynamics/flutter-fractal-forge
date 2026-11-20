@@ -237,7 +237,7 @@ flutter build web --release
 flutter build linux --release
 ```
 
-Equivalent targets exist for macOS, Windows, and iOS. Linux Fractal Music uses `paplay` or `aplay` when available.
+Equivalent targets exist for macOS, Windows, and iOS. Fourier Music was removed; no external audio player is required. [Fourier View and Fractal Uncertainty Lab](docs/research/fractal-uncertainty-and-fourier-mode.md) are numerical tools, separate from the silent [Camera looper](README.md#controls).
 
 For a Google Play upload build:
 
@@ -258,90 +258,48 @@ A typical shader-backed addition should stay focused:
 
 The detailed steps below show where those pieces live.
 
-### 1. Create the Shader
+### 1. Choose the Shader Contract
 
-Add a new fragment shader in `shaders/`:
+Add the `.frag` asset under `shaders/`. For a standard 2D escape-time module, follow the float-uniform order documented in [builders/escape_time/builder.dart](lib/core/modules/builders/escape_time/builder.dart): time, resolution, center, zoom, iterations, bailout, color scheme, transparent background, then extra numeric parameters. Match any palette sampler contract as well. A shader with only resolution/center/zoom uniforms is **not** compatible with this builder.
 
-```glsl
-// shaders/my_fractal.frag
-#include <flutter/runtime_effect.glsl>
+For a different layout, use a custom builder with its own `setUniforms` callback. Do not copy an unrelated shader's uniform offsets. Both paths still require asset registration in step 5.
 
-precision highp float;
-uniform vec2 uResolution;
-uniform vec2 uCenter;
-uniform float uZoom;
-out vec4 fragColor;
+### 2. Register a Standard Escape-Time Config (Path A)
 
-void main() {
-  vec2 uv = (FlutterFragCoord().xy - 0.5 * uResolution) / uResolution.y;
-  fragColor = vec4(uv * 0.5 + 0.5, 0.2, 1.0);
-}
-```
-
-### 2. Create the Module
-
-Add a new module file in `lib/core/modules/`:
+Use this path when the standard uniform contract fits. Add one `EscapeTimeConfig` to the existing `escapeTimeCatalog` list in [lib/core/modules/builders/escape_time_catalog.dart](lib/core/modules/builders/escape_time_catalog.dart), or to its appropriate existing family/research part list already spread into that list. For an existing example, see [_coreEscapeTimeFamilyCatalog](lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart).
 
 ```dart
-// lib/core/modules/my_fractal_module.dart
-import 'package:flutter_fractals/core/modules/fractal_module.dart';
-// ... other imports
-
-FractalModule buildMyFractalModule() {
-  final parameters = [
-    FractalParameter(
-      id: 'iterations',
-      label: (l10n) => l10n.paramIterations,
-      type: FractalParamType.integer,
-      min: 10,
-      max: 200,
-      step: 1,
-      defaultValue: 50,
-    ),
-    // ... more parameters
-  ];
-
-  final defaultPreset = FractalPreset(
-    id: 'my-fractal-default',
-    moduleId: 'my_fractal',
-    name: 'Default',
-    params: {'iterations': 50},
-    view: FractalViewState.initial(),
-    createdAt: DateTime.now(),
-    isBuiltIn: true,
-  );
-
-  return FractalModule(
-    id: 'my_fractal',
-    displayName: (l10n) => l10n.moduleMyFractal,
-    dimension: FractalDimension.twoD,
-    shaderAsset: 'shaders/my_fractal.frag',
-    parameters: parameters,
-    defaultPreset: defaultPreset,
-    builtInPresets: [defaultPreset],
-    setUniforms: (shader, state, size, time) {
-      // Set shader uniforms
-    },
-  );
-}
+// In the existing escapeTimeCatalog list (illustrative new entry):
+EscapeTimeConfig(
+  id: 'my_fractal',
+  name: 'My Fractal',
+  displayName: (l10n) => l10n.moduleMyFractal,
+  shaderAsset: 'shaders/my_fractal.frag',
+  defaultIterations: 120,
+  defaultBailout: 4.0,
+),
 ```
 
-### 3. Register the Module
+The config type and `buildEscapeTimeModule` live in `builders/escape_time/builder.dart`. The structured `builders/escape_time/catalog.dart` import is only a compatibility facade; edit the canonical catalog/parts above. `buildEscapeTimeCatalogModules()` builds the configs and `ModuleRegistry._buildAll()` includes them automatically. No separate module file or registry insertion is needed for this path.
 
-Update `lib/core/modules/module_registry.dart`:
+### 3. Register a Custom Builder (Path B, Alternative to A)
+
+For custom parameters/uniforms or a non-escape-time system, create `lib/core/modules/fractals/my_fractal_module.dart` with a `FractalModule buildMyFractalModule()` function. Follow [phoenix_module.dart](lib/core/modules/fractals/phoenix_module.dart) for imports, parameters, `catalogPreset` defaults, localized name, shader asset and the actual `setUniforms` implementation. Replace the example's formula-specific parameters and uniform writes with your shader's contract; an empty callback is not a working renderer.
+
+In [lib/core/modules/module_registry.dart](lib/core/modules/module_registry.dart), add the import alongside the other custom builders:
 
 ```dart
-import 'my_fractal_module.dart';
-
-class ModuleRegistry {
-  final List<FractalModule> modules;
-
-  ModuleRegistry() : modules = [
-    // ... existing modules
-    buildMyFractalModule(),
-  ];
-}
+import 'fractals/my_fractal_module.dart';
 ```
+
+Then insert the builder call in the **existing local `customModules` list inside `_buildAll()`**:
+
+```dart
+// One new element inside final customModules = <FractalModule>[ ... ];
+buildMyFractalModule(),
+```
+
+The registry comments call this `_customModules`, but the current code names the local list `customModules`. Do not replace the `ModuleRegistry` constructor, lazy `modules` field, `_buildAll()` or its merge logic with a new hand-built list: that would drop the assembled catalog, ordering and diagnostics. Choose a unique stable ID and register it through only one path; duplicate IDs can be deduplicated or overridden rather than appearing as a second entry.
 
 ### 4. Add Localization
 
@@ -363,19 +321,13 @@ flutter:
     - shaders/my_fractal.frag
 ```
 
-### 6. Add Tests
+### 6. Verify Discovery and Rendering
 
-Create tests for your module:
+Add a focused module contract test that resolves `ModuleRegistry().byId('my_fractal')` and checks its preset's `moduleId`, parameters and shader asset. This checks discovery for **either** registration path, not just the standalone builder. Retain the registry/ID checks in [catalog_id_integrity_test.dart](test/catalog/catalog_id_integrity_test.dart) and update expected counts deliberately when adding an identity.
 
-```dart
-// test/my_fractal_module_test.dart
-void main() {
-  test('my fractal module has valid default preset', () {
-    final module = buildMyFractalModule();
-    expect(module.defaultPreset.moduleId, equals('my_fractal'));
-  });
-}
-```
+Run focused tests and the [common offline gate](AGENTS.md#common-offline-integration-gate), then the GPU thumbnail/render audit for a visual change. A passing metadata test is not a rendered-shader or device result.
+
+**If discovery fails:** `byId` throws `StateError: No element` for a missing ID. Check the spelling, the config's inclusion in `escapeTimeCatalog` or the custom builder's inclusion in `customModules`; do not replace the registry to make the lookup pass. If lookup succeeds but the render is wrong, compare the shader declarations with the standard builder's uniform layout or your custom `setUniforms`, and confirm `flutter.shaders` includes the asset before rerunning the render check.
 
 ## Reporting Bugs
 

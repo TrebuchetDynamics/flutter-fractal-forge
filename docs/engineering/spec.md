@@ -340,6 +340,8 @@ The owner now explicitly prioritizes `GAUSS-MOAT-001`, authorizes `GAUSS-MOAT-01
 
 ### Current evidence and integration boundary
 
+Source-status correction (2026-11-20): [the viewer](../../lib/features/viewer/fractal_viewer_screen.dart) now opens [GaussianMoatMap](../../lib/features/viewer/gaussian_moat_map.dart) from the existing `gaussian_prime_lattice` entry's Walk mode. The exact bounded map, walking/component overlay and radius-growth controls are integrated on main. The original architecture and broader planned limits below remain design history/acceptance targets, not a statement that the feature is absent or every target is qualified. The [current PRD evidence table](../../PRD.md#gaussian-moat-walking-visualization) separates integration, test source, execution and release inclusion.
+
 The existing `gaussian_prime_lattice` entry is defined in `lib/core/modules/builders/escape_time_catalog/research_batches/batch_26_tenth_wave_research.dart:239–267`. Its shader is `shaders/number_theory/gaussian_prime_lattice_gpu.frag`, declared in `pubspec.yaml`. The shader's `primeInt()` tests odd divisors only through 127; its scale clamp does not bound coordinates after pan/zoom. Do not derive authoritative graph vertices from that shader. The old `f0786_gaussian_integer_lattice_fractal` research-ledger path is not a live module, and `gaussian_prime_spiral` is only a planning candidate.
 
 `ModuleRegistry._buildAll()` gives existing catalog IDs precedence over duplicate custom builders. `CatalogRepository.fromRegistry()` already owns discovery. Reuse the current module rather than create a duplicate registration. Reuse `FractalController.selectModule()`, `updateParam()` and reset lifecycle; keep walk history transient, not in shader uniforms or existing persisted preset schemas.
@@ -407,14 +409,18 @@ This bounded visual exploration is not an animation of the full information-theo
 
 ### Ordered delivery and verification
 
-- Now within this feature: `GAUSS-MOAT-01-MAP` delivers an exact bounded map through the existing catalog/viewer identity. It proves primality, boundedness and coordinate alignment before trusting paths.
-- Next: `GAUSS-MOAT-02-WALK` adds legal walking, full-component overlay, honest boundaries and capture inclusion. Depends on the exact map.
-- Next: `GAUSS-MOAT-04-GROWTH` adds bounded jump-radius animation with cancellation, pause and honest search-limit labels. Depends on walking/component mode.
-- Then: `GAUSS-MOAT-03-QUALIFY` proves the actual Android/web/Linux journey, EN/ES, keyboard/semantics, cancellation and exported artifacts. Depends on walking and growth mode. Existing global selection is unchanged.
+Original delivery order (not current queue eligibility or fresh qualification):
 
-Planned targets: `test/modules/gaussian_moat_model_test.dart`, `test/features/viewer/gaussian_moat_walk_test.dart`, and `integration_test/flows/gaussian_moat_journey_test.dart`. These files do not yet exist. Run `flutter test test/modules/gaussian_moat_model_test.dart test/features/viewer/gaussian_moat_walk_test.dart --reporter expanded`, `flutter analyze`, and the platform journey commands in [the verification plan](test-plan.md#gaussian-moat-visualization). Preserve existing registry, gestures, viewer and export tests.
+- `GAUSS-MOAT-01-MAP`: exact bounded map through the existing catalog/viewer identity; the [task record](../../tasks/items/GAUSS-MOAT-01-MAP.md) is marked done. That status is not by itself execution evidence.
+- `GAUSS-MOAT-02-WALK`: legal walking, component overlay, boundaries and capture inclusion; implementation is present, with scoped execution below.
+- `GAUSS-MOAT-04-GROWTH`: bounded radius growth/pause; implementation is present, but the broader scheduling/qualification contract is not wholly demonstrated.
+- `GAUSS-MOAT-03-QUALIFY`: cross-target journey, EN/ES, keyboard/semantics, cancellation and exported artifacts. Full qualification remains pending; local results do not close every gate.
 
-Skill application: spec-driven-development records observable boundaries; planning-and-task-breakdown produces dependent outcome slices; documentation-and-adrs records the exact-data versus approximate-shader decision here without another ADR; frontend-ui-engineering supplies coordinate mapping, keyboard/semantics, localization and export acceptance. All feature behavior checks remain planned/unrun.
+Existing test sources are `test/modules/gaussian_moat_model_test.dart`, `test/features/viewer/gaussian_moat_walk_test.dart`, and `integration_test/flows/gaussian_moat_journey_test.dart`. Use the pinned offline setup for focused model/widget checks and the owned runtime recipe in [the verification plan](test-plan.md#gaussian-moat-visualization) for native journeys. Preserve existing registry, gestures, viewer and export tests. Test source is not a pass receipt.
+
+Documented execution: [GAUSS-LOCAL-01](../qa/gaussian-local-20261026/README.md) retains 2026-10-25 Linux/Xvfb software-backend results, 44 focused tests, PNG readback and B=128 telemetry on its named source/SDK. Current Gaussian bounds are B≤128 and k≤16; component search is synchronous. The wider planned k=100/chunked-search contract below is not implemented by that evidence. [Linux/Chromium observations and remaining qualification](test-plan.md#gaussian-moat-visualization) are separate from Android, hardware-GPU, complete accessibility/localization and release inclusion, which are not verified by this documentation update.
+
+Skill application: spec-driven-development records observable boundaries; planning-and-task-breakdown produces dependent outcome slices; documentation-and-adrs records the exact-data versus approximate-shader decision here without another ADR; frontend-ui-engineering supplies coordinate mapping, keyboard/semantics, localization and export acceptance. Original planned checks are not retroactively claimed as executed by the dated local results.
 
 ### Bounded radius growth and visual direction
 
