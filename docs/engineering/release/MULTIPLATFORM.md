@@ -13,7 +13,7 @@ The [owner's 2026-10-29 decision](../../../PRD.md#standing-release-defaults) con
 
 Play defaults to production/completed, GitHub releases to published/non-prerelease, and web to the existing production site. Draft or nonproduction output requires an explicit override. Every technical qualification, frozen-artifact and remote-readback gate remains required. Planning, documentation and prepare-only requests do not authorize publication. GitLab stays excluded. New destinations, paid capacity, credential changes and destructive actions outside existing consent are not implied.
 
-The 2026-10-17 owner request supersedes the all-or-nothing publication policy below: attempt every platform, skip a platform-specific error, and continue qualified independent lanes. See [the accepted policy](../../../PRD.md#independent-platform-release-policy). The isolated route is `./release.sh --best-effort --prepare=1.1.108 --build-number=108`; it bypasses GitLab and writes `release-artifacts/campaign.json` without publishing. For an explicit release request, proceed after campaign verification without another owner prompt. `./release.sh --best-effort --publish=1.1.108 --build-number=108` revalidates the frozen identity, exact mapped qualification receipts, evidence manifest, and artifact provenance before lane-scoped publication. Missing or unknown qualification remains a lane skip, never an implicit pass. The no-argument release command remains the strict legacy GitLab workflow.
+The 2026-10-17 owner request supersedes the all-or-nothing publication policy below: attempt every platform, skip a platform-specific error, and continue qualified independent lanes. See [the accepted policy](../../../PRD.md#independent-platform-release-policy). For Play-only publication use `scripts/release-play.sh --device "$ANDROID_DEVICE" --disposable-device "$ANDROID_DISPOSABLE_DEVICE"`, not the root dispatcher. The independent-lane route is `./release.sh --best-effort --prepare=X.Y.Z --build-number=N`; it bypasses GitLab and writes `release-artifacts/campaign.json` without publishing. For an explicit release request, proceed after campaign verification without another owner prompt. `./release.sh --best-effort --publish=X.Y.Z --build-number=N` revalidates the frozen identity, exact mapped qualification receipts, evidence manifest, and artifact provenance before lane-scoped publication. Missing or unknown qualification remains a lane skip, never an implicit pass. Keep the same frozen version/build, artifact directory and campaign file on both invocations; `X.Y.Z` and `N` are placeholders, not a selected identity. The no-argument release command, or root `--target play` without `--best-effort`, selects deferred `scripts/gitlab_release.py`. Do not use it while GitLab is excluded.
 
 The PRD's explicit GitLab deferral governs this campaign. The older resumption statement below is conflicting operating history, not new authorization. Keep GitLab login, mirror, CI dispatch and GitLab release publication excluded. The best-effort launcher uses local/native builders and evidence tools; it removes `GITLAB_CI` from child environments and never fabricates CI/device evidence. Linux attempts the full native journey file, but its qualification stays unknown while retained edited-view PNG comparisons, EN/ES and inspired-entry coverage, and attributable human review are missing. A zero-exit automated command alone cannot admit Linux. Windows, macOS and iOS remain unknown until platform-specific journey/export receipts are available, and therefore cannot be published.
 
@@ -35,7 +35,7 @@ Planner's orchestration contract:
 - Reuse the same immutable artifacts on retry. Read remote tag/release/deployment/store state before repeating an uncertain write. No force-tag, destructive rollback or repeat Play upload based only on a timeout. Keep unknown publication separate from skipped-failed.
 - The final machine/human report says complete or partial with per-lane proof; all-skipped/common-gate failure is nonzero and publishes nothing. A partial success must not claim all-platform readiness. Apple store/F-Droid acceptance still require their real external outcomes.
 
-The `1.1.108`/108 command above is a historical prepare-only example and the retained RELEASE-002-75 check, not selection of a new production identity. The committed identity in `fdroid/version.properties` is 1.1.110/110; do not downgrade that metadata or reuse a consumed version code. A later authorized production continuation must reconcile live consumed versions and the existing deployment first, as specified in the [continuation plan](../../../PRD.md#release-continuation-plan--2026-10-23). Preparing the historical fixture does not qualify a replacement for that deployment.
+**Historical identity note (2026-10-23):** the retained RELEASE-002-75 check used `1.1.108`/108 and observed `fdroid/version.properties` at 1.1.110/110. Neither selects a new production identity. Read the committed [`fdroid/version.properties`](../../../fdroid/version.properties) (1.1.125/125 at this revision); metadata is not lane qualification. Do not downgrade it or reuse a consumed version code. A later authorized production continuation must reconcile live consumed versions and the existing deployment first, as specified in the [continuation plan](../../../PRD.md#release-continuation-plan--2026-10-23). Preparing the historical fixture does not qualify a replacement for that deployment.
 
 Preparation retains complete shared/build/journey stage output under the artifact directory's `stage-logs/<commit>-<invocation>/` directory. The campaign references that invocation's logs; stale synthetic failures from script tests are not current-run evidence. Web inventory compares regular tar members with the file/hash manifest, excluding directory entries. Browser receipts retain stdout/stderr, JSON/HTML reports and result artifacts under the execution environment's temporary directory (`TMPDIR`); preserve those referenced paths with the campaign before cleaning temporary output. The lane uses `production-saved-session.spec.mjs`; the separate task-owned `smoke-session-conflict.spec.mjs` verifies restoration without a smoke-module override. Linux records the full automated command verdict separately from its still-unknown qualification and pending retained-image human review.
 
@@ -56,6 +56,7 @@ history of the first observed failures is in the
 
 Prerequisites for a fresh release worktree:
 
+- Select the SDK in [`fdroid/flutter.version`](../../../fdroid/flutter.version) (3.47.9 at this revision) and the provisioned Flutter/pub/Rust caches via the [common offline setup](../../../AGENTS.md#common-offline-integration-gate); do not use an ambient SDK. The full offline gate includes Cargo fmt/clippy/locked offline tests, analyzer, Flutter/Python/Bats and unchanged `pubspec.lock` and `rust/Cargo.lock`. It does not replace any lane-local device/browser qualification.
 - Run `flutter pub get --offline --enforce-lockfile` inside the worktree before
   the campaign. Without its own `.dart_tool/package_config.json`,
   `flutter analyze --no-pub` falls back to the enclosing checkout's config and
@@ -86,12 +87,16 @@ not the settled target choice. See [the Waydroid contract](../testing/waydroid-h
 
 ## Current release status
 
-For the most recent Play-only outcome see [PLAY_1.1.125.md](PLAY_1.1.125.md): production/completed and exact AAB hash readback are confirmed. Full offline and Waydroid gates passed, including the complete 300-second soak (50 terminal View frames, 4% jank). At 2026-11-20T05:05:45Z, 12/12 probed storefronts still show 1.1.124; propagation remains pending. Direct Google review and end-user availability are unconfirmed. Other lanes were not requalified or republished. The note below is retained operating history.
+For the most recent Play-only outcome see [PLAY_1.1.125.md](PLAY_1.1.125.md): production/completed code 125 from `6f63c28b` and exact AAB hash readback are confirmed. Full offline and Waydroid gates passed, including the complete 300-second soak (50 terminal View frames, 4% jank). At 2026-11-20T05:05:45Z, 12/12 probed storefronts still show 1.1.124; propagation remains pending. Direct Google review and end-user availability are unconfirmed. Other lanes were not requalified or republished. Do not reupload to address pending propagation. This is the latest cited receipt, not a fresh live probe. The note below is retained operating history.
 
-Play production is **1.1.120 (120)**, status completed, published from `main`
+**Historical Play observation (2026-11-03):** production was **1.1.120 (120)**, status completed, published from `main`
 (application code `7a6daf28`) — see [PLAY_1.1.120.md](PLAY_1.1.120.md). That was
 a Play-only operation: the other lanes keep their 1.1.119 record and were not
 revalidated or republished.
+
+## Historical GitLab route — deferred, not current instructions
+
+All commands, runner setup and CI variable instructions below describe the legacy GitLab workflow only. They do not authorize login, mirroring, dispatch, runner provisioning or publication under the current exclusion. Current routes and partial-lane policy are above.
 
 Historical operating note (2026-10-16; conflicts with the current PRD deferral
 and superseded by the best-effort route above): this document recorded resumed
@@ -170,7 +175,7 @@ default branch also runs the five Android integration suites on the device runne
 Actions workflows remain. GitHub-only pushes do not trigger GitLab checks: push
 the same branch to GitLab and review its pipeline there.
 
-## Release jobs and gates
+### Legacy release jobs and gates
 
 | Job | Result |
 | --- | --- |
@@ -189,7 +194,7 @@ the same branch to GitLab and review its pipeline there.
 Release jobs run only for an explicit API/web pipeline on a protected branch.
 Ordinary pushes and tags never publish. Every build and the Android device gate
 must succeed before evidence can pass. Both evidence and F-Droid scanning must
-succeed before publication. There are no optional platform failures in the current implementation; changing that behavior is explicitly planned by the newer independent-platform policy above, not already delivered.
+succeed before publication. The legacy GitLab pipeline described here has no optional platform failures; it is not the implemented independent-lane `--best-effort` route above.
 
 Publication jobs share a resource group. Play defaults to `production` and
 `completed`; explicit `PLAY_TRACK` and `PLAY_RELEASE_STATUS` overrides remain
@@ -206,7 +211,7 @@ F-Droid has no APK upload publication API; its maintainers must accept metadata
 and its own builders reproduce the APKs. These are explicit limits, not bypassed
 checks. This migration preserves the existing unsigned Apple build behavior.
 
-## Runner setup
+### Legacy runner setup
 
 - Linux jobs: GitLab hosted `saas-linux-medium-amd64`, a digest-pinned
   Android toolchain image; bootstrap installs the Flutter version named by
@@ -230,7 +235,7 @@ silently skipped. `fdroid/flutter.version` is the canonical SDK pin used by
 Linux/native bootstrap and F-Droid metadata. The container supplies Android
 build tools; its bundled Flutter version is replaced by the canonical pin.
 
-## Protected CI variables
+### Legacy protected CI variables
 
 Create these in GitLab **Settings → CI/CD → Variables**, restricted to protected
 refs. Use GitLab **File** type where specified. Do not commit their contents.

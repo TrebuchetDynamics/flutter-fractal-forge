@@ -1,6 +1,50 @@
 # Play Console Upload Checklist
 
-> Current listing copy, images, validation and publishing: [Store listing guide](README.md). Binary-release notes below may describe older releases.
+## Current operational route
+
+For listing-only copy/images, use the [store listing guide](README.md); listing
+publication does not release or qualify a binary. For a binary release, follow
+the [Play pipeline](../engineering/release/PIPELINE.md):
+
+```sh
+scripts/release-play.sh --device "$ANDROID_DEVICE" --disposable-device "$ANDROID_DISPOSABLE_DEVICE"
+```
+
+This is the Play-only route, defaulting to **production/completed**. Internal
+testing or draft output requires an explicit nonproduction request and override
+(`--track internal --release-status draft`); it is not the recommended/default
+first step for a production release. An explicit release request authorizes the
+qualified subset without another approval, but does not waive any gate.
+Bare `./release.sh`, even with `--target play`, selects deferred GitLab; use
+`./release.sh --best-effort --prepare=X.Y.Z --build-number=N` and a separate
+`./release.sh --best-effort --publish=X.Y.Z --build-number=N` only for an
+independent-lane campaign, with the same frozen campaign/artifact paths.
+
+Select the SDK pinned by [`fdroid/flutter.version`](../../fdroid/flutter.version)
+(3.47.9 at this revision) and the provisioned cache using the
+[common offline setup](../../AGENTS.md#common-offline-integration-gate). Its full
+local gate includes Cargo fmt/clippy/locked offline tests, analyzer and
+Flutter/Python/Bats with unchanged `pubspec.lock` and `rust/Cargo.lock`.
+Local checks and listing validation are not Android production-artifact,
+browser, physical-device or cross-platform qualification. Android release tests
+use the [designated Waydroid target](../engineering/testing/waydroid-headless.md);
+Waydroid remains container evidence, not hardware-GPU proof.
+
+The latest cited [Play receipt is 1.1.125/125](../engineering/release/PLAY_1.1.125.md)
+from `6f63c28b`, production/completed. At 2026-11-20T05:05:45Z propagation was still
+pending; do not reupload to address it. Review and end-user availability were
+unconfirmed, and no other lane was requalified. This is a dated receipt, not a
+fresh live status check. For website/policy deployment use the separate
+[web procedure](../deployment/WEB_PREVIEW_GITHUB_PAGES.md), not a Play upload.
+
+## Historical checklist — 2026-06-05
+
+The snapshot below retains its original artifact sizes, test counts, identity,
+manual steps and observations. DONE/pending boxes and first-upload instructions
+are dated history, not current readiness or an instruction to create the app,
+reupload an AAB, choose internal testing, or deploy the website again. The current
+route above supersedes those operational recommendations.
+
 Updated: 2026-06-05 CST (America/Monterrey)
 
 This checklist is for Google Play Console maintenance releases. The app is published on Google Play; keep all signing material private and outside the public repository.
@@ -73,7 +117,7 @@ See `UPLOAD_CHECKLIST.md` for current hosting status.
 - [OWNER-ACTION-NEEDED] Confirm Play App Signing / upload-key fingerprint before each release.
 - [OWNER-ACTION-NEEDED] Keep offline backups of the upload keystore and credentials.
 
-## D) Play Console submission steps (manual)
+## D) Historical Play Console submission steps (superseded)
 
 1. [JUAN-ACTION-NEEDED] Create app entry in Play Console.
 2. [JUAN-ACTION-NEEDED] Upload AAB from:

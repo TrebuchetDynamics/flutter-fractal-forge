@@ -60,9 +60,11 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 - **Safe/boot modes**: `SAFE_MODE` and `BOOT_STEP` environment vars for incremental debugging
 
 ### Testing Requirements
-- Run unit tests: `flutter test`
-- Run integration tests: `flutter test integration_test/`
-- Widget tests use `pumpWidget` with mock stores/services
+- Select the SDK pinned by [`fdroid/flutter.version`](fdroid/flutter.version) (3.47.9 at this revision) and the provisioned cache via [Common offline integration gate](#common-offline-integration-gate); do not use an ambient SDK.
+- Focused local unit/widget checks: `flutter test --no-pub` after locked offline dependency preparation. Widget tests use `pumpWidget` with mock stores/services.
+- Full offline check: use the common gate below, including Cargo fmt/clippy/locked offline tests, analyzer, Flutter/Python/Bats tests and unchanged `pubspec.lock` and `rust/Cargo.lock`. Focused tests are not a full-gate result.
+- Local device integration: `flutter test --no-pub integration_test/ -d <device-id>` requires an explicitly selected authorized target; Android uses the [designated Waydroid contract](docs/engineering/testing/waydroid-headless.md). This is not cross-platform or production-artifact qualification.
+- Reserved-port Linux host-protocol integration: use [`scripts/run-native-integration.sh`](scripts/run-native-integration.sh) with a real `AUTOWORK_PORT_BASE` allocation, private `TMPDIR` and pinned `FLUTTER_ROOT`, following the [runbook recipe](docs/engineering/runbook.md#owned-linux-runtime-with-reserved-ports). A bare `flutter test integration_test/` is not that wrapper or its protocol/cleanup evidence. Device/browser and release qualification remain separate gates.
 
 ### Common Gotchas
 - Class fields typed as `Object` do NOT get type-promoted in Dart; assign to local variable first
