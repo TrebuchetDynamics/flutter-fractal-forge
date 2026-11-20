@@ -86,7 +86,7 @@ not the settled target choice. See [the Waydroid contract](../testing/waydroid-h
 
 ## Current release status
 
-For the most recent Play-only outcome see [PLAY_1.1.124.md](PLAY_1.1.124.md): production/completed and exact AAB hash readback are confirmed. Full offline and Waydroid gates passed. On 2026-11-18, 12/12 probed storefronts show 1.1.124 and the live checker passes propagation. Direct Google review status remains unobserved. Other lanes were not requalified or republished. The note below is retained operating history.
+For the most recent Play-only outcome see [PLAY_1.1.125.md](PLAY_1.1.125.md): production/completed and exact AAB hash readback are confirmed. Full offline and Waydroid gates passed, including the complete 300-second soak (50 terminal View frames, 4% jank). At 2026-11-20T05:05:45Z, 12/12 probed storefronts still show 1.1.124; propagation remains pending. Direct Google review and end-user availability are unconfirmed. Other lanes were not requalified or republished. The note below is retained operating history.
 
 Play production is **1.1.120 (120)**, status completed, published from `main`
 (application code `7a6daf28`) — see [PLAY_1.1.120.md](PLAY_1.1.120.md). That was
