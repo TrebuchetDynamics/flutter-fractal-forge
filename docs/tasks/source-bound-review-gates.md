@@ -662,3 +662,39 @@ Cargo fmt, warning-denying clippy, locked/offline tests and Flutter analysis als
 passed. Both lockfiles remained byte-identical. This does not qualify the
 separate Waydroid soak, device/hardware performance or Play publication; no
 Android/device action or GitHub merge occurred during this PR repair.
+
+## Phone single-slider HUD (#32)
+
+`PHONE-SINGLE-SLIDER-32` is a source-only successor to the immutable
+`PR24-VIEWER-EXPORT-INTEGRATION` receipt at base
+`b6a67e1e38c008762a6daf4d23e8154a098c3dda`. Phone parameter selection is transient
+HUD presentation; numeric mappings, controller state, renderer gestures and the
+retained physical-input scenarios do not change.
+
+The exact allowlist contains only:
+
+- `lib/features/viewer/chrome/fractal_controls_hud.dart`
+- `test/migration/support/provenance_transition.dart`
+- `test/migration/support/visual_presentation_evolution.dart`
+
+`migration/oracles/visual-presentation/phone-single-slider-32.json` copies all
+eleven complete predecessor after maps as its before maps and updates only
+existing collected occurrences of these three paths. Key sets are identical;
+semantic deltas and compiled artifacts are empty. Historical receipts, fixture
+hashes, images, manifests, collectors and lockfiles remain unchanged. Historical
+integration tests still validate the original integration stage and exact helper
+hashes; new terminal checks validate current bytes, adjacency and rejected
+self-consistent policy/identity/key-set/semantic/artifact mutations.
+
+Two private `MIGRATION_TRANSITION_OUT` runs of the seven existing migration
+modules each passed 24 tests and produced twelve validated documents. Their
+complete current maps match the successor, including both reference manifests;
+the exports agree byte-for-byte. The physical export guard requires a private
+external mode-0700 `TMPDIR`; its confinement checks remain unchanged. These local
+checks are separate from the full offline gate and real-browser phone journey.
+
+The assembled candidate subsequently passed all eight common offline gate stages:
+locked pub-get, Cargo fmt/clippy/test, Flutter analysis, Flutter tests (3,600
+passed; nine existing skips), Python (682 passed; one existing skip) and 34 Bats
+checks. Both lockfiles remained unchanged. Private local evidence is retained in
+this run's excluded `.orbi/`; these results do not claim hardware qualification.

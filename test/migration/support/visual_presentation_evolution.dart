@@ -26,6 +26,7 @@ const shaderCacheRecoveryTask = 'SHADER-CACHE-RECOVERY-01';
 const viewerExportStateTask = 'VIEWER-EXPORT-STATE-01';
 const presetBatchExportTask = 'PRESET-BATCH-EXPORT-26';
 const viewerExportIntegrationTask = 'PR24-VIEWER-EXPORT-INTEGRATION';
+const phoneSliderTask = 'PHONE-SINGLE-SLIDER-32';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -74,6 +75,11 @@ const _presetBatchExportPaths = [
   'lib/features/presets/preset_sheet.dart',
   'lib/features/viewer/dialogs/viewer_dialogs.dart',
   'lib/features/viewer/fractal_viewer_screen.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
+const _phoneSliderPaths = [
+  'lib/features/viewer/chrome/fractal_controls_hud.dart',
   'test/migration/support/provenance_transition.dart',
   'test/migration/support/visual_presentation_evolution.dart',
 ];
@@ -157,6 +163,7 @@ void validateVisualStage(Map stage) {
     viewerExportStateTask => _viewerExportStatePaths,
     presetBatchExportTask => _presetBatchExportPaths,
     viewerExportIntegrationTask => _viewerExportIntegrationPaths,
+    phoneSliderTask => _phoneSliderPaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -166,7 +173,8 @@ void validateVisualStage(Map stage) {
   final maintenance = stage['task'] == shaderCacheRecoveryTask ||
       stage['task'] == viewerExportStateTask ||
       stage['task'] == presetBatchExportTask ||
-      stage['task'] == viewerExportIntegrationTask;
+      stage['task'] == viewerExportIntegrationTask ||
+      stage['task'] == phoneSliderTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {

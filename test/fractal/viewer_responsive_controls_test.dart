@@ -141,12 +141,21 @@ void main() {
           expect(tester.getSize(collapseBox), Size.square(target));
           expect(tester.getRect(collapseBox).top, greaterThanOrEqualTo(24));
           expect(tester.getRect(collapseBox).bottom, lessThanOrEqualTo(152));
+          final choice = find.widgetWithText(TextButton, l10n.paramIterations);
+          await reveal(tester, choice);
+          await tester.tap(choice);
+          await tester.pumpAndSettle();
           final slider =
               find.descendant(of: hud, matching: find.byType(Slider)).first;
           await reveal(tester, slider);
           expect(tester.getSize(slider).height, greaterThanOrEqualTo(target));
           expect(tester.getRect(slider).top, greaterThanOrEqualTo(24));
           expect(tester.getRect(slider).bottom, lessThanOrEqualTo(152));
+          final chooser =
+              find.byKey(const ValueKey('controlsHudParameterChooser'));
+          await reveal(tester, chooser);
+          await tester.tap(chooser);
+          await tester.pumpAndSettle();
           final randomize = find.widgetWithText(FilledButton, l10n.randomize);
           await reveal(tester, randomize);
           expect(
@@ -396,9 +405,22 @@ void main() {
           for (final control in [
             back,
             if (size.height != 200) title,
-            find.descendant(of: hud, matching: find.byType(Slider)).first,
+            find.widgetWithText(TextButton, l10n.paramIterations),
             find.byTooltip(l10n.tooltipCollapse),
             find.widgetWithText(FilledButton, l10n.randomize),
+          ]) {
+            await reveal(tester, control);
+            final rect = tester.getRect(control);
+            expect(rect.left, greaterThanOrEqualTo(left ? 24 : 0));
+            expect(rect.right, lessThanOrEqualTo(size.width - (left ? 0 : 24)));
+          }
+          final choice = find.widgetWithText(TextButton, l10n.paramIterations);
+          await reveal(tester, choice);
+          await tester.tap(choice);
+          await tester.pumpAndSettle();
+          for (final control in [
+            find.descendant(of: hud, matching: find.byType(Slider)).first,
+            find.byKey(const ValueKey('controlsHudParameterChooser')),
           ]) {
             await reveal(tester, control);
             final rect = tester.getRect(control);

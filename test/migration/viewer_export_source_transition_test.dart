@@ -125,7 +125,9 @@ void main() {
 
   test('viewer export successor binds only the exact maintenance source delta',
       () {
-    final stages = orderedVisualStages(readVisualStages());
+    final stages = orderedVisualStages(readVisualStages())
+        .takeWhile((s) => s['task'] != phoneSliderTask)
+        .toList();
     final stage = stages.last;
     final prior = stages[stages.length - 2];
     expect(stage['task'], viewerExportIntegrationTask);
@@ -151,8 +153,16 @@ void main() {
           },
           reason: id);
       for (final path in changed.cast<String>()) {
-        expect(after[path],
-            sha256.convert(File(path).readAsBytesSync()).toString(),
+        const historicalHelpers = {
+          'test/migration/support/provenance_transition.dart':
+              '4ea924e305135a5340a4fbfa521a6dba8fee10fc48693ff476b8540936031528',
+          'test/migration/support/visual_presentation_evolution.dart':
+              'ca25ca71ae01c978e1b4e47c866c3e38d2dc3a362107d640a408561819287766',
+        };
+        expect(
+            after[path],
+            historicalHelpers[path] ??
+                sha256.convert(File(path).readAsBytesSync()).toString(),
             reason: '$id: $path');
       }
       for (final order in [
@@ -169,7 +179,9 @@ void main() {
   test(
       'viewer export policy rejects self-consistent broadened and stale claims',
       () {
-    final stages = orderedVisualStages(readVisualStages());
+    final stages = orderedVisualStages(readVisualStages())
+        .takeWhile((s) => s['task'] != phoneSliderTask)
+        .toList();
     final stage = stages.last;
     for (final mutation in [
       'semantic',
