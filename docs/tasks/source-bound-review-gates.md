@@ -638,18 +638,27 @@ TMPDIR were used. Focused baseline/visual/viewer-transition/physical checks pass
 The combined run passed 253 tests with no skips; after pinning every historical
 batch-path hash explicitly, all eight baseline reconciliation tests passed again.
 Main's merged batch/session/auto-explore/preset/accessibility tests also passed
-137 tests. Analyzer found no issues;
-format verification and `git diff --check` passed. Formatting the resolved viewer
-changed layout only, retaining the export-ownership snapshot and both history
-and persistence guards.
+137 tests. Analyzer found no issues; helper/test format verification and
+`git diff --check` passed. Independent review removed unrelated whole-viewer
+formatting in follow-up `8fd541259b03196517d08aabdd8183776151b127`, preserving
+main's exact formatting outside the export-ownership/history/persistence guards.
 
-Two final seven-module exports (`export-5`, `export-6`) each passed 24 tests,
-produced exactly twelve expected documents, matched all eleven complete terminal
-after maps (both reference manifests included), and had byte difference zero.
-Independent Git-byte readback verified all 53 migration/lock files from each
-branch snapshot, accounting only for the viewer receipt's byte-identical move.
-The archive also matched commit `67eb5cf607a3176ce403668356605778193533cd`
-independently. Logs, exports and readback scripts are retained privately under
+After that correction, the focused run again passed 253 tests. Two final
+seven-module exports (`export-7`, `export-8`) each produced exactly twelve
+expected documents, matched all eleven complete terminal after maps (both
+reference manifests included), and had byte difference zero. Independent
+Git-byte readback verified all 53 migration/lock files from each branch snapshot,
+accounting only for the viewer receipt's byte-identical move. The archive also
+matched commit `67eb5cf607a3176ce403668356605778193533cd` independently. Logs,
+exports and readback scripts are retained privately under
 `/tmp/pr24-repair.Qw1bkR/`; these are local observations, not checked-in oracles.
-The full offline gate was deliberately not run here and remains the parent's
-separate qualification step. No Android, device, GitHub merge or push occurred.
+
+The parent then ran the unchanged full offline gate against `8fd54125`, with
+pinned Flutter/Rust/Python bindings and external evidence at
+`/tmp/pr24-offline-uj04qV/`. All eight stages exited zero; terminal verdict
+`passed`, failed stage null. Flutter passed 3586 tests (9 existing skips), Python
+passed 682 tests plus 204 subtests (1 existing skip), and Bats passed 34 cases;
+Cargo fmt, warning-denying clippy, locked/offline tests and Flutter analysis also
+passed. Both lockfiles remained byte-identical. This does not qualify the
+separate Waydroid soak, device/hardware performance or Play publication; no
+Android/device action or GitHub merge occurred during this PR repair.
