@@ -825,13 +825,15 @@ class _ChipIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final targetSize = AccessibleSizing.minTouchTarget +
+        Theme.of(context).visualDensity.baseSizeAdjustment.dx.clamp(0, 8);
     return Tooltip(
       message: tooltip,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
         child: SizedBox.square(
-          dimension: AccessibleSizing.minTouchTarget,
+          dimension: targetSize,
           child: Center(
             child: Icon(icon, size: 14, color: AppColors.textSecondary),
           ),

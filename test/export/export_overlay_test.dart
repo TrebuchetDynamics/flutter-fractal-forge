@@ -40,7 +40,7 @@ void main() {
   });
   testWidgets('export overlay exposes cancellation while work is active',
       (tester) async {
-    var cancelled = false;
+    var cancelled = 0;
     await tester.pumpWidget(MaterialApp(
       locale: const Locale('en'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -49,13 +49,25 @@ void main() {
         return ExportOverlay(
           progress: 0.5,
           l10n: AppLocalizations.of(context)!,
-          onCancel: () => cancelled = true,
+          onCancel: () => cancelled++,
         );
       }),
     ));
 
-    await tester.tap(find.byKey(const ValueKey('cancelActiveExportButton')));
-    expect(cancelled, isTrue);
+    await tester.pumpAndSettle();
+    final rect =
+        tester.getRect(find.byKey(const ValueKey('cancelActiveExportButton')));
+    final edges = [
+      Offset(rect.left + 1, rect.center.dy),
+      Offset(rect.right - 1, rect.center.dy),
+      Offset(rect.center.dx, rect.top + 1),
+      Offset(rect.center.dx, rect.bottom - 1),
+    ];
+    for (var i = 0; i < edges.length; i++) {
+      await tester.tapAt(edges[i]);
+      await tester.pump();
+      expect(cancelled, i + 1);
+    }
     expect(find.text('50%'), findsOneWidget);
   });
 }

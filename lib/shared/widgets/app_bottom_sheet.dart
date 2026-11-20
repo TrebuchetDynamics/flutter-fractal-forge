@@ -4,6 +4,29 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
 
+/// Modal actions keep Material's invisible input padding on desktop too.
+/// Do not change the app-wide density or the size of canvas tool surfaces.
+ThemeData overlayActionTheme(ThemeData theme) {
+  final density = theme.visualDensity;
+  final targets = ButtonStyle(
+    tapTargetSize: MaterialTapTargetSize.padded,
+    visualDensity: VisualDensity(
+      horizontal: math.max(0, density.horizontal),
+      vertical: math.max(0, density.vertical),
+    ),
+  );
+  return theme.copyWith(
+    textButtonTheme: TextButtonThemeData(
+        style: theme.textButtonTheme.style?.merge(targets) ?? targets),
+    filledButtonTheme: FilledButtonThemeData(
+        style: theme.filledButtonTheme.style?.merge(targets) ?? targets),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: theme.outlinedButtonTheme.style?.merge(targets) ?? targets),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: theme.elevatedButtonTheme.style?.merge(targets) ?? targets),
+  );
+}
+
 /// Opens a shared sheet without a second Material drag handle.
 Future<T?> showAppBottomSheet<T>({
   required BuildContext context,
@@ -159,40 +182,43 @@ class AppBottomSheet extends StatelessWidget {
     final effectiveFactor =
         isLandscape ? maxHeightFactor.clamp(0.85, 0.92) : maxHeightFactor;
     final insets = _bottomSheetInsets(mq);
-    return Padding(
-      padding: EdgeInsets.only(bottom: insets.keyboardPadding),
-      child: LayoutBuilder(
-          builder: (context, constraints) => Container(
-                constraints: BoxConstraints(
-                  maxHeight: math.min(
-                    constraints.maxHeight,
-                    // Include content padding so the visible budget is unchanged.
-                    mq.size.height * effectiveFactor + insets.contentPadding,
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(28)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.35),
-                      blurRadius: 24,
-                      offset: const Offset(0, -8),
+    return Theme(
+      data: overlayActionTheme(Theme.of(context)),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: insets.keyboardPadding),
+        child: LayoutBuilder(
+            builder: (context, constraints) => Container(
+                  constraints: BoxConstraints(
+                    maxHeight: math.min(
+                      constraints.maxHeight,
+                      // Include content padding so the visible budget is unchanged.
+                      mq.size.height * effectiveFactor + insets.contentPadding,
                     ),
-                  ],
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: insets.contentPadding),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const _DragHandle(),
-                      ...children,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(28)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.35),
+                        blurRadius: 24,
+                        offset: const Offset(0, -8),
+                      ),
                     ],
                   ),
-                ),
-              )),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: insets.contentPadding),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const _DragHandle(),
+                        ...children,
+                      ],
+                    ),
+                  ),
+                )),
+      ),
     );
   }
 }
@@ -257,31 +283,35 @@ class AppDraggableBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final insets = _bottomSheetInsets(MediaQuery.of(context));
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: insets.keyboardPadding),
-      child: DraggableScrollableSheet(
-        initialChildSize: initialChildSize,
-        minChildSize: minChildSize,
-        maxChildSize: maxChildSize,
-        expand: expand,
-        builder: (context, scrollController) {
-          return Material(
-            color: Theme.of(context).colorScheme.surface,
-            elevation: 18,
-            shadowColor: Colors.black.withValues(alpha: 0.35),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-            clipBehavior: Clip.antiAlias,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: insets.contentPadding),
-              child: Column(
-                children: [
-                  const _DragHandle(),
-                  ...childrenBuilder(context, scrollController),
-                ],
+    return Theme(
+      data: overlayActionTheme(Theme.of(context)),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: insets.keyboardPadding),
+        child: DraggableScrollableSheet(
+          initialChildSize: initialChildSize,
+          minChildSize: minChildSize,
+          maxChildSize: maxChildSize,
+          expand: expand,
+          builder: (context, scrollController) {
+            return Material(
+              color: Theme.of(context).colorScheme.surface,
+              elevation: 18,
+              shadowColor: Colors.black.withValues(alpha: 0.35),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(28)),
+              clipBehavior: Clip.antiAlias,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: insets.contentPadding),
+                child: Column(
+                  children: [
+                    const _DragHandle(),
+                    ...childrenBuilder(context, scrollController),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -378,43 +408,46 @@ class AppDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      scrollable: true,
-      surfaceTintColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      titlePadding: const EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.lg,
-        AppSpacing.lg,
-        AppSpacing.sm,
+    return Theme(
+      data: overlayActionTheme(Theme.of(context)),
+      child: AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        scrollable: true,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        titlePadding: const EdgeInsets.fromLTRB(
+          AppSpacing.lg,
+          AppSpacing.lg,
+          AppSpacing.lg,
+          AppSpacing.sm,
+        ),
+        contentPadding: const EdgeInsets.fromLTRB(
+          AppSpacing.lg,
+          AppSpacing.sm,
+          AppSpacing.lg,
+          AppSpacing.md,
+        ),
+        actionsPadding: const EdgeInsets.fromLTRB(
+          AppSpacing.md,
+          0,
+          AppSpacing.md,
+          AppSpacing.md,
+        ),
+        title: Row(
+          children: [
+            _buildAppHeaderTitle(context, icon, iconGradient, title, subtitle),
+          ],
+        ),
+        content: content == null
+            ? null
+            : DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                child: content!,
+              ),
+        actions: _resolvedActions(context),
       ),
-      contentPadding: const EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.sm,
-        AppSpacing.lg,
-        AppSpacing.md,
-      ),
-      actionsPadding: const EdgeInsets.fromLTRB(
-        AppSpacing.md,
-        0,
-        AppSpacing.md,
-        AppSpacing.md,
-      ),
-      title: Row(
-        children: [
-          _buildAppHeaderTitle(context, icon, iconGradient, title, subtitle),
-        ],
-      ),
-      content: content == null
-          ? null
-          : DefaultTextStyle(
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-              child: content!,
-            ),
-      actions: _resolvedActions(context),
     );
   }
 

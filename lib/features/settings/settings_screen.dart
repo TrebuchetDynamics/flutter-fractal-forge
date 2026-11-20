@@ -252,9 +252,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(AppLocalizations.of(context)!.actionClose),
+          Theme(
+            data: overlayActionTheme(Theme.of(context)),
+            child: TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(AppLocalizations.of(context)!.actionClose),
+            ),
           ),
         ],
       ),

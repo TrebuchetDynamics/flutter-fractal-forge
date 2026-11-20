@@ -121,6 +121,34 @@ void main() {
       handle.dispose();
     });
 
+    for (final about in [false, true]) {
+      testWidgets('modal dismiss responds at every input edge (about=$about)',
+          (tester) async {
+        await _pumpScreen(tester);
+        for (var edge = 0; edge < 4; edge++) {
+          await tester.tap(
+              find.text(about ? 'About' : 'Color Scheme').hitTestable().first);
+          await tester.pumpAndSettle();
+          final button =
+              find.widgetWithText(TextButton, about ? 'Close' : 'Cancel');
+          await tester.ensureVisible(button);
+          await tester.pumpAndSettle();
+          final rect = tester.getRect(button);
+          final point = [
+            Offset(rect.left + 1, rect.center.dy),
+            Offset(rect.right - 1, rect.center.dy),
+            Offset(rect.center.dx, rect.top + 1),
+            Offset(rect.center.dx, rect.bottom - 1),
+          ][edge];
+          await tester.tapAt(point);
+          await tester.pumpAndSettle();
+          expect(find.byType(AlertDialog), findsNothing);
+          expect(find.text('Color Theme'), findsNothing);
+          expect(find.byType(SettingsScreen), findsOneWidget);
+        }
+      });
+    }
+
     testWidgets('the about dialog is readable', (tester) async {
       final handle = tester.ensureSemantics();
       await _pumpScreen(tester);

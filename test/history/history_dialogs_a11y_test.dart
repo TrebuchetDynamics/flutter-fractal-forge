@@ -23,6 +23,7 @@ Future<void> _pumpWithEnabledHeader(
   WidgetTester tester, {
   double textScale = 1.0,
   Size? size,
+  bool largeTargets = false,
 }) async {
   if (size != null) {
     await tester.binding.setSurfaceSize(size);
@@ -41,7 +42,10 @@ Future<void> _pumpWithEnabledHeader(
         ChangeNotifierProvider.value(value: provider),
       ],
       child: MaterialApp(
-        theme: AppTheme.dark,
+        theme: largeTargets
+            ? AppTheme.dark.copyWith(
+                visualDensity: const VisualDensity(horizontal: 4, vertical: 4))
+            : AppTheme.dark,
         locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -69,6 +73,30 @@ Future<void> _pumpWithEnabledHeader(
 }
 
 void main() {
+  testWidgets('enabled history actions have 56px targets in large mode',
+      (tester) async {
+    await _pumpWithEnabledHeader(tester,
+        largeTargets: true, size: const Size(320, 568));
+    for (final name in ['Go back', 'Save as favorite']) {
+      final rect = tester.getRect(find.byTooltip(name).first);
+      expect(rect.width, greaterThanOrEqualTo(56), reason: name);
+      expect(rect.height, greaterThanOrEqualTo(56), reason: name);
+    }
+    final save = tester.getRect(find.byTooltip('Save as favorite').first);
+    await tester.tapAt(Offset(save.left + 1, save.center.dy));
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsOneWidget);
+    await tester.enterText(find.byType(TextField), 'Edge saved favorite');
+    final button = find.widgetWithText(FilledButton, 'Save');
+    final rect = tester.getRect(button);
+    await tester.tapAt(Offset(rect.center.dx, rect.top + 1));
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsNothing);
+    await tester.tap(find.text('Favorites'));
+    await tester.pumpAndSettle();
+    expect(find.text('Edge saved favorite'), findsOneWidget);
+  });
+
   group('HistorySheet header with every button enabled', () {
     testWidgets('meets the 48px tap target', (tester) async {
       final handle = tester.ensureSemantics();

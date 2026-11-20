@@ -925,6 +925,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Analysis replays the visible renderer\'s effective base field. Fluid, morph, celebration, and interface overlays are excluded.';
 
   @override
+  String get compareDivider => 'Comparison divider';
+
+  @override
   String get fourierSpatialPane => 'Rendered spatial base field';
 
   @override
