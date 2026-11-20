@@ -1,107 +1,36 @@
 # Fractal Forge
 
-<p align="center">
-  <img src="assets/readme/hero.svg" width="100%" alt="Fractal Forge, a GPU-first studio for exploring mathematical worlds">
-</p>
+Fractal Forge is an open-source, interactive fractal explorer built with Flutter. Browse **1051 production fractals**, adjust their parameters, and inspect the mathematics behind the view.
 
-<p align="center">
-  <a href="https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge/-/pipelines"><img src="https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge/badges/main/pipeline.svg" alt="CI status"></a>
-  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter" alt="Flutter 3.x"></a>
-  <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart" alt="Dart 3.x"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-7C4DFF.svg" alt="Apache 2.0 license"></a>
-</p>
-
-<p align="center">
-  <strong><a href="https://fractal.trebuchetdynamics.com">Open the web preview</a></strong>
-  &nbsp;·&nbsp;
-  <strong><a href="https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge">Get the Android app</a></strong>
-  &nbsp;·&nbsp;
-  <a href="#run-it-locally">Build locally</a>
-</p>
-
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1051 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+- **[Open the web preview](https://fractal.trebuchetdynamics.com)** — start in a modern WebGL 2.0 browser. **Preview limitation:** web is not full app parity; export, sharing, CPU precision, deep zoom and hardware GPU behavior remain incompletely qualified. See the [backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
+- **[Get the Android app](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge)** — the primary mobile experience, with fuller platform integrations.
+- **[Build locally](#run-it-locally)** — use the pinned Flutter SDK for a browser or installable target.
 
 ## See what it renders
 
-<p align="center">
-  <a href="https://fractal.trebuchetdynamics.com"><img src="assets/readme/catalog-grid.webp" width="100%" alt="Two complete rows of colorful Fractal Forge catalog renders from several mathematical families"></a>
-</p>
+Explore the catalog, then open a card that catches your eye.
 
-<p align="center">
-  <a href="https://fractal.trebuchetdynamics.com"><img src="assets/readme/viewer-controls.webp" width="100%" alt="Fractal Forge Mandelbulb viewer with the rendered form centered above its controls"></a>
-</p>
+![Existing browser screenshot: two rows of catalog cards, including escape-time patterns, attractors and tilings](assets/readme/catalog-grid.webp)
 
-> These static browser captures show the catalog and viewer, not full web/app parity. Export, sharing, CPU precision, and hardware GPU behavior are most complete in the installable app; see the [renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
-
-**Planned next-release gate:** the complete browse → customize → understand → PNG-export journey must pass on Android, web and Linux. Unverified/inspired entries can remain with clear qualifications. This target is not a claim of current platform parity. See the [accepted release contract](PRD.md#active-release-contract).
-
-## Current development priority
-
-Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is proposed, not implemented. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [live work queue](tasks/items/), and [verification plan](docs/engineering/test-plan.md).
-
-## What makes it useful
-
-- **Explore a broad mathematical catalog** — move across escape-time formulas, root-finding basins, attractors, IFS, cellular systems, tilings, and ray-marched 3D forms.
-- **Tune and render interactively** — GPU-first controls cover pan, zoom, presets, animation, 64 color schemes, and formula-specific parameters, with deeper preview and CPU paths where supported.
-- **Keep the views worth keeping** — export images, share results, or set a render as wallpaper.
-- **Use it on your terms** — [no ads, tracking, account requirement, or data collection](https://fractal.trebuchetdynamics.com/privacy-policy), with high contrast, reduced motion, screen-reader labels, and configurable touch targets.
-
-Press **Play** in the viewer to animate suitable continuous parameters in a gentle, silent eight-second loop. **Pause** holds the current parameter values. Manual parameter edits, backgrounding, and leaving the viewer pause playback. Reduced motion and CPU rendering disable playback. Fractals without suitable continuous controls do not support this animation. See the [parameter animation controller](lib/features/viewer/actions/breathing_controller.dart).
-
-Beyond the core workflow, experimental tools include dual Mandelbrot/Julia views and live Fourier analysis.
-
-## Explore the catalog
-
-| Family | Examples |
-| --- | --- |
-| Escape-time | Mandelbrot, Julia, Burning Ship, Tricorn, Celtic, Buffalo, Nova, Phoenix, Lyapunov |
-| Root finding | Newton, Halley, Householder, Schroeder, Traub–Ostrowski, Noor Newton |
-| Attractors | Clifford, Peter de Jong, Lorenz, Rössler, Aizawa, Dadras, Sprott, Svensson |
-| IFS and geometry | Sierpiński, Koch, Barnsley Fern, Hilbert, Peano, Gosper, circle inversion |
-| Cellular and number systems | Wolfram rules, Life-like families, Langton systems, Wireworld, Farey and Ulam views |
-| Fractalish motion | Arachnid lattices, radial sigils, recursive arcana frames, aurora tides, keyframed metamorphosis |
-| 3D and hypercomplex | Mandelbulb, Mandelbox, pseudo-Kleinian, quaternion Julia, KIFS, gyroid/Möbius/Cayley recursive objects |
-
-The catalog counts stable renderable identities—not palettes, camera angles, presets, or thumbnails as separate fractals.
-
-### Number Walls
-
-Open **Number Walls** in the catalog to explore six sequence variants of one finite-field determinant visualization. Use the prime quick picks or enter decimal digits and **Apply**. Unverified or invalid edits, imports and restored sessions retain the previous completed field and committed settings; **Cancel** stops a pending check and **Continue checking** raises its trial-division budget. Large primes are not promised to finish quickly.
-
-Tap a cell (or focus the plot and use arrow keys) to inspect its exact row, column, modulus and residue. Integer computation stays in Dart; GPU mode only samples the completed field, CPU mode uses Canvas, and Auto can fall back to Canvas. Self-similarity depends on the sequence and modulus. Cross-platform images, export and installed-device qualification remain separate gates in the [Number Walls contract](docs/engineering/spec.md#number-walls-and-modular-windows).
-
-## From formula to image
-
-<p align="center">
-  <img src="assets/readme/rendering-flow.svg" width="100%" alt="Browse, tune, render through the precision ladder, then export a fractal image">
-</p>
-
-The renderer keeps exploration, history, export, wallpaper, looper, and audio tools on the same view state instead of forking the formula state for each feature.
-
-### Precision ladder
-
-| Tier | Method | Intended use |
-| --- | --- | --- |
-| 1 | Realtime GPU | Standard interactive pan, zoom, and parameter changes |
-| 2 | Extended GPU preview | Deeper double-float or perturbation-backed preview for supported modules |
-| 3 | CPU Precision | Slower exact-intended refinement for modules with a native CPU formula |
-
-The ladder is capability-based. An unsupported module is not labeled “CPU Precision” merely because a synthetic fallback can draw something.
+*Existing browser screenshot, not current UI or platform-parity evidence. [View the catalog capture at full size](assets/readme/catalog-grid.webp).*
 
 ## Try it
 
 ### Browser preview
 
-Open **[fractal.trebuchetdynamics.com](https://fractal.trebuchetdynamics.com)** in a modern WebGL 2.0 browser.
+Start with the **[web preview](https://fractal.trebuchetdynamics.com)** and follow one short path:
 
-1. Pick a card from the catalog.
-2. Drag to move; pinch or scroll to zoom.
-3. Open controls to change iterations, palette, formula-specific parameters, or a preset.
-4. Use the installable app when you need the fullest export, sharing, wallpaper, or precision behavior.
+1. **Browse** — pick a catalog card to open its viewer.
+2. **Adjust** — drag to pan in 2D or rotate in 3D; pinch or scroll to zoom. Open parameter controls to change iterations, palette, a preset or formula-specific settings.
+3. **Inspect** — read the current rule/formula and any unverified or inspired qualification. A colorful preview is not mathematical certification.
+
+![Existing browser screenshot: Mandelbulb form centered in the viewer, with a row of controls below](assets/readme/viewer-controls.webp)
+
+*Existing browser screenshot illustrating the viewer, not a guide to today's button layout or export qualification. [View the viewer capture at full size](assets/readme/viewer-controls.webp).*
 
 ### Android
 
-Install **[Fractal Forge from Google Play](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge)** for the primary mobile experience.
+Install **[Fractal Forge from Google Play](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge)** and follow the same browse → adjust → inspect path. Use an installable target for the fullest export, sharing, wallpaper and precision behavior; availability still depends on the module and platform.
 
 ## Run it locally
 
@@ -127,7 +56,21 @@ flutter devices
 flutter run -d linux     # or android, macos, windows, ios
 ```
 
-Chrome is the quickest first render check; use Android or a desktop target when diagnosing platform-specific shaders, export, sharing, wallpaper, or precision behavior.
+Once the catalog opens, follow [the first-use sequence](#browser-preview). Use Android or a desktop target when diagnosing platform-specific shaders, export, sharing, wallpaper or precision behavior.
+
+## What makes it useful
+
+- **Explore different mathematical systems** — escape-time formulas, root-finding basins, attractors, IFS, cellular systems, tilings and ray-marched 3D forms.
+- **Shape a view** — pan, zoom, presets, 64 color schemes and family-specific parameters, with deeper GPU preview and CPU paths where supported.
+- **Keep a result** — image export, sharing and wallpaper tools on supported installable targets. These tools do not establish the cross-platform release gate below.
+
+Experimental tools include dual Mandelbrot/Julia views and live Fourier analysis.
+
+### Privacy, accessibility and security
+
+**No ads, tracking, account requirement or data collection.** The production app has no remote analytics or remote crash-reporting SDK. Settings, presets, history and exports can stay on the device; diagnostics are shared only by explicit user action. Read the [privacy policy](https://fractal.trebuchetdynamics.com/privacy-policy) and its [repository source](web/privacy-policy.html) for storage, permissions and sharing details.
+
+Accessibility options include **high contrast, reduced motion, screen-reader labels and configurable touch targets**. Report security concerns through the [security policy](SECURITY.md). The project uses the [Apache 2.0 license](LICENSE).
 
 ## Controls
 
@@ -138,37 +81,68 @@ Chrome is the quickest first render check; use Android or a desktop target when 
 | Double tap | 2× zoom anchored to tap | 2× zoom anchored to tap |
 | Long press | Set the Julia seed in the dual viewer | Not used |
 
-Common controls include iterations, bailout, power, color scheme, Julia seed, orbit traps, rendering technique, and family-specific coefficients.
+Common controls include iterations, bailout, power, color scheme, Julia seed, orbit traps, rendering technique and family-specific coefficients.
+
+**Animation:** Play runs the camera looper; hold Play to build or edit its path. A loop needs at least two points. Backgrounding or leaving the viewer stops playback. Reduced motion disables live shader-time animation. The former eight-second parameter-breathing loop is no longer available; see the [viewer behavior](lib/features/viewer/fractal_viewer_screen.dart), [looper controller](lib/features/looper/looper_controller.dart) and [change notes](docs/engineering/release/PLAY_1.1.121.md#what-changed-since-the-published-11120).
+
+## Explore the catalog
+
+| Family | Examples |
+| --- | --- |
+| Escape-time | Mandelbrot, Julia, Burning Ship, Tricorn, Nova, Phoenix, Lyapunov |
+| Root finding | Newton, Halley, Householder, Schroeder, Traub–Ostrowski |
+| Attractors | Clifford, Peter de Jong, Lorenz, Rössler, Aizawa, Sprott |
+| IFS and geometry | Sierpiński, Koch, Barnsley Fern, Hilbert, circle inversion |
+| Cellular and number systems | Wolfram rules, Life-like families, Langton systems, Wireworld, Farey and Ulam views |
+| Fractalish motion | Arachnid lattices, radial sigils, recursive arcana frames, aurora tides, keyframed metamorphosis |
+| 3D and hypercomplex | Mandelbulb, Mandelbox, pseudo-Kleinian, quaternion Julia, KIFS, recursive surfaces |
+
+The count covers stable renderable identities—not palettes, camera angles, presets or thumbnails as separate fractals. See the [system specification](docs/engineering/spec.md) for specialist contracts.
+
+### Number Walls
+
+Open **Number Walls** for six sequence variants of one finite-field determinant visualization. Choose a prime quick pick or enter decimal digits and **Apply**. Invalid or unverified edits, imports and restored sessions retain the previous completed field and committed settings. **Cancel** stops a pending check; **Continue checking** raises its trial-division budget. Large primes are not promised to finish quickly.
+
+Tap a cell, or focus the plot and use arrow keys, to inspect its exact row, column, modulus and residue. Integer computation stays in Dart; GPU mode samples the completed field, CPU mode uses Canvas, and Auto can fall back to Canvas. Self-similarity depends on the sequence and modulus. Cross-platform images, export and installed-device qualification remain separate gates in the [Number Walls contract](docs/engineering/spec.md#number-walls-and-modular-windows).
+
+## From formula to image
+
+Exploration, history and output tools share the selected module's view state. A preview alone does not prove that an exported image matches that state.
+
+### Precision ladder
+
+| Path | Intended use |
+| --- | --- |
+| Realtime GPU | Interactive pan, zoom and parameter changes |
+| Extended GPU preview | Deeper double-float or perturbation-backed preview for supported modules |
+| CPU Precision | Slower refinement for modules with a native CPU formula |
+
+Precision is capability-based. A synthetic fallback is **not** CPU Precision. See the [renderer policy](docs/engineering/spec.md#rendering-interface) and [backend matrix](docs/engineering/rendering/renderer_backend_matrix.md) for supported paths and dated evidence.
 
 ## Platform support
 
-| Platform | Status | Notes |
+| Platform | Status | Boundary |
 | --- | --- | --- |
-| Android | Primary | Maintained Google Play build path |
+| Android | Primary mobile target | Maintained Google Play build path |
 | Web | Preview | JavaScript/WebGL 2.0; not full app parity |
-| Linux, macOS, Windows | Development targets | Shader support depends on GPU and driver behavior |
+| Linux, macOS, Windows | Development targets | Shader behavior depends on GPU and drivers |
 | iOS | Build target | Requires Apple signing and Metal-backed Flutter rendering |
+
+**Accepted next-release gate — not yet qualified as a complete cross-platform journey:** browse → customize → understand → PNG-export must pass on Android, web and Linux. The PNG must match the edited view and selected settings, without a crash or silent placeholder substitution. Existing IDs, favorites and saved presets must remain intact. Unverified/inspired entries may remain with clear qualifications. See the [accepted release contract](PRD.md#active-release-contract) and [verification plan](docs/engineering/test-plan.md#accepted-cross-platform-release-journey); neither screenshots nor this support table claim current parity.
+
+## Current development priority
+
+Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is **proposed, not implemented**. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [live work queue](tasks/items/) and [verification plan](docs/engineering/test-plan.md).
 
 ## Architecture
 
-```text
-main.dart
-  └─ app shell + Provider services
-      └─ HomeScreen
-          ├─ CatalogRepository → ModuleRegistry → FractalModule
-          └─ FractalViewerScreen
-              ├─ GPU / extended preview / CPU precision renderers
-              ├─ controls + presets + history + looper
-              └─ export + wallpaper + share + parameter animation
-```
+Flutter's app shell uses Provider services. `CatalogRepository` and `ModuleRegistry` supply each `FractalModule`; the viewer uses shared controller state for rendering, controls, presets, history and output tools. The registry combines declarative configs, shared catalogs, custom builders and debug-only diagnostics.
 
-`ModuleRegistry` assembles the catalog from declarative configs, shared catalogs, custom builders, and debug-only diagnostics. Every viewer feature consumes the selected module and the same controller state.
-
-For the directory structure, release builds, and shader contribution workflow, see the [`CONTRIBUTING.md`](CONTRIBUTING.md) guide.
+For directory structure, release builds and shader contributions, use the [contributor guide](CONTRIBUTING.md).
 
 ## Testing
 
-The [common offline gate](docs/engineering/test-plan.md#common-offline-gate) includes checkout-local `flutter pub get --offline --enforce-lockfile` before the unchanged analyzer, Flutter, Python and Bats families. The focused commands below are not the complete integration gate; device/browser journeys remain separate.
+The [common offline gate](docs/engineering/test-plan.md#common-offline-gate) starts with checkout-local `flutter pub get --offline --enforce-lockfile` and includes Rust, analyzer, Flutter, Python and Bats checks. These focused commands are **not** the complete gate; device/browser journeys remain separate:
 
 ```bash
 flutter analyze
@@ -176,24 +150,7 @@ flutter test
 flutter test integration_test/   # requires a device or emulator
 ```
 
-Useful focused lanes:
-
-```bash
-flutter test test/features/renderer/
-flutter test test/catalog/
-flutter test integration_test/flows/critical_journey_test.dart
-```
-
-Audit every production fractal in the real Linux renderer, with screenshots,
-frame timings, and an HTML fix/review report:
-
-```bash
-python3 scripts/audit-linux-fractals.py
-```
-
-See the [Linux audit guide](docs/engineering/performance/LINUX_FRACTAL_AUDIT.md)
-for headless runs, focused reruns, and GitLab artifacts. See
-[`test/README.md`](test/README.md) for test conventions.
+See the [test conventions and focused lanes](test/README.md) and the [Linux catalog audit guide](docs/engineering/performance/LINUX_FRACTAL_AUDIT.md) for real-renderer screenshots, frame timings, headless runs and retained GitLab artifacts. GitLab execution remains [deferred by owner policy](PRD.md#active-release-contract).
 
 ## Project references
 
@@ -213,11 +170,11 @@ for headless runs, focused reruns, and GitLab artifacts. See
 
 ## Contributing
 
-Contributions are welcome. Good first areas include thumbnail quality, presets, shader correctness, web-preview QA, accessibility checks, tests, and documentation. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request.
+Contributions are welcome: thumbnail quality, presets, shader correctness, web-preview QA, accessibility, tests and documentation. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## License
 
-Apache License 2.0. See [`LICENSE`](LICENSE).
+Apache License 2.0. See [LICENSE](LICENSE).
 
 ## Acknowledgments
 
