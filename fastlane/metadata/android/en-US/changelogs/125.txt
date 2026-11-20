@@ -1,0 +1,1 @@
+Added native batch export for saved presets, with safer preset application and restoration. Improved viewer export state, keyboard guards, and auto-explore pause behavior. Fixed cached shader recovery and GPU-health confirmation. Refined history navigation and preset keyboard access.

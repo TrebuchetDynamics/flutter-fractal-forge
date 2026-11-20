@@ -233,6 +233,7 @@ run_foreground_guarded_gate() {
 collect_soak_sample() {
   local destination="$1" required_marker="$2"
   shift 2
+  date -u +%Y-%m-%dT%H:%M:%SZ >>"$destination" || return 1
   local output
   if ! output="$(adb -s "$DEVICE" "$@" 2>&1)"; then
     printf '%s\n' "$output" >>"$destination" || true
@@ -240,6 +241,19 @@ collect_soak_sample() {
   fi
   printf '%s\n' "$output" >>"$destination" || return 1
   [[ "$output" == *"$required_marker"* ]]
+}
+
+collect_soak_snapshot() {
+  local failed=0
+  collect_soak_sample "$LOG_DIR/soak-memory.log" 'TOTAL PSS:' \
+    shell dumpsys meminfo "$PACKAGE" || failed=1
+  collect_soak_sample "$LOG_DIR/soak-frames.log" 'Janky frames:' \
+    shell dumpsys gfxinfo "$PACKAGE" framestats || failed=1
+  collect_soak_sample "$LOG_DIR/soak-battery.log" 'level:' \
+    shell dumpsys battery || failed=1
+  collect_soak_sample "$LOG_DIR/soak-thermal.log" 'Thermal Status:' \
+    shell dumpsys thermalservice || failed=1
+  return "$failed"
 }
 
 device_monkey_pids() {
@@ -281,9 +295,10 @@ run_device_soak() {
   local events=$((SOAK_SECONDS * 100))
   if [[ "$DRY_RUN" -eq 1 ]]; then
     print_command timeout --signal=INT --kill-after=10 "${SOAK_SECONDS}s" \
-      adb -s "$DEVICE" shell monkey -p "$PACKAGE" \
+      adb -s "$DEVICE" shell monkey -p "$PACKAGE" -s 1 -v -v \
       --pct-syskeys 0 --pct-nav 0 --pct-majornav 0 --pct-appswitch 0 \
       --pct-flip 0 --pct-anyevent 0 --throttle 500 --ignore-crashes --ignore-timeouts "$events"
+    printf '+ collect timestamped periodic snapshots and one terminal snapshot after timeout/monkey cleanup\n'
     print_command adb -s "$DEVICE" shell dumpsys meminfo "$PACKAGE"
     print_command adb -s "$DEVICE" shell dumpsys gfxinfo "$PACKAGE"
     print_command adb -s "$DEVICE" shell dumpsys battery
@@ -298,6 +313,7 @@ run_device_soak() {
   fi
 
   printf '\n=== long-duration interaction soak ===\n' | tee -a "$LOG_DIR/gate.log"
+  printf 'Monkey seed: 1 (fixed); verbosity: -v -v\n' | tee -a "$LOG_DIR/gate.log"
   local soak_started_at=$SECONDS
   SOAK_LOGCAT_START="$(adb -s "$DEVICE" shell date '+%m-%d_%H:%M:%S.000' | tr '_' ' ' | tr -d '\r')"
   [[ "$SOAK_LOGCAT_START" =~ ^[0-9]{2}-[0-9]{2}\ [0-9]{2}:[0-9]{2}:[0-9]{2}\.000$ ]] || {
@@ -305,23 +321,14 @@ run_device_soak() {
     return 1
   }
   timeout --signal=INT --kill-after=10 "${SOAK_SECONDS}s" \
-    adb -s "$DEVICE" shell monkey -p "$PACKAGE" \
+    adb -s "$DEVICE" shell monkey -p "$PACKAGE" -s 1 -v -v \
     --pct-syskeys 0 --pct-nav 0 --pct-majornav 0 --pct-appswitch 0 \
     --pct-flip 0 --pct-anyevent 0 --throttle 500 --ignore-crashes --ignore-timeouts "$events" \
     2>&1 | tee "$LOG_DIR/soak-monkey.log" &
   local soak_pid=$!
   local collection_failed=0
   while kill -0 "$soak_pid" 2>/dev/null; do
-    date -u +%Y-%m-%dT%H:%M:%SZ >>"$LOG_DIR/soak-memory.log" ||
-      collection_failed=1
-    collect_soak_sample "$LOG_DIR/soak-memory.log" 'TOTAL PSS:' \
-      shell dumpsys meminfo "$PACKAGE" || collection_failed=1
-    collect_soak_sample "$LOG_DIR/soak-frames.log" 'Janky frames:' \
-      shell dumpsys gfxinfo "$PACKAGE" framestats || collection_failed=1
-    collect_soak_sample "$LOG_DIR/soak-battery.log" 'level:' \
-      shell dumpsys battery || collection_failed=1
-    collect_soak_sample "$LOG_DIR/soak-thermal.log" 'Thermal Status:' \
-      shell dumpsys thermalservice || collection_failed=1
+    collect_soak_snapshot || collection_failed=1
     sleep 60
   done
   local soak_status
@@ -341,6 +348,11 @@ run_device_soak() {
   }
   (( soak_elapsed >= SOAK_SECONDS )) || {
     echo "Soak ended after ${soak_elapsed}s; required ${SOAK_SECONDS}s." >&2
+    return 1
+  }
+  # Cover the last interval only after the full deadline and Monkey cleanup.
+  collect_soak_snapshot || {
+    echo 'Terminal soak evidence collection failed.' >&2
     return 1
   }
   (( collection_failed == 0 )) || {
