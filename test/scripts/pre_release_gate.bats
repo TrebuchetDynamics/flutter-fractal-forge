@@ -61,6 +61,8 @@ EOF
   [[ "$output" == *"--pct-appswitch 0"* ]]
   [[ "$output" == *"--pct-anyevent 0"* ]]
   [[ "$output" == *"--throttle 500"* ]]
+  [[ "$output" == *"-s 1 -v -v"* ]]
+  [[ "$output" == *"timestamped periodic snapshots and one terminal snapshot after timeout/monkey cleanup"* ]]
   [[ "$output" == *"timeout --signal=INT --kill-after=10"* ]]
   [[ "$output" == *"dumpsys meminfo"* ]]
   [[ "$output" == *"dumpsys gfxinfo"* ]]
