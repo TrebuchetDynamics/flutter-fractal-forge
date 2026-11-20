@@ -7,8 +7,11 @@ testing, not Play publication or signing access.
 
 For reboot persistence and recurring live-but-unreachable failures, see
 [the boot/reliability audit and recommended hardening](waydroid-reliability.md).
-This host already has enabled container, compositor and user-session services
-with user lingering; do not mistake another autostart recipe for a routing fix.
+The 2026-10-30 audit observed enabled container, compositor and user-session
+services with user lingering; that is historical configuration, not current host
+truth. On 2026-11-14 the named user units were absent. See the
+[dated recovery and remaining readiness blocker](#display-recovery-adb-unqualified--2026-11-14)
+before assuming those services exist. Autostart configuration is not a routing fix.
 
 ## Working Android test sequence
 
@@ -196,6 +199,42 @@ and exits; whether any installation/test ran; and the next concrete diagnostic o
 access requirement. “Device unavailable” alone is not an adequate explanation.
 Keep Android/Play and dependent F-Droid qualification failures scoped to those
 lanes; do not suppress qualified web/desktop work.
+
+### Display recovery, ADB unqualified — 2026-11-14
+
+[Issue #3's recovery evidence](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/3#issuecomment-6885310378)
+and [ownership/blocker receipt](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/3#issuecomment-6885318541)
+record live host operations, not offline tests. Initial revalidation found both
+`waydroid-headless-compositor.service` and `waydroid-headless-session.service`
+`LoadState=not-found`, no `/run/user/1000/waydroid-headless` socket, and a STOPPED
+session. The system container remained active/running; it was not restarted.
+
+After exclusive-access and name/socket collision checks, recovery created only
+`fractal-waydroid-headless-recovery.service` and
+`fractal-waydroid-session-recovery.service` as transient user units owned by
+xel(1000). Weston supplies the `waydroid-headless` socket at 1080x1920 using
+Pixman; the session Requires/After the owned compositor. Both units have
+`Restart=no` and were retained for the dependent worker, not installed as boot
+persistence. Executed commands, unit/process identities, journal evidence and
+cleanup commands for only these newly owned units are on the issue receipt.
+Reuse the live owner; do not create duplicates or stop it during handoff.
+
+The instance's freshly rediscovered IP/serial was `192.168.240.112` /
+`192.168.240.112:5555`, with session/container RUNNING. The connection helper
+exited zero, but exact-serial `get-state` exited 1 with `unauthorized`. Native
+model and boot assertions were **not executed** after that failure. The local
+administrator probe exited 1 with `sudo: a password is required`; public-key
+enrollment was not performed. An authorized local administrator must enroll the
+intended existing host user's public key using the recipe below, or accept its
+prompt through an already available authorized UI, without sharing passwords or
+changing sudo policy/authentication. Then rediscover and verify all readiness
+signals; the observed IP is not a permanent default.
+
+[Dependent issue #4](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/4#issuecomment-6885330504)
+receives the exclusive-device handoff and must acquire ownership and revalidate
+before testing. This result restores display/session only, **not authenticated
+ADB readiness**. No Android journeys, cold-boot persistence, endurance or
+hardware-GPU qualification follows from it; no app installation/test ran.
 
 ### Verified recovery — 2026-10-30
 

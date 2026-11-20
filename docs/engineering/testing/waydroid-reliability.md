@@ -9,12 +9,22 @@ For the established target and real test commands, use the
 [Waydroid testing runbook](waydroid-headless.md). A physical phone is not a
 replacement requirement for this designated target.
 
-## Findings on BlueBlack
+## Historical findings on BlueBlack — 2026-10-30
+
+**Not current host inventory:** on 2026-11-14 both named headless user units
+returned `LoadState=not-found`, the socket was absent and the session STOPPED,
+while the system container was active/running. The bounded recovery created two
+owned transient user units, not permanent replacements; ADB remained
+`unauthorized` and administrator authentication blocked public-key enrollment.
+See the [dated runbook correction and issue evidence](waydroid-headless.md#display-recovery-adb-unqualified--2026-11-14).
+The table below preserves the earlier audit rather than claiming those enabled
+user units still exist. Revalidate actual unit sources, socket and exclusive
+ownership before any service-aware recovery.
 
 Versions observed: Ubuntu 24.04, Waydroid **1.6.2**, Weston **13.0.0**, systemd
 **255.4**. These facts are host observations, not general upstream requirements.
 
-| Layer | Existing state | Implication |
+| Layer | State observed 2026-10-30 | Implication at that audit |
 |---|---|---|
 | System `waydroid-container.service` | Enabled for `multi-user.target`; running; vendor unit has `Restart=no` | Boot activation exists, but the vendor unit does not automatically restart its main process after failure. |
 | User `waydroid-headless-compositor.service` | Enabled for `default.target`; Weston headless socket `waydroid-headless`; `Restart=on-failure`, 2-second delay | Persistent display and crash recovery already exist. |
@@ -23,13 +33,13 @@ Versions observed: Ubuntu 24.04, Waydroid **1.6.2**, Weston **13.0.0**, systemd
 | Runtime readiness/recovery | No Waydroid health timer found | Process supervision does not detect the observed live-but-unreachable Android network. |
 
 Inspected with `systemctl cat/show/is-enabled`, `systemctl --user cat/show`,
-`loginctl show-user`, process inventory and read-only journals. Unit files are
-currently `/usr/lib/systemd/system/waydroid-container.service` and
+`loginctl show-user`, process inventory and read-only journals. Unit files were
+reported then as `/usr/lib/systemd/system/waydroid-container.service` and
 `~/.config/systemd/user/waydroid-headless-{compositor,session}.service`.
-Do not copy a new generic setup over these working units without comparing them.
+Do not assume those user files are present now or overwrite an existing owner.
 
-**Boot autostart is already configured.** A fresh unattended cold-boot test was
-not performed: the current boot began 2026-10-26, before this audit. Enabled units
+**Boot autostart was observed configured on 2026-10-30.** A fresh unattended
+cold-boot test was not performed: the audited boot began 2026-10-26. Enabled units
 and lingering are configuration evidence, not proof that the complete Android/ADB
 stack becomes ready without login after every reboot.
 
@@ -66,11 +76,14 @@ or reset the instance based on an issue comment.
 
 ### 1. Keep one owner of the persistent session
 
-Use the existing user service rather than starting a second manual session.
-The current journal contains `Session is already running` during recovery; the
-5-second `Restart=always` loop can race a manual `waydroid session start/stop`.
+Reuse the actual live session owner rather than starting a second manual session.
+The 2026-10-30 journal contained `Session is already running` during recovery;
+that audit's 5-second `Restart=always` loop could race a manual
+`waydroid session start/stop`. The 2026-11-14 transient recovery units instead
+have `Restart=no`; do not apply historical service names to that owner.
 
-For the previously diagnosed routing failure, with exclusive device access, the
+For the previously diagnosed routing failure, with exclusive device access and
+only if the named historical units are present and own the session, the
 **proposed service-aware recovery sequence** is:
 
 ```sh
