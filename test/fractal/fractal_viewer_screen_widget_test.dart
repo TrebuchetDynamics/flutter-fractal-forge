@@ -675,6 +675,26 @@ void main() {
       return action;
     }
 
+    testWidgets('Try GPU schedules a fresh GPU health probe', (tester) async {
+      await rendererSettings.setBackendMode(RendererBackendMode.cpuOnly);
+      await tester.pumpWidget(buildTestWidget());
+      // The CPU renderer keeps refining, so the tree never settles.
+      await tester.pump(const Duration(milliseconds: 600));
+      final tryGpu = find.text('Try GPU');
+      expect(tryGpu, findsOneWidget);
+      final viewer = tester
+          .state<FractalViewerRouteState>(find.byType(FractalViewerScreen));
+      final requestsBefore = viewer.debugGpuHealthCheckRequests;
+
+      await tester.tap(tryGpu);
+      await tester.pump();
+
+      expect(rendererSettings.backendMode, RendererBackendMode.auto);
+      expect(viewer.debugGpuHealthCheckRequests, requestsBefore + 1,
+          reason: 'a GPU retry must be checked by a new health probe');
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
     testWidgets('viewer protects system bars with opaque readable surfaces',
         (tester) async {
       tester.view.devicePixelRatio = 1;

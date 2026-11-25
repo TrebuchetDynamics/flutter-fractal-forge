@@ -112,7 +112,13 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
     }
   }
 
+  int _gpuHealthCheckRequests = 0;
+
+  @visibleForTesting
+  int get debugGpuHealthCheckRequests => _gpuHealthCheckRequests;
+
   void _scheduleGpuHealthCheck() {
+    _gpuHealthCheckRequests++;
     _gpuHealthTimer?.cancel();
     if (RuntimeModeService.useRendererPlaceholderSurface) {
       return;
