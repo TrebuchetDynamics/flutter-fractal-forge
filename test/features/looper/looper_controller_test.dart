@@ -87,6 +87,43 @@ void main() {
     expect(looper.canLoop, isFalse);
     expect(looper.isPlaying, isFalse);
   });
+
+  group('capturing a point stops an active preview', () {
+    late FractalController fractal;
+    late LooperController looper;
+
+    setUp(() {
+      fractal = FractalController(ModuleRegistry());
+      looper = LooperController(controller: fractal);
+      looper.setAFromCurrent();
+      fractal.updateZoom(2);
+      looper.setBFromCurrent();
+      looper.play();
+      expect(looper.isPlaying, isTrue);
+    });
+
+    tearDown(() {
+      looper.dispose();
+      fractal.dispose();
+    });
+
+    for (final (name, edit) in <(String, void Function(LooperController))>[
+      ('Set A', (l) => l.setAFromCurrent()),
+      ('Set B', (l) => l.setBFromCurrent()),
+      ('Update C', (l) {
+        l.addPointFromCurrent();
+        l.play();
+        l.setPointFromCurrent(2);
+      }),
+      ('Add', (l) => l.addPointFromCurrent()),
+    ]) {
+      test(name, () {
+        edit(looper);
+
+        expect(looper.isPlaying, isFalse);
+      });
+    }
+  });
 }
 
 LooperPlan _plan(LooperPose a, LooperPose b, Duration duration) {

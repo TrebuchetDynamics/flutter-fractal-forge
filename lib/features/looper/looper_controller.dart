@@ -239,6 +239,7 @@ class LooperController extends ChangeNotifier {
   }
 
   void addPointFromCurrent() {
+    _stopPreviewForEdit();
     _points.add(LooperPoint.fromController(controller));
     notifyListeners();
   }
@@ -294,8 +295,7 @@ class LooperController extends ChangeNotifier {
         before.rotationZ == after.rotationZ) return false;
 
     // Commit once. Rejected/no-change samples never stop an active preview.
-    _timer?.cancel();
-    _timer = null;
+    _stopPreviewForEdit();
     final point = LooperPoint(view: sampled, params: anchor.params);
     if (index == _points.length) {
       _points.add(point);
@@ -308,6 +308,7 @@ class LooperController extends ChangeNotifier {
 
   void setPointFromCurrent(int index) {
     if (index < 0 || index > _points.length) return;
+    _stopPreviewForEdit();
     final point = LooperPoint.fromController(controller);
     if (index == _points.length) {
       _points.add(point);
@@ -338,6 +339,14 @@ class LooperController extends ChangeNotifier {
     if (!canLoop || isPlaying) return;
     _timer = Timer.periodic(const Duration(milliseconds: 33), _tick);
     notifyListeners();
+  }
+
+  /// A captured point is the frame on screen when the user taps. Stop the
+  /// preview so it does not keep animating over the edited plan. The caller
+  /// notifies listeners once, after the edit.
+  void _stopPreviewForEdit() {
+    _timer?.cancel();
+    _timer = null;
   }
 
   void stop() {
