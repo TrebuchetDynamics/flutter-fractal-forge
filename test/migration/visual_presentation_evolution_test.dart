@@ -25,7 +25,8 @@ Map stageFor(String task) {
       task == directEditControlsTask ||
       task == overlayHitTargetsTask ||
       task == startupDeepLinksTask ||
-      task == cpuRenderParamsTask;
+      task == cpuRenderParamsTask ||
+      task == stateMachineFixesTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -72,6 +73,7 @@ void main() {
     overlayHitTargetsTask,
     startupDeepLinksTask,
     cpuRenderParamsTask,
+    stateMachineFixesTask,
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);
@@ -233,6 +235,9 @@ void main() {
             '9c5e65894fd164774228fe278b37007a7cc604e3e8eed6d2e05a6a3c7882db1e',
         'test/migration/support/visual_presentation_evolution.dart':
             '0cdbb662905521af1ca7b7190e097a74e24e72bb2154e51f74fddad229ddc974',
+        // Changed again by STATE-MACHINE-FIXES-49-60.
+        'lib/features/viewer/fractal_viewer_screen.dart':
+            'd9470c4555166f74fb764e66f35f74b5bfd5ac706865bc3d40e4d9ea41f89788',
       };
       for (final path in after.keys.where((p) => before[p] != after[p])) {
         expect(
@@ -355,8 +360,8 @@ void main() {
       () {
     const renderer = 'lib/features/renderer/cpu/cpu_fractal_renderer.dart';
     final stages = orderedVisualStages(readVisualStages());
-    final stage = stages.last;
-    final prior = stages[stages.length - 2];
+    final stage = stages.singleWhere((s) => s['task'] == cpuRenderParamsTask);
+    final prior = stages[stages.indexOf(stage) - 1];
     expect(stage['task'], cpuRenderParamsTask);
     expect(prior['task'], startupDeepLinksTask);
     expect(stage['semantic_deltas'], isEmpty);
@@ -366,17 +371,68 @@ void main() {
       final after = entry.value['after'] as Map;
       expect(before, prior['binding_maps'][entry.key]['after']);
       expect(after.keys.toSet(), before.keys.toSet());
-      final changed = before.keys.cast<String>().where((p) => before[p] != after[p]);
+      final changed =
+          before.keys.cast<String>().where((p) => before[p] != after[p]);
       expect(changed.toSet(), {
-        if (entry.key == 'reference' || entry.key == 'physical-events') renderer,
+        if (entry.key == 'reference' || entry.key == 'physical-events')
+          renderer,
         for (final helper in [
           'test/migration/support/provenance_transition.dart',
           'test/migration/support/visual_presentation_evolution.dart',
         ])
           if (before.containsKey(helper)) helper,
       });
+      const historicalHelpers = {
+        'test/migration/support/provenance_transition.dart':
+            '162266b91a9510be045ed07390120b0ac8500e4f9acc550b1bab2ae8bef723ca',
+        'test/migration/support/visual_presentation_evolution.dart':
+            '01bfe4c6ade6d02176cf40538fd96d78444610a5e4a2d6c31a1db1fe3a2659ff',
+      };
       for (final path in changed) {
-        expect(after[path], sha256.convert(File(path).readAsBytesSync()).toString());
+        final current = sha256.convert(File(path).readAsBytesSync()).toString();
+        expect(after[path], historicalHelpers[path] ?? current);
+        expect(stages.last['binding_maps'][entry.key]['after'][path], current);
+      }
+    }
+  });
+
+  test('state-machine fixes only transition their bound sources and validators',
+      () {
+    const sources = {
+      'lib/core/controllers/fractal_controller.dart',
+      'lib/features/looper/looper_controller.dart',
+      'lib/features/renderer/widgets/renderer/fractal_renderer.dart',
+      'lib/features/renderer/widgets/renderer/input/gesture_handler.dart',
+      'lib/features/viewer/diagnostics/gpu_health_probe.dart',
+      'lib/features/viewer/diagnostics/viewer_gpu_health.dart',
+      'lib/features/viewer/fractal_viewer_screen.dart',
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    };
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    final prior = stages[stages.length - 2];
+    expect(stage['task'], stateMachineFixesTask);
+    expect(prior['task'], cpuRenderParamsTask);
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    for (final entry in (stage['binding_maps'] as Map).entries) {
+      final before = entry.value['before'] as Map;
+      final after = entry.value['after'] as Map;
+      expect(before, prior['binding_maps'][entry.key]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      final changed =
+          before.keys.cast<String>().where((p) => before[p] != after[p]);
+      expect(
+          changed.toSet(),
+          {
+            for (final path in sources)
+              if (before.containsKey(path)) path
+          },
+          reason: entry.key as String);
+      for (final path in changed) {
+        expect(after[path],
+            sha256.convert(File(path).readAsBytesSync()).toString());
       }
     }
   });

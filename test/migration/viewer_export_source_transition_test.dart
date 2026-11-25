@@ -126,9 +126,8 @@ void main() {
   test('viewer export successor binds only the exact maintenance source delta',
       () {
     final allStages = orderedVisualStages(readVisualStages());
-    final stages = allStages
-        .takeWhile((s) => s['task'] != phoneSliderTask)
-        .toList();
+    final stages =
+        allStages.takeWhile((s) => s['task'] != phoneSliderTask).toList();
     final stage = stages.last;
     final prior = stages[stages.length - 2];
     expect(stage['task'], viewerExportIntegrationTask);
@@ -160,9 +159,18 @@ void main() {
           'test/migration/support/visual_presentation_evolution.dart':
               'ca25ca71ae01c978e1b4e47c866c3e38d2dc3a362107d640a408561819287766',
         };
-        if (path == 'lib/features/viewer/fractal_viewer_screen.dart') {
-          expect(after[path],
-              'fc9fb32c7bc6986f2edf35b25e702391223dfaa3cdbc933efa68654de4076136');
+        // Later successors changed these sources; this stage keeps its own
+        // hashes and the newest stage must match the current file.
+        const historicalProduction = {
+          'lib/features/viewer/fractal_viewer_screen.dart':
+              'fc9fb32c7bc6986f2edf35b25e702391223dfaa3cdbc933efa68654de4076136',
+          'lib/features/viewer/diagnostics/gpu_health_probe.dart':
+              'c25402a3109a98d629323c1020f6a724946d9548607265093411dfa7ce61c3cf',
+          'lib/features/viewer/diagnostics/viewer_gpu_health.dart':
+              '27d1f1964d5c8f8064c92ff3fd06f7a208828edd38465199edd4e17262af43f7',
+        };
+        if (historicalProduction.containsKey(path)) {
+          expect(after[path], historicalProduction[path]);
           expect(allStages.last['binding_maps'][id]['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString());
         } else {
