@@ -99,7 +99,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     if (oldWidget.module.id != widget.module.id ||
         oldWidget.state.view.zoom != widget.state.view.zoom ||
         oldWidget.state.view.pan != widget.state.view.pan ||
-        oldWidget.state.params != widget.state.params ||
+        !mapEquals(oldWidget.state.params, widget.state.params) ||
         oldWidget.width != widget.width ||
         oldWidget.height != widget.height) {
       // Invalidate in-flight tiles immediately. Waiting for the debounce timer

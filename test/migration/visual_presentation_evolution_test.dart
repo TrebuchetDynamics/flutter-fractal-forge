@@ -24,7 +24,8 @@ Map stageFor(String task) {
       task == phoneSliderTask ||
       task == directEditControlsTask ||
       task == overlayHitTargetsTask ||
-      task == startupDeepLinksTask;
+      task == startupDeepLinksTask ||
+      task == cpuRenderParamsTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -70,6 +71,7 @@ void main() {
     directEditControlsTask,
     overlayHitTargetsTask,
     startupDeepLinksTask,
+    cpuRenderParamsTask,
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);
@@ -309,8 +311,8 @@ void main() {
 
   test('startup deep links preserve retained oracle behavior', () {
     final stages = orderedVisualStages(readVisualStages());
-    final stage = stages.last;
-    final prior = stages[stages.length - 2];
+    final stage = stages.singleWhere((s) => s['task'] == startupDeepLinksTask);
+    final prior = stages[stages.indexOf(stage) - 1];
     expect(stage['task'], startupDeepLinksTask);
     expect(prior['task'], overlayHitTargetsTask);
     expect(stage['semantic_deltas'], isEmpty);
@@ -334,10 +336,47 @@ void main() {
               'test/migration/support/visual_presentation_evolution.dart',
           },
           reason: entry.key as String);
+      const historicalHelpers = {
+        'test/migration/support/provenance_transition.dart':
+            'c61dc40134e09adfb37ebb3b9482b1675c39e73d674e9514a42e19dcfd580cc0',
+        'test/migration/support/visual_presentation_evolution.dart':
+            'f4d5a4c6f39be2e6d7ad3374095958318c1da62b6af658df4107b985b8b930a7',
+      };
       for (final path
           in before.keys.cast<String>().where((p) => before[p] != after[p])) {
-        expect(after[path],
-            sha256.convert(File(path).readAsBytesSync()).toString());
+        final current = sha256.convert(File(path).readAsBytesSync()).toString();
+        expect(after[path], historicalHelpers[path] ?? current);
+        expect(stages.last['binding_maps'][entry.key]['after'][path], current);
+      }
+    }
+  });
+
+  test('CPU parameter equality only transitions bound renderer and validators',
+      () {
+    const renderer = 'lib/features/renderer/cpu/cpu_fractal_renderer.dart';
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    final prior = stages[stages.length - 2];
+    expect(stage['task'], cpuRenderParamsTask);
+    expect(prior['task'], startupDeepLinksTask);
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    for (final entry in (stage['binding_maps'] as Map).entries) {
+      final before = entry.value['before'] as Map;
+      final after = entry.value['after'] as Map;
+      expect(before, prior['binding_maps'][entry.key]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      final changed = before.keys.cast<String>().where((p) => before[p] != after[p]);
+      expect(changed.toSet(), {
+        if (entry.key == 'reference' || entry.key == 'physical-events') renderer,
+        for (final helper in [
+          'test/migration/support/provenance_transition.dart',
+          'test/migration/support/visual_presentation_evolution.dart',
+        ])
+          if (before.containsKey(helper)) helper,
+      });
+      for (final path in changed) {
+        expect(after[path], sha256.convert(File(path).readAsBytesSync()).toString());
       }
     }
   });
