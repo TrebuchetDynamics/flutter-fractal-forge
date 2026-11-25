@@ -208,6 +208,7 @@ void main() {
       directEditControlsTask,
       overlayHitTargetsTask,
       startupDeepLinksTask,
+      cpuRenderParamsTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -221,6 +222,7 @@ void main() {
         candidates.singleWhere((s) => s['task'] == overlayHitTargetsTask);
     final startup =
         candidates.singleWhere((s) => s['task'] == startupDeepLinksTask);
+    final cpu = candidates.singleWhere((s) => s['task'] == cpuRenderParamsTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -242,6 +244,7 @@ void main() {
         directEdit,
         overlay,
         startup,
+        cpu,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -267,7 +270,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            startup['binding_maps'][id]['after'] as Map,
+            cpu['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }
