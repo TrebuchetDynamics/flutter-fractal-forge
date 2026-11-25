@@ -86,6 +86,7 @@ class FractalController extends ChangeNotifier {
   late FractalModule _module;
   Map<String, Object> _params = {};
   FractalViewState _view = FractalViewState.initial();
+  int _viewJumpRevision = 0;
   bool _transparentBackground = false;
   bool _rotationLocked = false;
   bool _glowEnabled = false;
@@ -178,6 +179,11 @@ class FractalController extends ChangeNotifier {
   /// These are passed to the shader each frame via [FractalRenderState].
   /// Public reads receive a read-only snapshot; use [updateParam] to mutate.
   Map<String, Object> get params => snapshotFractalControllerParams(_params);
+
+  /// Increases when the view jumps to a new target that is not a gesture
+  /// step: reset, preset view or loaded state. Renderers stop leftover
+  /// gesture motion when it changes, so the target is not overwritten.
+  int get viewJumpRevision => _viewJumpRevision;
 
   /// Current view state (pan, zoom, rotation).
   ///
@@ -570,6 +576,7 @@ class FractalController extends ChangeNotifier {
 
   void _resetViewState() {
     _view = FractalViewState.initial();
+    _viewJumpRevision++;
     _lastAdaptiveZoom = _view.zoom;
   }
 
@@ -1059,6 +1066,7 @@ class FractalController extends ChangeNotifier {
       current: _view,
       moduleId: _module.id,
     );
+    _viewJumpRevision++;
     _lastAdaptiveZoom = _view.zoom;
   }
 
@@ -1318,6 +1326,7 @@ class FractalController extends ChangeNotifier {
       current: _view,
       moduleId: _module.id,
     );
+    _viewJumpRevision++;
     _lastAdaptiveZoom = _view.zoom;
     _transparentBackground = transparentBackground;
     onCommitted?.call();

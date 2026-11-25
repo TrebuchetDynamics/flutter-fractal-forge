@@ -224,6 +224,7 @@ class _FractalRendererState extends State<FractalRenderer>
   DateTime? _gpuLastFrameAt;
   FractalController? _gestureController;
   String? _lastGestureModuleId;
+  int _lastGestureViewJump = 0;
   final PaletteTransition _paletteTransition = PaletteTransition();
   bool _tickerSyncScheduled = false;
 
@@ -295,6 +296,7 @@ class _FractalRendererState extends State<FractalRenderer>
     _gestureController?.removeListener(_handleControllerModuleChange);
     _gestureController = controller;
     _lastGestureModuleId = controller.module.id;
+    _lastGestureViewJump = controller.viewJumpRevision;
     controller.addListener(_handleControllerModuleChange);
   }
 
@@ -302,10 +304,14 @@ class _FractalRendererState extends State<FractalRenderer>
     final controller = _gestureController;
     if (controller == null) return;
     final moduleId = controller.module.id;
+    final viewJump = controller.viewJumpRevision;
     if (_lastGestureModuleId != null && _lastGestureModuleId != moduleId) {
       _stopGestureAnimations();
+    } else if (viewJump != _lastGestureViewJump) {
+      _stopGestureAnimationsForViewJump();
     }
     _lastGestureModuleId = moduleId;
+    _lastGestureViewJump = viewJump;
   }
 
   @override
