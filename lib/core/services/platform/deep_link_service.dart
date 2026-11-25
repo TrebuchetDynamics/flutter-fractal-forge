@@ -44,6 +44,7 @@ class DeepLinkService {
   Stream<DeepLinkData> get linkStream => _linkController.stream;
 
   DeepLinkData? _initialLink;
+  int _initialLinkRequest = 0;
   bool _disposed = false;
 
   /// The initial deep link that launched the app (if any).
@@ -63,12 +64,14 @@ class DeepLinkService {
     _handlerOwner = this;
     _channel.setMethodCallHandler(_handleMethodCall);
 
-    // Try to get the initial link that launched the app
+    // Some platforms only return the launch link once. Preserve it on Retry,
+    // but do not let an older, stalled request override a newer lookup.
+    if (_initialLink != null) return;
+    final request = ++_initialLinkRequest;
     try {
       final Object? initialUri = await _channel.invokeMethod('getInitialLink');
-      final data = parseIncomingLink(initialUri);
-      if (!_disposed && data != null) {
-        _initialLink = data;
+      if (!_disposed && request == _initialLinkRequest) {
+        _initialLink = parseIncomingLink(initialUri);
       }
     } catch (_) {
       // Platform doesn't support deep links or no initial link.

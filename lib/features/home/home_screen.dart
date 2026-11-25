@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen>
   PageRoute<void>? _viewerRoute;
   final _viewerKey = GlobalKey<FractalViewerRouteState>();
   bool _handledInitialLink = false;
+  bool _applyingDeepLink = false;
   bool _handledPlaywrightSmokeModule = false;
   bool _viewerSessionRestoreStarted = false;
 
@@ -165,23 +166,25 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<void> _handleDeepLink(DeepLinkData data) async {
     if (!mounted) return;
-    // Try to find the module by type
+    // Do not replace state underneath a settings/modal route or an export.
+    // Keep a closing viewer owned until its transition and disposal finish.
+    final viewerRoute = _viewerRoute;
+    final route = viewerRoute ?? ModalRoute.of(context);
+    bool shouldCommit() => _canCommitExternalState(route, viewerRoute);
+    // Buffered links can arrive back-to-back. A later one must not silently
+    // supersede a link whose state is still being prepared.
+    if (_applyingDeepLink || !shouldCommit()) {
+      final message = AppLocalizations.of(context)!.homeLinkBusy;
+      ScaffoldMessenger.of(context).showSnackBar(
+        appFeedbackSnackBar(message: message, success: false),
+      );
+      AccessibilityService.announce(message);
+      return;
+    }
+
+    _applyingDeepLink = true;
     try {
       final module = _registry.byId(data.type);
-      // Do not replace state underneath a settings/modal route or an export.
-      // Keep a closing viewer owned until its transition and disposal finish.
-      final viewerRoute = _viewerRoute;
-      final route = viewerRoute ?? ModalRoute.of(context);
-      bool shouldCommit() => _canCommitExternalState(route, viewerRoute);
-      if (!shouldCommit()) {
-        final message = AppLocalizations.of(context)!.homeLinkBusy;
-        ScaffoldMessenger.of(context).showSnackBar(
-          appFeedbackSnackBar(message: message, success: false),
-        );
-        AccessibilityService.announce(message);
-        return;
-      }
-
       // Also invalidate a restoration route that has not built its viewer yet.
       _handledInitialLink = true;
       final committed = await _exploreController.loadState(
@@ -209,6 +212,8 @@ class _HomeScreenState extends State<HomeScreen>
           success: false,
         ),
       );
+    } finally {
+      _applyingDeepLink = false;
     }
   }
 

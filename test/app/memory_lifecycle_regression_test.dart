@@ -234,7 +234,7 @@ void main() {
 
     expect(source, contains('_StartupServices? _startupServices;'));
     expect(stateDispose, contains('_disposeStartupServices();'));
-    expect(startupDispose, contains('_deepLinkService?.dispose();'));
+    expect(stateDispose, contains('_deepLinkService?.dispose();'));
     expect(startupDispose, contains('_startupServices?.dispose();'));
     expect(servicesDispose, contains('paletteService.dispose();'));
     expect(servicesDispose, contains('rendererSettingsService.dispose();'));

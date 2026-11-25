@@ -42,10 +42,12 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
   }
 
   Future<Widget?> _createFullApp() async {
-    final deepLinkService =
-        _deepLinkService = kEnableDeepLinks == 1 ? DeepLinkService() : null;
-    // Register the platform handler before startup yields to the stores.
-    final linksReady = deepLinkService?.initialize();
+    // Register before startup yields to the stores. Keep already received
+    // links if the user has to retry loading the app.
+    if (kEnableDeepLinks == 1) {
+      _deepLinkService ??= DeepLinkService();
+    }
+    final linksReady = _deepLinkService?.initialize();
     final pending = _pendingStartup = _StartupServices.create();
     final services = await pending;
     // Timeout or unmount can invalidate this attempt before its stores finish.
@@ -56,7 +58,8 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
     _pendingStartup = null;
     _startupServices = services;
     await linksReady;
-    return services.buildApp(deepLinkService);
+    if (!identical(_startupServices, services)) return null;
+    return services.buildApp(_deepLinkService);
   }
 
   Future<void> _initServices() async {
@@ -88,14 +91,13 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
 
   void _disposeStartupServices() {
     _pendingStartup = null;
-    _deepLinkService?.dispose();
-    _deepLinkService = null;
     _startupServices?.dispose();
     _startupServices = null;
   }
 
   @override
   void dispose() {
+    _deepLinkService?.dispose();
     _disposeStartupServices();
     super.dispose();
   }

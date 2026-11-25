@@ -4546,7 +4546,7 @@
         "lib/core/services/platform/accessibility_service.dart": "c924df07312d52ea617372af53b3a0821f38f7d66922b3495eaf21c639014dc5",
         "lib/core/services/platform/browser_view_url_sync.dart": "f55cdeadc481668a10ae4d916db6dd52f5a1656949b8b9e05dc1aa61fbe2652c",
         "lib/core/services/platform/deep_link_codec.dart": "9a73cf60616e5033aa93d03555fc5f8e91d6299b8db10646f33fad356909dc53",
-        "lib/core/services/platform/deep_link_service.dart": "24f5af4694cbe2368022f9369acd7f8348d4452179be17e823e22815aa72d5cd",
+        "lib/core/services/platform/deep_link_service.dart": "e3a2dd6e3a50de08a724c0449ae5953291b5620b52bea4d7a82ad541079c263e",
         "lib/core/services/platform/haptic_service.dart": "5ca81bf76c094f864040e90e1d4d056b64ab3d3511199b6c83438e4d49fe68d4",
         "lib/core/services/platform/runtime_mode_service.dart": "76b1d497fd23c3a21129d221fdd79118c0869a5bff9e73b512bb2b36f581b6b2",
         "lib/core/services/rendering/fractal_report_service.dart": "86a65cbd4e8256990cf023c6d4de3d085d426023f09c7693b2368964d3cfba6a",
@@ -10086,7 +10086,7 @@
       }
     }
   },
-  "candidate_identity": "bfd3ff926327c09b3af44f987c38dc7b05a35f63d471f704b016bd975748359e",
+  "candidate_identity": "1cd537d0cb311633e6597b11cd8336b0fa03eebc84a6476b1f389997fc00c9ae",
   "compiled_artifacts": [],
   "schema": 1,
   "semantic_deltas": {},
