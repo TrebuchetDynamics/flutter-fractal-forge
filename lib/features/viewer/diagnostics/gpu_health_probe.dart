@@ -36,7 +36,12 @@ class GpuBackendUpdate {
   /// GPU snapshot before the CPU renderer takes over.
   final bool captureSnapshot;
 
-  const GpuBackendUpdate({required this.captureSnapshot});
+  /// Set when a backend switch was refused because the previous switch on the
+  /// same module was too recent. The mixin must call [decide] again after this
+  /// delay, or the stale backend stays until the next unrelated change.
+  final Duration? retryAfter;
+
+  const GpuBackendUpdate({required this.captureSnapshot, this.retryAfter});
 
   static const none = GpuBackendUpdate(captureSnapshot: false);
 }
@@ -58,6 +63,7 @@ class GpuHealthProbe {
   final PrecisionLadderPolicy _precisionLadderPolicy;
   final AppLogger _log;
   final bool _forceProbeFailure;
+  final DateTime Function() _clock;
 
   bool _gpuHealthFailed = false;
   bool _isAndroidEmulator = false;
@@ -91,7 +97,9 @@ class GpuHealthProbe {
     PrecisionLadderPolicy? precisionLadderPolicy,
     AppLogger? log,
     @visibleForTesting bool? forceProbeFailure,
-  })  : _renderPlanPolicy = renderPlanPolicy ?? const RendererPlanPolicy(),
+    @visibleForTesting DateTime Function()? clock,
+  })  : _clock = clock ?? DateTime.now,
+        _renderPlanPolicy = renderPlanPolicy ?? const RendererPlanPolicy(),
         _precisionLadderHysteresis =
             precisionLadderHysteresis ?? PrecisionLadderHysteresis(),
         _precisionLadderPolicy =
@@ -184,15 +192,19 @@ class GpuHealthProbe {
       return GpuBackendUpdate.none;
     }
 
-    final now = DateTime.now();
+    const switchWindow = Duration(milliseconds: 500);
+    final now = _clock();
     final lastSwitch = _lastBackendSwitch;
-    final switchAllowed = moduleChanged ||
-        lastSwitch == null ||
-        now.difference(lastSwitch).inMilliseconds >= 500;
+    final sinceLastSwitch =
+        lastSwitch == null ? switchWindow : now.difference(lastSwitch);
+    final switchAllowed = moduleChanged || sinceLastSwitch >= switchWindow;
 
     if (!switchAllowed) {
       _lastBackendDecisionModuleId = moduleId;
-      return GpuBackendUpdate.none;
+      return GpuBackendUpdate(
+        captureSnapshot: false,
+        retryAfter: switchWindow - sinceLastSwitch,
+      );
     }
 
     final captureSnapshot = oldBackend == RendererBackend.gpu &&

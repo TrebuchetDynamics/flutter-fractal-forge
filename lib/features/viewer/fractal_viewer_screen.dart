@@ -263,7 +263,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   LooperController? _looperController;
 
   String? _lastBackendDecisionLogged;
-  Timer? _backendDebounceTimer;
   @override
   bool _appVisible = true;
   ViewerSessionStore? _viewerSessionStore;
