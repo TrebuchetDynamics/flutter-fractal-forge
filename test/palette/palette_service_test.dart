@@ -24,6 +24,17 @@ void main() {
       expect(PaletteService.instance, same(service));
     });
 
+    test('disposing a superseded service leaves the replacement alive',
+        () async {
+      final expired = await PaletteService.create();
+      final current = await PaletteService.create();
+      addTearDown(current.dispose);
+
+      expired.dispose();
+
+      expect(PaletteService.instance, same(current));
+    });
+
     test('instance throws StateError before create()', () {
       // Force the static field to null by calling create() with a fresh store
       // that we don't assign — we need a clean slate. Since each test setUp

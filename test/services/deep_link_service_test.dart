@@ -13,9 +13,50 @@ void main() {
     group('lifecycle', () {
       const channel = MethodChannel('com.fractalforge/deeplink');
 
+      Future<void> deliverLink(String query) async {
+        final encoded = const StandardMethodCodec().encodeMethodCall(
+          MethodCall('onDeepLink', 'fractalforge://view?$query'),
+        );
+        final completer = Completer<ByteData?>();
+        await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .handlePlatformMessage(channel.name, encoded, completer.complete);
+        await completer.future;
+      }
+
       tearDown(() async {
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
             .setMockMethodCallHandler(channel, null);
+      });
+
+      test('drains buffered links once, then broadcasts live links', () async {
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, (call) async => null);
+        final service = DeepLinkService();
+        addTearDown(service.dispose);
+        await service.initialize();
+        await deliverLink('type=mandelbrot');
+        await deliverLink('type=julia');
+
+        final first = <String>[];
+        final second = <String>[];
+        final stream = service.linkStream;
+        final firstSub = stream.listen((link) => first.add(link.type));
+        final secondSub = stream.listen((link) => second.add(link.type));
+        await Future<void>.delayed(Duration.zero);
+        expect(first, ['mandelbrot', 'julia']);
+        expect(second, isEmpty);
+
+        await deliverLink('type=mandelbulb');
+        await Future<void>.delayed(Duration.zero);
+        expect(first, ['mandelbrot', 'julia', 'mandelbulb']);
+        expect(second, ['mandelbulb']);
+        await firstSub.cancel();
+        await secondSub.cancel();
+
+        final resub = stream.listen((link) => second.add(link.type));
+        await Future<void>.delayed(Duration.zero);
+        expect(second, ['mandelbulb']);
+        await resub.cancel();
       });
 
       test('dispose ignores late platform deep links', () async {
@@ -29,20 +70,7 @@ void main() {
         service.dispose();
         await sub.cancel();
 
-        final encoded = const StandardMethodCodec().encodeMethodCall(
-          const MethodCall(
-            'onDeepLink',
-            'fractalforge://view?type=mandelbrot',
-          ),
-        );
-        final completer = Completer<ByteData?>();
-        await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .handlePlatformMessage(
-          'com.fractalforge/deeplink',
-          encoded,
-          completer.complete,
-        );
-        await completer.future;
+        await deliverLink('type=mandelbrot');
 
         expect(events, isEmpty);
       });

@@ -226,13 +226,16 @@ void main() {
   test('deferred startup disposes services it creates', () {
     final source = File('lib/app/startup.dart').readAsStringSync();
     final stateDispose = _methodBody(source, 'void dispose()');
+    final startupDispose =
+        _methodBody(source, 'void _disposeStartupServices()');
     final servicesDispose = source.substring(
       source.indexOf('class _StartupServices'),
     );
 
     expect(source, contains('_StartupServices? _startupServices;'));
     expect(stateDispose, contains('_disposeStartupServices();'));
-    expect(servicesDispose, contains('deepLinkService?.dispose();'));
+    expect(stateDispose, contains('_deepLinkService?.dispose();'));
+    expect(startupDispose, contains('_startupServices?.dispose();'));
     expect(servicesDispose, contains('paletteService.dispose();'));
     expect(servicesDispose, contains('rendererSettingsService.dispose();'));
     expect(servicesDispose, contains('accessibilityService.dispose();'));

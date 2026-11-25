@@ -23,7 +23,8 @@ Map stageFor(String task) {
       task == presetBatchExportTask ||
       task == phoneSliderTask ||
       task == directEditControlsTask ||
-      task == overlayHitTargetsTask;
+      task == overlayHitTargetsTask ||
+      task == startupDeepLinksTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -67,7 +68,8 @@ void main() {
     presetBatchExportTask,
     phoneSliderTask,
     directEditControlsTask,
-    overlayHitTargetsTask
+    overlayHitTargetsTask,
+    startupDeepLinksTask,
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);
@@ -249,8 +251,10 @@ void main() {
 
   test('overlay targets successor binds only exact input and policy sources',
       () {
-    final stages = orderedVisualStages(readVisualStages());
-    final stage = stages.last;
+    final allStages = orderedVisualStages(readVisualStages());
+    final stage =
+        allStages.singleWhere((s) => s['task'] == overlayHitTargetsTask);
+    final stages = allStages.take(allStages.indexOf(stage) + 1).toList();
     expect(stage['task'], overlayHitTargetsTask);
     expect(stage['base_revision'], 'cfd18a890fd2dfea5758fc68f5db03e1acbd20dc');
     expect(stages[stages.length - 2]['task'], directEditControlsTask);
@@ -293,12 +297,47 @@ void main() {
           },
           reason: id);
       for (final path in changed.cast<String>()) {
-        expect(after[path],
+        expect(allStages.last['binding_maps'][id]['after'][path],
             sha256.convert(File(path).readAsBytesSync()).toString());
       }
       for (final order in [stages, stages.reversed.toList()]) {
         validateVisualSourceChain(id,
             stages.first['binding_maps'][id]['before'] as Map, after, order);
+      }
+    }
+  });
+
+  test('startup deep links preserve retained oracle behavior', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    final prior = stages[stages.length - 2];
+    expect(stage['task'], startupDeepLinksTask);
+    expect(prior['task'], overlayHitTargetsTask);
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    for (final entry in (stage['binding_maps'] as Map).entries) {
+      final before = entry.value['before'] as Map;
+      final after = entry.value['after'] as Map;
+      expect(before, prior['binding_maps'][entry.key]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      expect(
+          before.keys.where((path) => before[path] != after[path]).toSet(),
+          {
+            'lib/core/services/rendering/palette/palette_service.dart',
+            if (entry.key == 'physical-events')
+              'lib/core/services/platform/deep_link_service.dart',
+            if (before.containsKey(
+                'test/migration/support/provenance_transition.dart'))
+              'test/migration/support/provenance_transition.dart',
+            if (before.containsKey(
+                'test/migration/support/visual_presentation_evolution.dart'))
+              'test/migration/support/visual_presentation_evolution.dart',
+          },
+          reason: entry.key as String);
+      for (final path
+          in before.keys.cast<String>().where((p) => before[p] != after[p])) {
+        expect(after[path],
+            sha256.convert(File(path).readAsBytesSync()).toString());
       }
     }
   });

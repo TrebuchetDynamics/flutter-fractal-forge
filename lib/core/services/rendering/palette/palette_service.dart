@@ -98,6 +98,8 @@ class PaletteService extends ChangeNotifier {
 
   @override
   void dispose() {
+    // A startup retry can replace this singleton before its old owner cleans up.
+    if (_disposed) return;
     _disposed = true;
     invalidatePaletteTextures();
     if (identical(_instance, this)) {

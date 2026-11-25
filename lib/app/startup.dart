@@ -31,6 +31,8 @@ class DeferredStartupApp extends StatefulWidget {
 class DeferredStartupAppState extends State<DeferredStartupApp> {
   Widget? _fullApp;
   Object? _startupError;
+  DeepLinkService? _deepLinkService;
+  Future<_StartupServices>? _pendingStartup;
   _StartupServices? _startupServices;
 
   @override
@@ -39,11 +41,25 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
     _initServices();
   }
 
-  Future<Widget> _createFullApp() async {
-    _disposeStartupServices();
-    final services = await _StartupServices.create();
+  Future<Widget?> _createFullApp() async {
+    // Register before startup yields to the stores. Keep already received
+    // links if the user has to retry loading the app.
+    if (kEnableDeepLinks == 1) {
+      _deepLinkService ??= DeepLinkService();
+    }
+    final linksReady = _deepLinkService?.initialize();
+    final pending = _pendingStartup = _StartupServices.create();
+    final services = await pending;
+    // Timeout or unmount can invalidate this attempt before its stores finish.
+    if (!identical(_pendingStartup, pending)) {
+      services.dispose();
+      return null;
+    }
+    _pendingStartup = null;
     _startupServices = services;
-    return services.buildApp();
+    await linksReady;
+    if (!identical(_startupServices, services)) return null;
+    return services.buildApp(_deepLinkService);
   }
 
   Future<void> _initServices() async {
@@ -54,14 +70,12 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
     try {
       final loader = widget.fullAppLoader ?? _createFullApp;
       final fullApp = await loader().timeout(widget.startupTimeout);
-      if (!mounted) {
-        _disposeStartupServices();
-        return;
-      }
+      if (!mounted) return;
       setState(() {
         _fullApp = fullApp;
       });
     } catch (error, stack) {
+      _disposeStartupServices();
       FlutterError.reportError(FlutterErrorDetails(
         exception: error,
         stack: stack,
@@ -76,12 +90,14 @@ class DeferredStartupAppState extends State<DeferredStartupApp> {
   }
 
   void _disposeStartupServices() {
+    _pendingStartup = null;
     _startupServices?.dispose();
     _startupServices = null;
   }
 
   @override
   void dispose() {
+    _deepLinkService?.dispose();
     _disposeStartupServices();
     super.dispose();
   }
@@ -161,7 +177,6 @@ class _StartupServices {
   final RendererSettingsService rendererSettingsService;
   final ViewerSessionStore viewerSessionStore;
   final PaletteService paletteService;
-  final DeepLinkService? deepLinkService;
 
   const _StartupServices({
     required this.presetStore,
@@ -170,7 +185,6 @@ class _StartupServices {
     required this.rendererSettingsService,
     required this.viewerSessionStore,
     required this.paletteService,
-    required this.deepLinkService,
   });
 
   static Future<_StartupServices> create() async {
@@ -182,11 +196,6 @@ class _StartupServices {
       PaletteService.create(),
       ViewerSessionStore.create(),
     ]);
-    DeepLinkService? deepLinkService;
-    if (kEnableDeepLinks == 1) {
-      deepLinkService = DeepLinkService();
-      await deepLinkService.initialize();
-    }
 
     return _StartupServices(
       presetStore: results[0] as PresetStore,
@@ -195,11 +204,10 @@ class _StartupServices {
       rendererSettingsService: results[3] as RendererSettingsService,
       paletteService: results[4] as PaletteService,
       viewerSessionStore: results[5] as ViewerSessionStore,
-      deepLinkService: deepLinkService,
     );
   }
 
-  Widget buildApp() {
+  Widget buildApp(DeepLinkService? deepLinkService) {
     return FlutterFractalsApp(
       presetStore: presetStore,
       historyStore: historyStore,
@@ -212,7 +220,6 @@ class _StartupServices {
   }
 
   void dispose() {
-    deepLinkService?.dispose();
     paletteService.dispose();
     rendererSettingsService.dispose();
     accessibilityService.dispose();
