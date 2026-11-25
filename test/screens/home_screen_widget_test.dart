@@ -175,6 +175,32 @@ void main() {
           findsOneWidget);
     });
 
+    testWidgets(
+        'an interrupted viewer is restored when the platform has no fresh link',
+        (tester) async {
+      // Android answers getInitialLink with null after activity recreation or
+      // a Recents launch, so the saved session must win in that case.
+      final links = await platformLinks();
+      final store = await ViewerSessionStore.create();
+      await tester.pumpWidget(linkedApp(links, store));
+      await tester.pumpAndSettle();
+      await deliverLink(tester, 'type=julia&zoom=7');
+      final interrupted = store.load()!;
+      expect(interrupted.viewerActive, isTrue);
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pumpAndSettle();
+      await store.save(interrupted);
+
+      await tester.pumpWidget(linkedApp(links, store));
+      await tester.pumpAndSettle();
+
+      final controller = tester
+          .element(find.byType(FractalViewerScreen))
+          .read<FractalController>();
+      expect(controller.module.id, 'julia');
+      expect(controller.view.zoom, 7);
+    });
+
     testWidgets('covered routes and active exports reject links until retry',
         (tester) async {
       final links = await platformLinks();
