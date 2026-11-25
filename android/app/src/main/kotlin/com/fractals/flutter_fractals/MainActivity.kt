@@ -36,7 +36,11 @@ class MainActivity : FlutterFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdgeCompat()
         super.onCreate(savedInstanceState)
-        initialLink = intent?.dataString
+        initialLink = LaunchLinkPolicy.initialLink(
+            dataString = intent?.dataString,
+            isRecreated = savedInstanceState != null,
+            intentFlags = intent?.flags ?: 0,
+        )
     }
 
     override fun onTrimMemory(level: Int) {
