@@ -324,7 +324,8 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == viewerExportIntegrationTask ||
           s['task'] == phoneSliderTask ||
           s['task'] == directEditControlsTask ||
-          s['task'] == overlayHitTargetsTask)
+          s['task'] == overlayHitTargetsTask ||
+          s['task'] == startupDeepLinksTask)
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
   _require(

@@ -28,8 +28,17 @@ class DeepLinkService {
       MethodChannel('com.fractalforge/deeplink');
   static DeepLinkService? _handlerOwner;
 
-  final StreamController<DeepLinkData> _linkController =
-      StreamController<DeepLinkData>.broadcast();
+  final _pendingLinks = <DeepLinkData>[];
+  late final _linkController = StreamController<DeepLinkData>.broadcast(
+    onListen: _flushPendingLinks,
+  );
+
+  void _flushPendingLinks() {
+    for (final link in _pendingLinks) {
+      _linkController.add(link);
+    }
+    _pendingLinks.clear();
+  }
 
   /// Stream of parsed deep link data.
   Stream<DeepLinkData> get linkStream => _linkController.stream;
@@ -58,7 +67,7 @@ class DeepLinkService {
     try {
       final Object? initialUri = await _channel.invokeMethod('getInitialLink');
       final data = parseIncomingLink(initialUri);
-      if (data != null) {
+      if (!_disposed && data != null) {
         _initialLink = data;
       }
     } catch (_) {
@@ -69,8 +78,11 @@ class DeepLinkService {
   Future<dynamic> _handleMethodCall(MethodCall call) async {
     if (_disposed || call.method != 'onDeepLink') return;
     final data = parseIncomingLink(call.arguments);
-    if (data != null && !_linkController.isClosed) {
+    if (data == null) return;
+    if (_linkController.hasListener) {
       _linkController.add(data);
+    } else {
+      _pendingLinks.add(data);
     }
   }
 
@@ -192,6 +204,7 @@ class DeepLinkService {
   /// Disposes of the service and closes the stream.
   void dispose() {
     _disposed = true;
+    _pendingLinks.clear();
     if (identical(_handlerOwner, this)) {
       _handlerOwner = null;
       _channel.setMethodCallHandler(null);

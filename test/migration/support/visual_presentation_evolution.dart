@@ -29,6 +29,7 @@ const viewerExportIntegrationTask = 'PR24-VIEWER-EXPORT-INTEGRATION';
 const phoneSliderTask = 'PHONE-SINGLE-SLIDER-32';
 const directEditControlsTask = 'DIRECT-EDIT-CONTROLS-31';
 const overlayHitTargetsTask = 'OVERLAY-HIT-TARGETS-34';
+const startupDeepLinksTask = 'STARTUP-DEEP-LINKS-51';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -103,6 +104,12 @@ const _overlayHitTargetsPaths = [
   'lib/l10n/app_localizations.dart',
   'lib/l10n/app_localizations_en.dart',
   'lib/l10n/app_localizations_es.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
+const _startupDeepLinksPaths = [
+  'lib/core/services/platform/deep_link_service.dart',
+  'lib/core/services/rendering/palette/palette_service.dart',
   'test/migration/support/provenance_transition.dart',
   'test/migration/support/visual_presentation_evolution.dart',
 ];
@@ -189,6 +196,7 @@ void validateVisualStage(Map stage) {
     phoneSliderTask => _phoneSliderPaths,
     directEditControlsTask => _directEditControlsPaths,
     overlayHitTargetsTask => _overlayHitTargetsPaths,
+    startupDeepLinksTask => _startupDeepLinksPaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -201,7 +209,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == viewerExportIntegrationTask ||
       stage['task'] == phoneSliderTask ||
       stage['task'] == directEditControlsTask ||
-      stage['task'] == overlayHitTargetsTask;
+      stage['task'] == overlayHitTargetsTask ||
+      stage['task'] == startupDeepLinksTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
