@@ -391,6 +391,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       _looperController = LooperController(
         controller: controller,
         exportIsBusy: () => _exporting || _exportService.coordinator.isBusy,
+        onWillPlay: () => _autoExploreService?.pause(),
       )..addListener(_onLooperChanged);
       if (!_viewerSessionRestorePending) {
         _persistViewerSession();

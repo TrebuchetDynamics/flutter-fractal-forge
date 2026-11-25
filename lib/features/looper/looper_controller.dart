@@ -207,12 +207,20 @@ class LooperPlan {
 class LooperController extends ChangeNotifier {
   final FractalController controller;
   final bool Function()? exportIsBusy;
+
+  /// Called before preview playback starts, so the owner can pause any other
+  /// motion driver. Only one driver may write the camera at a time.
+  final VoidCallback? onWillPlay;
   final List<LooperPoint> _points = [];
   Duration _duration = const Duration(seconds: 6);
   Timer? _timer;
   late String _moduleId;
 
-  LooperController({required this.controller, this.exportIsBusy}) {
+  LooperController({
+    required this.controller,
+    this.exportIsBusy,
+    this.onWillPlay,
+  }) {
     _moduleId = controller.module.id;
     controller.addListener(_resetIfModuleChanged);
   }
@@ -336,6 +344,7 @@ class LooperController extends ChangeNotifier {
 
   void play() {
     if (!canLoop || isPlaying) return;
+    onWillPlay?.call();
     _timer = Timer.periodic(const Duration(milliseconds: 33), _tick);
     notifyListeners();
   }

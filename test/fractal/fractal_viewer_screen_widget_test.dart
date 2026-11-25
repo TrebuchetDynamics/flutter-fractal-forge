@@ -2480,6 +2480,46 @@ void main() {
       expect(controller.view.pan.y, lessThan(initialPan.y));
     });
 
+    testWidgets('looper sheet preview pauses running auto-explore',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final service = tester
+          .element(find.byType(FractalViewControls))
+          .read<AutoExploreService>();
+      service.start();
+      await tester.pump();
+      expect(service.isExploring, isTrue);
+      expect(service.isPaused, isFalse);
+
+      // With no plan yet, Play opens the looper sheet; auto-explore keeps
+      // running behind it.
+      await tester.tap(find.byKey(const ValueKey('viewerPlayButton')));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      final looper =
+          tester.widget<LooperSheet>(find.byType(LooperSheet)).controller;
+      await tester.tap(find.byKey(const ValueKey('looperSetAButton')));
+      controller.updateZoom(2);
+      await tester.pump();
+      await tester.tap(find.byKey(const ValueKey('looperSetBButton')));
+      await tester.pump();
+      expect(looper.canLoop, isTrue);
+      expect(service.isPaused, isFalse);
+
+      await tester.tap(find.byKey(const ValueKey('looperPreviewButton')));
+      await tester.pump();
+
+      expect(looper.isPlaying, isTrue);
+      expect(service.isExploring, isTrue);
+      expect(service.isPaused, isTrue,
+          reason: 'only one motion driver may write the camera');
+
+      looper.stop();
+      service.stop();
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
     Future<double> exportLooper(
       WidgetTester tester,
       _LooperExportService exportService, {
