@@ -510,6 +510,26 @@ void main() {
     }
   });
 
+  test('curated runtime evolution rejects resealed drift in every oracle', () {
+    final stage =
+        readVisualStages().singleWhere((s) => s['task'] == visualDefaultsTask);
+    for (final name in [
+      'state-replay',
+      'param-interpolation',
+      'physical-events'
+    ]) {
+      final changed = copy(stage);
+      changed['semantic_deltas'][name][0]['after'] = 999;
+      seal(changed);
+      expect(() => validateVisualStage(changed), throwsStateError,
+          reason: name);
+    }
+    final incomplete = copy(stage);
+    incomplete['semantic_deltas'].remove('state-replay');
+    seal(incomplete);
+    expect(() => validateVisualStage(incomplete), throwsStateError);
+  });
+
   test('explicit pilot delta preserves all other complete records', () {
     final old = retained('presets');
     final i = indexOf(old, 'mandelbrot');

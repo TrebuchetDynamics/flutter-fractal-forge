@@ -597,9 +597,13 @@ class FractalController extends ChangeNotifier {
     }
     _paramLerpTimer?.cancel();
     _applyPreset(_module.defaultPreset);
-    // Sculptural viewers reset to their curated framing; other modules
-    // retain the neutral session reset (distinct from applying a preset).
-    if (_module.id != 'mandelbulb' && _module.id != 'mandelbox') {
+    // Pilot sessions keep their curated framing; other modules retain the
+    // neutral session reset (distinct from applying a preset).
+    if (_module.id != 'mandelbulb' &&
+        _module.id != 'mandelbox' &&
+        _module.id != 'mandelbrot' &&
+        _module.id != 'burning_ship' &&
+        _module.id != 'newton_z3') {
       _resetViewState();
     }
     _transparentBackground = false;

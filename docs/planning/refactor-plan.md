@@ -482,6 +482,8 @@ The [accepted visual-richness outcome](../../PRD.md#visual-richness-architecture
 
 Preserve mathematical kernels, original migration documents and old saved appearances. Intentional palette/default changes require explicit candidate evidence and narrow source/semantic evolution checks, not a relaxed clock-only transition or repinned original oracle. Independent Linux, browser and designated Waydroid evidence must distinguish functional rendering, export correspondence, aesthetic assessment and target-specific cost. No platform, Rust owner switch, hardware throughput or full migration is qualified by this plan.
 
+The [#11 candidate](visual-fidelity-audit-next.md#issue-11--2d-first-view-candidate) uses existing palettes and preset application for the three 2D entry states, with Classic kept separate from the current default. This changes neither the accepted Flutter/Rust boundary nor the work budget, and does not complete any qualification lane.
+
 Planner calls and the complete executable batch are owned by [visual-richness epic #8](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/8), with executable children #9–#14. Later family adoption depends on pilot findings; no automatic planning chain or legacy executor starts here. Existing migration and device work retain their contracts and owners.
 
 ### Owner-confirmed scope and performance clarification

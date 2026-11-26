@@ -8,8 +8,22 @@ final List<EscapeTimeConfig> _coreEscapeTimeFamilyCatalog = [
     displayName: (l10n) => l10n.moduleMandelbrot,
     shaderAsset: 'shaders/legacy/escape_time/mandel_step_smooth.frag',
     defaultIterations: 120,
-    defaultCenterX: -0.5,
-    defaultZoom: 0.35,
+    defaultCenterX: -0.747,
+    defaultCenterY: 0.1,
+    defaultZoom: 8.0,
+    defaultColorScheme: 1,
+    // Preserve the original resolved Classic independently of the new default.
+    classicPreset: catalogPreset(
+      id: 'mandelbrot-classic',
+      moduleId: 'mandelbrot',
+      name: 'Classic',
+      params: {'iterations': 350.0, 'bailout': 4.0, 'colorScheme': 0},
+      view: FractalViewState(
+        pan: Vector2(-0.5, 0.0),
+        zoom: 0.35,
+        rotation: Vector3.zero(),
+      ),
+    ),
     extraPresets: [
       catalogPreset(
         id: 'mandelbrot-seahorse',
@@ -133,8 +147,27 @@ final List<EscapeTimeConfig> _coreEscapeTimeFamilyCatalog = [
     shaderAsset:
         'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag',
     defaultIterations: 200,
-    defaultCenterX: -0.5,
-    defaultZoom: 0.35,
+    defaultCenterX: -1.76,
+    defaultCenterY: -0.035,
+    defaultZoom: 12.0,
+    defaultColorScheme: 1,
+    // Preserve the original resolved Classic independently of the new default.
+    classicPreset: catalogPreset(
+      id: 'burning_ship-classic',
+      moduleId: 'burning_ship',
+      name: 'Classic',
+      params: {
+        'iterations': 300.0,
+        'bailout': 4.0,
+        'colorScheme': 0,
+        'power': 2.0
+      },
+      view: FractalViewState(
+        pan: Vector2(-0.5, 0.0),
+        zoom: 0.35,
+        rotation: Vector3.zero(),
+      ),
+    ),
     extraParams: [
       _floatParam(
         id: 'power',

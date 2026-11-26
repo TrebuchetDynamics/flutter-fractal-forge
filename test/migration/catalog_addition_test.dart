@@ -134,10 +134,10 @@ void main() {
       if (name == 'reference')
         continue; // Uses the separate source chain below.
       final bytes = beforeBytes(name);
-      // Non-inventory oracles can acquire new source bindings, not new data.
+      // The addition may change bindings, but not the data as of its parent.
       final generated = inventory[name] ??
           <String, Object?>{
-            ...(jsonDecode(bytes) as Map<String, dynamic>),
+            ...priorDocument(name).cast<String, Object?>(),
             'source_bindings': maps[name]['after'],
           };
       verifyBoundDocument(name, bytes, generated, visualStages: stages);

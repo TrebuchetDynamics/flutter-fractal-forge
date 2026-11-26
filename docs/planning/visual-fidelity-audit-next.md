@@ -210,6 +210,54 @@ A runnable metadata proxy today counts executed first-view records: baseline 14,
 
 Guard commands for later implementation: `python3 research/fractals-library/scripts/validate_visual_inventory.py`; `flutter test test/catalog/catalog_id_integrity_test.dart test/catalog/catalog_repository_test.dart test/catalog/catalog_mathematical_navigation_test.dart test/catalog/catalog_search_widget_test.dart test/catalog/catalog_screen_a11y_test.dart --reporter expanded`; `flutter analyze`. Real GPU defaults/runtime/first-view and physical PNG journeys remain separate gates via existing VIS-006 and REL-JOURNEY tasks. These product guards were NOT_RUN in this docs-only pass. Suggest two repair iterations per selected defect, maximum six iterations, then compare the same artifacts and stop if there is no improvement. No loop starts now.
 
+### Issue #11 — 2D first-view candidate
+
+Use one new composition per module at time zero. Values below are resolved
+module defaults, not the builder's nominal iteration inputs. Scheme IDs use
+existing shader modes. Bailout stays `4.0`, rotation stays zero, Burning Ship
+power stays `2.0`, and Newton relaxation stays `1.0`. The renderer's existing
+web/mobile GPU iteration cap stays `160`.
+
+| Module | Prior center / zoom / scheme | Candidate center / zoom / scheme | Iterations | Composition intent |
+| --- | --- | --- | --- | --- |
+| Mandelbrot | `(-0.5, 0.0)` / `0.35` / `0` | `(-0.747, 0.1)` / `8.0` / `1` | `350` | Frame the Seahorse Valley edge with more surrounding structure than the tighter named preset. |
+| Burning Ship | `(-0.5, 0.0)` / `0.35` / `0` | `(-1.76, -0.035)` / `12.0` / `1` | `300` | Center near Armada's filament-bearing edge without using its high magnification. |
+| Newton z³−1 | `(-0.41568627450980394, -0.05411764705882354)` / `1.4688235294117646` / `0` | `(0.0, 0.0)` / `0.45` / `2` | `80` | Center the three-basin junction and give the distinct root phases room on screen. |
+
+Classic retains each previous resolved default, including its original ID and
+metadata. Applying a saved preset or history entry uses its stored values.
+[The additive candidate record](../../migration/oracles/visual-presentation/curated-defaults-11.json)
+binds the selected values and changed sources without rewriting retained fixtures.
+It also records the exact default-dependent state-replay, parameter interpolation
+and physical-event differences; all other outputs still compare to the retained
+oracles. The retained run `6e39b8ef` reproduced the reset bug (`[-0.5, 0]` expected for
+Mandelbrot, `[0, 0]` observed) and produced no delivery commit.
+
+Run `a5c182da` captured the prior and proposed defaults with the same Linux
+`FORCE_GPU_RENDER` harness (`FragmentProgram/FractalCanvas`, Xvfb, Mesa
+llvmpipe). Each run rendered and checked PNG export for all 40 requested states.
+The `before/` and `after/` subdirectories of
+`build/test_output/visual-richness-selection/` contain time-zero PNGs and
+`manifest.json` files with source hashes, effective parameters and readback
+hashes. `comparison.png` shows prior/after in columns and the three modules in
+table order. The candidate exposes a bright filament corridor in Mandelbrot,
+the ship silhouette beneath a broad gradient in Burning Ship, and the central
+three-way junction in Newton. Burning Ship's detail sits low in the square
+crop, so check it at actual viewer aspect ratios before qualifying it.
+
+The existing zoom-dependent renderer policy yielded effective iterations of
+`350 → 461`, `300 → 413`, and `85 → 80` in the 512px opaque draws. No iteration
+budget or cap was changed in code. These local renders establish that the
+candidate draws and exports, not hardware performance or platform appearance.
+
+Delivery run `0b2ad6a3` repeated the 40 captures on both the merged #10
+base and the #11 candidate (`frozen-base/` and `current/`, compared in
+`merged-base-comparison.png`). A local Chromium Playwright journey verified
+that each pilot's first rendered view and Classic's stored view and scheme
+match the table. The browser screenshot also shows that the control rail
+partly covers the low Burning Ship silhouette; check that composition in the
+platform framing lane. Neither check qualifies platform appearance or hardware.
+
 ### CAT-QUALITY-01 pilot assessment
 
 Status: assessed from existing receipts; **not qualified**. The proposed six-gate rubric remains **Proposed / not adopted**, not a release threshold. The active pilot is capped at 12 existing IDs and reuses VIS-006/VIS-004 captures rather than duplicating their image-health work. Exact family/group, distinctness note, per-gate `PASS`/`FAIL`/`NOT_CHECKED`, references, retained commands where recorded, and device/backend/seed gaps and missing evidence are in [`visual-audit-inventory.json`](visual-audit-inventory.json#quality_pilot). Existing commands force GPU on Linux; driver/model and capture seeds were not recorded. No command or seed has been inferred. Do not count a preset, exponent or palette variant as a new system.

@@ -237,11 +237,25 @@ const _catalogAdditionSupportPaths = [
   'test/migration/support/visual_presentation_evolution.dart',
 ];
 const _defaultsPaths = [
+  'lib/core/controllers/fractal_controller.dart',
+  'test/migration/state_replay_test.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
   'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart',
   'lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart',
   'lib/core/modules/builders/escape_time/builder.dart',
   'lib/core/modules/builders/built_in_preset_contract.dart',
 ];
+
+// #11 approves only these recorded runtime differences, not arbitrary changes
+// to replay paths. Pin the complete leaf-delta bundle independently of the
+// candidate seal, which a changed stage can recompute.
+const _curatedRuntimeDocuments = {
+  'state-replay',
+  'param-interpolation',
+  'physical-events',
+};
+const _curatedRuntimeDeltaHash =
+    'e14030b3249bbbda9ffb08a309bf304165389a1130a71017f682c55c03331213';
 
 String visualHash(Object? value) =>
     sha256.convert(utf8.encode(canonicalJson(value))).toString();
@@ -492,8 +506,19 @@ void validateVisualStage(Map stage) {
               'shader-contracts',
               if (stage['task'] == escapeTimeUniformDefaultsTask)
                 'capabilities',
+              if (stage['task'] == visualDefaultsTask)
+                ..._curatedRuntimeDocuments,
             ].contains(k)),
         'undeclared semantic document');
+    if (stage['task'] == visualDefaultsTask &&
+        _curatedRuntimeDocuments.any(deltas.containsKey)) {
+      visualRequire(
+          visualHash({
+                for (final name in _curatedRuntimeDocuments) name: deltas[name],
+              }) ==
+              _curatedRuntimeDeltaHash,
+          'unapproved curated runtime deltas');
+    }
   }
   if (stage['task'] == visualProofTask) {
     visualRequire(deltas.isEmpty, 'proof cannot change semantics');
@@ -936,7 +961,10 @@ Map evolveVisualDocument(String name, Map historical, List<Map> stages) {
         continue;
       }
       visualRequire(
-          _allowedDelta(name, document, delta, stage['task'] as String),
+          // orderedVisualStages already verified the exact runtime bundle.
+          (stage['task'] == visualDefaultsTask &&
+                  _curatedRuntimeDocuments.contains(name)) ||
+              _allowedDelta(name, document, delta, stage['task'] as String),
           'undeclared semantic delta $name ${delta['path']}');
       visualRequire(
           _equal.equals(_at(document, path), delta['before']) &&

@@ -42,6 +42,7 @@ List<FractalPreset> buildBuiltInPresetList({
   required String moduleId,
   required FractalPreset defaultPreset,
   required List<FractalPreset> extraPresets,
+  FractalPreset? classicPreset,
 }) {
   assert(moduleId.isNotEmpty, 'Built-in presets require a module id.');
   assert(
@@ -52,7 +53,8 @@ List<FractalPreset> buildBuiltInPresetList({
   final usedIds = <String>{};
   return [
     _asReplayableBuiltInPreset(
-      defaultPreset.copyWith(id: '$moduleId-classic', name: 'Classic'),
+      classicPreset ??
+          defaultPreset.copyWith(id: '$moduleId-classic', name: 'Classic'),
       moduleId,
       usedIds,
     ),
