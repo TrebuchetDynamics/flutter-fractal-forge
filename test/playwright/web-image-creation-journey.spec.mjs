@@ -131,7 +131,7 @@ async function openCatalogExample(page, example) {
 async function openViewerMore(page) {
   // At large text scale the semantics overlay covers the rail button, so a
   // pointer click is intercepted. Invoke the node's click handler instead.
-  await page.getByRole('button', { name: /^(More|Más)$/i })
+  await page.getByRole('button', { name: /^(Tools|Herramientas|More|Más)$/i })
     .evaluate((node) => node.click());
 }
 
@@ -157,13 +157,22 @@ async function expandMathDetails(page) {
 }
 
 async function exportHdPng(page, testInfo, moduleName, { transparent = false } = {}) {
-  await openViewerMore(page);
-  await page.getByRole('button', { name: /export/i }).click();
+  // Export lives in the Save & share sheet, not in the Tools menu.
+  await page.getByRole('button', { name: /^(Save & share|Guardar y compartir)$/i })
+    .evaluate((node) => node.click());
+  await page.getByRole('button', { name: /^(Export|Exportar)$/i }).click();
 
   const dialog = page.getByLabel(/^(Dialog|Cuadro de diálogo)$/);
   await expect(dialog.getByText(/^(Export|Exportar)$/)).toBeVisible();
   await page.getByRole('button', { name: /customize|personalizar/i }).click();
   const hd = page.getByRole('checkbox', { name: /^HD \(1280[×x]720\)/ });
+  // On a narrow, large-text viewport the size options start below the fold.
+  const viewport = page.viewportSize();
+  for (let i = 0; i < 10 && (await hd.count()) === 0; i++) {
+    await page.mouse.move(viewport.width / 2, viewport.height / 2);
+    await page.mouse.wheel(0, 300);
+    await page.waitForTimeout(200);
+  }
   await hd.focus();
   await hd.press('Space');
   await expect(hd).toBeChecked();
