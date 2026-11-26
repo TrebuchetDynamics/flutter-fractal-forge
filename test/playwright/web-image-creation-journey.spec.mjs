@@ -150,8 +150,8 @@ async function openCatalogExample(page, example) {
 
 async function openViewerMore(page) {
   // At large text scale the semantics overlay covers the rail button, so a
-  // pointer click is intercepted. Invoke the accessible action instead.
-  await page.getByRole('button', { name: /^(Tools|Herramientas)$/i })
+  // pointer click is intercepted. Invoke the node's click handler instead.
+  await page.getByRole('button', { name: /^(Tools|Herramientas|More|Más)$/i })
     .evaluate((node) => node.click());
 }
 
@@ -176,6 +176,7 @@ async function expandMathDetails(page) {
 }
 
 async function exportHdPng(page, testInfo, moduleName, { transparent = false, observe } = {}) {
+  // Export lives in the Save & share sheet, not in the Tools menu.
   await page.getByRole('button', { name: /^(Save & share|Guardar y compartir)$/i })
     .evaluate((node) => node.click());
   await page.getByRole('button', { name: /^(Export|Exportar)$/i }).click();
@@ -184,6 +185,13 @@ async function exportHdPng(page, testInfo, moduleName, { transparent = false, ob
   await expect(dialog.getByText(/^(Export|Exportar)$/)).toBeVisible();
   await page.getByRole('button', { name: /customize|personalizar/i }).click();
   const hd = page.getByRole('checkbox', { name: /^HD \(1280[×x]720\)/ });
+  // On a narrow, large-text viewport the size options start below the fold.
+  const viewport = page.viewportSize();
+  for (let i = 0; i < 10 && (await hd.count()) === 0; i++) {
+    await page.mouse.move(viewport.width / 2, viewport.height / 2);
+    await page.mouse.wheel(0, 300);
+    await page.waitForTimeout(200);
+  }
   await hd.focus();
   await hd.press('Space');
   await expect(hd).toBeChecked();
@@ -200,8 +208,7 @@ async function exportHdPng(page, testInfo, moduleName, { transparent = false, ob
   const saveBounds = await saveButton.boundingBox();
   const downloadPromise = page.waitForEvent('download', { timeout: 30_000 });
   const startedAt = performance.now();
-  await saveButton.click({ force: true });
-  const download = await downloadPromise.catch(async (error) => {
+  const [download] = await Promise.all([downloadPromise, saveButton.click({ force: true })]).catch(async (error) => {
     const diagnostics = await page.evaluate((bounds) => ({
       downloads: window.__journeyDownloads ?? [],
       clicks: window.__journeyClicks ?? [],
@@ -779,7 +786,7 @@ test.describe('Visual richness pilot', () => {
       };
       const screenshot = async (label, compareTo) => {
         const bytes = await page.screenshot({ path: testInfo.outputPath(`${label}.png`), clip });
-        const reference = compareTo && fs.readFileSync(testInfo.outputPath(`${compareTo}.png`));
+        const reference = compareTo && fs.readFileSync(compareTo);
         const pixels = await decodedPngPixels(page, bytes, reference);
         observation.screenshots[label] = pixels;
         if (reference) {
@@ -812,6 +819,7 @@ test.describe('Visual richness pilot', () => {
         return readPilotSession(page);
       };
       const save = async (label, state, transparent = false) => {
+        expect(await readPilotSession(page)).toEqual(state);
         let result;
         await exportHdPng(page, testInfo, label, { transparent, observe: (value) => {
           result = value;
@@ -867,9 +875,17 @@ test.describe('Visual richness pilot', () => {
         const oldEnv = JSON.parse(fs.readFileSync(path.join(path.dirname(oldFile), 'journey-environment.json')));
         expect(old).toMatchObject({ source: pilotBaseline, moduleId: example.moduleId, rendered: true, errors: [] });
         expect(old.bundleSha256).not.toBe(observation.bundleSha256);
+        expect(oldEnv.source).toBe(pilotBaseline);
+        expect(oldEnv.webBundleSha256).toBe(old.bundleSha256);
         expect(oldEnv.browserVersion).toBe(environment.browserVersion);
         expect(oldEnv.gpu.devices).toEqual(environment.gpu.devices);
         expect(oldEnv.viewport).toEqual(environment.viewport);
+        expect(oldEnv.runtime).toEqual(environment.runtime);
+        expect(old.screenshotClip).toEqual(clip);
+        const oldClip = path.join(path.dirname(oldFile), 'default.png');
+        expect(fs.existsSync(oldClip), `missing original baseline clip ${oldClip}`).toBe(true);
+        expect((await decodedPngPixels(page, fs.readFileSync(oldClip))).pixelHash)
+          .toBe(old.screenshots.default.pixelHash);
 
         await nextPalette(example.legacy === undefined ? example.scheme + 1 : 0);
         for (let value = 1; value <= example.legacy; value++) await nextPalette(value);
@@ -881,13 +897,13 @@ test.describe('Visual richness pilot', () => {
         const edited = observation.edited = await readPilotSession(page);
         const before = await screenshot('edited-before-reload');
         expect(before).not.toBe(defaultHash);
-        await save('edited-before-reload', edited);
+        const beforeReload = await save('edited-before-reload', edited);
         observation.restored = await reload(edited);
-        await screenshot('edited-after-reload', 'edited-before-reload');
+        await screenshot('edited-after-reload', testInfo.outputPath('edited-before-reload.png'));
         const first = await save('edited-after-reload', edited);
         const repeat = await save('edited-repeat', edited);
+        expect(first.decoded).toEqual(beforeReload.decoded);
         expect(repeat.decoded).toEqual(first.decoded);
-        observation.exported = true;
 
         if (example.legacy !== undefined) {
           const timing = observation.timing = {};
@@ -905,7 +921,7 @@ test.describe('Visual richness pilot', () => {
               const modernHash = await screenshot('new-selector');
               expect(modernHash).not.toBe(before);
               observation.newRestored = await reload(input);
-              await screenshot('new-selector-reloaded', 'new-selector');
+              await screenshot('new-selector-reloaded', testInfo.outputPath('new-selector.png'));
             }
             // Keep the same pane aspect and HD output, but limit the software
             // cost of repainting the open sheets on the Mandelbox timing path.
@@ -941,10 +957,14 @@ test.describe('Visual richness pilot', () => {
           }
         }, old.default);
         observation.oldRestored = await reload(old.default);
-        await screenshot('old-state-restored');
-        await save('old-state-restored', old.default);
+        await screenshot('old-state-restored', oldClip);
+        const oldExport = await save('old-state-restored', old.default);
+        expect(oldExport.decoded.pixelHash, 'the edited PNG must differ from the old-state PNG')
+          .not.toBe(first.decoded.pixelHash);
+        observation.exported = true;
       } finally {
         const file = testInfo.outputPath('pilot-observation.json');
+        fs.mkdirSync(path.dirname(file), { recursive: true });
         fs.writeFileSync(file, JSON.stringify(observation, null, 2));
         await testInfo.attach('pilot-observation', { path: file, contentType: 'application/json' });
       }
