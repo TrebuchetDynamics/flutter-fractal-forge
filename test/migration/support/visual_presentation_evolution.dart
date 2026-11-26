@@ -37,6 +37,7 @@ const recamanArcsTask = 'RECAMAN-ARCS-64';
 const zetaCriticalStripTask = 'ZETA-CRITICAL-STRIP-65';
 const juliaUniformOrderTask = 'JULIA-UNIFORM-ORDER-71';
 const escapeTimeUniformDefaultsTask = 'ESCAPE-TIME-UNIFORM-DEFAULTS-72';
+const perturbationOrbitCacheKeyTask = 'PERTURBATION-ORBIT-CACHE-KEY-74';
 
 // This stage may only append these inputs in shader order and add their
 // defaults to the generated Default/Classic presets. Existing data is fixed.
@@ -341,6 +342,11 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    perturbationOrbitCacheKeyTask => const [
+        'lib/core/modules/escape_time_perturb_module.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -358,7 +364,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == startupDeepLinksTask ||
       stage['task'] == cpuRenderParamsTask ||
       stage['task'] == stateMachineFixesTask ||
-      stage['task'] == catalogAdditionSupportTask;
+      stage['task'] == catalogAdditionSupportTask ||
+      stage['task'] == perturbationOrbitCacheKeyTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
