@@ -435,6 +435,8 @@ void main() {
       const historicalHelpers = {
         'test/migration/support/provenance_transition.dart':
             'd56b206921c86e52216b004e0bf3fc0b46b02837701ec43895e94480da49e7ad',
+        'lib/core/controllers/fractal_controller.dart':
+            '8bf7f233db1606f779ba59231c4026c46f12e446b734e5c5373f45a400561f1d',
         'test/migration/support/visual_presentation_evolution.dart':
             'cbc3e4fd39539c7bba3efc6d6e9819c499ba5735bd65ce44393f26996b0cc070',
       };

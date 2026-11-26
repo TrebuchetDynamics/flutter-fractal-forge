@@ -15,9 +15,12 @@ FractalModule buildMandelboxModule() {
       label: (l10n) => l10n.paramColorScheme,
       type: FractalParamType.integer,
       min: 0,
-      max: 7,
+      max: 8,
       step: 1,
       defaultValue: 2,
+      options: [
+        FractalParamOption(value: 8, label: (l10n) => l10n.colorSculptural),
+      ],
     ),
     FractalParameter(
       id: 'foldLimit',
@@ -54,7 +57,7 @@ FractalModule buildMandelboxModule() {
     name: 'Default',
     params: const {
       'iterations': 15,
-      'colorScheme': 2,
+      'colorScheme': 8,
       'foldLimit': 1.0,
       'scale': 2.0,
       'maxSteps': 80,
@@ -75,10 +78,22 @@ FractalModule buildMandelboxModule() {
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
-      // Folded Space — default view
+      // Folded Space — original material and framing
       defaultPreset.copyWith(
         id: 'mandelbox-folded-space',
         name: 'Folded Space',
+        params: const {
+          'iterations': 15,
+          'colorScheme': 2,
+          'foldLimit': 1.0,
+          'scale': 2.0,
+          'maxSteps': 80,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 0.55,
+          rotation: Vector3(0.3, -0.4, 0.0),
+        ),
       ),
       // Crystal Cathedral — high iterations, low scale
       defaultPreset.copyWith(

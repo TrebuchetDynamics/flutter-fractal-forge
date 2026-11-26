@@ -88,6 +88,10 @@ const _proofPaths = [
 ];
 const _surfacePaths = [
   'shaders/shared/surface_lighting.glsl',
+  'lib/core/modules/builders/raymarched_3d/builder.dart',
+  'lib/core/controllers/fractal_controller.dart',
+  'test/migration/support/physical_events_oracle.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
   'shaders/legacy/raymarched_3d/mandelbulb.frag',
   'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag',
   'lib/core/modules/fractals/mandelbulb_module.dart',

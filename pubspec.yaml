@@ -69,6 +69,7 @@ flutter:
     - migration/baseline/reference-renders/mandelbulb.png
     - migration/baseline/reference-renders/mandelbulb-edited.png
   shaders:
+    - test/shaders/sculptural_surface_fixture.frag
     - shaders/ifs_and_geometric/perron_tree_gpu.frag
     - shaders/escape_time_family/milnor_brieskorn_gpu.frag
     - shaders/number_theory/number_wall_gpu.frag
