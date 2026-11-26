@@ -214,10 +214,10 @@ class _EscapeTimePerturbOrbitCache {
     double? juliaCReal,
     double? juliaCImag,
   }) {
-    final key =
-        '$moduleId|${centerX.toStringAsFixed(12)}|${centerY.toStringAsFixed(12)}'
+    // At deep zoom, even sub-trillionth pans need a new reference orbit.
+    final key = '$moduleId|$centerX|$centerY'
         '|$iterations|${phoenixP.toStringAsFixed(8)}'
-        '|${juliaCReal?.toStringAsFixed(12)}|${juliaCImag?.toStringAsFixed(12)}';
+        '|$juliaCReal|$juliaCImag';
 
     final cached = _lastImage;
     if (key == _lastKey && cached != null) {
