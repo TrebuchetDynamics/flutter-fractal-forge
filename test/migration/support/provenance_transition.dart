@@ -337,6 +337,7 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == mandelbrotDf2Task ||
           s['task'] == exportCaptureSizeLimitTask ||
           s['task'] == diagnosticShareUtf8Task ||
+          s['task'] == contactSheetAspectTask ||
           isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
