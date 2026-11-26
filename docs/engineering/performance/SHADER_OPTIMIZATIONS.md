@@ -54,6 +54,24 @@ The integer-power inventory does not qualify the non-integer degree 1.5/2.5 vari
 
 Do not apply one coloring formula to every recurrence without checking its iteration and magnitude values. Shader families can require different formulas.
 
+## Sculptural surfaces
+
+Mandelbulb (scheme 4) and Mandelbox (scheme 8) share a linear-light stone
+material, a directional key, a soft fill, a neutral highlight, and distance fog.
+Each shader converts to sRGB once. Edit `shaders/shared/surface_lighting.glsl`
+and run `python3 scripts/sync_surface_lighting.py --write` to materialize the
+shared block in the two entry shaders and the test fixture. The focused test
+also guards block drift; a quoted local include is not needed.
+
+On a Sculptural hit, AO adds exactly three evaluations of the module's own
+unchanged distance estimator, at 2, 5, and 8 times the hit epsilon along the
+existing normal. It clamps the sample contribution and falls back to full
+visibility on a non-finite sample. Misses and the old materials do no extra DE
+work; there are no shadow rays, texture reads, or new uniforms. This is a
+source-level work count, not a frame-time measurement. The offline Skia tests
+verify legacy pixels, hit/miss alpha, selector wrapping, and the light response.
+Named hardware, GPU cost, and visual qualification are separate checks.
+
 ## Optimization evidence
 
 Earlier versions of this document described global level-of-detail and branchless-palette optimizations, and included performance-improvement estimates. The current sources and retained test receipts do not support those statements as project-wide claims. This document does not report a controlled before/after shader performance result.

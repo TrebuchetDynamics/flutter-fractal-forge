@@ -330,3 +330,26 @@ A recorded-inventory identifier search found no explicit spanning/Wilson/loop-er
 Graph evidence: fresh four-file code-only Graphify extraction under `/home/xel/.hermes/profiles/fractal/cache/scratch/openai-fractal-more-f4f9a4dd/graphify-out/graph.json`, 80 nodes/90 edges. Query `ModuleRegistry FractalMathematics CatalogRepository` is source-correlated at module_registry:64, fractal_mathematics:11 and catalog_repository:15. Truncated query/duplicate-label warning; full shader/model/docs semantics remain unindexed. Inventory and source corroboration control candidate overlap rather than graph inference.
 
 Planning metric: four additional complete proposal records, seven total under OAI-VIS-001; this counts source/model/check/disclosure records, not implemented or visually qualified entries. Verify canonical task/body bindings and preservation of prior IDs/order. Baseline extension records=0, target=4. Later product Guards remain the original shortlist's mathematical fixtures, catalog identity tests, analyzer and named-platform render/export checks, all NOT_RUN. Recommend a maximum of three bounded proof-of-concept iterations for one owner-selected candidate, never concurrent implementation of all seven. Selection, finite-model acceptance and measured quality precede any implementation handoff. No scheduling/dispatch/commit authority is added.
+
+
+## Sculptural surface entry views (#10)
+
+Compared three 256×256 time-zero software renders per module, using the production
+uniform setters and unchanged formula/iteration/march budgets. Pan and roll are
+zero in every candidate. Pitch and yaw are in radians.
+
+| Module / material | Zoom; pitch, yaw | Selection |
+|---|---|---|
+| Mandelbulb / 4 | 1.00; 0.30, −0.40 | Historical framing; smaller silhouette. |
+| Mandelbulb / 4 | **1.15; 0.30, −0.40** | Chosen: clearer surface relief, with room around the silhouette. |
+| Mandelbulb / 4 | 1.38; 0.50, −0.55 | Closer and busier; less space around the silhouette. |
+| Mandelbox / 8 | **0.55; 0.30, −0.40** | Retain the overview framing: it shows the folds without increasing the work budget. |
+| Mandelbox / 8 | 0.65; 0.40, −0.48 | Rejected: the camera starts on a hit and the software frame is flat. |
+| Mandelbox / 8 | 0.78; 0.50, −0.55 | Rejected for the same reason. |
+
+Fresh sessions and session reset use the selected material and framing.
+Mandelbulb's **Classic** and Mandelbox's **Folded Space** keep the prior overview
+including its original material. The [additive migration stage](../../migration/oracles/visual-presentation/sculptural-surface-10.json)
+records the exact schema, view, and compiled/source changes; historical records
+remain untouched. These are offline framing choices, not final aesthetic or
+physical GPU qualification.

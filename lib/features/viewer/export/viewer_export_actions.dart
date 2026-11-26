@@ -141,7 +141,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     });
 
     try {
-      final shareFailed = await _exportService.coordinator.run<bool>(
+      final (galleryCopyFailed, shareFailed) =
+          await _exportService.coordinator.run<(bool, bool)>(
         ExportKind.looper,
         (token) async {
           final pngFrames = <Uint8List>[];
@@ -176,7 +177,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
             token: token,
           );
           token.throwIfCancelled();
-          final file = await _exportService.saveBytes(
+          final saved = await _exportService.saveBytesWithGalleryStatus(
             bytes,
             filename:
                 'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.gif',
@@ -185,7 +186,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
 
           try {
             await _exportService.shareFile(
-              file,
+              saved.file,
               text: ViewerShareCaption.build(
                 fractalName: controller.module.displayName(l10n),
                 shareUrl: DeepLinkService.buildWebUri(
@@ -206,21 +207,24 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
               ),
             );
             token.throwIfCancelled();
-            return false;
+            return (saved.galleryCopyFailed, false);
           } catch (_) {
             token.throwIfCancelled();
-            return true;
+            return (saved.galleryCopyFailed, true);
           }
         },
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(shareFailed
+        final message = galleryCopyFailed
+            ? (shareFailed
+                ? l10n.exportSavedAppFolderOnlyShareFailed
+                : l10n.exportSavedAppFolderOnly)
+            : (shareFailed
                 ? l10n.looperExportSavedShareFailed
-                : l10n.looperExportSuccess),
-          ),
+                : l10n.looperExportSuccess);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
         );
       }
     } on ExportCancelledException {

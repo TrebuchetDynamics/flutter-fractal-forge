@@ -217,6 +217,7 @@ void main() {
       escapeTimeUniformDefaultsTask,
       perturbationOrbitCacheKeyTask,
       historyReplayModuleIdTask,
+      visualSurfaceTask,
       androidGallerySaveTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
@@ -251,6 +252,7 @@ void main() {
         candidates.singleWhere((s) => s['task'] == historyReplayModuleIdTask);
     expect(historyReplay['semantic_deltas'], isEmpty);
     expect(historyReplay['compiled_artifacts'], isEmpty);
+    final surface = candidates.singleWhere((s) => s['task'] == visualSurfaceTask);
     final gallerySave =
         candidates.singleWhere((s) => s['task'] == androidGallerySaveTask);
     expect(gallerySave['semantic_deltas'], isEmpty);
@@ -285,6 +287,7 @@ void main() {
         escapeTimeDefaults,
         orbitCacheKey,
         historyReplay,
+        surface,
         gallerySave,
       ]);
       for (final id in maps.keys.cast<String>()) {

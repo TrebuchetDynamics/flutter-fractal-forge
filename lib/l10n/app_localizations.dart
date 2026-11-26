@@ -1449,6 +1449,12 @@ abstract class AppLocalizations {
   /// **'3D'**
   String get fractalSection3d;
 
+  /// No description provided for @colorSculptural.
+  ///
+  /// In en, this message translates to:
+  /// **'Sculptural'**
+  String get colorSculptural;
+
   /// No description provided for @colorFire.
   ///
   /// In en, this message translates to:

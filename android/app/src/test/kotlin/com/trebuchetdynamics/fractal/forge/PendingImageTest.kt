@@ -25,8 +25,18 @@ class PendingImageTest {
         val operations = mutableListOf<String>()
         writePendingImage(delete = { operations.add("delete") }) {
             operations.add("write and publish")
+            1
         }
         assertEquals(listOf("write and publish"), operations)
+    }
+
+    @Test
+    fun publishWithoutAnUpdatedRowReportsFailureAndAttemptsCleanup() {
+        var deletes = 0
+        assertThrows(IOException::class.java) {
+            writePendingImage(delete = { deletes++ }) { 0 }
+        }
+        assertEquals(1, deletes)
     }
 
     @Test

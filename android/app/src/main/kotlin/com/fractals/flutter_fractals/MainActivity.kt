@@ -334,9 +334,9 @@ class MainActivity : FlutterFragmentActivity() {
     }
 }
 
-internal fun writePendingImage(delete: () -> Unit, writeAndPublish: () -> Unit) {
+internal fun writePendingImage(delete: () -> Unit, writeAndPublish: () -> Int) {
     try {
-        writeAndPublish()
+        if (writeAndPublish() == 0) throw IOException("Failed to publish MediaStore image")
     } catch (error: Throwable) {
         // Preserve the original failure if cleanup also fails.
         runCatching(delete)

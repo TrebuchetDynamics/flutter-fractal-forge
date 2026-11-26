@@ -29,6 +29,44 @@ vec3 linearToSRGB(vec3 lin) {
 // Precomputed rotation matrix (computed once in main)
 mat3 gRotation;
 
+// BEGIN GENERATED SURFACE LIGHTING
+// Linear-light sculptural material. Consumers perform the display transfer once.
+bool surfaceFinite(float value) {
+    return value >= -1.0e20 && value <= 1.0e20;
+}
+
+vec3 surfaceDirection(vec3 value, vec3 fallback) {
+    float squared = dot(value, value);
+    if (!surfaceFinite(squared) || squared < 1.0e-12) return fallback;
+    return value * inversesqrt(squared);
+}
+
+const vec3 SCULPTURAL_STONE = vec3(0.305, 0.285, 0.245);
+
+vec3 sculpturalSurface(vec3 position, vec3 normal, vec3 viewDirection,
+                       vec3 baseColor, float ao, float depth) {
+    vec3 key = normalize(vec3(0.6, 0.8, 1.0));
+    vec3 fill = normalize(vec3(-0.8, 0.4, 0.2));
+    vec3 n = surfaceDirection(normal, vec3(0.0, 0.0, 1.0));
+    vec3 v = surfaceDirection(viewDirection, vec3(0.0, 0.0, 1.0));
+    vec3 halfDirection = surfaceDirection(key + v, key);
+    float visibility = surfaceFinite(ao) ? clamp(ao, 0.0, 1.0) : 1.0;
+    float diffuse = max(dot(n, key), 0.0);
+    float softFill = 0.5 + 0.5 * dot(n, fill);
+    float specular = pow(max(dot(n, halfDirection), 0.0), 40.0)
+                   * step(0.0, dot(n, key));
+    // Broad mineral variation, independent of ray steps or iterations.
+    float tint = clamp(0.18 * position.y + 0.08 * position.x, -0.5, 0.5);
+    vec3 material = baseColor * (1.0 + tint * vec3(0.75, 0.38, 0.04));
+    vec3 color = material * (0.12 + 0.72 * diffuse + 0.20 * softFill)
+               * (0.75 + 0.25 * visibility);
+    color += vec3(0.24 * specular); // neutral dielectric highlight
+    float distance = surfaceFinite(depth) ? max(depth, 0.0) : 0.0;
+    float fog = exp(-0.055 * distance);
+    return mix(vec3(0.025), color, fog);
+}
+// END GENERATED SURFACE LIGHTING
+
 // Combined rotation matrix - more efficient than 3 separate matrices
 mat3 rotationMatrix(vec3 angles) {
     float cx = cos(angles.x), sx = sin(angles.x);
@@ -263,6 +301,23 @@ vec3 calculateLighting(
     return color * (0.1 + diffuse * 0.8 + specular * 0.3);
 }
 
+// Three extra DE evaluations on new-style hits only; same hit epsilon.
+float sculpturalAO(vec3 position, vec3 normal) {
+    float epsilon = 0.001 / max(uZoom, 0.1);
+    float occlusion = 0.0;
+    bool valid = true;
+    for (int i = 0; i < 3; i++) {
+        float offset = epsilon * (2.0 + 3.0 * float(i));
+        float distance = getDistance(position + normal * offset);
+        if (surfaceFinite(distance)) {
+            occlusion += clamp((offset - distance) / offset, 0.0, 1.0);
+        } else {
+            valid = false;
+        }
+    }
+    return valid ? clamp(1.0 - occlusion / 3.0, 0.0, 1.0) : 1.0;
+}
+
 void main() {
     vec2 fragCoord = FlutterFragCoord().xy;
     vec2 uv = (fragCoord - 0.5 * uResolution) * 2.0 / uResolution.y;
@@ -281,6 +336,15 @@ void main() {
     if (hit.w >= 0.0) {
         // Hit
         vec3 normal = getNormal(hit.xyz);
+        // Only the material selector is discrete; legacy palette arithmetic stays intact.
+        float material = clamp(floor(uColorScheme), 0.0, 4.0);
+        if (material == 4.0) {
+            vec3 color = sculpturalSurface(hit.xyz, normal, cameraPos - hit.xyz,
+                SCULPTURAL_STONE, sculpturalAO(hit.xyz, normal),
+                length(hit.xyz - cameraPos));
+            fragColor = vec4(linearToSRGB(color), 1.0);
+            return;
+        }
         float t = hit.w / uIterations;
         vec3 color = getColor(t, int(uColorScheme));
         color = calculateLighting(hit.xyz, normal, color, cameraPos);

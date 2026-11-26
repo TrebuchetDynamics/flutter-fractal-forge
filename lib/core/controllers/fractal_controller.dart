@@ -595,11 +595,13 @@ class FractalController extends ChangeNotifier {
           view: _module.defaultPreset.view));
       return;
     }
-    // Reset params to module defaults, but reset the view to the true "initial" view.
-    // (Module default presets may intentionally start at a non-zero pan like -0.5,0.0 for Mandelbrot.)
     _paramLerpTimer?.cancel();
     _applyPreset(_module.defaultPreset);
-    _resetViewState();
+    // Sculptural viewers reset to their curated framing; other modules
+    // retain the neutral session reset (distinct from applying a preset).
+    if (_module.id != 'mandelbulb' && _module.id != 'mandelbox') {
+      _resetViewState();
+    }
     _transparentBackground = false;
     _rotationLocked = false;
     notifyListeners();

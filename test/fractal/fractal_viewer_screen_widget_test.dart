@@ -75,6 +75,7 @@ class _LooperExportService extends ExportService {
     this.pickerThrows = false,
     this.pickerResult = true,
     this.shareThrows = false,
+    this.galleryCopyFailed = false,
     this.captureWidth = 2,
     this.captureHeight = 2,
     this.cameraController,
@@ -85,6 +86,7 @@ class _LooperExportService extends ExportService {
   final bool pickerThrows;
   final bool pickerResult;
   final bool shareThrows;
+  final bool galleryCopyFailed;
   final int captureWidth;
   final int captureHeight;
   final FractalController? cameraController;
@@ -129,10 +131,14 @@ class _LooperExportService extends ExportService {
   }
 
   @override
-  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+  Future<({File file, bool galleryCopyFailed})> saveBytesWithGalleryStatus(
+    Uint8List bytes, {
+    required String filename,
+    ExportCancellationToken? cancellationToken,
+  }) async {
     saveCalls++;
     savedBytes = bytes;
-    return File('/tmp/$filename');
+    return (file: File('/tmp/$filename'), galleryCopyFailed: galleryCopyFailed);
   }
 
   @override
@@ -2722,6 +2728,19 @@ void main() {
           .split('\n')
           .firstWhere((line) => line.startsWith('https://'));
       expect(Uri.parse(sharedUrl).queryParameters['z'], '2');
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper reports an app-only copy even when sharing opens',
+        (tester) async {
+      final exportService = _LooperExportService(galleryCopyFailed: true);
+      await exportLooper(tester, exportService);
+
+      expect(exportService.saveCalls, 1);
+      expect(exportService.sharedText, isNotNull);
+      expect(find.text('Guardado solo en la carpeta de la aplicación.'),
+          findsOneWidget);
+      expect(find.text('GIF en bucle exportado'), findsNothing);
       historyProvider.cancelPendingRecord();
     });
 
