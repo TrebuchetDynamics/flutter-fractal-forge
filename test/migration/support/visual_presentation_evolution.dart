@@ -40,6 +40,7 @@ const escapeTimeUniformDefaultsTask = 'ESCAPE-TIME-UNIFORM-DEFAULTS-72';
 const perturbationOrbitCacheKeyTask = 'PERTURBATION-ORBIT-CACHE-KEY-74';
 const historyReplayModuleIdTask = 'HISTORY-REPLAY-MODULE-ID-75';
 const androidGallerySaveTask = 'ANDROID-GALLERY-SAVE-76';
+const mandelbrotDf2Task = 'MANDELBROT-DF2-73';
 const exportCaptureSizeLimitTask = 'EXPORT-CAPTURE-SIZE-LIMIT-77';
 
 // This stage may only append these inputs in shader order and add their
@@ -385,6 +386,13 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    mandelbrotDf2Task => const [
+        'lib/core/modules/mandelbrot_df2_module.dart',
+        'lib/features/renderer/policy/precision_ladder_policy.dart',
+        'shaders/legacy/precision/mandelbrot_df2.frag',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     exportCaptureSizeLimitTask => const [
         'lib/core/models/export_options.dart',
         'lib/core/services/export/export_service.dart',
@@ -414,6 +422,7 @@ void validateVisualStage(Map stage) {
       stage['task'] == historyReplayModuleIdTask ||
       stage['task'] == androidGallerySaveTask ||
       stage['task'] == exportCaptureSizeLimitTask;
+  final precisionChange = stage['task'] == mandelbrotDf2Task;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
@@ -464,6 +473,7 @@ void validateVisualStage(Map stage) {
           }
         : const <String>{};
     if (maintenance ||
+        precisionChange ||
         stage['task'] == juliaUniformOrderTask ||
         stage['task'] == escapeTimeUniformDefaultsTask) {
       visualRequire(
@@ -507,6 +517,11 @@ void validateVisualStage(Map stage) {
         catalogPolicy['added_module_ids']!.toSet(),
         addedPaths,
         maps['shader-contracts']['after'] as Map);
+  } else if (precisionChange) {
+    visualRequire(
+        _equal
+            .equals(deltas.keys.toSet(), {'capabilities', 'precision-replay'}),
+        'DF2 semantic documents');
   } else {
     visualRequire(
         deltas.keys.every((k) => [
@@ -722,6 +737,27 @@ Object? _at(Object? document, List<String> path) {
 
 bool _allowedDelta(String name, Map document, Map delta, String task) {
   final path = (delta['path'] as String).split('/').skip(1).toList();
+  if (task == mandelbrotDf2Task && name == 'precision-replay') {
+    if (path.length != 2 || path.first != 'expected') return false;
+    final inputs = document['inputs'] as List;
+    final i = int.tryParse(path.last);
+    if (i == null || i < 0 || i >= inputs.length) return false;
+    final input = inputs[i] as Map;
+    final zoom = input['zoom'];
+    final before = _at(document, path) as Map;
+    return input['moduleId'] == 'mandelbrot' &&
+        input['dimension'] == 'twoD' &&
+        zoom is num &&
+        zoom >= 1e4 &&
+        zoom < 5e6 &&
+        before['renderPath'] == 'gpuFloat' &&
+        _equal.equals(delta['after'], {
+          ...before,
+          'renderPath': 'gpuDoubleFloat',
+          'tier': 'extendedGpu',
+          'exactness': 'extendedGpuPreview',
+        });
+  }
   if (path.length < 4 || path[0] != 'payload' || path[1] != 'records')
     return false;
   final records = document['payload']['records'] as List;
@@ -729,6 +765,25 @@ bool _allowedDelta(String name, Map document, Map delta, String task) {
   if (index == null || index < 0 || index >= records.length) return false;
   final record = records[index] as Map;
   final id = record['module_id'];
+  if (task == mandelbrotDf2Task) {
+    if (name != 'capabilities' ||
+        id != 'mandelbrot' ||
+        path.length != 5 ||
+        path[3] != 'precision_samples' ||
+        path[4] != '1') {
+      return false;
+    }
+    final before = _at(document, path) as Map;
+    return before['zoom'] == 1e5 &&
+        before['path'] == 'gpuFloat' &&
+        _equal.equals(delta['after'], {
+          ...before,
+          'path': 'gpuDoubleFloat',
+          'shader_asset': 'shaders/legacy/precision/mandelbrot_df2.frag',
+          'tier': 'extendedGpu',
+          'exactness': 'extendedGpuPreview',
+        });
+  }
   if (task == juliaUniformOrderTask) {
     if (id != 'mandel_julia_dual') return false;
     if (name == 'parameters' && path.length == 4 && path[3] == 'parameters') {

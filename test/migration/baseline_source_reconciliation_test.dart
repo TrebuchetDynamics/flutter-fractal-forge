@@ -220,6 +220,7 @@ void main() {
       visualSurfaceTask,
       androidGallerySaveTask,
       visualDefaultsTask,
+      mandelbrotDf2Task,
       exportCaptureSizeLimitTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
@@ -262,6 +263,7 @@ void main() {
     expect(gallerySave['compiled_artifacts'], isEmpty);
     final defaults =
         candidates.singleWhere((s) => s['task'] == visualDefaultsTask);
+    final df2 = candidates.singleWhere((s) => s['task'] == mandelbrotDf2Task);
     final captureLimit =
         candidates.singleWhere((s) => s['task'] == exportCaptureSizeLimitTask);
     expect(captureLimit['semantic_deltas'], isEmpty);
@@ -299,6 +301,7 @@ void main() {
         surface,
         gallerySave,
         defaults,
+        df2,
         captureLimit,
       ]);
       for (final id in maps.keys.cast<String>()) {

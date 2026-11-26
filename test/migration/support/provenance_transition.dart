@@ -334,6 +334,7 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == perturbationOrbitCacheKeyTask ||
           s['task'] == historyReplayModuleIdTask ||
           s['task'] == androidGallerySaveTask ||
+          s['task'] == mandelbrotDf2Task ||
           s['task'] == exportCaptureSizeLimitTask ||
           isCatalogAdditionTask(s['task']))
       .toList();
