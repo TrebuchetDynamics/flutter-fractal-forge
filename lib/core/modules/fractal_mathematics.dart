@@ -210,6 +210,13 @@ class FractalMathematics {
       qualification =
           'Inspired; not an exotic sphere. Not escaped within N is not proven boundedness; orbit of 0 only, not complete connectedness locus';
     }
+    if (module.id == 'recaman_arcs') {
+      family = 'Number Theory';
+      algebra = 'Integers';
+      view = 'Semicircles on the number line';
+      method = 'Arc diagram of OEIS A005132';
+      qualification = 'Finite integer-sequence diagram, not a self-similar fractal';
+    }
     if (module.id == 'perron_tree') {
       family = 'IFS and geometric constructions';
       algebra = 'Real';
@@ -232,6 +239,9 @@ class FractalMathematics {
   String formula(Map<String, dynamic> params) {
     if (_module.id == 'milnor_brieskorn') {
       return 'z(0) = 0; z(n+1) = z(n)^5 + z(n)^3 + 3*z(n)^2 + c; finite orbit of 0 only';
+    }
+    if (_module.id == 'recaman_arcs') {
+      return 'a(0) = 0; a(n) = a(n−1) − n if positive and unused, otherwise a(n−1) + n';
     }
     if (_module.id == 'perron_tree') {
       final rawDepth = params['depth'];

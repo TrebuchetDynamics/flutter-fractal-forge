@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1059,
+    "app": 1060,
     "planned": 1,
     "reference": 200,
     "registry": 1623
@@ -7183,6 +7183,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.rayleigh_benard",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.recaman_arcs",
       "name": "",
       "namespace": "app",
       "paper_ids": [],

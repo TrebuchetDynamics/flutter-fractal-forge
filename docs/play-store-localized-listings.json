@@ -1,7 +1,7 @@
 {
   "packageName": "com.trebuchetdynamics.fractal.forge",
   "source": "Source of truth for Google Play listing text in all 15 existing locales. September 2026 campaign, refreshed 2026-11-04: search-led short descriptions (Mandelbrot, Julia, 3D, wallpaper, GIF, offline) and a scannable full description organised as Explore / Make it yours / Keep and share / Made to be usable. Verified capabilities only: no MP4, music, camera or AR claims. Durable 1,000+ catalog claim rather than an exact count that drifts every batch; device-dependent rendering and zoom depth stay qualified. Synchronised with Fastlane and docs/store_listing/*.txt by scripts/sync-store-copy.py.",
-  "count": "1051 production fractals",
+  "count": "1052 production fractals",
   "locales": {
     "en-US": {
       "title": "Fractal Forge",

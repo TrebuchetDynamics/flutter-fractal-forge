@@ -1,6 +1,7 @@
 import 'builders/fibonacci_complex_module.dart';
 import 'burning_ship_degrees.dart';
 import 'fractals/perron_tree_module.dart';
+import 'fractals/recaman_arcs_module.dart';
 import 'fractals/milnor_brieskorn_module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -114,6 +115,7 @@ class ModuleRegistry {
       buildQuaternionJulia3DModule(),
       buildJuliabulb3DModule(),
       buildRecursiveSineSphereModule(),
+      buildRecamanArcsModule(),
     ];
 
     // Diagnostics (debug only, always last)

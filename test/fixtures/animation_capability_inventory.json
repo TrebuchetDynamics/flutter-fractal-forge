@@ -4485,6 +4485,11 @@
     "capability": "static"
   },
   {
+    "id": "recaman_arcs",
+    "shaderAsset": "shaders/number_theory/recaman_arcs_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "recursive_arcana_frames",
     "shaderAsset": "shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag",
     "capability": "timeDriven"

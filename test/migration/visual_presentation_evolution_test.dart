@@ -452,8 +452,9 @@ void main() {
       'test/migration/support/visual_presentation_evolution.dart',
     };
     final stages = orderedVisualStages(readVisualStages());
-    final stage = stages.last;
-    final prior = stages[stages.length - 2];
+    final stage =
+        stages.singleWhere((s) => s['task'] == catalogAdditionSupportTask);
+    final prior = stages[stages.indexOf(stage) - 1];
     expect(stage['task'], catalogAdditionSupportTask);
     expect(prior['task'], stateMachineFixesTask);
     expect(stage['base_revision'], 'e1e47079b3473c6bf2f1e46871cd75b2123aa230');
@@ -467,8 +468,13 @@ void main() {
       final changed = before.keys.where((p) => before[p] != after[p]).toSet();
       expect(changed, helpers.where(before.containsKey).toSet());
       for (final path in changed.cast<String>()) {
-        expect(after[path],
-            sha256.convert(File(path).readAsBytesSync()).toString());
+        final current = sha256.convert(File(path).readAsBytesSync()).toString();
+        expect(
+            after[path],
+            path == 'test/migration/support/visual_presentation_evolution.dart'
+                ? 'e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28'
+                : current);
+        expect(stages.last['binding_maps'][entry.key]['after'][path], current);
       }
     }
   });

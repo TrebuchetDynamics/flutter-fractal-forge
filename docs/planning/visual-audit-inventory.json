@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1059,
+    "explore_core": 1060,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -913,6 +913,7 @@
       "core.rational_map",
       "core.rauzy_fractal",
       "core.rayleigh_benard",
+      "core.recaman_arcs",
       "core.recursive_arcana_frames",
       "core.recursive_octagram_field",
       "core.recursive_sine_sphere",
