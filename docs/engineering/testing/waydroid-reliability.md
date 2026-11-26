@@ -11,15 +11,14 @@ replacement requirement for this designated target.
 
 ## Historical findings on BlueBlack — 2026-10-30
 
-**Not current host inventory:** on 2026-11-14 both named headless user units
-returned `LoadState=not-found`, the socket was absent and the session STOPPED,
-while the system container was active/running. The bounded recovery created two
-owned transient user units, not permanent replacements; ADB remained
-`unauthorized` and administrator authentication blocked public-key enrollment.
-See the [dated runbook correction and issue evidence](waydroid-headless.md#display-recovery-adb-unqualified--2026-11-14).
-The table below preserves the earlier audit rather than claiming those enabled
-user units still exist. Revalidate actual unit sources, socket and exclusive
-ownership before any service-aware recovery.
+**Not current host inventory.** Since 2026-11-26 (owner decision) the only owner
+of the display and session is the user service `kit-waydroid.service` on the
+Wayland socket `wayland-kit`. The `waydroid-headless-compositor.service` and
+`waydroid-headless-session.service` user units in the table below are disabled;
+their files remain. ADB is authorized. See the
+[dated owner record](waydroid-headless.md#single-owner-kit-waydroidservice--2026-11-26).
+The table preserves the earlier audit. Revalidate the actual owner, socket and
+exclusive use before any service-aware recovery.
 
 Versions observed: Ubuntu 24.04, Waydroid **1.6.2**, Weston **13.0.0**, systemd
 **255.4**. These facts are host observations, not general upstream requirements.
@@ -79,21 +78,23 @@ or reset the instance based on an issue comment.
 Reuse the actual live session owner rather than starting a second manual session.
 The 2026-10-30 journal contained `Session is already running` during recovery;
 that audit's 5-second `Restart=always` loop could race a manual
-`waydroid session start/stop`. The 2026-11-14 transient recovery units instead
-have `Restart=no`; do not apply historical service names to that owner.
+`waydroid session start/stop`. On 2026-11-25 the same conflict recurred: the
+enabled `waydroid-headless-session.service` hit `start-limit-hit` while
+`kit-waydroid.service` already ran the session. The owner chose
+`kit-waydroid.service` and the competing units were disabled on 2026-11-26.
 
-For the previously diagnosed routing failure, with exclusive device access and
-only if the named historical units are present and own the session, the
+For the previously diagnosed routing failure, with exclusive device access, the
 **proposed service-aware recovery sequence** is:
 
 ```sh
-systemctl --user stop waydroid-headless-session.service
+systemctl --user stop kit-waydroid.service
 sudo systemctl restart waydroid-container.service
-systemctl --user start waydroid-headless-session.service
+systemctl --user start kit-waydroid.service
 ```
 
 This stops session supervision before repairing the container and then restores
-it, while leaving the healthy compositor alone. It restarts the existing instance;
+it. `kit-waydroid.service` owns both Weston and the session, so its stop and start
+also restart the `wayland-kit` display. It restarts the existing instance;
 it must not initialize/reset/delete it. This exact service-managed sequence still
 needs an idle maintenance verification; the already successful owner recovery
 used direct session commands. Never execute it while another worker owns a test.
@@ -106,7 +107,8 @@ container service. Compare behavior with Waydroid's own lifecycle first. This
 addresses exited processes only; it does not repair a live Android routing fault.
 
 Keep the existing headless display, explicit `XDG_RUNTIME_DIR`,
-`WAYLAND_DISPLAY=waydroid-headless`, user D-Bus address and socket-readiness wait.
+`WAYLAND_DISPLAY=wayland-kit` (set by `kit-waydroid.service`), user D-Bus address
+and socket-readiness wait.
 User and system service managers are separate: adding `After=` for a system unit
 to a user unit is not a sufficient cross-manager readiness protocol. Check the
 real system container/D-Bus readiness explicitly before starting the user session.
