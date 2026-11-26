@@ -19,6 +19,7 @@ import 'package:flutter_fractals/core/controllers/params/fractal_param_randomize
 import 'package:flutter_fractals/core/controllers/params/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/core/controllers/input/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 /// Manages the state of fractal rendering and user interactions.
@@ -1184,6 +1185,7 @@ class FractalController extends ChangeNotifier {
   /// Parameters are clamped to the target module's schema.
   ///
   /// Can accept either a [module] object directly or a [moduleId] string.
+  /// Legacy IDs resolve to their renamed modules; unknown IDs are rejected.
   /// Returns false for rejected, superseded or no-longer-owned requests.
   /// [shouldCommit] is a synchronous ownership guard, rechecked after async
   /// certification. Replay effects belong in [onCommitted], never before it.
@@ -1198,14 +1200,19 @@ class FractalController extends ChangeNotifier {
     bool Function()? shouldCommit,
   }) async {
     if (!(shouldCommit?.call() ?? true)) return false;
+    var targetModule = module;
+    if (targetModule == null && moduleId != null) {
+      final alias = legacyModuleIdAliases.entries
+          .where((entry) => entry.value.contains(moduleId))
+          .firstOrNull;
+      final resolvedId = alias?.key ?? moduleId;
+      targetModule = registry.modules
+          .where((candidate) => candidate.id == resolvedId)
+          .firstOrNull;
+      if (targetModule == null) return false;
+    }
+    targetModule ??= _module;
     _paramLerpTimer?.cancel();
-    var targetModule = module ??
-        (moduleId == null
-            ? _module
-            : registry.modules.firstWhere(
-                (candidate) => candidate.id == moduleId,
-                orElse: () => _module,
-              ));
     if (burningShipDegrees[targetModule.id] case final power?) {
       params = {'power': power, ...params};
       view = burningShipDegreeView(targetModule.id, view);

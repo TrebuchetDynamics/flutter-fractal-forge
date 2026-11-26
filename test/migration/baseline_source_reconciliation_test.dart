@@ -216,6 +216,7 @@ void main() {
       juliaUniformOrderTask,
       escapeTimeUniformDefaultsTask,
       perturbationOrbitCacheKeyTask,
+      historyReplayModuleIdTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -245,6 +246,10 @@ void main() {
         .singleWhere((s) => s['task'] == perturbationOrbitCacheKeyTask);
     expect(orbitCacheKey['semantic_deltas'], isEmpty);
     expect(orbitCacheKey['compiled_artifacts'], isEmpty);
+    final historyReplay =
+        candidates.singleWhere((s) => s['task'] == historyReplayModuleIdTask);
+    expect(historyReplay['semantic_deltas'], isEmpty);
+    expect(historyReplay['compiled_artifacts'], isEmpty);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -274,6 +279,7 @@ void main() {
         julia,
         escapeTimeDefaults,
         orbitCacheKey,
+        historyReplay,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -299,7 +305,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            orbitCacheKey['binding_maps'][id]['after'] as Map,
+            historyReplay['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

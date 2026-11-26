@@ -348,6 +348,75 @@ void main() {
       expect(provider.historyCount, 2);
     });
 
+    testWidgets('replays a stored favorite using its renamed module',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final view = _view(2.5).copyWith(pan: Vector2(0.25, -0.5));
+      await store.saveFavorites([
+        HistoryEntry.fromState(
+          moduleId: 'neta_order16',
+          view: view,
+          params: const {'iterations': 222},
+          name: 'Legacy favorite',
+        ),
+      ]);
+      final provider = HistoryProvider(store: store);
+      final controller = FractalController(ModuleRegistry());
+      addTearDown(provider.dispose);
+      addTearDown(controller.dispose);
+
+      expect(
+          await provider.replayFavorite(provider.favorites.single, controller),
+          isTrue);
+      expect(controller.module.id, 'ostrowski_squared_16');
+      expect(controller.params['iterations'], 222);
+      expect(controller.view.zoom, view.zoom);
+      expect(controller.view.pan, view.pan);
+      expect(store.loadHistory().single.moduleId, 'ostrowski_squared_16');
+      expect(store.loadFavorites().single.moduleId, 'neta_order16');
+    });
+
+    testWidgets('refuses an unknown module without changing view or history',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final controller = FractalController(ModuleRegistry());
+      addTearDown(controller.dispose);
+      final module = controller.module;
+      final params = controller.params;
+      final view = controller.view;
+      final unknown = HistoryEntry(
+        id: 'removed-favorite',
+        moduleId: 'removed_module',
+        view: _view(77).copyWith(pan: Vector2(0.25, -0.5)),
+        params: const {'iterations': 123},
+        visitedAt: DateTime.utc(2024),
+      );
+      await store.saveFavorites([unknown.copyWith(name: 'Removed favorite')]);
+      await store.saveHistory([
+        unknown,
+        HistoryEntry.fromState(moduleId: module.id, view: view, params: params),
+      ]);
+      final provider = HistoryProvider(store: store);
+      addTearDown(provider.dispose);
+      controller.addListener(() => _recordController(provider, controller));
+      final current = provider.currentEntry;
+      final history = store.loadHistory().map((e) => e.toJson()).toList();
+
+      expect(
+          await provider.replayFavorite(provider.favorites.single, controller),
+          isFalse);
+      expect(await provider.replayBack(controller), isFalse);
+      await tester.pump(const Duration(milliseconds: 501));
+      expect(controller.module, same(module));
+      expect(controller.params, params);
+      expect(controller.view.zoom, view.zoom);
+      expect(controller.view.pan, view.pan);
+      expect(controller.view.rotation, view.rotation);
+      expect(provider.currentEntry, same(current));
+      expect(provider.history.map((e) => e.toJson()).toList(), history);
+      expect(store.loadHistory().map((e) => e.toJson()).toList(), history);
+    });
+
     testWidgets(
         'commit callback remains authoritative across reentrant false result and errors propagate',
         (tester) async {
