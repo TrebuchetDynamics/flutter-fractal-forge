@@ -86,6 +86,7 @@ class FractalController extends ChangeNotifier {
   late FractalModule _module;
   Map<String, Object> _params = {};
   FractalViewState _view = FractalViewState.initial();
+  int _viewJumpRevision = 0;
   bool _transparentBackground = false;
   bool _rotationLocked = false;
   bool _glowEnabled = false;
@@ -100,6 +101,8 @@ class FractalController extends ChangeNotifier {
   String? _previousModuleId;
   Timer? _morphTimer;
   Timer? _paramLerpTimer;
+  // Mutable target of the running parameter animation; null when idle.
+  Map<String, Object>? _paramLerpTarget;
   bool _isCelebrating = false;
   Timer? _celebrationTimer;
 
@@ -176,6 +179,11 @@ class FractalController extends ChangeNotifier {
   /// These are passed to the shader each frame via [FractalRenderState].
   /// Public reads receive a read-only snapshot; use [updateParam] to mutate.
   Map<String, Object> get params => snapshotFractalControllerParams(_params);
+
+  /// Increases when the view jumps to a new target that is not a gesture
+  /// step: reset, preset view or loaded state. Renderers stop leftover
+  /// gesture motion when it changes, so the target is not overwritten.
+  int get viewJumpRevision => _viewJumpRevision;
 
   /// Current view state (pan, zoom, rotation).
   ///
@@ -568,6 +576,7 @@ class FractalController extends ChangeNotifier {
 
   void _resetViewState() {
     _view = FractalViewState.initial();
+    _viewJumpRevision++;
     _lastAdaptiveZoom = _view.zoom;
   }
 
@@ -681,6 +690,7 @@ class FractalController extends ChangeNotifier {
   void _startParamLerp(Map<String, Object> target) {
     final from = Map<String, Object>.from(_params);
     _paramLerpTimer?.cancel();
+    final lerpTarget = _paramLerpTarget = Map<String, Object>.from(target);
 
     const duration = Duration(milliseconds: 600);
     const fps = 60;
@@ -694,10 +704,11 @@ class FractalController extends ChangeNotifier {
         final t = (step / steps).clamp(0.0, 1.0);
         if (t >= 1.0) {
           timer.cancel();
-          _params = target;
+          _paramLerpTarget = null;
+          _params = lerpTarget;
         } else {
           final eased = 1.0 - pow(1.0 - t, 3);
-          _params = _lerpParams(from, target, eased);
+          _params = _lerpParams(from, lerpTarget, eased);
         }
         notifyListeners();
       },
@@ -1055,6 +1066,7 @@ class FractalController extends ChangeNotifier {
       current: _view,
       moduleId: _module.id,
     );
+    _viewJumpRevision++;
     _lastAdaptiveZoom = _view.zoom;
   }
 
@@ -1111,6 +1123,15 @@ class FractalController extends ChangeNotifier {
 
     _params = Map<String, Object>.from(_params);
     _params['iterations'] = nextIterations;
+    // A running randomize animation would blend this increase away; raise
+    // its target so the animation ends at or above the adapted value.
+    final lerpTarget = _paramLerpTarget;
+    if (lerpTarget != null && (_paramLerpTimer?.isActive ?? false)) {
+      final targetValue = lerpTarget['iterations'];
+      if (targetValue is! num || targetValue < nextIterations) {
+        lerpTarget['iterations'] = nextIterations;
+      }
+    }
     _logChange(
       'stateChange',
       'adaptiveIterations',
@@ -1305,6 +1326,7 @@ class FractalController extends ChangeNotifier {
       current: _view,
       moduleId: _module.id,
     );
+    _viewJumpRevision++;
     _lastAdaptiveZoom = _view.zoom;
     _transparentBackground = transparentBackground;
     onCommitted?.call();

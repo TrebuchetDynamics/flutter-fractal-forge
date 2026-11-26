@@ -76,6 +76,17 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _gestureEndPending = false;
   }
 
+  /// Stops gesture motion after a programmatic view jump in the same module.
+  ///
+  /// Unlike a module change, auto-explore does not reset its interaction
+  /// state here, so an interaction end still owed by momentum or a double-tap
+  /// animation must be delivered now.
+  void _stopGestureAnimationsForViewJump() {
+    final endOwed = _gestureEndPending || _deferUserInteractionEndToAnimation;
+    _stopGestureAnimations();
+    if (endOwed) _notifyUserInteractionEnd();
+  }
+
   @override
   void initState() {
     super.initState();

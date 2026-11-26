@@ -186,6 +186,11 @@ class FractalViewerScreen extends StatefulWidget {
 /// Narrow handle for the route owner; viewer implementation stays private.
 abstract class FractalViewerRouteState extends State<FractalViewerScreen> {
   bool get isNavigationBlocked;
+
+  /// Number of GPU health-probe schedule requests, including ones that widget
+  /// tests skip because they render a placeholder surface.
+  @visibleForTesting
+  int get debugGpuHealthCheckRequests;
 }
 
 class _FractalViewerScreenState extends FractalViewerRouteState
@@ -258,7 +263,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   LooperController? _looperController;
 
   String? _lastBackendDecisionLogged;
-  Timer? _backendDebounceTimer;
   @override
   bool _appVisible = true;
   ViewerSessionStore? _viewerSessionStore;
@@ -1995,6 +1999,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                                 _gpuProbe.resetHealth();
                                 _refreshBackendDecision();
                               });
+                              // The retry is only safe if a fresh probe can
+                              // fall back again when the GPU is still broken.
+                              _scheduleGpuHealthCheck();
                             },
                             onReport: () => _shareGpuDebugReport(context),
                           ),

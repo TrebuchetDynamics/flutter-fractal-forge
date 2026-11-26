@@ -602,6 +602,98 @@ void main() {
     expect(controller.view.zoom, 1.0);
   });
 
+  group('a programmatic view jump in the same module', () {
+    GestureDetector scaleDetector(WidgetTester tester) => tester
+        .widgetList<GestureDetector>(find.descendant(
+            of: find.byType(FractalRenderer),
+            matching: find.byType(GestureDetector)))
+        .firstWhere((widget) => widget.onScaleUpdate != null);
+
+    testWidgets('stops pinch inertia and ends the interaction once',
+        (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      var ends = 0;
+      await tester.pumpWidget(
+          buildTestWidget(controller, onUserInteractionEnd: () => ends++));
+      await tester.pumpAndSettle();
+      final detector = scaleDetector(tester);
+      final focal = tester.getCenter(find.byType(FractalRenderer));
+      detector
+          .onScaleStart!(ScaleStartDetails(focalPoint: focal, pointerCount: 2));
+      detector.onScaleUpdate!(
+          ScaleUpdateDetails(focalPoint: focal, pointerCount: 2, scale: 2));
+      detector.onScaleEnd!(ScaleEndDetails());
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 80));
+      expect(ends, 0, reason: 'inertia is still running');
+
+      controller.resetView();
+      final reset = controller.view;
+      await tester.pump(const Duration(seconds: 2));
+
+      expect(controller.view.zoom, reset.zoom);
+      expect(controller.view.pan.x, reset.pan.x);
+      expect(controller.view.pan.y, reset.pan.y);
+      expect(ends, 1);
+      await tester.pumpWidget(const SizedBox.shrink());
+      controller.dispose();
+    });
+
+    testWidgets('stops pan momentum when a saved view is loaded',
+        (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      var ends = 0;
+      await tester.pumpWidget(
+          buildTestWidget(controller, onUserInteractionEnd: () => ends++));
+      await tester.pumpAndSettle();
+      final target = controller.view.copyWith(
+        pan: Vector2(0.25, -0.5),
+        zoom: 4,
+      );
+
+      await tester.fling(
+          find.byType(FractalRenderer), const Offset(150, 0), 3000);
+      await tester.pump(const Duration(milliseconds: 16));
+
+      await controller.loadState(params: controller.params, view: target);
+      await tester.pump(const Duration(seconds: 2));
+
+      expect(controller.view.zoom, 4.0);
+      expect(controller.view.pan.x, 0.25);
+      expect(controller.view.pan.y, -0.5);
+      expect(ends, 1);
+      await tester.pumpWidget(const SizedBox.shrink());
+      controller.dispose();
+    });
+
+    testWidgets('stops a double-tap zoom and ends the interaction once',
+        (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      var ends = 0;
+      await tester.pumpWidget(
+          buildTestWidget(controller, onUserInteractionEnd: () => ends++));
+      await tester.pumpAndSettle();
+      final startZoom = controller.view.zoom;
+      final renderer = find.byType(FractalRenderer);
+      await tester.tap(renderer);
+      await tester.pump(const Duration(milliseconds: 50));
+      await tester.tap(renderer);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+      expect(controller.view.zoom, greaterThan(startZoom),
+          reason: 'the double-tap animation is running');
+
+      controller.resetView();
+      final resetZoom = controller.view.zoom;
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(controller.view.zoom, resetZoom);
+      expect(ends, 1);
+      await tester.pumpWidget(const SizedBox.shrink());
+      controller.dispose();
+    });
+  });
+
   testWidgets('Double-tap zoom anchors to tap coordinate', (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 

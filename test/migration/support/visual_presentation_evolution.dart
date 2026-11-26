@@ -31,6 +31,7 @@ const directEditControlsTask = 'DIRECT-EDIT-CONTROLS-31';
 const overlayHitTargetsTask = 'OVERLAY-HIT-TARGETS-34';
 const startupDeepLinksTask = 'STARTUP-DEEP-LINKS-51';
 const cpuRenderParamsTask = 'CPU-RENDER-PARAMS-57';
+const stateMachineFixesTask = 'STATE-MACHINE-FIXES-49-60';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -119,6 +120,17 @@ const _cpuRenderParamsPaths = [
   'test/migration/support/provenance_transition.dart',
   'test/migration/support/visual_presentation_evolution.dart',
 ];
+const _stateMachineFixesPaths = [
+  'lib/core/controllers/fractal_controller.dart',
+  'lib/features/looper/looper_controller.dart',
+  'lib/features/renderer/widgets/renderer/fractal_renderer.dart',
+  'lib/features/renderer/widgets/renderer/input/gesture_handler.dart',
+  'lib/features/viewer/diagnostics/gpu_health_probe.dart',
+  'lib/features/viewer/diagnostics/viewer_gpu_health.dart',
+  'lib/features/viewer/fractal_viewer_screen.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
 const _defaultsPaths = [
   'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart',
   'lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart',
@@ -204,6 +216,7 @@ void validateVisualStage(Map stage) {
     overlayHitTargetsTask => _overlayHitTargetsPaths,
     startupDeepLinksTask => _startupDeepLinksPaths,
     cpuRenderParamsTask => _cpuRenderParamsPaths,
+    stateMachineFixesTask => _stateMachineFixesPaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -218,7 +231,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == directEditControlsTask ||
       stage['task'] == overlayHitTargetsTask ||
       stage['task'] == startupDeepLinksTask ||
-      stage['task'] == cpuRenderParamsTask;
+      stage['task'] == cpuRenderParamsTask ||
+      stage['task'] == stateMachineFixesTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {

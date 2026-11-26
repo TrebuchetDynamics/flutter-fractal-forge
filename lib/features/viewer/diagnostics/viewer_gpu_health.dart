@@ -19,6 +19,9 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
 
   Timer? _gpuHealthTimer;
 
+  // Re-evaluates a backend switch that the probe refused as too recent.
+  Timer? _backendDebounceTimer;
+
   // Widget-owned snapshot for CpuFallbackPane.
   ui.Image? _lastGpuSnapshot;
 
@@ -55,6 +58,16 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
       controller: controller,
     );
     if (update.captureSnapshot) unawaited(_captureLastGpuSnapshot());
+    _backendDebounceTimer?.cancel();
+    _backendDebounceTimer = null;
+    final retryAfter = update.retryAfter;
+    if (retryAfter != null) {
+      _backendDebounceTimer = Timer(retryAfter, () {
+        _backendDebounceTimer = null;
+        if (!mounted) return;
+        setState(_refreshBackendDecision);
+      });
+    }
   }
 
   Future<void> _captureLastGpuSnapshot() async {
@@ -112,7 +125,13 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
     }
   }
 
+  int _gpuHealthCheckRequests = 0;
+
+  @visibleForTesting
+  int get debugGpuHealthCheckRequests => _gpuHealthCheckRequests;
+
   void _scheduleGpuHealthCheck() {
+    _gpuHealthCheckRequests++;
     _gpuHealthTimer?.cancel();
     if (RuntimeModeService.useRendererPlaceholderSurface) {
       return;

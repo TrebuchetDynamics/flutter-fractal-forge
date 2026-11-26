@@ -270,6 +270,45 @@ void main() {
           FallbackReasonCode.gpuHealthCheckFailed);
     });
 
+    test('a switch refused inside the 500 ms window reports when to retry',
+        () {
+      var now = DateTime(2026, 1, 1, 12);
+      final probe = GpuHealthProbe(clock: () => now);
+      final moduleId = controller.module.id;
+      GpuBackendUpdate decide() => probe.decide(
+            mode: RendererBackendMode.auto,
+            moduleId: moduleId,
+            isAndroid: false,
+            isWeb: false,
+            controller: controller,
+          );
+      expect(decide().retryAfter, isNull);
+
+      // GPU -> CPU after a health failure.
+      probe.beginProbe();
+      probe.evaluateFrame(frameData: _blackFrame, width: 4, height: 4);
+      probe.endProbe();
+      probe.beginProbe();
+      probe.evaluateFrame(frameData: _blackFrame, width: 4, height: 4);
+      probe.endProbe();
+      now = now.add(const Duration(seconds: 1));
+      expect(decide().captureSnapshot, isTrue);
+      expect(probe.backendDecision.backend, RendererBackend.cpu);
+
+      // Policy says GPU again 100 ms later on the same module: refused.
+      probe.resetHealth();
+      now = now.add(const Duration(milliseconds: 100));
+      final refused = decide();
+      expect(probe.backendDecision.backend, RendererBackend.cpu);
+      expect(refused.retryAfter, const Duration(milliseconds: 400));
+
+      // Retrying when the window ends applies the switch.
+      now = now.add(refused.retryAfter!);
+      final applied = decide();
+      expect(probe.backendDecision.backend, RendererBackend.gpu);
+      expect(applied.retryAfter, isNull);
+    });
+
     test('resetHealth after failure allows GPU on next decide', () {
       final probe = GpuHealthProbe();
 
