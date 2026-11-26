@@ -1,6 +1,7 @@
 // GENERATED — reviewed exact escape/root/orbit renderer promotions.
 // Source: existing-app leads with exact local shader support and bundled thumbnails.
 
+import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 
@@ -11,6 +12,7 @@ class SharedExactEscapeCatalogEntry {
   final String category;
   final double iterations;
   final double bailout;
+  final List<FractalParameter> extraParams;
 
   const SharedExactEscapeCatalogEntry({
     required this.id,
@@ -19,10 +21,11 @@ class SharedExactEscapeCatalogEntry {
     required this.category,
     this.iterations = 180,
     this.bailout = 16,
+    this.extraParams = const [],
   });
 }
 
-const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
+final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
   SharedExactEscapeCatalogEntry(
     id: 'f0534_weierstrass_elliptic',
     name: 'Weierstrass Elliptic',
@@ -31,8 +34,19 @@ const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     category: 'Trigonometric & Transcendental',
     iterations: 120,
     bailout: 4,
+    extraParams: [
+      FractalParameter(
+        id: 'g2',
+        label: (_) => 'g₂',
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.1,
+        defaultValue: 4.0,
+      ),
+    ],
   ),
-  SharedExactEscapeCatalogEntry(
+  const SharedExactEscapeCatalogEntry(
     id: 'f0538_newton_sin',
     name: 'Newton-sin',
     shaderAsset: 'shaders/root_finding/newton_sin_gpu.frag',
@@ -40,7 +54,7 @@ const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 120,
     bailout: 8,
   ),
-  SharedExactEscapeCatalogEntry(
+  const SharedExactEscapeCatalogEntry(
     id: 'f1142_buddhabrot',
     name: 'Buddhabrot',
     shaderAsset:
@@ -49,7 +63,7 @@ const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 220,
     bailout: 8,
   ),
-  SharedExactEscapeCatalogEntry(
+  const SharedExactEscapeCatalogEntry(
     id: 'f1143_anti_buddhabrot',
     name: 'Anti-Buddhabrot',
     shaderAsset:
@@ -58,7 +72,7 @@ const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 220,
     bailout: 8,
   ),
-  SharedExactEscapeCatalogEntry(
+  const SharedExactEscapeCatalogEntry(
     id: 'f1144_nebulabrot',
     name: 'Nebulabrot',
     shaderAsset:
@@ -67,7 +81,7 @@ const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 220,
     bailout: 8,
   ),
-  SharedExactEscapeCatalogEntry(
+  const SharedExactEscapeCatalogEntry(
     id: 'f1156_orbit_trap_cross',
     name: 'Orbit Trap Cross',
     shaderAsset:
@@ -89,6 +103,7 @@ List<FractalModule> buildSharedExactEscapeCatalogModules() =>
               category: entry.category,
               defaultIterations: entry.iterations,
               defaultBailout: entry.bailout,
+              extraParams: entry.extraParams,
             ),
           ),
         )

@@ -10,6 +10,7 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     shaderAsset: 'shaders/root_finding/newton_z4_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
+    extraParams: [_unitRelaxation],
   ),
 
 // Newton z^6−1=0: six roots at 60° intervals — snowflake basin symmetry.
@@ -19,6 +20,7 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     shaderAsset: 'shaders/root_finding/newton_z6_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
+    extraParams: [_unitRelaxation],
   ),
 
 // Julia set of f(z)=c·tan(z), c=(0.12,0.48) — canals near tangent poles.
@@ -138,6 +140,7 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     shaderAsset: 'shaders/root_finding/newton_z5_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 8.0,
+    extraParams: [_unitRelaxation],
   ),
 
 // Biomorph (Pickover 1986): z^2+c with |Re|<B OR |Im|<B escape test.
