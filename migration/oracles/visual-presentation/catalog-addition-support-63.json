@@ -2871,7 +2871,7 @@
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
         "test/migration/support/provenance_transition.dart": "79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "16e0fd3a39949ba8e20b349a254fb3ff6791d69ccc0ccc9b200c1a585ec3c083"
+        "test/migration/support/visual_presentation_evolution.dart": "e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28"
       },
       "before": {
         "dart-sdk/lib/_internal/vm/lib/math_patch.dart": "3cd16c96c4c1b6985317c6d3f9fab3e4b0466b87a9450230784249070d687790",
@@ -4691,7 +4691,7 @@
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
         "test/migration/support/physical_events_oracle.dart": "3d55879a306ccd4591e8109441145dabd403a2f8992258ade3951fcf73a1784a",
         "test/migration/support/provenance_transition.dart": "79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31",
-        "test/migration/support/visual_presentation_evolution.dart": "16e0fd3a39949ba8e20b349a254fb3ff6791d69ccc0ccc9b200c1a585ec3c083"
+        "test/migration/support/visual_presentation_evolution.dart": "e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -5148,7 +5148,7 @@
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
         "test/migration/support/provenance_transition.dart": "79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "16e0fd3a39949ba8e20b349a254fb3ff6791d69ccc0ccc9b200c1a585ec3c083"
+        "test/migration/support/visual_presentation_evolution.dart": "e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -6810,7 +6810,7 @@
         "test/migration/support/provenance_transition.dart": "79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31",
         "test/migration/support/randomization_oracle.dart": "026a436086bebfe86a84964de00e86f3bb88efd9f48bbdbe1984904449ccbd91",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "16e0fd3a39949ba8e20b349a254fb3ff6791d69ccc0ccc9b200c1a585ec3c083"
+        "test/migration/support/visual_presentation_evolution.dart": "e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28"
       },
       "before": {
         "dart-sdk/lib/_internal/vm/lib/math_patch.dart": "3cd16c96c4c1b6985317c6d3f9fab3e4b0466b87a9450230784249070d687790",
@@ -7693,7 +7693,7 @@
         "test/migration/support/provenance_transition.dart": "79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31",
         "test/migration/support/reference_capture.dart": "cd579c6889460a366b8b530d4119ecde09144823637289ac03c2054ed233a6c4",
         "test/migration/support/reference_source_transition.dart": "3c0b6929f089df4d0b36ad3aa628be66a51ad34b9c0525a40321791b12468b0b",
-        "test/migration/support/visual_presentation_evolution.dart": "16e0fd3a39949ba8e20b349a254fb3ff6791d69ccc0ccc9b200c1a585ec3c083",
+        "test/migration/support/visual_presentation_evolution.dart": "e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28",
         "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6"
       },
       "before": {
@@ -9934,7 +9934,7 @@
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
         "test/migration/support/provenance_transition.dart": "79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "16e0fd3a39949ba8e20b349a254fb3ff6791d69ccc0ccc9b200c1a585ec3c083"
+        "test/migration/support/visual_presentation_evolution.dart": "e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -10086,7 +10086,7 @@
       }
     }
   },
-  "candidate_identity": "5e0fbc3a0535a72edad1df05b48479da38709efb73f33f25f911ba12a5ab3fd0",
+  "candidate_identity": "6addd4380b3f7b347bc6be796f6e9c03e72ea2c525cb664b639958ed736ce317",
   "compiled_artifacts": [],
   "schema": 1,
   "semantic_deltas": {},

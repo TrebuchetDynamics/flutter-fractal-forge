@@ -36,15 +36,19 @@ void main() {
   late Map addition;
   late Map<String, Map<String, Object?>> inventory;
   late String laterId;
-  String beforeBytes(String name) =>
-      File('migration/baseline/$name.json').readAsStringSync();
+  String beforeBytes(String name) {
+    final dir = switch (name) {
+      'param-interpolation' ||
+      'physical-events' ||
+      'randomization' =>
+        'oracles',
+      _ => 'baseline',
+    };
+    return File('migration/$dir/$name.json').readAsStringSync();
+  }
+
   Map priorDocument(String name) =>
       evolveVisualDocument(name, jsonDecode(beforeBytes(name)) as Map, history);
-  void verify(String name, Map receipt, {Map? generated}) =>
-      verifyBoundDocument(
-          name, beforeBytes(name), generated ?? inventory[name]!,
-          visualStages: [...history, receipt]);
-
   setUpAll(() {
     history = orderedVisualStages(readVisualStages());
     final registry = ModuleRegistry();
@@ -122,14 +126,21 @@ void main() {
   test('catalog receipt evolves real inventories and binds all eleven maps',
       () {
     final stages = [...history, addition];
-    for (final name in baselineNames) {
-      verify(name, addition);
-    }
     final maps = addition['binding_maps'] as Map;
     expect(maps.length, 11);
     for (final name in maps.keys.cast<String>()) {
       expect((maps[name]['before'] as Map).containsKey(_source), isFalse);
       expect(maps[name]['after'][_source], isNotNull);
+      if (name == 'reference')
+        continue; // Uses the separate source chain below.
+      final bytes = beforeBytes(name);
+      // Non-inventory oracles can acquire new source bindings, not new data.
+      final generated = inventory[name] ??
+          <String, Object?>{
+            ...(jsonDecode(bytes) as Map<String, dynamic>),
+            'source_bindings': maps[name]['after'],
+          };
+      verifyBoundDocument(name, bytes, generated, visualStages: stages);
     }
     final provenance = readProvenanceStages();
     verifySourceStages(
@@ -215,6 +226,20 @@ void main() {
               .having((e) => e.message, 'message', contains(expected))));
     });
   }
+
+  test('catalog receipt rejects an unchanged binding map', () {
+    final bad = _copy(addition);
+    final record = bad['binding_maps']['state-replay'] as Map;
+    record['after'] = _copy(record['before'] as Map);
+    _seal(bad);
+    expect(
+        () => validateVisualStage(bad),
+        throwsA(isA<StateError>().having(
+            (e) => e.message,
+            'message',
+            contains(
+                'catalog addition did not update state-replay bindings'))));
+  });
 
   for (final mutation in [
     'unlisted addition',

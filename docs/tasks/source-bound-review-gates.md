@@ -705,10 +705,12 @@ A module PR registers its own task constant and exact policy in
 [`visual_presentation_evolution.dart`](../../test/migration/support/visual_presentation_evolution.dart).
 Append a schema-1 visual stage with `kind: "catalog-addition"`. The receipt's
 `added_module_ids`, `added_paths`, and `changed_paths` lists must match the
-registered policy. Copy all eleven `before` maps from the current terminal
-stage and use fresh collector output for `after`. The union of actual new keys
-and changed existing keys must match the respective path lists exactly. No
-binding removals are allowed; each map still records only the sources it collects.
+registered policy. Use the current terminal stage's eleven `after` maps as the
+new stage's `before` maps. Record the current collector bindings in `after`,
+including the changed policy helper wherever it is bound. Every map must
+change, but each still records only the sources it collects. The union of new
+keys and changed existing keys must match the respective path lists exactly;
+no binding removals are allowed.
 
 In `semantic_deltas`, put the fresh `payload.records` lists for `modules`,
 `parameters`, `presets`, `capabilities` and `shader-contracts`. The new modules
@@ -720,7 +722,8 @@ Keep `compiled_artifacts` empty and hash the canonical object containing
 policy lists for `candidate_identity`. Update active-chain assertions for the new
 receipt; do not edit any original fixture or previous stage.
 
-Run `flutter test --no-pub test/migration` against the pinned toolchain, then the
+With a private external `TMPDIR` (mode `0700`), run
+`flutter test --no-pub test/migration` against the pinned toolchain, then the
 common offline gate. If projection reports changed existing records, restore
 those fields or separate the change from the additive PR; do not re-export the
 baseline. Issue #63 adds only the source-only `CATALOG-ADDITION-SUPPORT-63`

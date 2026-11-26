@@ -296,7 +296,8 @@ void validateVisualStage(Map stage) {
   var changed = false;
   final addedPaths = <String>{};
   final changedPaths = <String>{};
-  for (final record in maps.values.cast<Map>()) {
+  for (final entry in maps.entries) {
+    final record = entry.value as Map;
     visualRequire(_equal.equals(record.keys.toSet(), {'before', 'after'}),
         'binding record keys');
     final before = record['before'] as Map, after = record['after'] as Map;
@@ -317,6 +318,8 @@ void validateVisualStage(Map stage) {
     if (catalogPolicy != null) {
       visualRequire(!catalogPolicy['added_paths']!.any(before.containsKey),
           'catalog addition path already bound');
+      visualRequire(!_equal.equals(before, after),
+          'catalog addition did not update ${entry.key} bindings');
     }
     for (final key in after.keys.cast<String>()) {
       if (before[key] == after[key]) continue;
