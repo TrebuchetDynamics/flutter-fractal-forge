@@ -42,6 +42,7 @@ const historyReplayModuleIdTask = 'HISTORY-REPLAY-MODULE-ID-75';
 const androidGallerySaveTask = 'ANDROID-GALLERY-SAVE-76';
 const mandelbrotDf2Task = 'MANDELBROT-DF2-73';
 const exportCaptureSizeLimitTask = 'EXPORT-CAPTURE-SIZE-LIMIT-77';
+const diagnosticShareUtf8Task = 'DIAGNOSTIC-SHARE-UTF8-78';
 
 // This stage may only append these inputs in shader order and add their
 // defaults to the generated Default/Classic presets. Existing data is fixed.
@@ -400,6 +401,11 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    diagnosticShareUtf8Task => const [
+        'lib/features/viewer/diagnostics/viewer_debug_report.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -421,7 +427,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == perturbationOrbitCacheKeyTask ||
       stage['task'] == historyReplayModuleIdTask ||
       stage['task'] == androidGallerySaveTask ||
-      stage['task'] == exportCaptureSizeLimitTask;
+      stage['task'] == exportCaptureSizeLimitTask ||
+      stage['task'] == diagnosticShareUtf8Task;
   final precisionChange = stage['task'] == mandelbrotDf2Task;
   final maps = stage['binding_maps'] as Map;
   visualRequire(

@@ -336,6 +336,7 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == androidGallerySaveTask ||
           s['task'] == mandelbrotDf2Task ||
           s['task'] == exportCaptureSizeLimitTask ||
+          s['task'] == diagnosticShareUtf8Task ||
           isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
