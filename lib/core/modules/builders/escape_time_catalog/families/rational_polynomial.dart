@@ -57,6 +57,7 @@ final List<EscapeTimeConfig> _rationalPolynomialCatalog = [
     name: "Schröder's Fractal",
     shaderAsset: 'shaders/root_finding/schroeder_gpu.frag',
     defaultIterations: 80,
+    extraParams: [_unitRelaxation],
   ),
   EscapeTimeConfig(
     id: 'secant_fractal',

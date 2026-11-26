@@ -1,8 +1,12 @@
 // GENERATED — reviewed exact escape/root/orbit renderer promotions.
 // Source: existing-app leads with exact local shader support and bundled thumbnails.
 
+import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
+
+String _g2Label(AppLocalizations _) => 'g₂';
 
 class SharedExactEscapeCatalogEntry {
   final String id;
@@ -11,6 +15,7 @@ class SharedExactEscapeCatalogEntry {
   final String category;
   final double iterations;
   final double bailout;
+  final List<FractalParameter> extraParams;
 
   const SharedExactEscapeCatalogEntry({
     required this.id,
@@ -19,6 +24,7 @@ class SharedExactEscapeCatalogEntry {
     required this.category,
     this.iterations = 180,
     this.bailout = 16,
+    this.extraParams = const [],
   });
 }
 
@@ -31,6 +37,17 @@ const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     category: 'Trigonometric & Transcendental',
     iterations: 120,
     bailout: 4,
+    extraParams: [
+      FractalParameter(
+        id: 'g2',
+        label: _g2Label,
+        type: FractalParamType.float,
+        min: -8,
+        max: 8,
+        step: 0.1,
+        defaultValue: 4.0,
+      ),
+    ],
   ),
   SharedExactEscapeCatalogEntry(
     id: 'f0538_newton_sin',
@@ -89,6 +106,7 @@ List<FractalModule> buildSharedExactEscapeCatalogModules() =>
               category: entry.category,
               defaultIterations: entry.iterations,
               defaultBailout: entry.bailout,
+              extraParams: entry.extraParams,
             ),
           ),
         )

@@ -214,6 +214,7 @@ void main() {
       recamanArcsTask,
       zetaCriticalStripTask,
       juliaUniformOrderTask,
+      escapeTimeUniformDefaultsTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -237,6 +238,8 @@ void main() {
         candidates.singleWhere((s) => s['task'] == zetaCriticalStripTask);
     final julia =
         candidates.singleWhere((s) => s['task'] == juliaUniformOrderTask);
+    final escapeTimeDefaults = candidates
+        .singleWhere((s) => s['task'] == escapeTimeUniformDefaultsTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -264,6 +267,7 @@ void main() {
         recaman,
         zeta,
         julia,
+        escapeTimeDefaults,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -289,7 +293,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            julia['binding_maps'][id]['after'] as Map,
+            escapeTimeDefaults['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }
