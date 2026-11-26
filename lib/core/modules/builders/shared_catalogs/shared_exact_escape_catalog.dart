@@ -4,6 +4,9 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
+
+String _g2Label(AppLocalizations _) => 'g₂';
 
 class SharedExactEscapeCatalogEntry {
   final String id;
@@ -25,7 +28,7 @@ class SharedExactEscapeCatalogEntry {
   });
 }
 
-final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
+const List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
   SharedExactEscapeCatalogEntry(
     id: 'f0534_weierstrass_elliptic',
     name: 'Weierstrass Elliptic',
@@ -37,7 +40,7 @@ final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     extraParams: [
       FractalParameter(
         id: 'g2',
-        label: (_) => 'g₂',
+        label: _g2Label,
         type: FractalParamType.float,
         min: -8,
         max: 8,
@@ -46,7 +49,7 @@ final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
       ),
     ],
   ),
-  const SharedExactEscapeCatalogEntry(
+  SharedExactEscapeCatalogEntry(
     id: 'f0538_newton_sin',
     name: 'Newton-sin',
     shaderAsset: 'shaders/root_finding/newton_sin_gpu.frag',
@@ -54,7 +57,7 @@ final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 120,
     bailout: 8,
   ),
-  const SharedExactEscapeCatalogEntry(
+  SharedExactEscapeCatalogEntry(
     id: 'f1142_buddhabrot',
     name: 'Buddhabrot',
     shaderAsset:
@@ -63,7 +66,7 @@ final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 220,
     bailout: 8,
   ),
-  const SharedExactEscapeCatalogEntry(
+  SharedExactEscapeCatalogEntry(
     id: 'f1143_anti_buddhabrot',
     name: 'Anti-Buddhabrot',
     shaderAsset:
@@ -72,7 +75,7 @@ final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 220,
     bailout: 8,
   ),
-  const SharedExactEscapeCatalogEntry(
+  SharedExactEscapeCatalogEntry(
     id: 'f1144_nebulabrot',
     name: 'Nebulabrot',
     shaderAsset:
@@ -81,7 +84,7 @@ final List<SharedExactEscapeCatalogEntry> sharedExactEscapeCatalogEntries = [
     iterations: 220,
     bailout: 8,
   ),
-  const SharedExactEscapeCatalogEntry(
+  SharedExactEscapeCatalogEntry(
     id: 'f1156_orbit_trap_cross',
     name: 'Orbit Trap Cross',
     shaderAsset:

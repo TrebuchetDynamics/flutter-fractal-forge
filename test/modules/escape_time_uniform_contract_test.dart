@@ -128,8 +128,11 @@ void main() {
         (canvas) => canvas.drawRect(
             ui.Offset.zero & size, ui.Paint()..shader = reference));
 
-    await selectAndRender(nova, relaxation: 1.7);
+    final novaDefault = await selectAndRender(nova);
+    final novaRelaxed = await selectAndRender(nova, relaxation: 1.7);
     final afterNova = await selectAndRender(halley);
+    expect(novaRelaxed, isNot(orderedEquals(novaDefault)),
+        reason: 'Nova must change the shared shader before reopening Halley');
     expect(fresh, orderedEquals(expected), reason: 'Halley must step at 1.0');
     expect(afterNova, orderedEquals(fresh),
         reason: 'Halley inherited Nova state');
