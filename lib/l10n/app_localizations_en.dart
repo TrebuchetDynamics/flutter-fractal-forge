@@ -1898,7 +1898,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1052 fractals';
+  String get homeFractalCountBadge => '1053 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -2222,7 +2222,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1052 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';
@@ -2350,6 +2350,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportTagOther => 'Other';
+
+  @override
+  String get moduleZetaCriticalStrip => 'Riemann Zeta Critical Strip';
+
+  @override
+  String get zetaContours => 'Colour contours';
+
+  @override
+  String get zetaPhaseOnly => 'Phase only';
+
+  @override
+  String get zetaPhaseAndModulus => 'Phase + modulus bands';
+
+  @override
+  String get zetaGpuOnly =>
+      'This zeta plot requires its shader. Switch to the GPU renderer to view it; no CPU substitute is available.';
+
+  @override
+  String get zetaGuides => 'Strip and window guides';
 
   @override
   String get moduleRecamanArcs => 'Recamán\'s Sequence';

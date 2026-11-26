@@ -34,6 +34,7 @@ const cpuRenderParamsTask = 'CPU-RENDER-PARAMS-57';
 const stateMachineFixesTask = 'STATE-MACHINE-FIXES-49-60';
 const catalogAdditionSupportTask = 'CATALOG-ADDITION-SUPPORT-63';
 const recamanArcsTask = 'RECAMAN-ARCS-64';
+const zetaCriticalStripTask = 'ZETA-CRITICAL-STRIP-65';
 const syntheticCatalogAdditionTask = 'SYNTHETIC-CATALOG-ADDITION';
 
 // Each real catalog addition must register its own exact policy here.
@@ -47,6 +48,24 @@ const _catalogAdditionPolicies = {
     'changed_paths': [
       'lib/core/modules/fractal_mathematics.dart',
       'lib/core/modules/module_registry.dart',
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+      'pubspec.yaml',
+      'test/migration/support/visual_presentation_evolution.dart',
+    ],
+  },
+  zetaCriticalStripTask: {
+    'added_module_ids': ['zeta_critical_strip'],
+    'added_paths': [
+      'lib/core/modules/fractals/zeta_critical_strip_module.dart',
+      'shaders/number_theory/zeta_critical_strip_gpu.frag',
+    ],
+    'changed_paths': [
+      'lib/core/modules/fractal_mathematics.dart',
+      'lib/core/modules/module_registry.dart',
+      'lib/features/renderer/cpu/formulas/cpu_formulas.dart',
+      'lib/features/viewer/rendering/cpu_fallback_pane.dart',
       'lib/l10n/app_localizations.dart',
       'lib/l10n/app_localizations_en.dart',
       'lib/l10n/app_localizations_es.dart',

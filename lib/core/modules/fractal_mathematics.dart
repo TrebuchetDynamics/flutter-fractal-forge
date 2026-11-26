@@ -210,6 +210,14 @@ class FractalMathematics {
       qualification =
           'Inspired; not an exotic sphere. Not escaped within N is not proven boundedness; orbit of 0 only, not complete connectedness locus';
     }
+    if (module.id == 'zeta_critical_strip') {
+      family = 'Number Theory';
+      algebra = 'Complex';
+      view = 'Domain colouring';
+      method = 'Borwein accelerated eta series with functional equation';
+      qualification =
+          'Numerical ζ for −10 ≤ Re(s) ≤ 10 and |Im(s)| ≤ 50. Colours meet at zeros: the trivial zeros lie at negative even integers on the real axis. The non-trivial zeros shown on Re(s) = ½ illustrate the Riemann hypothesis; this is not a proof.';
+    }
     if (module.id == 'recaman_arcs') {
       family = 'Number Theory';
       algebra = 'Integers';
@@ -239,6 +247,9 @@ class FractalMathematics {
   String formula(Map<String, dynamic> params) {
     if (_module.id == 'milnor_brieskorn') {
       return 'z(0) = 0; z(n+1) = z(n)^5 + z(n)^3 + 3*z(n)^2 + c; finite orbit of 0 only';
+    }
+    if (_module.id == 'zeta_critical_strip') {
+      return 'ζ(s) = η(s)/(1 − 2^(1−s)), reflected for Re(s) < ½. Hue shows arg ζ(s); optional bands show log|ζ(s)|. The bright guide marks Re(s) = ½, the dim guides mark Re(s) = 0 and 1.';
     }
     if (_module.id == 'recaman_arcs') {
       return 'a(0) = 0; a(n) = a(n−1) − n if positive and unused, otherwise a(n−1) + n';

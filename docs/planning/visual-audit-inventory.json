@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1060,
+    "explore_core": 1061,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -1073,6 +1073,7 @@
       "core.yu_wang",
       "core.z_order_curve",
       "core.zaslavsky",
+      "core.zeta_critical_strip",
       "core.zeta_newton",
       "core.zhou_chen",
       "core.zircon_zity"
