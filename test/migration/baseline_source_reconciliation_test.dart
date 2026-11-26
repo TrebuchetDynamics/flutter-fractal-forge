@@ -210,6 +210,7 @@ void main() {
       startupDeepLinksTask,
       cpuRenderParamsTask,
       stateMachineFixesTask,
+      catalogAdditionSupportTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -226,6 +227,8 @@ void main() {
     final cpu = candidates.singleWhere((s) => s['task'] == cpuRenderParamsTask);
     final stateMachine =
         candidates.singleWhere((s) => s['task'] == stateMachineFixesTask);
+    final catalogSupport =
+        candidates.singleWhere((s) => s['task'] == catalogAdditionSupportTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -249,6 +252,7 @@ void main() {
         startup,
         cpu,
         stateMachine,
+        catalogSupport,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -274,7 +278,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            stateMachine['binding_maps'][id]['after'] as Map,
+            catalogSupport['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

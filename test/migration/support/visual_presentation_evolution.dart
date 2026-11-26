@@ -8,7 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:yaml/yaml.dart';
 
-import 'baseline_inventory.dart' show canonicalJson;
+import 'baseline_inventory.dart' show baselineNames, canonicalJson;
 
 const visualStageRoot = 'migration/oracles/visual-presentation';
 const visualPilotIds = [
@@ -32,6 +32,32 @@ const overlayHitTargetsTask = 'OVERLAY-HIT-TARGETS-34';
 const startupDeepLinksTask = 'STARTUP-DEEP-LINKS-51';
 const cpuRenderParamsTask = 'CPU-RENDER-PARAMS-57';
 const stateMachineFixesTask = 'STATE-MACHINE-FIXES-49-60';
+const catalogAdditionSupportTask = 'CATALOG-ADDITION-SUPPORT-63';
+const syntheticCatalogAdditionTask = 'SYNTHETIC-CATALOG-ADDITION';
+
+// Each real catalog addition must register its own exact policy here.
+const _catalogAdditionPolicies = {
+  syntheticCatalogAdditionTask: {
+    'added_module_ids': ['synthetic_catalog_module'],
+    'added_paths': [
+      'lib/features/catalog/data/synthetic_catalog_module.dart',
+      'shaders/synthetic_catalog_module.frag',
+    ],
+    'changed_paths': [
+      'lib/features/catalog/data/catalog_repository.dart',
+      'pubspec.yaml',
+    ],
+  },
+};
+const _catalogStageKeys = {
+  'kind',
+  'added_module_ids',
+  'added_paths',
+  'changed_paths',
+};
+bool isCatalogAdditionTask(Object? task) =>
+    _catalogAdditionPolicies.containsKey(task);
+
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -131,6 +157,10 @@ const _stateMachineFixesPaths = [
   'test/migration/support/provenance_transition.dart',
   'test/migration/support/visual_presentation_evolution.dart',
 ];
+const _catalogAdditionSupportPaths = [
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
+];
 const _defaultsPaths = [
   'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart',
   'lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart',
@@ -159,6 +189,8 @@ List<Map> readVisualStages() {
   final stages = [
     for (final file in files) jsonDecode(file.readAsStringSync()) as Map
   ];
+  visualRequire(!stages.any((s) => s['task'] == syntheticCatalogAdditionTask),
+      'synthetic catalog addition cannot be loaded from disk');
   final historical = orderedVisualStages([
     ...stages.where(
         (s) => [visualProofTask, shaderCacheRecoveryTask].contains(s['task'])),
@@ -192,6 +224,7 @@ Map validateVisualArchive(Map<String, List<int>> entries) {
 
 /// Complete maps are evidence, not a wildcard for future paths or hashes.
 void validateVisualStage(Map stage) {
+  final catalogPolicy = _catalogAdditionPolicies[stage['task']];
   visualRequire(
       _equal.equals(stage.keys.toSet(), {
         'schema',
@@ -201,8 +234,16 @@ void validateVisualStage(Map stage) {
         'semantic_deltas',
         'compiled_artifacts',
         'candidate_identity',
+        if (catalogPolicy != null) ..._catalogStageKeys,
       }),
       'stage keys');
+  if (catalogPolicy != null) {
+    visualRequire(stage['kind'] == 'catalog-addition', 'catalog addition kind');
+    for (final entry in catalogPolicy.entries) {
+      visualRequire(_equal.equals(stage[entry.key], entry.value),
+          'catalog addition policy ${entry.key}');
+    }
+  }
   final allowed = switch (stage['task']) {
     visualProofTask => _proofPaths,
     visualSurfaceTask => _surfacePaths,
@@ -217,6 +258,8 @@ void validateVisualStage(Map stage) {
     startupDeepLinksTask => _startupDeepLinksPaths,
     cpuRenderParamsTask => _cpuRenderParamsPaths,
     stateMachineFixesTask => _stateMachineFixesPaths,
+    catalogAdditionSupportTask => _catalogAdditionSupportPaths,
+    _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -232,7 +275,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == overlayHitTargetsTask ||
       stage['task'] == startupDeepLinksTask ||
       stage['task'] == cpuRenderParamsTask ||
-      stage['task'] == stateMachineFixesTask;
+      stage['task'] == stateMachineFixesTask ||
+      stage['task'] == catalogAdditionSupportTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
@@ -250,6 +294,8 @@ void validateVisualStage(Map stage) {
       }),
       'complete map inventory');
   var changed = false;
+  final addedPaths = <String>{};
+  final changedPaths = <String>{};
   for (final record in maps.values.cast<Map>()) {
     visualRequire(_equal.equals(record.keys.toSet(), {'before', 'after'}),
         'binding record keys');
@@ -268,18 +314,45 @@ void validateVisualStage(Map stage) {
       visualRequire(_equal.equals(before.keys.toSet(), after.keys.toSet()),
           'maintenance binding key sets');
     }
-    for (final key in after.keys) {
+    if (catalogPolicy != null) {
+      visualRequire(!catalogPolicy['added_paths']!.any(before.containsKey),
+          'catalog addition path already bound');
+    }
+    for (final key in after.keys.cast<String>()) {
       if (before[key] == after[key]) continue;
       changed = true;
-      visualRequire(allowed.contains(key), 'undeclared path $key');
+      if (catalogPolicy == null) {
+        visualRequire(allowed.contains(key), 'undeclared path $key');
+      } else if (before.containsKey(key)) {
+        visualRequire(catalogPolicy['changed_paths']!.contains(key),
+            'undeclared path $key');
+        changedPaths.add(key);
+      } else {
+        visualRequire(catalogPolicy['added_paths']!.contains(key),
+            'undeclared path $key');
+        addedPaths.add(key);
+      }
     }
   }
   visualRequire(changed, 'blank approval record');
   final deltas = stage['semantic_deltas'] as Map;
-  visualRequire(
-      deltas.keys.every(
-          (k) => ['parameters', 'presets', 'shader-contracts'].contains(k)),
-      'undeclared semantic document');
+  if (catalogPolicy != null) {
+    visualRequire(
+        _equal.equals(addedPaths, catalogPolicy['added_paths']!.toSet()) &&
+            _equal.equals(
+                changedPaths, catalogPolicy['changed_paths']!.toSet()),
+        'catalog addition declared paths must all change');
+    _validateCatalogAdditionRecords(
+        deltas,
+        catalogPolicy['added_module_ids']!.toSet(),
+        addedPaths,
+        maps['shader-contracts']['after'] as Map);
+  } else {
+    visualRequire(
+        deltas.keys.every(
+            (k) => ['parameters', 'presets', 'shader-contracts'].contains(k)),
+        'undeclared semantic document');
+  }
   if (stage['task'] == visualProofTask) {
     visualRequire(deltas.isEmpty, 'proof cannot change semantics');
   }
@@ -315,8 +388,66 @@ void validateVisualStage(Map stage) {
             'binding_maps': maps,
             'semantic_deltas': deltas,
             'compiled_artifacts': stage['compiled_artifacts'],
+            if (catalogPolicy != null)
+              for (final key in _catalogStageKeys) key: stage[key],
           }),
       'candidate identity');
+}
+
+String _inventoryRecordKey(String name) => switch (name) {
+      'modules' => 'id',
+      'shader-contracts' => 'asset',
+      _ => 'module_id',
+    };
+
+Set<String> _addedAssets(Map deltas, Set<String> ids) =>
+    (deltas['modules'] as List)
+        .cast<Map>()
+        .where((r) => ids.contains(r['id']))
+        .map((r) => r['shader_asset'] as String)
+        .toSet();
+
+void _validateCatalogAdditionRecords(
+    Map deltas, Set<String> ids, Set<String> addedPaths, Map shaderBindings) {
+  visualRequire(_equal.equals(deltas.keys.toSet(), baselineNames.toSet()),
+      'catalog addition requires all five inventories');
+  for (final name in baselineNames) {
+    final records = deltas[name];
+    final key = _inventoryRecordKey(name);
+    visualRequire(
+        records is List && records.every((r) => r is Map && r[key] is String),
+        'catalog addition record IDs in $name');
+    final keys = (records as List).map((r) => r[key] as String).toList();
+    final sorted = keys.toSet().toList()..sort();
+    visualRequire(_equal.equals(keys, sorted),
+        'catalog addition record IDs must be unique and sorted in $name');
+    if (name != 'shader-contracts') {
+      visualRequire(keys.toSet().containsAll(ids),
+          'catalog addition missing declared module ID in $name');
+    }
+  }
+  final modules = (deltas['modules'] as List)
+      .cast<Map>()
+      .where((r) => ids.contains(r['id']));
+  final idsByAsset = <String, List<String>>{};
+  for (final module in modules) {
+    final asset = module['shader_asset'];
+    visualRequire(
+        asset is String &&
+            addedPaths.contains(asset) &&
+            shaderBindings.containsKey(asset),
+        'catalog addition module requires a new bound shader asset');
+    (idsByAsset[asset as String] ??= []).add(module['id'] as String);
+  }
+  final contracts = {
+    for (final contract in (deltas['shader-contracts'] as List).cast<Map>())
+      contract['asset']: contract,
+  };
+  for (final entry in idsByAsset.entries) {
+    visualRequire(
+        _equal.equals(contracts[entry.key]?['module_ids'], entry.value),
+        'catalog addition shader contract membership for ${entry.key}');
+  }
 }
 
 /// The optional registration is one shader-list addition, not a pubspec waiver.
@@ -496,9 +627,71 @@ Map visualFixtureContract() => {
       },
     };
 
+// Rank independently of the lexical layout of the records array. Verify the
+// actual order is dense before removing the inserted records, so arbitrary
+// gaps or duplicate ranks cannot disappear during projection.
+void _projectOrder(List<Map> records, String key, Set<Map> removed) {
+  visualRequire(
+      records.every((r) => r[key] is int), 'catalog addition invalid $key');
+  records.sort((a, b) => (a[key] as int).compareTo(b[key] as int));
+  for (var i = 0, rank = 0; i < records.length; i++) {
+    final record = records[i];
+    visualRequire(record[key] == i, 'catalog addition non-dense $key');
+    if (!removed.contains(record)) record[key] = rank++;
+  }
+}
+
+void _evolveCatalogAddition(String name, Map document, Map stage) {
+  final key = _inventoryRecordKey(name);
+  final ids = (stage['added_module_ids'] as List).cast<String>().toSet();
+  final deltas = stage['semantic_deltas'] as Map;
+  final added = name == 'shader-contracts' ? _addedAssets(deltas, ids) : ids;
+  final payload = document['payload'] as Map;
+  final before = (payload['records'] as List).cast<Map>();
+  visualRequire(!before.any((r) => added.contains(r[key])),
+      'catalog addition ID/asset already present in $name');
+  final after = (deltas[name] as List).cast<Map>();
+  // Copy before re-ranking; never mutate receipt records or historical bytes.
+  final projected = name == 'modules' ? after.map(_copy).toList() : after;
+  if (name == 'modules') {
+    final removed = projected.where((r) => added.contains(r[key])).toSet();
+    final allEntries = <Map>[];
+    final removedEntries = <Map>{};
+    final catalogIds = <String>{};
+    for (final record in projected) {
+      final catalog = record['catalog'];
+      visualRequire(record.containsKey('registry_order') && catalog is List,
+          'catalog addition invalid module order data');
+      for (final entry in catalog as List) {
+        visualRequire(
+            entry is Map &&
+                entry['id'] is String &&
+                catalogIds.add(entry['id'] as String),
+            'catalog addition invalid/duplicate catalog ID');
+        allEntries.add(entry as Map);
+        if (removed.contains(record)) removedEntries.add(entry);
+      }
+    }
+    _projectOrder(projected.where((r) => r['registry_order'] != null).toList(),
+        'registry_order', removed);
+    _projectOrder(allEntries, 'order', removedEntries);
+  }
+  visualRequire(
+      canonicalJson(projected.where((r) => !added.contains(r[key])).toList()) ==
+          canonicalJson(before),
+      'catalog addition changes existing records in $name; restore them before recording the addition');
+  // Keep the result independent of the input stage for subsequent evolution.
+  payload['records'] = jsonDecode(jsonEncode(after));
+}
+
 Map evolveVisualDocument(String name, Map historical, List<Map> stages) {
   final document = _copy(historical);
   for (final stage in orderedVisualStages(stages)) {
+    if (isCatalogAdditionTask(stage['task'])) {
+      if (baselineNames.contains(name))
+        _evolveCatalogAddition(name, document, stage);
+      continue;
+    }
     for (final delta in ((stage['semantic_deltas'] as Map)[name] as List? ?? [])
         .cast<Map>()) {
       visualRequire(
