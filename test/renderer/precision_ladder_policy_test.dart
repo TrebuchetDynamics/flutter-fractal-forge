@@ -75,7 +75,7 @@ void main() {
       final low = policy.decide(
         moduleId: 'mandelbrot',
         dimension: FractalDimension.twoD,
-        zoom: 4.9e6,
+        zoom: 9999,
       );
       final df2 = policy.decide(
         moduleId: 'mandelbrot',
