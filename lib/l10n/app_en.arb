@@ -796,7 +796,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1051 fractals",
+  "homeFractalCountBadge": "1052 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogCategoriesScrollForward": "More categories",
@@ -925,7 +925,7 @@
   "exportResolutionCustom": "Custom",
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1051 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1052 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",
@@ -986,6 +986,12 @@
   "reportTagWrongFractal": "Wrong fractal",
   "reportTagMissingShader": "Missing shader",
   "reportTagOther": "Other",
+  "moduleRecamanArcs": "Recamán's Sequence",
+  "recamanTerms": "Terms",
+  "recamanLineWidth": "Line width (px)",
+  "recamanLayout": "Arc layout",
+  "recamanAlternating": "Alternating",
+  "recamanAllAbove": "All above",
   "modulePerronTree": "Besicovitch — Perron Tree (Finite)",
   "perronDepth": "Construction depth",
   "perronOverlap": "Heart scale",

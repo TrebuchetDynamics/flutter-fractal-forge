@@ -1920,7 +1920,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1051 fractales';
+  String get homeFractalCountBadge => '1052 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';
@@ -2247,7 +2247,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'Exploración acelerada por GPU de 1051 fractales de producción, con zoom profundo y renderizado en tiempo real.';
+      'Exploración acelerada por GPU de 1052 fractales de producción, con zoom profundo y renderizado en tiempo real.';
 
   @override
   String get settingsSourceCode => 'Código fuente';
@@ -2377,6 +2377,24 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reportTagOther => 'Otro';
+
+  @override
+  String get moduleRecamanArcs => 'Sucesión de Recamán';
+
+  @override
+  String get recamanTerms => 'Términos';
+
+  @override
+  String get recamanLineWidth => 'Grosor de línea (px)';
+
+  @override
+  String get recamanLayout => 'Disposición de arcos';
+
+  @override
+  String get recamanAlternating => 'Alternada';
+
+  @override
+  String get recamanAllAbove => 'Todos arriba';
 
   @override
   String get modulePerronTree => 'Besicovitch — Árbol de Perron (finito)';

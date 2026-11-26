@@ -211,6 +211,7 @@ void main() {
       cpuRenderParamsTask,
       stateMachineFixesTask,
       catalogAdditionSupportTask,
+      recamanArcsTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -229,6 +230,7 @@ void main() {
         candidates.singleWhere((s) => s['task'] == stateMachineFixesTask);
     final catalogSupport =
         candidates.singleWhere((s) => s['task'] == catalogAdditionSupportTask);
+    final recaman = candidates.singleWhere((s) => s['task'] == recamanArcsTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -253,6 +255,7 @@ void main() {
         cpu,
         stateMachine,
         catalogSupport,
+        recaman,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -278,7 +281,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            catalogSupport['binding_maps'][id]['after'] as Map,
+            recaman['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

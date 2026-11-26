@@ -33,10 +33,27 @@ const startupDeepLinksTask = 'STARTUP-DEEP-LINKS-51';
 const cpuRenderParamsTask = 'CPU-RENDER-PARAMS-57';
 const stateMachineFixesTask = 'STATE-MACHINE-FIXES-49-60';
 const catalogAdditionSupportTask = 'CATALOG-ADDITION-SUPPORT-63';
+const recamanArcsTask = 'RECAMAN-ARCS-64';
 const syntheticCatalogAdditionTask = 'SYNTHETIC-CATALOG-ADDITION';
 
 // Each real catalog addition must register its own exact policy here.
 const _catalogAdditionPolicies = {
+  recamanArcsTask: {
+    'added_module_ids': ['recaman_arcs'],
+    'added_paths': [
+      'lib/core/modules/fractals/recaman_arcs_module.dart',
+      'shaders/number_theory/recaman_arcs_gpu.frag',
+    ],
+    'changed_paths': [
+      'lib/core/modules/fractal_mathematics.dart',
+      'lib/core/modules/module_registry.dart',
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+      'pubspec.yaml',
+      'test/migration/support/visual_presentation_evolution.dart',
+    ],
+  },
   syntheticCatalogAdditionTask: {
     'added_module_ids': ['synthetic_catalog_module'],
     'added_paths': [

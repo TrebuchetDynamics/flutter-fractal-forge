@@ -50347,16 +50347,12 @@ fractals:
       confidence: 0.9
   - id: f0791_recam_n_s_sequence
     name: Recamán's Sequence
-    shader: shaders/f0791_recam_n_s_sequence_gpu.frag
+    shader: shaders/number_theory/recaman_arcs_gpu.frag
     category: Number-Theory Fractals
     dimension: 2D
-    defaultPower: 2.0
-    defaultIterations: 100000.0
-    defaultSteps: 0.0
-    defaultBailout: 2.0
-    defaultColorScheme: 0
+    defaultColorScheme: 2
     hasThumbnail: true
-    implemented: false
+    implemented: true
     presets:
       - default
     variants: []
@@ -50365,10 +50361,11 @@ fractals:
         title: Sequence A005132
         year: 1991
         url: https://oeis.org/A005132
-    tier: reference
+    tier: implemented
     formula_hash: sha256:6bddc1072069b0e6b136f3537d4f3f639c0d9aaa9878fbd9ac300679b00bb5c0
     aliases:
       - Recaman
+      - recaman_arcs
     canonical_name: Recamán's Sequence
     quality:
       formula_hash: sha256:6bddc1072069b0e6b136f3537d4f3f639c0d9aaa9878fbd9ac300679b00bb5c0

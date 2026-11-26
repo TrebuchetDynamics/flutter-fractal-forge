@@ -17,16 +17,17 @@ import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 ///
 /// - Escape-time catalog raw unique IDs       : 568
 /// - Raymarched-3D catalog unique IDs         :  38
-/// - Custom hand-built modules                :  13
+/// - Custom hand-built modules                :  15
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital, quaternion_julia_3d, juliabulb_3d,
-///    perron_tree, milnor_brieskorn, number_wall, fibonacci_complex_julia)
-/// - Total ModuleRegistry modules (debug/test) : 1059
-/// - Production modules excluding diagnostics  : 1051
-/// - Production fractals (excluding Hydrogen)  : 1050
+///    perron_tree, milnor_brieskorn, number_wall, fibonacci_complex_julia,
+///    recursive_sine_sphere, recaman_arcs)
+/// - Total ModuleRegistry modules (debug/test) : 1060
+/// - Production modules excluding diagnostics  : 1053
+/// - Production fractals (excluding Hydrogen)  : 1052
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
-/// should use 1050 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// should use 1052 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------
@@ -124,10 +125,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 1059 in debug/test', () {
+    test('total module count is 1060 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules and one non-fractal
-      // scientific visualization. Public docs count 1039 production fractals.
-      expect(registry.modules.length, 1059,
+      // scientific visualization. The public total excludes both.
+      expect(registry.modules.length, 1060,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
@@ -186,6 +187,7 @@ void main() {
       const customIds = [
         'number_wall',
         'fibonacci_complex_julia',
+        'recaman_arcs',
         'julia',
         'julia_dual',
         'phoenix',

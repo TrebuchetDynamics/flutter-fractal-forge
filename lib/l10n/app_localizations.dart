@@ -3558,7 +3558,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1051 fractals'**
+  /// **'1052 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -4146,7 +4146,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1051 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1052 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
@@ -4376,6 +4376,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get reportTagOther;
+
+  /// No description provided for @moduleRecamanArcs.
+  ///
+  /// In en, this message translates to:
+  /// **'Recamán\'s Sequence'**
+  String get moduleRecamanArcs;
+
+  /// No description provided for @recamanTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get recamanTerms;
+
+  /// No description provided for @recamanLineWidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Line width (px)'**
+  String get recamanLineWidth;
+
+  /// No description provided for @recamanLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Arc layout'**
+  String get recamanLayout;
+
+  /// No description provided for @recamanAlternating.
+  ///
+  /// In en, this message translates to:
+  /// **'Alternating'**
+  String get recamanAlternating;
+
+  /// No description provided for @recamanAllAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'All above'**
+  String get recamanAllAbove;
 
   /// No description provided for @modulePerronTree.
   ///
