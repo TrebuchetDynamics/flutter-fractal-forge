@@ -33,9 +33,19 @@ for (const file of ['index.html', 'flutter_bootstrap.js', 'main.dart.js']) {
     throw new Error(`Missing build/web/${file}; run the documented Flutter web smoke build first`);
   }
 }
+// Claim even a pre-created empty directory exclusively, before Playwright
+// can initialize or remove its diagnostics subdirectory.
+if (!process.env.TEST_WORKER_INDEX) {
+  try {
+    fs.writeFileSync(path.join(output, '.capture-run'), `${process.pid}\n`, { flag: 'wx' });
+  } catch (error) {
+    if (error.code !== 'EEXIST') throw error;
+    throw new Error(`UI_OVERLAY_CAPTURE_DIR is already claimed; choose a fresh capture directory: ${output}`);
+  }
+}
 process.env.PLAYWRIGHT_PORT = port;
 process.env.UI_OVERLAY_CAPTURE_DIR = output;
-process.env.PLAYWRIGHT_OVERLAY_AUDIT = "1";
+process.env.PLAYWRIGHT_OVERLAY_AUDIT = '1';
 const baseURL = `http://127.0.0.1:${port}`;
 
 export default defineConfig({

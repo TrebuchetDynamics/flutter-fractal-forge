@@ -740,7 +740,7 @@ failed audit is useful evidence, **not** UI qualification or a green capture run
 Repair setup failures at the test seam or report genuine UI defects separately;
 never drop rows, bless an unmeasured result or change production UI in this task.
 
-At Issue #20’s source, tracing found an inventory conflict worth retaining explicitly:
+Source tracing found an inventory conflict worth retaining explicitly:
 `batch-selection` has no current selection widget/launcher.
 `PresetSheet.onBatchExport` is declared but unused; `BatchExportDialog._run`
 automatically starts export. Those requested rows fail with that exact cause;
@@ -818,16 +818,21 @@ runner's existing `node_modules` or link the provisioned
 Build the local smoke target with overlays enabled:
 
 ```sh
-timeout 120s flutter pub get --offline --enforce-lockfile
-timeout 420s flutter build web --release --no-pub --no-wasm-dry-run --base-href / \
-  --dart-define=PLAYWRIGHT_CATALOG_SMOKE=true \
-  --dart-define=PLAYWRIGHT_CATALOG_SMOKE_MAX_GPU_ITERATIONS=10
-if [ -z "${TMPDIR:-}" ]; then TMPDIR=$(mktemp -d); chmod 700 "$TMPDIR"; export TMPDIR; fi
-# Use a private TMPDIR outside the checkout and a fresh output subdirectory.
-PLAYWRIGHT_PORT="${PLAYWRIGHT_PORT:-$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1]); s.close()')}"
-UI_OVERLAY_CAPTURE_DIR="$TMPDIR/browser" PLAYWRIGHT_PORT="$PLAYWRIGHT_PORT" \
-  timeout --kill-after=10s 900s npx --no-install playwright test \
-  --config=playwright.overlays.config.mjs --project=chromium --workers=1
+(
+  set -eu
+  APP_QUALITY_SOURCE=$(timeout 5s git rev-parse HEAD)
+  export APP_QUALITY_SOURCE
+  if [ -z "${TMPDIR:-}" ]; then TMPDIR=$(mktemp -d); chmod 700 "$TMPDIR"; export TMPDIR; fi
+  timeout 120s flutter pub get --offline --enforce-lockfile
+  timeout 420s flutter build web --release --no-pub --no-wasm-dry-run --base-href / \
+    --dart-define=PLAYWRIGHT_CATALOG_SMOKE=true \
+    --dart-define=PLAYWRIGHT_CATALOG_SMOKE_MAX_GPU_ITERATIONS=10
+  # Use a private TMPDIR outside the checkout and a fresh output subdirectory.
+  PLAYWRIGHT_PORT="${PLAYWRIGHT_PORT:-$(timeout 5s python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1]); s.close()')}"
+  UI_OVERLAY_CAPTURE_DIR="$TMPDIR/browser" PLAYWRIGHT_PORT="$PLAYWRIGHT_PORT" \
+    timeout --kill-after=10s 900s npx --no-install playwright test \
+    --config=playwright.overlays.config.mjs --project=chromium --workers=1
+)
 ```
 
 The config waits for its own loopback server to bind. On `Address already in
@@ -840,8 +845,10 @@ The first test checks manifest expansion and negative guards. The browser rows
 use fresh contexts and shipping localized semantics; ES follows the browser
 locale, and high contrast/OLED are set through the app itself. The output
 contains `captures.json`, `report.md`, decoded viewport PNGs, `playwright.json`
-and failure diagnostics/traces. A failed row can retain a PNG; missing or
-failed rows prevent a passing audit. Review title/marker/action bounds and
+and failure diagnostics/traces. Use the build's recorded `APP_QUALITY_SOURCE`,
+not a later checkout SHA; the harness also hashes the served JS bundle. A
+failed row can retain a validated PNG; missing or failed rows prevent a passing
+automated audit. Review title/marker/action bounds and
 scroll reachability separately from document horizontal overflow (tolerance
 1 px): CanvasKit can clip painted content without widening the DOM. Retain
 this private evidence directory, not media in Git. This audit is not native,

@@ -78,13 +78,15 @@ function report(rows, metadata, record) {
   const counts = { expected: rows.length, captured: captures.filter((row) => row.png).length,
     passed: count('passed'), failed: count('failed'), missing: count('missing'),
     componentOnlyStates: componentOnlyStates.length, componentOnlyRows: componentOnlyRows.length };
-  const layoutQualified = counts.passed === counts.expected;
+  const layoutQualified = Boolean(metadata.buildSource) && counts.passed === counts.expected;
   fs.writeFileSync(`${file}.tmp`, JSON.stringify({ schema: 1, metadata, counts, layoutQualified,
     captures, componentOnlyStates, componentOnlyRows }, null, 2) + '\n');
   fs.renameSync(`${file}.tmp`, file);
   fs.writeFileSync(path.join(output, 'report.md'), [
     '# Responsive Flutter web overlay audit', '', `Local browser layout evidence complete: **${layoutQualified}**`,
-    '', 'No physical-device, hardware-GPU, IME or accessibility qualification.', '',
+    '', 'This flag covers the automated checks only; inspect painted content separately.',
+    'No physical-device, hardware-GPU, IME or accessibility qualification.',
+    ...(metadata.buildSource ? [] : ['Build source unknown; record APP_QUALITY_SOURCE when building the audited bundle.']), '',
     ...Object.entries(counts).map(([key, value]) => `- ${key}: ${value}`), '',
     '| Browser row | Verdict | PNG / first error |', '| --- | --- | --- |',
     ...captures.map((row) => `| ${row.id} | ${row.status} | ${row.png?.path ?? '—'} ${row.error?.split('\n')[0].replaceAll('|', '/') ?? ''} |`),
@@ -116,25 +118,35 @@ async function viewerState(page) {
   return { moduleId: saved.moduleId, params: saved.params, view: saved.view };
 }
 
-async function readyViewer(page, row, observation) {
+async function readyViewer(page, row, observation, metadata) {
   const module = row.state === 'controls-3d' ? 'mandelbulb' : 'mandelbrot';
   const query = row.state === 'palette-last-selected' ? '&colorScheme=63' : '';
   const marker = `PLAYWRIGHT_CATALOG_SMOKE_FIRST_FRAME:${module}`;
   const frame = page.waitForEvent('console', { predicate: (message) => message.text().includes(marker), timeout: 20_000 });
-  await Promise.all([frame, page.goto(`/?smokeModule=${module}${query}`, { waitUntil: 'domcontentloaded' })]);
+  const bundle = page.waitForResponse((response) => new URL(response.url()).pathname === '/main.dart.js',
+    { timeout: 20_000 });
+  const [, response] = await Promise.all([frame, bundle,
+    page.goto(`/?smokeModule=${module}${query}`, { waitUntil: 'domcontentloaded' })]);
+  assert.equal(response.status(), 200, 'Smoke bundle response');
+  observation.bundleSha256 = digest(await response.body());
+  assert.equal(observation.bundleSha256, metadata.bundleSha256, 'Served smoke bundle differs from build/web/main.dart.js');
   observation.readyMarker = marker;
   await enableSemantics(page);
 }
 
 // Flutter paints its scrollables on CanvasKit. Use wheel gestures anchored
 // to a visible semantic child; scrolling the DOM cannot reveal Flutter slivers.
-async function reveal(page, target, anchor, { delta = 290, action = true } = {}) {
+async function reveal(page, target, anchor, { delta = 290, action = true, minHeight = 0 } = {}) {
   await expect(anchor).toBeInViewport();
   const { x, y, width, height } = await anchor.boundingBox();
   await page.mouse.move(x + width / 2, y + height / 2);
   await expect.poll(async () => {
     try {
       await expect(target).toBeInViewport({ ratio: 0.98, timeout: 250 });
+      if (minHeight && ((await target.boundingBox())?.height ?? 0) < minHeight) {
+        await page.mouse.wheel(0, delta);
+        return false;
+      }
       if (action) await target.click({ trial: true, timeout: 350 });
       return true;
     } catch {
@@ -207,7 +219,10 @@ async function openSurface(page, row, c) {
       const marker = row.state === 'presets-built-in' ? builtIn :
         row.state === 'presets-user-empty' ? t('noUserPresets') : b(sample);
       return surface('presetsTitle', { marker, anchor: page.getByRole('heading', {
-        name: c.name('savePreset').toUpperCase(), exact: true }), scrollMarker: row.state !== 'presets-built-in' });
+        name: c.name('savePreset').toUpperCase(), exact: true }), scrollMarker: row.state !== 'presets-built-in',
+      // CanvasKit can expose only a sliver of the card as an in-viewport box.
+      // Scroll until its trailing control is fully reachable without editing it.
+      scrollProbe: row.state === 'presets-user-populated' ? starts('button', 'tooltipRenamePreset') : null });
     }
     case 'save-share':
       await save();
@@ -240,14 +255,17 @@ async function openSurface(page, row, c) {
     case 'random-options':
       await tool('randomOptionsTitle');
       return surface('randomOptionsTitle');
-    case 'random-categories':
+    case 'random-categories': {
+      // A held semantic pointer click fires the primary (randomizing) action
+      // in this browser. Try the advertised secondary shortcut without tapping.
       const random = b('tooltipRandomFractal');
       for (let step = 0; step < 12 && !(await random.evaluate((node) => node === document.activeElement)); step++) {
         await page.keyboard.press('Tab');
       }
-      await expect(random).toBeFocused();
+      await expect(random, 'Reach the Random Fractal secondary action by keyboard').toBeFocused();
       await page.keyboard.press('Shift+Enter');
       return surface('randomCategoriesTitle', { marker: page.getByRole('checkbox', { checked: true }).first() });
+    }
     case 'auto-explore-settings':
       await tool('viewerActionSettingsExplore');
       return surface('autoExploreTitle');
@@ -271,7 +289,7 @@ async function openSurface(page, row, c) {
 
 async function png(page, id) {
   const filename = `${id}.png`;
-  const bytes = await page.screenshot({ path: path.join(output, filename), animations: 'disabled', timeout: 5000 });
+  const bytes = await page.screenshot({ animations: 'disabled', timeout: 5000 });
   assert.equal(bytes.subarray(0, 16).toString('hex'), '89504e470d0a1a0a0000000d49484452');
   const decoded = await page.evaluate(async (source) => {
     const bitmap = await createImageBitmap(new Blob([Uint8Array.from(atob(source), (c) => c.charCodeAt(0))], { type: 'image/png' }));
@@ -281,10 +299,11 @@ async function png(page, id) {
   }, bytes.toString('base64'));
   assert.deepEqual(decoded, { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) });
   assert.deepEqual(decoded, page.viewportSize());
+  fs.writeFileSync(path.join(output, filename), bytes, { flag: 'wx' });
   return { path: filename, ...decoded, sha256: digest(bytes) };
 }
 
-async function capture(page, browser, row, result) {
+async function capture(page, browser, row, result, metadata) {
   const { width, height, locale, theme } = row.inputs;
   const c = controls(page, labels[locale]);
   page.on('pageerror', (error) => result.errors.push({ kind: 'page', text: error.message }));
@@ -308,7 +327,7 @@ async function capture(page, browser, row, result) {
   const settings = ['theme-selector', 'about-dialog'].includes(row.state);
   const back = c.starts('button', 'viewerBackToCatalog');
   const viewer = c.starts('group', 'semanticFractalCanvas');
-  await readyViewer(page, row, result);
+  await readyViewer(page, row, result, metadata);
   const settingsButton = c.button('tabSettings');
   if (settings || theme !== 'dark') {
     await back.click();
@@ -320,7 +339,7 @@ async function capture(page, browser, row, result) {
       await option.click();
       await expect.poll(() => prefs(page, 'app_theme_mode')).toBe(theme === 'oled' ? 1 : 2);
     }
-    if (!settings) await readyViewer(page, row, result);
+    if (!settings) await readyViewer(page, row, result, metadata);
   }
   const before = settings ? null : await viewerState(page);
   const actualTheme = ['dark', 'oled', 'highContrast'][await prefs(page, 'app_theme_mode') ?? 0];
@@ -340,10 +359,18 @@ async function capture(page, browser, row, result) {
     fontResources: performance.getEntriesByType('resource').map((entry) => entry.name)
       .filter((url) => /\.(woff2?|ttf|otf)(\?|$)|\/canvaskit\//i.test(url)),
   }));
+  // The pinned Flutter web engine derives native scale from <html> font size / 16
+  // (findBrowserTextScaleFactor); this is not a measurement of individual painted text.
   result.runtime = { ...metrics, appLocale: null, appTheme: actualTheme, textScale: metrics.rootFont === '16px' ? 1 : null };
   assert.deepEqual([metrics.width, metrics.height, metrics.dpr, result.runtime.textScale, metrics.reducedMotion],
     [width, height, 1, 1, true]);
   const surface = await openSurface(page, row, c);
+  const checkBounds = (box, label) => {
+    const tolerance = manifest.rounding_tolerance;
+    assert.ok(box && box.width > 0 && box.height > 0 && box.x >= -tolerance && box.y >= -tolerance &&
+      box.x + box.width <= width + tolerance && box.y + box.height <= height + tolerance,
+    `${label} bounds are missing or clipped by the viewport: ${JSON.stringify(box)}`);
+  };
   result.internalLayout = { title: null, marker: null, actions: [], focusAfterDismiss: null };
   if (!surface.terminalFirst) {
     await expect(surface.dismiss).toBeVisible();
@@ -353,7 +380,17 @@ async function capture(page, browser, row, result) {
     result.internalLayout.titleBoxKind = surface.mergedTitle ? 'merged viewer semantics group' : 'title node';
     if (surface.scrollMarker) {
       result.topPng = await png(page, `${row.id}--top`);
-      await reveal(page, surface.marker, surface.anchor, { action: false });
+      await reveal(page, surface.scrollProbe ?? surface.marker, surface.anchor, {
+        action: Boolean(surface.scrollProbe), minHeight: surface.scrollProbe ? 48 - manifest.rounding_tolerance : 0,
+      });
+      if (surface.scrollProbe) {
+        const box = await surface.scrollProbe.boundingBox();
+        checkBounds(box, 'Scroll reachability probe');
+        result.internalLayout.scrollProbe = { label: await surface.scrollProbe.ariaSnapshot(), box };
+        const card = await surface.marker.boundingBox();
+        checkBounds(card, 'Preset card');
+        await page.mouse.move(card.x + card.width / 4, card.y + card.height / 2); // Leave the rename tooltip.
+      }
     }
   }
   await expect(surface.marker).toBeInViewport();
@@ -374,11 +411,14 @@ async function capture(page, browser, row, result) {
     result.topPng = await png(page, `${row.id}--top`);
   }
   result.runtime.appLocale = locale; // Exact shipping localized surface matched above.
+  if (!surface.mergedTitle) checkBounds(result.internalLayout.title, 'Title');
+  checkBounds(result.internalLayout.marker, 'Surface marker');
   if (surface.disabledAction) {
     await expect(surface.disabledAction).toBeDisabled();
     await expect(surface.disabledAction).toBeInViewport();
     result.internalLayout.disabledAction = { label: await surface.disabledAction.ariaSnapshot(),
       box: await surface.disabledAction.boundingBox(), reason: 'Save & share is intentionally disabled on web' };
+    checkBounds(result.internalLayout.disabledAction.box, 'Disabled action');
   }
   if (surface.scrollMarker && !surface.scrollActions) {
     await reveal(page, surface.dismiss, surface.marker, { delta: -10_000 });
@@ -402,9 +442,7 @@ async function capture(page, browser, row, result) {
       observation.pointerError = error.message;
       reachErrors.push(error);
     }
-    assert.ok(observation.box && observation.box.x >= -1 && observation.box.y >= -1 &&
-      observation.box.x + observation.box.width <= width + 1 && observation.box.y + observation.box.height <= height + 1,
-    'Action bounds are clipped by the viewport');
+    checkBounds(observation.box, 'Action');
   }
   if (result.internalLayout.actions.at(-1).pointerError) await page.keyboard.press('Escape');
   else await surface.dismiss.click();
@@ -431,7 +469,9 @@ async function capture(page, browser, row, result) {
 if (output && process.env.PLAYWRIGHT_OVERLAY_AUDIT === '1') {
   const rows = selectRows(manifest);
   const metadata = {
-    source: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8', timeout: 3000 }).trim(),
+    checkoutSource: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8', timeout: 3000 }).trim(),
+    // The caller records this at build time; HEAD only identifies the capture checkout.
+    buildSource: /^[a-f0-9]{40}$/.test(process.env.APP_QUALITY_SOURCE ?? '') ? process.env.APP_QUALITY_SOURCE : null,
     manifestSha256: digest(fs.readFileSync(manifestUrl)),
     bundleSha256: fs.existsSync('build/web/main.dart.js') ? digest(fs.readFileSync('build/web/main.dart.js')) : null,
     loopback: `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT}`,
@@ -454,7 +494,7 @@ if (output && process.env.PLAYWRIGHT_OVERLAY_AUDIT === '1') {
         const result = { id, inputs, state, componentRow, status: 'failed', documentOverflow: null,
           internalLayout: null, runtime: null, png: null, errors: [] };
         try {
-          await capture(page, browser, row, result);
+          await capture(page, browser, row, result, metadata);
           result.status = 'passed';
         } catch (error) {
           result.error = error.message.replace(/\x1b\[[0-9;]*m/g, '');
