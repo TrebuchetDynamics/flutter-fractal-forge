@@ -36,7 +36,7 @@ vec2 expSlope(vec2 z) {
   return ONE + mul(z, 0.5 * ONE + mul(z, ONE / 6.0 + z / 24.0));
 }
 
-vec2 borweinZeta(vec2 s) {
+vec2 borweinEta(vec2 s, vec2 delta, float removableHeight) {
   // Borwein (2000), Algorithm 2, n = 50: w[k] = (d_k - d_n)/d_n.
   // Element assignments are required by Flutter's SkSL shader backend.
   float w[50];
@@ -91,6 +91,20 @@ vec2 borweinZeta(vec2 s) {
   w[48] = -1.7394196846341903e-07;
   w[49] = -6.690075710131501e-09;
 
+  vec2 sum = vec2(0.0);
+  float sign = -1.0;
+  for (int k = 0; k < 50; ++k) {
+    float a = -log(float(k + 1));
+    vec2 term = removableHeight == 0.0
+        ? exp(a * s.x) * cis(a * s.y)
+        : (a * exp(a)) * mul(cis(a * removableHeight), expSlope(a * delta));
+    sum += (sign * w[k]) * term;
+    sign = -sign;
+  }
+  return sum;
+}
+
+vec2 borweinZeta(vec2 s) {
   // 1 - 2^(1-s) vanishes at 1 + 2πik/log(2). For k != 0, eta
   // vanishes too: use divided differences of both instead of subtracting
   // nearly equal floats. At k = 0 there is a genuine pole.
@@ -99,23 +113,12 @@ vec2 borweinZeta(vec2 s) {
   vec2 delta = s - vec2(1.0, height);
   bool near = length(delta) < 0.025;
   bool removable = near && height != 0.0;
-  vec2 sum = vec2(0.0);
-  float sign = -1.0;
-  for (int k = 0; k < 50; ++k) {
-    float a = -log(float(k + 1));
-    vec2 term = exp(a * s.x) * cis(a * s.y);
-    if (removable) {
-      term = (a * exp(a)) * mul(cis(a * height), expSlope(a * delta));
-    }
-    sum += (sign * w[k]) * term;
-    sign = -sign;
-  }
   vec2 denominator = ONE - exp(-LN2 * delta.x) * cis(-LN2 * delta.y);
   if (near) {
     denominator = LN2 * expSlope(-LN2 * delta);
     if (!removable) denominator = mul(delta, denominator);
   }
-  return divide(sum, denominator);
+  return divide(borweinEta(s, delta, removable ? height : 0.0), denominator);
 }
 
 // Lanczos log Γ(z), g=7, valid here since Re(1-s) > 1/2.
@@ -136,12 +139,20 @@ vec2 logGamma(vec2 z) {
 
 vec2 zeta(vec2 s) {
   if (s.x >= 0.5) return borweinZeta(s);
-  if (all(equal(s, vec2(0.0)))) return -0.5 * ONE;
   vec2 reflected = ONE - s;
   // ζ(s) = 2^s π^(s−1) sin(πs/2) Γ(1−s) ζ(1−s).
+  vec2 power = LN2 * s - LN_PI * reflected + logGamma(reflected);
+  vec2 angle = (0.5 * PI) * s;
+  if (dot(s, s) < 1e-6) {
+    // Cancel s between sin(πs/2) and 1 - 2^s before dividing. In this
+    // neighbourhood 1 - s may round to 1, but ζ(s) is regular at zero.
+    vec2 sinOverS = (0.5 * PI) * (ONE - mul(angle, angle) / 6.0);
+    vec2 denominatorOverS = -LN2 * expSlope(LN2 * s);
+    vec2 eta = borweinEta(reflected, vec2(0.0), 0.0);
+    return exp(power.x) * mul(cis(power.y), mul(divide(sinOverS, denominatorOverS), eta));
+  }
   // Scale sin by exp(-|Im(πs/2)|) and put the removed factor into the
   // log-Gamma exponent so neither exponentially large factor overflows.
-  vec2 angle = (0.5 * PI) * s;
   float decay = exp(-2.0 * abs(angle.y));
   float sinhScaled = 0.5 * (1.0 - decay);
   if (abs(angle.y) < 0.0125) {
@@ -149,7 +160,6 @@ vec2 zeta(vec2 s) {
   }
   vec2 scaledSin = vec2(0.5 * sin(angle.x) * (1.0 + decay),
                         cos(angle.x) * sign(angle.y) * sinhScaled);
-  vec2 power = LN2 * s - LN_PI * reflected + logGamma(reflected);
   power.x += abs(angle.y);
   return exp(power.x) * mul(cis(power.y), mul(scaledSin, borweinZeta(reflected)));
 }

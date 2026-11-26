@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/l10n/app_localizations_en.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 const _id = 'zeta_critical_strip';
 const _asset = 'shaders/number_theory/zeta_critical_strip_gpu.frag';
@@ -265,26 +267,7 @@ void main() {
   test('shader compiles, renders phase and clips beyond the window', () async {
     final program = await ui.FragmentProgram.fromAsset(module().shaderAsset);
     const size = ui.Size(290, 520);
-    Future<List<List<int>>> samples(
-        {required int contours, required bool guides}) async {
-      final shader = program.fragmentShader();
-      module().setUniforms(
-          shader,
-          FractalRenderState(
-            params: {'contours': contours, 'guides': guides},
-            transparentBackground: false,
-            view: module().defaultPreset.view,
-          ),
-          size,
-          0);
-      final recorder = ui.PictureRecorder();
-      ui.Canvas(recorder)
-          .drawRect(ui.Offset.zero & size, ui.Paint()..shader = shader);
-      final picture = recorder.endRecording();
-      final image =
-          await picture.toImage(size.width.toInt(), size.height.toInt());
-      final bytes = (await image.toByteData())!;
-      final colors = <List<int>>[];
+    final samplePixels = [
       for (final (x, y) in [
         (-12.0, 25.0),
         (12.0, 25.0),
@@ -292,19 +275,15 @@ void main() {
         (.75, 25.0),
         (.5, 25.0),
         (-7.0, 49.0),
-        (.5, 50.5)
-      ]) {
-        final point = _pixel(size, x, y);
-        final index =
-            (point.dy.floor() * size.width.toInt() + point.dx.floor()) * 4;
-        colors.add(
-            List.generate(3, (channel) => bytes.getUint8(index + channel)));
-      }
-      image.dispose();
-      picture.dispose();
-      shader.dispose();
-      return colors;
-    }
+        (.5, 50.5),
+      ])
+        _pixel(size, x, y),
+    ];
+    Future<List<List<int>>> samples(
+            {required int contours, required bool guides}) =>
+        _sampleShader(
+            program, module(), module().defaultPreset.view, size, samplePixels,
+            contours: contours, guides: guides);
 
     final phase = await samples(contours: 0, guides: false);
     expect(phase[0].toSet(), hasLength(1)); // Neutral background.
@@ -319,4 +298,57 @@ void main() {
     expect(guided[4].reduce((a, b) => a + b),
         greaterThan(bands[4].reduce((a, b) => a + b)));
   });
+
+  test('zoom near zero does not expose the reflected pole', () async {
+    final program = await ui.FragmentProgram.fromAsset(module().shaderAsset);
+    const size = ui.Size(290, 520);
+    final view = module().defaultPreset.view.copyWith(
+          pan: Vector2(-.5 / 29, 25 / 29),
+          zoom: (1 << 24) / 10,
+        );
+    // The pixel just right of the origin has Re(s) = 2^-25, so in
+    // float32 the subtraction 1 - Re(s) can round to 1 exactly.
+    final phase = await _sampleShader(
+        program, module(), view, size, [const ui.Offset(145, 260)],
+        contours: 0, guides: false);
+    // ζ near 0 is approximately -1/2: hue 1/2 (cyan), not a NaN pixel.
+    expect(phase.single, [closeTo(36, 2), closeTo(242, 2), closeTo(242, 2)]);
+  });
+}
+
+Future<List<List<int>>> _sampleShader(
+  ui.FragmentProgram program,
+  FractalModule module,
+  FractalViewState view,
+  ui.Size size,
+  List<ui.Offset> pixels, {
+  required int contours,
+  required bool guides,
+}) async {
+  final shader = program.fragmentShader();
+  module.setUniforms(
+      shader,
+      FractalRenderState(
+        params: {'contours': contours, 'guides': guides},
+        transparentBackground: false,
+        view: view,
+      ),
+      size,
+      0);
+  final recorder = ui.PictureRecorder();
+  ui.Canvas(recorder)
+      .drawRect(ui.Offset.zero & size, ui.Paint()..shader = shader);
+  final picture = recorder.endRecording();
+  final image = await picture.toImage(size.width.toInt(), size.height.toInt());
+  final bytes = (await image.toByteData())!;
+  final colors = <List<int>>[];
+  for (final point in pixels) {
+    final index =
+        (point.dy.floor() * size.width.toInt() + point.dx.floor()) * 4;
+    colors.add(List.generate(3, (channel) => bytes.getUint8(index + channel)));
+  }
+  image.dispose();
+  picture.dispose();
+  shader.dispose();
+  return colors;
 }
