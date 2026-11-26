@@ -416,3 +416,122 @@ including its original material. The [additive migration stage](../../migration/
 records the exact schema, view, and compiled/source changes; historical records
 remain untouched. These are offline framing choices, not final aesthetic or
 physical GPU qualification.
+
+### Production browser qualification (#13)
+
+**Browser result, 2026-11-26:** selected/rendered/exported/failed/skipped =
+**5/5/5/0/0**. The five-case run passed four; the full-size Mandelbox timing
+attempt was stopped when software repaint of the export sheets made the
+original wall-clock budget insufficient. The focused Mandelbox rerun passed
+on the same bundle, with the smaller pane used for timing only. The old build
+has five independent default captures, not five export runs. See the [issue
+attachments and state/timing receipts](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/13#issuecomment-7198234356)
+for the original screenshots and PNG downloads. The post-merge-base review
+rebuilt from `38c0d930ac7e8124659fd23bd1cd51e43f721e68` and verified the same
+served bundle hash. All five candidate cases passed in one run on SwiftShader;
+all five replayed old-state clips matched their original baseline pixels.
+The attached latency figures are from the original qualification runs, not
+pooled with the review rerun.
+
+The [Playwright pilot](../../test/playwright/web-image-creation-journey.spec.mjs)
+opens each real catalog card, uses **Tools → Next palette** and focuses the
+viewer for keyboard zoom (`-`). It reloads `/` to restore the recorded session
+rather than a deep link. **Save & share → Export → Customize → HD → Save image**
+produces a real download. The check compares the state and frozen viewer clip
+before/after reload, verifies module/palette in HD download metadata and exact
+decoded RGBA across reload and on repeat, and checks the actual old-build
+sessions against their original clips. Across browser documents the
+composited clip allows a one-level RGBA channel delta in at most 0.1% of pixels;
+this is not the rule for comparing repeat downloads. The evidence record binds
+each PNG to the observed view and source: the PNG itself does not embed view,
+backend or source.
+
+Use the pinned SDK/cache and Python preflight from [AGENTS.md](../../AGENTS.md).
+Build each checkout with `flutter pub get --offline --enforce-lockfile` and
+`flutter build web --release --no-pub --dart-define=FORCE_GPU_RENDER=true` under
+bounded timeouts. Do not set `PLAYWRIGHT_CATALOG_SMOKE`; the production web cap
+is 160, not the smoke cap of 10. Use the provisioned Playwright and Chromium
+only. For each build, serve its `build/web` via a new owned child,
+`/usr/bin/python3 -m http.server "$PORT" --bind 127.0.0.1 --directory build/web`.
+Use one free loopback port in the allocated range when present, confirm the
+child bound it and served the right bundle, and stop only that child.
+
+Set `PLAYWRIGHT_SKIP_WEBSERVER=1`, `PLAYWRIGHT_BASE_URL` to the owned origin and
+`APP_QUALITY_SOURCE` to the served release's revision/dirty-source identity.
+Run both Playwright commands from the checkout containing the pilot spec.
+First point them at the separately built `059cc9783fe26bd65266c0f8c5cb3b3a244a607a`
+release (that run only captures the old defaults). Keep those originals and
+set `APP_QUALITY_PILOT_BASELINE_DIR` to that Playwright output directory when
+testing the candidate. Use a different `--output` directory for each run.
+
+```sh
+timeout 30 npx --no-install playwright test test/playwright/web-image-creation-journey.spec.mjs \
+  --project=chromium --grep 'Visual richness pilot' --list
+timeout 1500 npx --no-install playwright test test/playwright/web-image-creation-journey.spec.mjs \
+  --project=chromium --workers=1 --grep 'Visual richness pilot' --reporter=list --output="$EVIDENCE_DIR"
+```
+
+Read back all five `pilot-observation.json` and `journey-environment.json`
+records, their PNGs and the Playwright results; an exit code alone is not
+qualification. A missing old record reports the required source and file;
+repair by capturing that old release, not by changing the state fixture. A
+missing download fails with the UI/browser diagnostic, not a replacement PNG.
+
+Browser export timings are reported separately in
+[Runtime Performance Diagnostics](../engineering/performance/PERFORMANCE.md#browser-hd-export-latency-13).
+These checks do not replace the [component migration proof](../../migration/oracles/visual-presentation/01-proof.json),
+Linux or Waydroid qualification, and do not certify mathematical correctness
+or a hardware renderer from nonblank/color-count diagnostics.
+
+**Observed browser and source.** Run `1a5e0f77` served the production build
+of `01208be28c8fd9dc819ed17746779fab8447bf16`; `main.dart.js` SHA-256:
+`b7f1a5250871a42ff1b6f8493e9096ec7cea0b674a4c406e4b6793b8fe101163`.
+The old build was served separately from `059cc9783fe26bd65266c0f8c5cb3b3a244a607a`;
+its bundle SHA-256 was
+`95b8a7b2d8a8d3162a40a032e657d63415345aea6ce5a4f1152d92da6c5b19a5`.
+Both used pinned Flutter 3.47.9 and Playwright 1.59.1's headless Chromium
+147.0.7727.15. CDP reports `ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device
+(Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)`. The app used
+`FragmentProgram`/`FractalCanvas` via CanvasKit WebGL (matching loaded shader
+asset and linked WebGL program, including after reload). This is Flutter's
+GPU shader path on a **software** device, not app CPU fallback or a hardware
+GPU run.
+
+The 1280×900 viewer pane at DPR 1 has a central 1280×720 crop (90 px off top
+and bottom) for HD. The screenshot checks the same central 1024×576 clip at
+`(128,162)` before and after reload; for visual comparison take the same
+1024×576 inset at `(128,72)` in the HD PNG. The smaller Mandelbox latency
+pane has the same aspect ratio; see the cost note. Never use a browser
+screenshot to check transparent alpha. Both 3D reload clips matched exactly;
+the largest 2D difference was 320 of 589,824 pixels (Burning Ship), each by a
+single channel level at most. The opaque downloads' decoded RGBA hashes
+matched for all five cases both across reload and on repetition after reload.
+The requested transparent exports had 846,961 zero-alpha pixels (Mandelbulb),
+7,056 (Mandelbox), 807,381 (Mandelbrot) and 70,430 (Burning Ship), with opaque
+foreground retained. Newton colored the whole pane and remained opaque as
+expected.
+
+**Artifact comparison.** At equal clip coordinates the old Mandelbrot shows
+the bulb overview; the new framing places a bright, narrow filament corridor
+between dark banks. Burning Ship keeps more of the lower hull and its colored
+trails in frame instead of cutting off the hull below the lip. Newton moves
+its three-way root-basin junction from the lower edge to the middle, with the
+branching boundaries visible on all three sides.
+
+Mandelbulb's larger stone-colored default separates adjacent lobes with dark
+contact creases and soft ridge highlights instead of the old orange surface.
+At the same edited zoom, the legacy and stone renders keep the silhouette;
+the stone highlights are less saturated and some fine ridges are lower
+contrast. Mandelbox keeps the original overview: near the left the sculptural
+material separates dark recesses from soft rim highlights that the old blue
+and purple bands compete with. Much of the right side is still a broad,
+low-detail field, so this is not a claim of improved depth everywhere.
+
+At the common 1024×576 inset, decoded readback of the attached opaque HD
+exports matches the edited viewer clip for all five modules: the 2D corridor,
+hull/trails and junction stay in place and retain the edited palette, as do
+the 3D silhouettes and folds. The sculptural Mandelbulb pair also matches;
+for sculptural Mandelbox the timing export from the smaller pane differs at
+1,604 of 589,824 pixels, with a maximum channel delta of six and the same
+visible framing. This compares the attached images only; the composited
+browser screenshots are not raw fractal-buffer oracles.

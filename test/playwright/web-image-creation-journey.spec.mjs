@@ -43,6 +43,7 @@ function inspectPng(bytes) {
   let width = 0;
   let height = 0;
   const idat = [];
+  const text = {};
   while (offset < bytes.length) {
     const length = bytes.readUInt32BE(offset);
     const type = bytes.toString('ascii', offset + 4, offset + 8);
@@ -52,6 +53,9 @@ function inspectPng(bytes) {
       height = data.readUInt32BE(4);
     } else if (type === 'IDAT') {
       idat.push(data);
+    } else if (type === 'tEXt') {
+      const separator = data.indexOf(0);
+      text[data.toString('latin1', 0, separator)] = data.toString('latin1', separator + 1);
     }
     offset += length + 12;
     if (type === 'IEND') break;
@@ -59,51 +63,62 @@ function inspectPng(bytes) {
   const pixels = zlib.inflateSync(Buffer.concat(idat));
   const colors = new Set();
   for (let i = 1; i < pixels.length; i += 97) colors.add(pixels[i]);
-  return { width, height, colors: colors.size };
+  return { width, height, colors: colors.size, text };
 }
 
-async function decodedPngPixels(page, bytes) {
-  return page.evaluate(async (base64) => {
-    const binary = atob(base64);
-    const pngBytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
-    const bitmap = await createImageBitmap(
-      new Blob([pngBytes], { type: 'image/png' }),
-    );
-    try {
-      const canvas = document.createElement('canvas');
-      canvas.width = bitmap.width;
-      canvas.height = bitmap.height;
-      const context = canvas.getContext('2d');
-      context.drawImage(bitmap, 0, 0);
-      const rgba = context.getImageData(0, 0, canvas.width, canvas.height).data;
-      const digest = await crypto.subtle.digest('SHA-256', rgba);
-      const colors = new Set();
-      let transparentPixels = 0;
-      let nonOpaquePixels = 0;
-      for (let i = 0; i < rgba.length; i += 4) {
-        if (i % 68 === 0) colors.add(`${rgba[i]},${rgba[i + 1]},${rgba[i + 2]}`);
-        if (rgba[i + 3] === 0) transparentPixels++;
-        if (rgba[i + 3] < 255) nonOpaquePixels++;
+async function decodedPngPixels(page, bytes, reference) {
+  return page.evaluate(async ({ png, comparison }) => {
+    const decode = async (base64) => {
+      const pngBytes = Uint8Array.from(atob(base64), (character) => character.charCodeAt(0));
+      const bitmap = await createImageBitmap(new Blob([pngBytes], { type: 'image/png' }));
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const context = canvas.getContext('2d');
+        context.drawImage(bitmap, 0, 0);
+        return context.getImageData(0, 0, canvas.width, canvas.height);
+      } finally {
+        bitmap.close();
       }
-      return {
-        width: canvas.width,
-        height: canvas.height,
-        colors: colors.size,
-        transparentPixels,
-        nonOpaquePixels,
-        pixelHash: Array.from(new Uint8Array(digest), (byte) =>
-          byte.toString(16).padStart(2, '0'),
-        ).join(''),
-      };
-    } finally {
-      bitmap.close();
+    };
+    const { width, height, data: rgba } = await decode(png);
+    let comparisonStats;
+    if (comparison) {
+      const before = await decode(comparison);
+      if (before.width !== width || before.height !== height) {
+        throw new Error('Viewer screenshot clip dimensions changed');
+      }
+      let changedPixels = 0;
+      let maxChannelDelta = 0;
+      for (let i = 0; i < rgba.length; i += 4) {
+        let delta = 0;
+        for (let c = 0; c < 4; c++) delta = Math.max(delta, Math.abs(rgba[i + c] - before.data[i + c]));
+        if (delta) changedPixels++;
+        maxChannelDelta = Math.max(maxChannelDelta, delta);
+      }
+      comparisonStats = { changedPixels, maxChannelDelta };
     }
-  }, bytes.toString('base64'));
+    const digest = await crypto.subtle.digest('SHA-256', rgba);
+    const colors = new Set();
+    let transparentPixels = 0;
+    let nonOpaquePixels = 0;
+    for (let i = 0; i < rgba.length; i += 4) {
+      if (i % 68 === 0) colors.add(`${rgba[i]},${rgba[i + 1]},${rgba[i + 2]}`);
+      if (rgba[i + 3] === 0) transparentPixels++;
+      if (rgba[i + 3] < 255) nonOpaquePixels++;
+    }
+    return {
+      width, height, colors: colors.size, transparentPixels, nonOpaquePixels,
+      pixelHash: Array.from(new Uint8Array(digest), (byte) =>
+        byte.toString(16).padStart(2, '0'),
+      ).join(''),
+      ...(comparisonStats && { comparisonStats }),
+    };
+  }, { png: bytes.toString('base64'), comparison: reference?.toString('base64') });
 }
 
 async function openCatalogExample(page, example) {
-  await page.getByRole('button', { name: /^all dimensions$|^2D$|^3D$/i }).click();
-  await page.getByRole('menuitemcheckbox', { name: new RegExp(`^${example.dimension} ·`) }).click();
   // Flutter exposes the hint as the editable input's name only while empty.
   // After returning from a viewer the retained query has no hint/name; the
   // separately labelled semantics wrapper is not the editable DOM control.
@@ -115,16 +130,21 @@ async function openCatalogExample(page, example) {
   // this proxy with autocorrect=off, then applies the TextField's on setting
   // when its input listener is attached; typing earlier drops the first key.
   await expect(search).toHaveAttribute('autocorrect', 'on');
-  await search.press('Control+A');
-  await search.pressSequentially(example.name, { delay: 50, timeout: 30_000 });
+  if (await search.inputValue()) await page.keyboard.press('Control+A');
+  // Narrow by name before requesting 3D previews, and insert in one input
+  // event instead of making the production build render each partial query.
+  await page.keyboard.insertText(example.name);
   await expect(search).toHaveValue(example.name);
+  await page.getByRole('button', { name: /^all dimensions$|^2D$|^3D$/i }).click();
+  await page.getByRole('menuitemcheckbox', { name: new RegExp(`^${example.dimension} ·`) }).click();
   // Match the whole card identity, not another name such as Bicomplex Mandelbrot.
   const escapedName = example.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const result = page.getByRole('switch', {
     name: new RegExp(`^(?:Approximate preview; reduced quality )?${escapedName} fractal, ${example.dimension}(?: |$)`),
   });
   await expect(result).toBeVisible();
-  await result.click({ force: true });
+  // Activate the accessible card without targeting a nested thumbnail button.
+  await result.evaluate((node) => node.click());
   await expect(page.getByRole('button', { name: /back to catalog/i })).toBeVisible();
 }
 
@@ -137,8 +157,7 @@ async function openViewerMore(page) {
 
 /// Open the parameter controls from the labelled viewer-actions sheet.
 ///
-/// The rail no longer exposes a bare "Controls" button: the controls entry is
-/// the "Parameter controls" row inside the actions sheet, reached through More.
+/// The "Parameter controls" entry is reached through Tools.
 async function openParameterControls(page) {
   await openViewerMore(page);
   await page.getByRole('button', { name: /^(Parameter controls|Controles de parámetros)$/i }).click();
@@ -156,7 +175,7 @@ async function expandMathDetails(page) {
   await page.waitForTimeout(400);
 }
 
-async function exportHdPng(page, testInfo, moduleName, { transparent = false } = {}) {
+async function exportHdPng(page, testInfo, moduleName, { transparent = false, observe } = {}) {
   // Export lives in the Save & share sheet, not in the Tools menu.
   await page.getByRole('button', { name: /^(Save & share|Guardar y compartir)$/i })
     .evaluate((node) => node.click());
@@ -184,11 +203,12 @@ async function exportHdPng(page, testInfo, moduleName, { transparent = false } =
     await expect(alpha).toBeChecked();
   }
 
-  const downloadPromise = page.waitForEvent('download', { timeout: 30_000 });
   const saveButton = page.getByRole('button', { name: /save image|guardar imagen/i }).first();
+  await expect(saveButton).toBeEnabled();
   const saveBounds = await saveButton.boundingBox();
-  await saveButton.click({ force: true });
-  const download = await downloadPromise.catch(async (error) => {
+  const downloadPromise = page.waitForEvent('download', { timeout: 30_000 });
+  const startedAt = performance.now();
+  const [download] = await Promise.all([downloadPromise, saveButton.click({ force: true })]).catch(async (error) => {
     const diagnostics = await page.evaluate((bounds) => ({
       downloads: window.__journeyDownloads ?? [],
       clicks: window.__journeyClicks ?? [],
@@ -202,11 +222,19 @@ async function exportHdPng(page, testInfo, moduleName, { transparent = false } =
 
   const filePath = testInfo.outputPath(`${moduleName}-edited.png`);
   await download.saveAs(filePath);
-  const png = inspectPng(fs.readFileSync(filePath));
+  const completedMs = performance.now() - startedAt;
+  const bytes = fs.readFileSync(filePath);
+  const png = inspectPng(bytes);
   const portrait = page.viewportSize().width < page.viewportSize().height;
-  expect([png.width, png.height]).toEqual(portrait ? [720, 1280] : [1280, 720]);
-  const decoded = await decodedPngPixels(page, fs.readFileSync(filePath));
-  expect(decoded.colors, 'download must contain actual rendered bands').toBeGreaterThan(6);
+  const dimensions = portrait ? [720, 1280] : [1280, 720];
+  expect([png.width, png.height]).toEqual(dimensions);
+  const decoded = await decodedPngPixels(page, bytes);
+  expect([decoded.width, decoded.height]).toEqual(dimensions);
+  if (observe) {
+    observe({ completedMs, decoded, metadata: png.text });
+  } else {
+    expect(decoded.colors, 'download must contain actual rendered bands').toBeGreaterThan(6);
+  }
   return filePath;
 }
 
@@ -665,4 +693,282 @@ test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testI
   expect(paused.pixelHash).not.toBe(beforeWalk.pixelHash);
   expect(browserErrors).toEqual([]);
   expect(fs.existsSync(testInfo.outputPath('gaussian-paused-walk.png'))).toBe(true);
+});
+
+const pilotBaseline = '059cc9783fe26bd65266c0f8c5cb3b3a244a607a';
+const pilotModules = [
+  { moduleId: 'mandelbrot', name: 'Mandelbrot', dimension: '2D', scheme: 1,
+    shader: 'mandel_step_smooth.frag', glMarker: 'inMainBulb', alpha: true },
+  { moduleId: 'burning_ship', name: 'Burning Ship', dimension: '2D', scheme: 1,
+    shader: 'burning_ship_gpu.frag', glMarker: 'cpowReal', alpha: true },
+  { moduleId: 'newton_z3', name: 'Newton Fractal (z³ - 1)', dimension: '2D', scheme: 2,
+    shader: 'newton_z3_gpu.frag', glMarker: 'rootDistanceSq', alpha: false },
+  { moduleId: 'mandelbulb', name: 'Mandelbulb', dimension: '3D', scheme: 4, legacy: 0,
+    shader: 'mandelbulb.frag', glMarker: 'mandelbulbDE', alpha: true },
+  { moduleId: 'mandelbox', name: 'Mandelbox', dimension: '3D', scheme: 8, legacy: 2,
+    shader: 'mandelbox_3d_gpu.frag', glMarker: 'mandelboxDE', alpha: true,
+    timingViewport: { width: 768, height: 540 } },
+];
+
+async function enableViewerSemantics(page) {
+  const button = page.getByRole('button', { name: /enable accessibility/i });
+  await expect(button).toBeVisible({ timeout: 30_000 });
+  await page.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
+  await expect(button).toBeHidden();
+}
+
+async function readPilotSession(page) {
+  return page.evaluate(() => JSON.parse(JSON.parse(
+    localStorage.getItem('flutter.viewer_session_v1'))));
+}
+
+test.describe('Visual richness pilot', () => {
+  test.use({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: 1,
+    locale: 'en-US', reducedMotion: 'reduce' });
+
+  for (const example of pilotModules) {
+    test(example.moduleId, async ({ page }, testInfo) => {
+      test.setTimeout(example.timingViewport ? 1_200_000 : 600_000);
+      const source = process.env.APP_QUALITY_SOURCE;
+      expect(source, 'set APP_QUALITY_SOURCE to the served release source').toMatch(/^[a-f0-9]{40}(?:\+.+)?$/);
+      const baseline = source === pilotBaseline;
+      const observation = { source, baseline, moduleId: example.moduleId,
+        rendered: false, exported: false, errors: [], screenshots: {}, exports: {} };
+      const errors = observation.errors;
+      const shaderResponses = [];
+      page.on('response', (response) => {
+        if (new URL(response.url()).pathname.endsWith(`/${example.shader}`)) shaderResponses.push(response);
+      });
+      page.on('pageerror', (error) => errors.push(error.message));
+      page.on('crash', () => errors.push('Chromium page crashed'));
+      page.on('console', (message) => {
+        const text = message.text();
+        if (text.includes('PLAYWRIGHT_CATALOG_SMOKE_FIRST_FRAME:') ||
+            (message.type() === 'error' && !/WEBGL_debug_renderer_info is deprecated/i.test(text))) {
+          errors.push(text);
+        }
+      });
+      // Read-only observation at CanvasKit's WebGL boundary, not just a shader
+      // request (the catalog also loads preview shaders). Do not replace draws.
+      await page.addInitScript((marker) => {
+        const matches = new WeakSet();
+        window.__pilotLinkedShaders = [];
+        for (const api of [window.WebGLRenderingContext, window.WebGL2RenderingContext]) {
+          const { shaderSource, attachShader, linkProgram } = api.prototype;
+          api.prototype.shaderSource = function (shader, code) {
+            if (code.includes(`flutter_local_${marker}_`)) matches.add(shader);
+            return shaderSource.call(this, shader, code);
+          };
+          const programs = new WeakMap();
+          api.prototype.attachShader = function (program, shader) {
+            if (matches.has(shader)) programs.set(program, shader);
+            return attachShader.call(this, program, shader);
+          };
+          api.prototype.linkProgram = function (program) {
+            linkProgram.call(this, program);
+            if (programs.has(program)) {
+              window.__pilotLinkedShaders.push({ marker,
+                linked: this.getProgramParameter(program, this.LINK_STATUS) });
+            }
+          };
+        }
+      }, example.glMarker);
+      const canvas = page.getByRole('group', { name: /^Interactive fractal canvas/ });
+      const clip = { x: 128, y: 162, width: 1024, height: 576 };
+      observation.screenshotClip = clip;
+      const observeBackend = async () => {
+        await expect.poll(() => page.evaluate(() => window.__pilotLinkedShaders),
+          { message: `CanvasKit WebGL program for ${example.shader}`, timeout: 30_000 })
+          .toContainEqual({ marker: example.glMarker, linked: true });
+        await expect(page.getByText(/Failed to load shader|CPU fallback enabled|High precision \(CPU\)/i))
+          .toHaveCount(0);
+        expect(errors, 'runtime errors or a cap-10 catalog smoke build').toEqual([]);
+      };
+      const screenshot = async (label, compareTo) => {
+        const bytes = await page.screenshot({ path: testInfo.outputPath(`${label}.png`), clip });
+        const reference = compareTo && fs.readFileSync(compareTo);
+        const pixels = await decodedPngPixels(page, bytes, reference);
+        observation.screenshots[label] = pixels;
+        if (reference) {
+          // Across documents SwiftShader's composited pixels can differ by
+          // one channel level in a sparse set of pixels. Keep exact RGBA
+          // equality for repeated downloads, not this presentation boundary.
+          expect(pixels.comparisonStats.maxChannelDelta).toBeLessThanOrEqual(1);
+          expect(pixels.comparisonStats.changedPixels).toBeLessThanOrEqual(pixels.width * pixels.height / 1000);
+        }
+        return pixels.pixelHash;
+      };
+      const boot = async (navigate) => {
+        const [bundle] = await Promise.all([
+          page.waitForResponse((response) => new URL(response.url()).pathname === '/main.dart.js'),
+          navigate(),
+        ]);
+        expect(bundle.ok()).toBe(true);
+        await enableViewerSemantics(page);
+        return bundle;
+      };
+      const reload = async (expected) => {
+        // The root route restores the durable session, not a viewer deep link.
+        await page.evaluate(() => history.replaceState(null, '', '/'));
+        const bundle = await boot(() => page.reload({ waitUntil: 'domcontentloaded' }));
+        expect(createHash('sha256').update(await bundle.body()).digest('hex'))
+          .toBe(observation.bundleSha256);
+        await expect(canvas).toBeVisible();
+        await observeBackend();
+        await expect.poll(() => readPilotSession(page)).toEqual(expected);
+        return readPilotSession(page);
+      };
+      const save = async (label, state, transparent = false) => {
+        expect(await readPilotSession(page)).toEqual(state);
+        let result;
+        await exportHdPng(page, testInfo, label, { transparent, observe: (value) => {
+          result = value;
+          observation.exports[label] = value;
+        } });
+        expect(result.metadata.UserComment).toContain(`Fractal Type: ${example.moduleId}\n`);
+        expect(result.metadata.UserComment).toContain(`  colorScheme: ${state.params.colorScheme}\n`);
+        const { decoded } = result;
+        if (transparent && example.alpha) {
+          expect(decoded.transparentPixels).toBeGreaterThan(0);
+          expect(decoded.nonOpaquePixels).toBeLessThan(decoded.width * decoded.height);
+        } else {
+          expect(decoded.nonOpaquePixels).toBe(0);
+        }
+        await expect.poll(() => readPilotSession(page)).toEqual(state);
+        return result;
+      };
+      const nextPalette = async (value) => {
+        await openViewerMore(page);
+        await page.getByRole('button', { name: /^Next palette$/i }).click();
+        await expect.poll(async () => (await readPilotSession(page)).params.colorScheme).toBe(value);
+      };
+      try {
+        const bundle = await boot(() => page.goto('/', { waitUntil: 'domcontentloaded' }));
+        await retainJourneyEnvironment(page, testInfo, bundle);
+        const environment = JSON.parse(fs.readFileSync(testInfo.outputPath('journey-environment.json')));
+        observation.bundleSha256 = environment.webBundleSha256;
+        await openCatalogExample(page, example);
+        await expect(canvas).toBeVisible();
+        await expect.poll(() => shaderResponses.some((response) => response.ok()),
+          { message: `served ${example.shader}`, timeout: 30_000 }).toBe(true);
+        const shader = shaderResponses.find((response) => response.ok());
+        await expect.poll(async () => (await readPilotSession(page))?.moduleId).toBe(example.moduleId);
+        observation.default = await readPilotSession(page);
+        observation.pane = await canvas.boundingBox();
+        await page.screenshot({ path: testInfo.outputPath('default-pane.png') });
+        await observeBackend();
+        const defaultHash = await screenshot('default');
+        observation.backend = { path: 'FragmentProgram/FractalCanvas via CanvasKit WebGL', asset: shader.url(),
+          assetSha256: createHash('sha256').update(await shader.body()).digest('hex'),
+          linkedPrograms: await page.evaluate(() => window.__pilotLinkedShaders) };
+        observation.rendered = true;
+        if (baseline) {
+          expect(errors).toEqual([]);
+          return; // Archive the independent old build, never qualify it here.
+        }
+
+        expect(observation.default.params.colorScheme).toBe(example.scheme);
+        const oldFile = path.join(process.env.APP_QUALITY_PILOT_BASELINE_DIR || '',
+          path.basename(testInfo.outputDir), 'pilot-observation.json');
+        expect(fs.existsSync(oldFile), `capture baseline with APP_QUALITY_SOURCE=${pilotBaseline}; missing ${oldFile}`).toBe(true);
+        const old = JSON.parse(fs.readFileSync(oldFile));
+        const oldEnv = JSON.parse(fs.readFileSync(path.join(path.dirname(oldFile), 'journey-environment.json')));
+        expect(old).toMatchObject({ source: pilotBaseline, moduleId: example.moduleId, rendered: true, errors: [] });
+        expect(old.bundleSha256).not.toBe(observation.bundleSha256);
+        expect(oldEnv.source).toBe(pilotBaseline);
+        expect(oldEnv.webBundleSha256).toBe(old.bundleSha256);
+        expect(oldEnv.browserVersion).toBe(environment.browserVersion);
+        expect(oldEnv.gpu.devices).toEqual(environment.gpu.devices);
+        expect(oldEnv.viewport).toEqual(environment.viewport);
+        expect(oldEnv.runtime).toEqual(environment.runtime);
+        expect(old.screenshotClip).toEqual(clip);
+        const oldClip = path.join(path.dirname(oldFile), 'default.png');
+        expect(fs.existsSync(oldClip), `missing original baseline clip ${oldClip}`).toBe(true);
+        expect((await decodedPngPixels(page, fs.readFileSync(oldClip))).pixelHash)
+          .toBe(old.screenshots.default.pixelHash);
+
+        await nextPalette(example.legacy === undefined ? example.scheme + 1 : 0);
+        for (let value = 1; value <= example.legacy; value++) await nextPalette(value);
+        await canvas.click({ position: { x: 500, y: 200 } });
+        await expect(canvas).toBeFocused();
+        await page.keyboard.press('-');
+        await expect.poll(async () => (await readPilotSession(page)).view.zoom)
+          .toBeCloseTo(observation.default.view.zoom / 1.2, 8);
+        const edited = observation.edited = await readPilotSession(page);
+        const before = await screenshot('edited-before-reload');
+        expect(before).not.toBe(defaultHash);
+        const beforeReload = await save('edited-before-reload', edited);
+        observation.restored = await reload(edited);
+        await screenshot('edited-after-reload', testInfo.outputPath('edited-before-reload.png'));
+        const first = await save('edited-after-reload', edited);
+        const repeat = await save('edited-repeat', edited);
+        expect(first.decoded).toEqual(beforeReload.decoded);
+        expect(repeat.decoded).toEqual(first.decoded);
+
+        if (example.legacy !== undefined) {
+          const timing = observation.timing = {};
+          const fullViewport = page.viewportSize();
+          for (const [name, selector] of [['legacy', example.legacy], ['new', example.scheme]]) {
+            if (name === 'new') {
+              for (let value = example.legacy + 1; value <= example.scheme; value++) {
+                await nextPalette(value);
+              }
+            }
+            const input = await readPilotSession(page);
+            expect(input).toEqual({ ...edited, params: { ...edited.params,
+              colorScheme: selector } });
+            if (name === 'new') {
+              const modernHash = await screenshot('new-selector');
+              expect(modernHash).not.toBe(before);
+              observation.newRestored = await reload(input);
+              await screenshot('new-selector-reloaded', testInfo.outputPath('new-selector.png'));
+            }
+            // Keep the same pane aspect and HD output, but limit the software
+            // cost of repainting the open sheets on the Mandelbox timing path.
+            if (example.timingViewport) await page.setViewportSize(example.timingViewport);
+            const samples = [];
+            let reference = name === 'legacy' && !example.timingViewport ? first.decoded : null;
+            for (let i = 0; i < 18; i++) {
+              const label = `${name}-${i < 3 ? `warmup-${i + 1}` : `sample-${i - 2}`}`;
+              const result = await save(label, input);
+              reference ??= result.decoded;
+              expect(result.decoded).toEqual(reference);
+              samples.push(result.completedMs);
+            }
+            const measured = samples.slice(3).sort((a, b) => a - b);
+            timing[name] = { state: input, viewport: page.viewportSize(),
+              dimensions: [reference.width, reference.height], pixelHash: reference.pixelHash,
+              warmupMs: samples.slice(0, 3), samplesMs: samples.slice(3),
+              medianMs: measured[7], p95Ms: measured[14] };
+            if (example.timingViewport) await page.setViewportSize(fullViewport);
+          }
+          expect(timing.legacy.pixelHash).not.toBe(timing.new.pixelHash);
+        }
+        await save('edited-transparent', await readPilotSession(page), true);
+
+        // Replay what the old release actually saved, without using its URL or
+        // inventing params, then check that the saved values still drive export.
+        observation.oldSaved = old.default;
+        // Seed the next document before Flutter starts, not the live viewer's
+        // store: its debounced save can still commit the current session.
+        await page.addInitScript((state) => {
+          if (window === window.top) {
+            localStorage.setItem('flutter.viewer_session_v1', JSON.stringify(JSON.stringify(state)));
+          }
+        }, old.default);
+        observation.oldRestored = await reload(old.default);
+        await screenshot('old-state-restored', oldClip);
+        const oldExport = await save('old-state-restored', old.default);
+        expect(oldExport.decoded.pixelHash, 'the edited PNG must differ from the old-state PNG')
+          .not.toBe(first.decoded.pixelHash);
+        observation.exported = true;
+      } finally {
+        const file = testInfo.outputPath('pilot-observation.json');
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        fs.writeFileSync(file, JSON.stringify(observation, null, 2));
+        await testInfo.attach('pilot-observation', { path: file, contentType: 'application/json' });
+      }
+      expect(errors).toEqual([]);
+    });
+  }
 });
