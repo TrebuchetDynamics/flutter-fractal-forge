@@ -133,6 +133,14 @@ void main() {
         final previous = registry.byId(previousId);
         expect(previous.shaderAsset, module.shaderAsset);
         controller.selectModule(previous, animate: false);
+        // Leave different values in every tail slot. In particular, Julia
+        // Dual's default C is identical to Mandel Julia Dual's default C.
+        if (id == 'phoenix_julia') {
+          controller.updateParam('phoenixP', -0.8);
+        } else {
+          controller.updateParam('juliaCReal', -0.835);
+          controller.updateParam('juliaCImag', -0.232);
+        }
         controller.setTransparentBackground(true);
         await render();
         controller.selectModule(module, animate: false);
