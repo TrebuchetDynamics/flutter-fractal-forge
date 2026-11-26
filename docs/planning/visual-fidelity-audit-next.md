@@ -426,7 +426,12 @@ original wall-clock budget insufficient. The focused Mandelbox rerun passed
 on the same bundle, with the smaller pane used for timing only. The old build
 has five independent default captures, not five export runs. See the [issue
 attachments and state/timing receipts](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/13#issuecomment-7198234356)
-for the original screenshots and PNG downloads.
+for the original screenshots and PNG downloads. The post-merge-base review
+rebuilt from `38c0d930ac7e8124659fd23bd1cd51e43f721e68` and verified the same
+served bundle hash. All five candidate cases passed in one run on SwiftShader;
+all five replayed old-state clips matched their original baseline pixels.
+The attached latency figures are from the original qualification runs, not
+pooled with the review rerun.
 
 The [Playwright pilot](../../test/playwright/web-image-creation-journey.spec.mjs)
 opens each real catalog card, uses **Tools → Next palette** and focuses the
@@ -434,8 +439,8 @@ viewer for keyboard zoom (`-`). It reloads `/` to restore the recorded session
 rather than a deep link. **Save & share → Export → Customize → HD → Save image**
 produces a real download. The check compares the state and frozen viewer clip
 before/after reload, verifies module/palette in HD download metadata and exact
-decoded RGBA on repeat at the restored state, and replays the actual old-build
-sessions. Across browser documents the
+decoded RGBA across reload and on repeat, and checks the actual old-build
+sessions against their original clips. Across browser documents the
 composited clip allows a one-level RGBA channel delta in at most 0.1% of pixels;
 this is not the rule for comparing repeat downloads. The evidence record binds
 each PNG to the observed view and source: the PNG itself does not embed view,
@@ -453,10 +458,11 @@ child bound it and served the right bundle, and stop only that child.
 
 Set `PLAYWRIGHT_SKIP_WEBSERVER=1`, `PLAYWRIGHT_BASE_URL` to the owned origin and
 `APP_QUALITY_SOURCE` to the served release's revision/dirty-source identity.
-First run against `059cc9783fe26bd65266c0f8c5cb3b3a244a607a` in its own output
-folder (it only captures the old defaults). Keep those originals and set
-`APP_QUALITY_PILOT_BASELINE_DIR` to that Playwright output directory when
-running the candidate. Use a different `--output` directory for each run:
+Run both Playwright commands from the checkout containing the pilot spec.
+First point them at the separately built `059cc9783fe26bd65266c0f8c5cb3b3a244a607a`
+release (that run only captures the old defaults). Keep those originals and
+set `APP_QUALITY_PILOT_BASELINE_DIR` to that Playwright output directory when
+testing the candidate. Use a different `--output` directory for each run.
 
 ```sh
 timeout 30 npx --no-install playwright test test/playwright/web-image-creation-journey.spec.mjs \
@@ -521,7 +527,11 @@ material separates dark recesses from soft rim highlights that the old blue
 and purple bands compete with. Much of the right side is still a broad,
 low-detail field, so this is not a claim of improved depth everywhere.
 
-Compare the opaque HD exports at the common 1024×576 inset: the 2D corridor,
-hull/trails and junction stay in the same place and keep the edited palette;
-the 3D silhouette and folds stay in place for each selected material. The
-composited browser screenshots are not raw fractal-buffer oracles.
+At the common 1024×576 inset, decoded readback of the attached opaque HD
+exports matches the edited viewer clip for all five modules: the 2D corridor,
+hull/trails and junction stay in place and retain the edited palette, as do
+the 3D silhouettes and folds. The sculptural Mandelbulb pair also matches;
+for sculptural Mandelbox the timing export from the smaller pane differs at
+1,604 of 589,824 pixels, with a maximum channel delta of six and the same
+visible framing. This compares the attached images only; the composited
+browser screenshots are not raw fractal-buffer oracles.
