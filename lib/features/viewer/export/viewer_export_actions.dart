@@ -679,9 +679,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
             pixelRatio: devicePixelRatio.clamp(1.0, 3.0).toDouble(),
           );
           token.throwIfCancelled();
-          final styled = _exportService.applyWallpaperStyle(
+          final styled = await _exportService.applyWallpaperStyleInWorker(
             pngBytes,
             style: options.style.name,
+            cancellationToken: token,
           );
           token.throwIfCancelled();
 
