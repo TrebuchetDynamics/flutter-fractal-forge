@@ -213,6 +213,7 @@ void main() {
       catalogAdditionSupportTask,
       recamanArcsTask,
       zetaCriticalStripTask,
+      juliaUniformOrderTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -232,7 +233,10 @@ void main() {
     final catalogSupport =
         candidates.singleWhere((s) => s['task'] == catalogAdditionSupportTask);
     final recaman = candidates.singleWhere((s) => s['task'] == recamanArcsTask);
-    final zeta = candidates.singleWhere((s) => s['task'] == zetaCriticalStripTask);
+    final zeta =
+        candidates.singleWhere((s) => s['task'] == zetaCriticalStripTask);
+    final julia =
+        candidates.singleWhere((s) => s['task'] == juliaUniformOrderTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -259,6 +263,7 @@ void main() {
         catalogSupport,
         recaman,
         zeta,
+        julia,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -284,7 +289,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            zeta['binding_maps'][id]['after'] as Map,
+            julia['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

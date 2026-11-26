@@ -35,6 +35,7 @@ const stateMachineFixesTask = 'STATE-MACHINE-FIXES-49-60';
 const catalogAdditionSupportTask = 'CATALOG-ADDITION-SUPPORT-63';
 const recamanArcsTask = 'RECAMAN-ARCS-64';
 const zetaCriticalStripTask = 'ZETA-CRITICAL-STRIP-65';
+const juliaUniformOrderTask = 'JULIA-UNIFORM-ORDER-71';
 const syntheticCatalogAdditionTask = 'SYNTHETIC-CATALOG-ADDITION';
 
 // Each real catalog addition must register its own exact policy here.
@@ -295,6 +296,12 @@ void validateVisualStage(Map stage) {
     cpuRenderParamsTask => _cpuRenderParamsPaths,
     stateMachineFixesTask => _stateMachineFixesPaths,
     catalogAdditionSupportTask => _catalogAdditionSupportPaths,
+    juliaUniformOrderTask => const [
+        'lib/core/modules/builders/escape_time/builder.dart',
+        'lib/core/modules/builders/escape_time_catalog/families/kaleidoscopes.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -347,7 +354,7 @@ void validateVisualStage(Map stage) {
     }
     visualRequire(before.keys.toSet().difference(after.keys.toSet()).isEmpty,
         'removed binding');
-    if (maintenance) {
+    if (maintenance || stage['task'] == juliaUniformOrderTask) {
       visualRequire(_equal.equals(before.keys.toSet(), after.keys.toSet()),
           'maintenance binding key sets');
     }
@@ -592,6 +599,33 @@ bool _allowedDelta(String name, Map document, Map delta, String task) {
   if (index == null || index < 0 || index >= records.length) return false;
   final record = records[index] as Map;
   final id = record['module_id'];
+  if (task == juliaUniformOrderTask) {
+    if (id != 'mandel_julia_dual') return false;
+    if (name == 'parameters' && path.length == 4 && path[3] == 'parameters') {
+      final sibling =
+          records.singleWhere((r) => r['module_id'] == 'julia_dual');
+      final juliaC = (sibling['parameters'] as List)
+          .where((p) => p['id'] == 'juliaCReal' || p['id'] == 'juliaCImag');
+      return _equal
+          .equals(delta['after'], [...record['parameters'], ...juliaC]);
+    }
+    if (name != 'presets' ||
+        !(path.length == 5 && path[3] == 'default' && path[4] == 'params' ||
+            path.length == 6 &&
+                path[3] == 'built_in' &&
+                path[4] == '0' &&
+                path[5] == 'params')) {
+      return false;
+    }
+    final params = _at(document, path) as Map;
+    return !params.containsKey('juliaCReal') &&
+        !params.containsKey('juliaCImag') &&
+        _equal.equals(delta['after'], {
+          ...params,
+          'juliaCReal': -0.7269,
+          'juliaCImag': 0.1889,
+        });
+  }
   final ids = task == visualSurfaceTask
       ? ['mandelbulb', 'mandelbox']
       : task == visualDefaultsTask
