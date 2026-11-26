@@ -66,6 +66,11 @@ for key, directory in [('XDG_CONFIG_HOME', 'config'), ('XDG_CACHE_HOME', 'cache'
     Path(env[key]).mkdir()
 for key in ['DART_VM_OPTIONS', 'VM_SERVICE_URL']:
     env.pop(key, None)
+# GTK prefers Wayland when WAYLAND_DISPLAY is set, which puts the app window on
+# the caller's desktop instead of the private Xvfb screen (a tiling compositor
+# gave it 132x1 px and every journey failed). Pin GTK to the Xvfb display.
+env.pop('WAYLAND_DISPLAY', None)
+env['GDK_BACKEND'] = 'x11'
 env['NATIVE_INTEGRATION_RESULT'] = str(work / 'protocol-success.json')
 env['TMPDIR'] = str(work)
 env['FLUTTER_SUPPRESS_ANALYTICS'] = 'true'
