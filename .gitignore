@@ -26,6 +26,8 @@ build/
 # Local release evidence/staging directories.
 /docs/release/
 /scripts/release/
+# Host-specific admin setup (Waydroid on the local machine).
+/scripts/waydroid/
 android/.gradle/
 android/**/build/
 android/local.properties
