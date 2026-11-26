@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 // Existing locked hashing dependency.
 // ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart';
@@ -20,7 +22,6 @@ import 'package:image/image.dart' as img;
 import 'package:vector_math/vector_math_64.dart';
 import '../migration/support/baseline_inventory.dart'
     show retainedBaselineRecord, retainedDefaultPreset;
-import 'dart:ui' as ui;
 
 import 'package:flutter_fractals/core/modules/fractals/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/mandelbox_module.dart';
@@ -108,14 +109,16 @@ void main() {
     }
   });
   test('canonical block is synchronized and legacy shading remains local', () {
-    final canonical =
-        File('shaders/shared/surface_lighting.glsl').readAsStringSync();
+    final canonical = File('shaders/shared/surface_lighting.glsl')
+        .readAsStringSync()
+        .replaceAll('\r\n', '\n');
     for (final path in [...consumers, fixture]) {
       final source = File(path).readAsStringSync().replaceAll('\r\n', '\n');
-      expect(
-          source,
-          contains('// BEGIN GENERATED SURFACE LIGHTING\n'
-              '$canonical// END GENERATED SURFACE LIGHTING\n'),
+      const begin = '// BEGIN GENERATED SURFACE LIGHTING\n';
+      const end = '// END GENERATED SURFACE LIGHTING\n';
+      expect(begin.allMatches(source), hasLength(1), reason: path);
+      expect(end.allMatches(source), hasLength(1), reason: path);
+      expect(source, contains('$begin$canonical$end'),
           reason: 'Run python3 scripts/sync_surface_lighting.py --write');
       expect(
           source, isNot(matches(RegExp(r'^\s*#include\s+"', multiLine: true))));
@@ -124,6 +127,38 @@ void main() {
         contains('float t = hit.w / uIterations;'));
     expect(File(consumers[1]).readAsStringSync(),
         contains('float t         = hit.w / max(uIterations, 1.0);'));
+  });
+  test('AO uses exactly three bounded normal taps at the hit epsilon', () {
+    for (final (path, estimator) in [
+      (consumers[0], 'getDistance'),
+      (consumers[1], 'mandelboxDE'),
+    ]) {
+      final source = File(path).readAsStringSync().replaceAll('\r\n', '\n');
+      final marcher = RegExp(r'vec4 rayMarch\([^\n]+\{([\s\S]+?)\n\}')
+          .firstMatch(source)!
+          .group(1)!;
+      final hitEpsilon =
+          RegExp(r'float minDist\s*=\s*([^;]+);').firstMatch(marcher)!.group(1);
+      final ao = RegExp(r'float sculpturalAO\([^\n]+\{([\s\S]+?)\n\}')
+          .firstMatch(source)!
+          .group(1)!;
+      expect(ao, contains('float epsilon = $hitEpsilon;'), reason: path);
+      expect(ao, contains('for (int i = 0; i < 3; i++)'), reason: path);
+      expect(ao, contains('offset = epsilon * (2.0 + 3.0 * float(i));'),
+          reason: path);
+      expect('$estimator('.allMatches(ao), hasLength(1), reason: path);
+      expect(ao, contains('$estimator(position + normal * offset);'),
+          reason: path);
+      expect(ao, contains('if (surfaceFinite(distance))'), reason: path);
+      expect(ao, contains('clamp((offset - distance) / offset, 0.0, 1.0)'),
+          reason: path);
+      expect(ao, contains('valid = false;'), reason: path);
+      expect(
+          ao,
+          contains(
+              'return valid ? clamp(1.0 - occlusion / 3.0, 0.0, 1.0) : 1.0;'),
+          reason: path);
+    }
   });
   test('synthetic key-facing normal is brighter and highlights are neutral',
       () async {
@@ -141,7 +176,11 @@ void main() {
   });
 
   test('uniform setters write only the existing contiguous ABI', () async {
-    for (final (module, slots) in [(modules[0], 16), (modules[1], 18)]) {
+    for (final (module, slots) in [
+      (modules[0], 16),
+      (buildMandelbulbModule(), 16),
+      (modules[1], 18),
+    ]) {
       final shader = (await ui.FragmentProgram.fromAsset(module.shaderAsset))
           .fragmentShader();
       addTearDown(shader.dispose);
@@ -208,6 +247,12 @@ void main() {
           module: module, params: original.params, view: original.view);
       expect(controller.params['colorScheme'], original.params['colorScheme']);
       expect(viewJson(controller.view), viewJson(original.view));
+      await controller.loadState(
+          module: module,
+          params: {...original.params}..remove('colorScheme'),
+          view: original.view);
+      expect(controller.params['colorScheme'], legacy);
+      expect(viewJson(controller.view), viewJson(original.view));
       await controller.applyPreset(module.defaultPreset);
       final saved = module.defaultPreset.copyWith(
           id: 'saved-${module.id}',
@@ -217,9 +262,17 @@ void main() {
       await store.saveUserPreset(saved);
       final restored = (await store.loadUserPresets(module.id)).single;
       expect(restored.toJson(), saved.toJson());
-      await controller.loadState(
-          module: module, params: restored.params, view: restored.view);
+      // Change both fields so a no-op restore cannot pass.
+      await controller.applyPreset(original);
+      controller.resetView();
+      expect(controller.params['colorScheme'], isNot(max));
+      expect(viewJson(controller.view), isNot(viewJson(restored.view)));
+      expect(
+          await controller.loadState(
+              module: module, params: restored.params, view: restored.view),
+          isTrue);
       expect(controller.params['colorScheme'], max);
+      expect(viewJson(controller.view), viewJson(restored.view));
       final export =
           ExportService(rasterize: (width, height, transparent) async {
         expect((width, height, transparent), (64, 64, true));
