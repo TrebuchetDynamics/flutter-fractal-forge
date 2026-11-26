@@ -611,7 +611,10 @@ test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testI
   });
   const generationStartedAt = await page.evaluate(() => performance.now());
   await page.getByRole('button', { name: /^Walk$/i }).click({ force: true });
-  const readyStatus = page.getByText(/^Ready: \d+ exact primes$/i);
+  // The status also appears in Flutter's polite screen-reader announcement;
+  // read the visible label inside the canvas.
+  const readyStatus = page.getByLabel(/^Interactive fractal canvas/)
+    .getByText(/^Ready: \d+ exact primes$/i);
   await expect(readyStatus).toBeVisible({ timeout: 30_000 });
   const browserObservation = await page.evaluate((startedAt) => ({
     domainHalfWidth: 32,
@@ -728,6 +731,10 @@ test.describe('Visual richness pilot', () => {
 
   for (const example of pilotModules) {
     test(example.moduleId, async ({ page }, testInfo) => {
+      // A source-bound qualification run, not part of the release browser
+      // journey, which serves the bundle without APP_QUALITY_SOURCE.
+      test.skip(!process.env.APP_QUALITY_SOURCE,
+        'pilot qualification runs only when APP_QUALITY_SOURCE is set');
       test.setTimeout(example.timingViewport ? 1_200_000 : 600_000);
       const source = process.env.APP_QUALITY_SOURCE;
       expect(source, 'set APP_QUALITY_SOURCE to the served release source').toMatch(/^[a-f0-9]{40}(?:\+.+)?$/);
