@@ -221,11 +221,13 @@ web/mobile GPU iteration cap stays `160`.
 | Module | Prior center / zoom / scheme | Candidate center / zoom / scheme | Iterations | Composition intent |
 | --- | --- | --- | --- | --- |
 | Mandelbrot | `(-0.5, 0.0)` / `0.35` / `0` | `(-0.747, 0.1)` / `8.0` / `1` | `350` | Frame the Seahorse Valley edge with more surrounding structure than the tighter named preset. |
-| Burning Ship | `(-0.5, 0.0)` / `0.35` / `0` | `(-1.76, -0.035)` / `12.0` / `1` | `300` | Center near Armada's filament-bearing edge without using its high magnification. |
+| Burning Ship | `(-0.5, 0.0)` / `0.35` / `0` | `(-1.76, 0.015)` / `12.0` / `1` | `300` | Keep the hull and its filament-bearing edge in frame without using Armada's high magnification. |
 | Newton z³−1 | `(-0.41568627450980394, -0.05411764705882354)` / `1.4688235294117646` / `0` | `(0.0, 0.0)` / `0.45` / `2` | `80` | Center the three-basin junction and give the distinct root phases room on screen. |
 
 Classic retains each previous resolved default, including its original ID and
-metadata. Applying a saved preset or history entry uses its stored values.
+metadata. Applying a saved preset or history entry uses its stored values;
+older partial saves with no palette still render with scheme `0` without
+rewriting the saved record.
 [The additive candidate record](../../migration/oracles/visual-presentation/curated-defaults-11.json)
 binds the selected values and changed sources without rewriting retained fixtures.
 It also records the exact default-dependent state-replay, parameter interpolation
@@ -251,12 +253,25 @@ budget or cap was changed in code. These local renders establish that the
 candidate draws and exports, not hardware performance or platform appearance.
 
 Delivery run `0b2ad6a3` repeated the 40 captures on both the merged #10
-base and the #11 candidate (`frozen-base/` and `current/`, compared in
+base and the initial #11 candidate (`frozen-base/` and `current/`, compared in
 `merged-base-comparison.png`). A local Chromium Playwright journey verified
-that each pilot's first rendered view and Classic's stored view and scheme
-match the table. The browser screenshot also shows that the control rail
-partly covers the low Burning Ship silhouette; check that composition in the
-platform framing lane. Neither check qualifies platform appearance or hardware.
+those initial first views and each Classic's stored view and scheme. The
+control rail partly covered the low Burning Ship silhouette in that first
+candidate (`y = -0.035`).
+
+Review moved only Burning Ship's vertical center to `0.015` and repeated the
+same Linux capture (40/40 rendered, no skips, with decoded PNG export checks).
+The vertical shift brings the hull and trailing filaments into frame instead
+of leaving most of the square above the ship. `burning-ship-three-views.png`
+compares the overview, the low candidate, and the selected candidate, in that
+order. `review/manifest.json` binds the final inputs, source hashes and
+readbacks, and `review-comparison.png` pairs the overview and final selection
+for all three pilots. Mandelbrot and Newton's rendered defaults match their
+initial candidate pixels. The local Chromium smoke journey also passed for
+all three final first views and Classics (`review-browser/`), but its smoke
+render is not representative of production. Actual viewer aspect ratios and
+controls still need platform framing checks; these captures do not qualify
+appearance or hardware.
 
 ### CAT-QUALITY-01 pilot assessment
 

@@ -148,7 +148,7 @@ final List<EscapeTimeConfig> _coreEscapeTimeFamilyCatalog = [
         'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag',
     defaultIterations: 200,
     defaultCenterX: -1.76,
-    defaultCenterY: -0.035,
+    defaultCenterY: 0.015,
     defaultZoom: 12.0,
     defaultColorScheme: 1,
     // Preserve the original resolved Classic independently of the new default.

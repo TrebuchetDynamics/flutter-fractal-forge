@@ -53,6 +53,8 @@ import 'package:vector_math/vector_math_64.dart';
 /// controller.resetSession();
 /// ```
 class FractalController extends ChangeNotifier {
+  static const _curated2DPilotIds = {'mandelbrot', 'burning_ship', 'newton_z3'};
+
   bool _notificationsSuppressed = false;
 
   void runWithoutNotifications(VoidCallback mutation) {
@@ -503,7 +505,8 @@ class FractalController extends ChangeNotifier {
   /// Applies a preset, setting all parameters and view state.
   ///
   /// The [preset] should match the current module (by moduleId).
-  /// Missing parameters are filled with module defaults.
+  /// Missing parameters use module defaults, except that the reframed 2D
+  /// pilots retain the original palette fallback for partial saves.
   Future<void> applyPreset(FractalPreset preset) async {
     _paramLerpTimer?.cancel();
     if (preset.moduleId == 'number_wall') {
@@ -601,9 +604,7 @@ class FractalController extends ChangeNotifier {
     // neutral session reset (distinct from applying a preset).
     if (_module.id != 'mandelbulb' &&
         _module.id != 'mandelbox' &&
-        _module.id != 'mandelbrot' &&
-        _module.id != 'burning_ship' &&
-        _module.id != 'newton_z3') {
+        !_curated2DPilotIds.contains(_module.id)) {
       _resetViewState();
     }
     _transparentBackground = false;
@@ -1047,24 +1048,24 @@ class FractalController extends ChangeNotifier {
     FractalPreset preset, {
     Map<String, Object> paramOverrides = const {},
   }) {
-    final defaults = <String, Object>{
-      for (final param in _module.parameters) param.id: param.defaultValue,
-    };
-
-    final merged = {
-      ...defaults,
-      ...preset.params,
-      ...paramOverrides,
-    };
-
+    final merged = {...preset.params, ...paramOverrides};
     final clamped = <String, Object>{};
     for (final param in _module.parameters) {
       clamped[param.id] = normalizeFractalParamValue(
         param,
-        merged[param.id] ?? param.defaultValue,
+        merged[param.id] ?? _defaultForMissingParam(param),
       );
     }
     return clamped;
+  }
+
+  Object _defaultForMissingParam(FractalParameter param) {
+    // New/reset presets supply an explicit scheme. Older partial saves that
+    // omitted it must keep rendering with the pre-curation fallback.
+    if (param.id == 'colorScheme' && _curated2DPilotIds.contains(_module.id)) {
+      return 0;
+    }
+    return param.defaultValue;
   }
 
   void _applyPresetView(FractalViewState view) {
@@ -1330,7 +1331,7 @@ class FractalController extends ChangeNotifier {
     for (final param in _module.parameters) {
       clamped[param.id] = normalizeFractalParamValue(
         param,
-        params[param.id] ?? param.defaultValue,
+        params[param.id] ?? _defaultForMissingParam(param),
       );
     }
     _params = clamped;

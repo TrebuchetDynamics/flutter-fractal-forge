@@ -17,7 +17,7 @@ import '../migration/support/baseline_inventory.dart';
 // Frozen selection inputs, not derived from the implementation under test.
 const selected = {
   'mandelbrot': (x: -0.747, y: 0.1, zoom: 8.0, scheme: 1),
-  'burning_ship': (x: -1.76, y: -0.035, zoom: 12.0, scheme: 1),
+  'burning_ship': (x: -1.76, y: 0.015, zoom: 12.0, scheme: 1),
   'newton_z3': (x: 0.0, y: 0.0, zoom: 0.45, scheme: 2),
 };
 
@@ -91,11 +91,22 @@ void main() {
           rotation: Vector3(0, 0, 0.3),
         ),
       );
-      for (final saved in [oldDefault, ...module.builtInPresets, edited]) {
+      final oldWithoutScheme = oldDefault.copyWith(
+        id: 'saved-without-scheme',
+        params: {...oldDefault.params}..remove('colorScheme'),
+      );
+      for (final saved in [
+        oldDefault,
+        ...module.builtInPresets,
+        edited,
+        oldWithoutScheme,
+      ]) {
         final restored = FractalPreset.fromJson(
             jsonDecode(jsonEncode(saved.toJson())) as Map<String, Object?>);
         await controller.applyPreset(restored);
         final expectedParams = {
+          // An older partial save used the original module palette fallback.
+          'colorScheme': oldDefault.params['colorScheme']!,
           ...saved.params,
           // Older named Burning Ship records omit power.
           if (id == 'burning_ship' && !saved.params.containsKey('power'))
