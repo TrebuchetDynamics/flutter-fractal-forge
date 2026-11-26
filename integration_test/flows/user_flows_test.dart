@@ -183,10 +183,32 @@ void main() {
       await pumpForUiTransition(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
+
+      // Below 768 logical px the HUD lists parameters and shows one slider
+      // only after a parameter is chosen; wider layouts show every slider.
+      final phoneChooser =
+          MediaQuery.sizeOf(tester.element(find.byType(FractalControlsHud)))
+                  .width <
+              768;
+      if (phoneChooser) {
+        await tester.tap(find
+            .descendant(
+                of: find.byType(FractalControlsHud),
+                matching: find.byIcon(Icons.chevron_right_rounded))
+            .first);
+        await pumpForUiTransition(tester);
+      }
       expect(find.byType(Slider), findsWidgets);
 
       await tester.drag(find.byType(Slider).first, const Offset(50, 0));
       await pumpForUiTransition(tester);
+
+      // The reset actions live in the parameter list, not the single slider.
+      if (phoneChooser) {
+        await tester
+            .tap(find.byKey(const ValueKey('controlsHudParameterChooser')));
+        await pumpForUiTransition(tester);
+      }
 
       // Find the actions by their localized tooltip, not by icon: the HUD
       // reset icon changed from home_filled to center_focus_strong_rounded
