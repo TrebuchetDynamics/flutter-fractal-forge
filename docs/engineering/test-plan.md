@@ -801,3 +801,55 @@ unchanged shared-sheet/history/preset/export/looper/GPU/text-editor regressions,
 focused analyzer, `git diff --check`, and the root common offline gate once for
 final source. Preserve both locks and original overlay migration/APP-005 evidence;
 browser/device/production gates and Runner independent review remain separate.
+
+### Owned Chromium overlay audit (#21)
+
+This audit visits the composed Flutter app. It derives 84 native1x browser
+rows from the same manifest; component 3× text, synthetic keyboard insets and
+component-only states are mapped separately. Component screenshots are not
+browser baselines. See the [source-bound result and limitations](../tasks/UI-OVERLAY-RESPONSIVE-BROWSER-01.md).
+
+From an isolated checkout with the root `AGENTS.md` pinned setup, put the
+provisioned Playwright 1.59.1 and Chromium on the existing local runner paths
+(no installs). For the shared cache layout, set
+`PLAYWRIGHT_BROWSERS_PATH="$AUTOWORK_CACHE/playwright-browsers"` and use the
+runner's existing `node_modules` or link the provisioned
+`$AUTOWORK_CACHE/playwright-1.59.1/node_modules` in the disposable checkout.
+Build the local smoke target with overlays enabled:
+
+```sh
+(
+  set -eu
+  APP_QUALITY_SOURCE=$(timeout 5s git rev-parse HEAD)
+  export APP_QUALITY_SOURCE
+  if [ -z "${TMPDIR:-}" ]; then TMPDIR=$(mktemp -d); chmod 700 "$TMPDIR"; export TMPDIR; fi
+  timeout 120s flutter pub get --offline --enforce-lockfile
+  timeout 420s flutter build web --release --no-pub --no-wasm-dry-run --base-href / \
+    --dart-define=PLAYWRIGHT_CATALOG_SMOKE=true \
+    --dart-define=PLAYWRIGHT_CATALOG_SMOKE_MAX_GPU_ITERATIONS=10
+  # Use a private TMPDIR outside the checkout and a fresh output subdirectory.
+  PLAYWRIGHT_PORT="${PLAYWRIGHT_PORT:-$(timeout 5s python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1]); s.close()')}"
+  UI_OVERLAY_CAPTURE_DIR="$TMPDIR/browser" PLAYWRIGHT_PORT="$PLAYWRIGHT_PORT" \
+    timeout --kill-after=10s 900s npx --no-install playwright test \
+    --config=playwright.overlays.config.mjs --project=chromium --workers=1
+)
+```
+
+The config waits for its own loopback server to bind. On `Address already in
+use`, keep the exact command/error, clear `PLAYWRIGHT_PORT`, select a new
+OS-assigned port once, and use a fresh capture directory; never kill or reuse a
+listener. An invalid output path is refused; supply an absolute, empty,
+mode-0700 directory outside the checkout. This does not change native port leases.
+
+The first test checks manifest expansion and negative guards. The browser rows
+use fresh contexts and shipping localized semantics; ES follows the browser
+locale, and high contrast/OLED are set through the app itself. The output
+contains `captures.json`, `report.md`, decoded viewport PNGs, `playwright.json`
+and failure diagnostics/traces. Use the build's recorded `APP_QUALITY_SOURCE`,
+not a later checkout SHA; the harness also hashes the served JS bundle. A
+failed row can retain a validated PNG; missing or failed rows prevent a passing
+automated audit. Review title/marker/action bounds and
+scroll reachability separately from document horizontal overflow (tolerance
+1 px): CanvasKit can clip painted content without widening the DOM. Retain
+this private evidence directory, not media in Git. This audit is not native,
+physical-IME, accessibility or hardware-GPU qualification.
