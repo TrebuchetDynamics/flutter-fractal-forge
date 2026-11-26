@@ -4574,7 +4574,7 @@
         "lib/core/services/diagnostics/runs/debug_runner_service.dart": "685e81419a16066050100d51e1fe1dea5fbdb9f2eee54d244f47c1d3fce8ec8a",
         "lib/core/services/diagnostics/runs/test_screenshot_service.dart": "1f359c12ca6e8ac84e8b7925980b60caf551a48588322a763907f75088a833fc",
         "lib/core/services/diagnostics/test_logger.dart": "2a64c0ce9e24c02ef1cd92b5751f085776640b6a138b7cc10ead3921d1e6af68",
-        "lib/core/services/export/batch_export_service.dart": "154a97dfa9815c967d681a934d15ebe560fdc990105a56577c34eac35081cbe7",
+        "lib/core/services/export/batch_export_service.dart": "46213ad2e2b971f9289209f1cbd9e668e838fdbb5452015954ddde8210f277d7",
         "lib/core/services/export/download/export_download.dart": "d059438dedcc2c5b283bbd9cb7eceeb9726a4445188013fb24f24d37d64bbba9",
         "lib/core/services/export/download/export_download_stub.dart": "a030403fb89696d74160be9a004bff5ba2cec35739687faf265b3daee5465c22",
         "lib/core/services/export/export_coordinator.dart": "bd8a28aeaa707ab813282384fd15692c22b383d83fb0485d771b4a935a8793f0",
@@ -10186,7 +10186,7 @@
       }
     }
   },
-  "candidate_identity": "ec73780fbab197059c456674f710a95697cb865d7e3eaf21db184bbed95e87a8",
+  "candidate_identity": "8a0aa477bd4722bbbd47695c7c8e519d9fc9dd0de3121a8fc80b22e546af98ac",
   "compiled_artifacts": [],
   "schema": 1,
   "semantic_deltas": {},

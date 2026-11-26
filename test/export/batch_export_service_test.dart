@@ -1180,10 +1180,12 @@ void main() {
       final dir = await Directory.systemTemp.createTemp('contact_sheet_');
       addTearDown(() => dir.deleteSync(recursive: true));
 
-      final red = img.Image(width: 1920, height: 1080);
-      img.fill(red, color: img.ColorRgb8(255, 0, 0));
+      final image = img.Image(width: 1920, height: 1080);
+      img.fill(image, color: img.ColorRgb8(255, 0, 0));
+      img.fillRect(image,
+          x1: 0, y1: 270, x2: 1919, y2: 809, color: img.ColorRgb8(128, 0, 0));
       final file = File('${dir.path}/wide.png')
-        ..writeAsBytesSync(img.encodePng(red));
+        ..writeAsBytesSync(img.encodePng(image));
 
       final bytes = await const BatchExportContactSheetBuilder().build(
         [file],
@@ -1201,11 +1203,49 @@ void main() {
       );
       expect(centerColumn, [
         ...List.filled(112, 12),
-        ...List.filled(288, 255),
+        ...List.filled(72, 255),
+        ...List.filled(144, 128),
+        ...List.filled(72, 255),
         ...List.filled(112, 12),
       ]);
       expect(sheet.getPixel(16, 16 + 112).r, 255);
       expect(sheet.getPixel(16 + 511, 16 + 112 + 287).r, 255);
+    });
+
+    test('keeps the sheet background around indexed PNG thumbnails', () async {
+      final dir = await Directory.systemTemp.createTemp('contact_sheet_');
+      addTearDown(() => dir.deleteSync(recursive: true));
+
+      final red = img.Image(width: 8, height: 4, withPalette: true);
+      red.palette!.setRgb(12, 255, 0, 0);
+      for (final pixel in red) {
+        red.setPixelIndex(pixel.x, pixel.y, 12);
+      }
+      final file = File('${dir.path}/indexed.png')
+        ..writeAsBytesSync(img.encodePng(red));
+      final bytes = await const BatchExportContactSheetBuilder()
+          .build([file], columns: 1, tileSize: 4, padding: 1);
+
+      final sheet = img.decodePng(bytes)!;
+      expect(List.generate(4, (y) => sheet.getPixel(2, 1 + y).r),
+          [12, 255, 255, 12]);
+    });
+
+    test('keeps at least one row of very wide images visible', () async {
+      final dir = await Directory.systemTemp.createTemp('contact_sheet_');
+      addTearDown(() => dir.deleteSync(recursive: true));
+
+      final red = img.Image(width: 1024, height: 1);
+      img.fill(red, color: img.ColorRgb8(255, 0, 0));
+      final file = File('${dir.path}/wide.png')
+        ..writeAsBytesSync(img.encodePng(red));
+      final bytes = await const BatchExportContactSheetBuilder()
+          .build([file], columns: 1, tileSize: 512, padding: 0);
+
+      final sheet = img.decodePng(bytes)!;
+      expect(sheet.getPixel(256, 254).r, 12);
+      expect(sheet.getPixel(256, 255).r, 255);
+      expect(sheet.getPixel(256, 256).r, 12);
     });
 
     test('builds a PNG sheet from valid image files and skips bad inputs',
