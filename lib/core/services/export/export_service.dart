@@ -27,6 +27,11 @@ Uint8List _resizeExportPng((Uint8List, int, int, String?) input) {
   );
 }
 
+Uint8List _styleWallpaperPng((Uint8List, String) input) {
+  final (bytes, style) = input;
+  return const ExportService().applyWallpaperStyle(bytes, style: style);
+}
+
 /// Replayable filename contract for exported files.
 ///
 /// Both caller-supplied prefix and fractal type become path-safe filename
@@ -368,6 +373,19 @@ class ExportService {
       return ExportFormat.png;
     }
     return requested;
+  }
+
+  /// Applies wallpaper styling off the UI isolate with export cancellation.
+  Future<Uint8List> applyWallpaperStyleInWorker(
+    Uint8List pngBytes, {
+    required String style,
+    required ExportCancellationToken cancellationToken,
+  }) {
+    return worker.runWithInput(
+      _styleWallpaperPng,
+      (pngBytes, style),
+      token: cancellationToken,
+    );
   }
 
   /// Apply simple legibility overlays for wallpaper usage.

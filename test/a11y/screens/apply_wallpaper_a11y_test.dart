@@ -43,8 +43,14 @@ class _FakeExportService extends ExportService {
       Uint8List.fromList(const [1, 2, 3, 4]);
 
   @override
-  Uint8List applyWallpaperStyle(Uint8List bytes, {required String style}) =>
-      bytes;
+  Future<Uint8List> applyWallpaperStyleInWorker(
+    Uint8List bytes, {
+    required String style,
+    required ExportCancellationToken cancellationToken,
+  }) async {
+    cancellationToken.throwIfCancelled();
+    return bytes;
+  }
 
   @override
   String generateFilename({

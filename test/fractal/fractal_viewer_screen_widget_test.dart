@@ -15,6 +15,7 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/fractal_mathematics.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -168,15 +169,30 @@ class _BlockingLooperPublicationExportService extends _LooperExportService {
   }
 }
 
+class _WallpaperTestWorker implements ExportWorker {
+  _WallpaperTestWorker({this.waitForCancel = false});
+
+  final bool waitForCancel;
+  ExportCancellationToken? token;
+
+  @override
+  Future<T> run<T>(
+    ExportWorkerTask<T> task, {
+    ExportCancellationToken? token,
+    void Function()? onSpawned,
+  }) async {
+    this.token = token;
+    if (waitForCancel && token != null) await token.whenCancelled;
+    token?.throwIfCancelled();
+    return await task();
+  }
+}
+
 class _BlockingWallpaperExportService extends ExportService {
-  final ExportCoordinator _coordinator = ExportCoordinator();
+  _BlockingWallpaperExportService({super.worker})
+      : super(coordinator: ExportCoordinator());
+
   int saveCalls = 0;
-
-  @override
-  ExportCoordinator get coordinator => _coordinator;
-
-  @override
-  bool cancelActiveExport() => _coordinator.cancelActive();
 
   @override
   Future<bool> chooseLinuxExportDirectory() async => true;
@@ -187,13 +203,6 @@ class _BlockingWallpaperExportService extends ExportService {
     double pixelRatio = 1.0,
   }) async =>
       Uint8List.fromList(img.encodePng(img.Image(width: 2, height: 2)));
-
-  @override
-  Uint8List applyWallpaperStyle(
-    Uint8List pngBytes, {
-    required String style,
-  }) =>
-      pngBytes;
 
   @override
   Future<({File file, bool galleryCopyFailed})> saveBytesWithGalleryStatus(
@@ -2344,15 +2353,11 @@ void main() {
       expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
     });
 
-    testWidgets(
-        'wallpaper persistence and publication retain the image lease and cancel',
-        (tester) async {
-      final previousPlatform = debugDefaultTargetPlatformOverride;
-      debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      addTearDown(() => debugDefaultTargetPlatformOverride = previousPlatform);
-      final exportService = _BlockingWallpaperExportService();
-      final wallpaperService = _BlockingWallpaperService();
-
+    Future<void> openWallpaperOptions(
+      WidgetTester tester,
+      ExportService exportService,
+      WallpaperService wallpaperService,
+    ) async {
       await tester.pumpWidget(buildTestWidget(
         exportService: exportService,
         wallpaperService: wallpaperService,
@@ -2364,9 +2369,87 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportWallpaperButton')));
       await tester.pumpAndSettle();
+    }
+
+    testWidgets('applying an optimized wallpaper finishes with the real worker',
+        (tester) async {
+      tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (_) async => null);
+      addTearDown(() => tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null));
+      final exportService = _BlockingWallpaperExportService();
+      final wallpaperService = _BlockingWallpaperService();
+
+      await tester.binding.setSurfaceSize(const Size(800, 1000));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      wallpaperService.releasePublication.complete();
+      await openWallpaperOptions(tester, exportService, wallpaperService);
+      final lockOptimized = find.text('Lock optimized');
+      expect(lockOptimized.hitTestable(), findsOneWidget);
+      await tester.tap(lockOptimized);
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Apply'));
       await tester.pump();
-      await wallpaperService.publicationStarted.future;
+      for (var attempt = 0;
+          attempt < 100 && exportService.coordinator.isBusy;
+          attempt++) {
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 10)),
+        );
+        await tester.pump();
+      }
+      await tester.pumpAndSettle();
+
+      expect(exportService.saveCalls, 1);
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(find.text('Wallpaper ready'), findsOneWidget);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+
+    testWidgets('Cancel during wallpaper styling prevents copy and publication',
+        (tester) async {
+      final worker = _WallpaperTestWorker(waitForCancel: true);
+      final exportService = _BlockingWallpaperExportService(worker: worker);
+      final wallpaperService = _BlockingWallpaperService();
+      // Do not leave the platform stand-in pending if styling is bypassed.
+      wallpaperService.releasePublication.complete();
+
+      await openWallpaperOptions(tester, exportService, wallpaperService);
+      await tester.tap(find.text('Apply'));
+      await tester.pump();
+      final cancel = find.byKey(const ValueKey('cancelActiveExportButton'));
+
+      expect(worker.token, isNotNull);
+      expect(exportService.coordinator.activeKind, ExportKind.image);
+      await expectLater(
+        exportService.coordinator.run(ExportKind.video, (_) async => 1),
+        throwsA(isA<ExportBusyException>()),
+      );
+      expect(cancel.hitTestable(), findsOneWidget);
+      await tester.tap(cancel);
+      await tester.pumpAndSettle();
+
+      expect(worker.token!.isCancelled, isTrue);
+      expect(exportService.saveCalls, 0);
+      expect(wallpaperService.publicationStarted.isCompleted, isFalse);
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(cancel, findsNothing);
+      expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
+      expect(find.text('Wallpaper ready'), findsNothing);
+      expect(find.textContaining('Couldn’t apply wallpaper'), findsNothing);
+      expect(tester.takeException(), isNull);
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
+
+    testWidgets(
+        'wallpaper persistence and publication retain the image lease and cancel',
+        (tester) async {
+      final exportService =
+          _BlockingWallpaperExportService(worker: _WallpaperTestWorker());
+      final wallpaperService = _BlockingWallpaperService();
+
+      await openWallpaperOptions(tester, exportService, wallpaperService);
+      await tester.tap(find.text('Apply'));
+      await tester.pump();
+      expect(wallpaperService.publicationStarted.isCompleted, isTrue);
 
       expect(exportService.saveCalls, 1);
       expect(exportService.coordinator.activeKind, ExportKind.image);
@@ -2378,12 +2461,10 @@ void main() {
       await tester.binding.handlePopRoute();
       wallpaperService.releasePublication.complete();
       await tester.pumpAndSettle();
-      debugDefaultTargetPlatformOverride = previousPlatform;
-
       expect(exportService.coordinator.isBusy, isFalse);
       expect(find.text('Wallpaper ready'), findsNothing);
       expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
-    });
+    }, variant: TargetPlatformVariant.only(TargetPlatform.android));
 
     testWidgets('system Back cancels an active image export before route pop',
         (tester) async {
