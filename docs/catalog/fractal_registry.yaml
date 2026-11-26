@@ -6388,7 +6388,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_cubic
     name: Mandelbar Cubic (Tricorn ³)
-    shader: shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6422,7 +6422,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power6
     name: Mandelbar⁶
-    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6456,7 +6456,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power7
     name: Mandelbar⁷
-    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6490,7 +6490,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power8
     name: Mandelbar⁸
-    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -6524,7 +6524,7 @@ fractals:
       confidence: 1.0
   - id: mandelbar_power9
     name: Mandelbar⁹
-    shader: shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7022,7 +7022,7 @@ fractals:
       confidence: 1.0
   - id: multibrot_15
     name: Multibrot d=1.5
-    shader: shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7057,7 +7057,7 @@ fractals:
       confidence: 1.0
   - id: multibrot_25
     name: Multibrot d=2.5
-    shader: shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7127,7 +7127,7 @@ fractals:
       confidence: 1.0
   - id: multibrot4
     name: Multibrot d=4
-    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7162,7 +7162,7 @@ fractals:
       confidence: 1.0
   - id: multibrot5
     name: Multibrot d=5
-    shader: shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7197,7 +7197,7 @@ fractals:
       confidence: 1.0
   - id: multibrot6
     name: Multibrot ⁶
-    shader: shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7231,7 +7231,7 @@ fractals:
       confidence: 1.0
   - id: multibrot7
     name: Multibrot ⁷
-    shader: shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7265,7 +7265,7 @@ fractals:
       confidence: 1.0
   - id: multibrot8
     name: Multibrot ⁸
-    shader: shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7299,7 +7299,7 @@ fractals:
       confidence: 1.0
   - id: multibrot12
     name: Multibrot¹²
-    shader: shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7333,7 +7333,7 @@ fractals:
       confidence: 1.0
   - id: multibrot11
     name: Multibrot¹¹
-    shader: shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7367,7 +7367,7 @@ fractals:
       confidence: 1.0
   - id: multibrot10
     name: Multibrot¹⁰
-    shader: shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -7401,7 +7401,7 @@ fractals:
       confidence: 1.0
   - id: multibrot9
     name: Multibrot⁹
-    shader: shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag
+    shader: shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
