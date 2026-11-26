@@ -189,9 +189,13 @@ class _BlockingWallpaperExportService extends ExportService {
       pngBytes;
 
   @override
-  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+  Future<({File file, bool galleryCopyFailed})> saveBytesWithGalleryStatus(
+    Uint8List bytes, {
+    required String filename,
+    ExportCancellationToken? cancellationToken,
+  }) async {
     saveCalls++;
-    return File('/tmp/$filename');
+    return (file: File('/tmp/$filename'), galleryCopyFailed: false);
   }
 }
 
@@ -222,6 +226,9 @@ class _BatchDirectoryExportService extends ExportService {
 }
 
 class _ScreenSizeExportService extends ExportService {
+  _ScreenSizeExportService({this.galleryCopyFailed = false});
+
+  final bool galleryCopyFailed;
   double? logicalWidth;
   double? logicalHeight;
   double? physicalScreenWidth;
@@ -253,6 +260,7 @@ class _ScreenSizeExportService extends ExportService {
       width: 1080,
       height: 1920,
       fileSize: 0,
+      galleryCopyFailed: galleryCopyFailed,
     );
   }
 
@@ -2147,6 +2155,27 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.textContaining('Export saved'), findsOneWidget);
+    });
+
+    testWidgets('Save reports that the PNG is only in the app folder',
+        (tester) async {
+      tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (_) async => null);
+      addTearDown(() => tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null));
+      await tester.pumpWidget(buildTestWidget(
+        exportService: _ScreenSizeExportService(galleryCopyFailed: true),
+      ));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Saved in the app folder only.'), findsOneWidget);
+      expect(find.text('Export saved'), findsNothing);
     });
 
     testWidgets('cancelled image export never starts the PNG fallback',

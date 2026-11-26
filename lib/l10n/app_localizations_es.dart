@@ -492,6 +492,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exportSaved => 'Exportación guardada';
 
   @override
+  String get exportSavedAppFolderOnly =>
+      'Guardado solo en la carpeta de la aplicación.';
+
+  @override
+  String get exportSavedAppFolderOnlyShareFailed =>
+      'Guardado solo en la carpeta de la aplicación. No se abrió el menú para compartir.';
+
+  @override
   String get exporting => 'Exportando...';
 
   @override
@@ -1087,6 +1095,10 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get wallpaperAppliedCopyFailed =>
       'Fondo listo, pero no se pudo guardar la copia';
+
+  @override
+  String get wallpaperCopySavedAppFolderOnly =>
+      'La copia se guardó solo en la carpeta de la aplicación.';
 
   @override
   String wallpaperFailedWithError(Object error) {

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
@@ -22,10 +23,15 @@ import '../../helpers/overflow_guard.dart';
 import '../shared/a11y_test_helpers.dart';
 
 class _FakeExportService extends ExportService {
-  _FakeExportService({this.pickerOk = true, this.saveThrows = false});
+  _FakeExportService({
+    this.pickerOk = true,
+    this.saveThrows = false,
+    this.galleryCopyFailed = false,
+  });
 
   final bool pickerOk;
   final bool saveThrows;
+  final bool galleryCopyFailed;
   int saveCalls = 0;
 
   @override
@@ -49,10 +55,14 @@ class _FakeExportService extends ExportService {
       'wp.png';
 
   @override
-  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+  Future<({File file, bool galleryCopyFailed})> saveBytesWithGalleryStatus(
+    Uint8List bytes, {
+    required String filename,
+    ExportCancellationToken? cancellationToken,
+  }) async {
     saveCalls++;
     if (saveThrows) throw const FileSystemException('disk full');
-    return File('/fake/$filename');
+    return (file: File('/fake/$filename'), galleryCopyFailed: galleryCopyFailed);
   }
 }
 
@@ -191,6 +201,20 @@ void main() {
           reason: 'a failed copy must not stop the wallpaper being set');
       expect(find.text('Wallpaper ready'), findsNothing);
       expect(find.textContaining('copy couldn’t be saved'), findsOneWidget);
+      await disposeAccessibilityTestWidget(tester);
+    });
+
+    testWidgets('a gallery failure reports the app-only wallpaper copy',
+        (tester) async {
+      exportService = _FakeExportService(galleryCopyFailed: true);
+      await applyWallpaper(tester);
+
+      expect(exportService.saveCalls, 1);
+      expect(wallpaperService.calls, 1);
+      expect(
+        find.text('Wallpaper ready. The copy was saved in the app folder only.'),
+        findsOneWidget,
+      );
       await disposeAccessibilityTestWidget(tester);
     });
 

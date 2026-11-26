@@ -203,8 +203,9 @@ class MainActivity : FlutterFragmentActivity() {
         Thread {
             try {
                 val filename = "fractal_wallpaper_${System.currentTimeMillis()}.png"
-                persistImageToMediaStore(bytes, filename, "image/png")
-                runOnUiThread { result.success(true) }
+                persistImageToMediaStore(bytes, filename, "image/png") { savedRef ->
+                    runOnUiThread { result.success(savedRef != null) }
+                }
             } catch (t: Throwable) {
                 runOnUiThread { result.success(false) }
             }
@@ -239,8 +240,15 @@ class MainActivity : FlutterFragmentActivity() {
     ) {
         Thread {
             try {
-                val savedRef = persistImageToMediaStore(bytes, filename, mimeType)
-                runOnUiThread { result.success(savedRef) }
+                persistImageToMediaStore(bytes, filename, mimeType) { savedRef ->
+                    runOnUiThread {
+                        if (savedRef != null) {
+                            result.success(savedRef)
+                        } else {
+                            result.error("media_store_save_failed", "Failed to index image", null)
+                        }
+                    }
+                }
             } catch (t: Throwable) {
                 runOnUiThread {
                     result.error(
@@ -253,18 +261,19 @@ class MainActivity : FlutterFragmentActivity() {
         }.start()
     }
 
-    /** Writes [bytes] into MediaStore (Pictures/FractalForge) and returns the
-     *  saved reference (content URI on Q+, absolute path on legacy). Throws on
-     *  failure. Must be called off the main thread. */
+    /** Writes [bytes] into MediaStore (Pictures/FractalForge) and reports the
+     *  saved reference after publication, or null if legacy scanning failed.
+     *  Must be called off the main thread. */
     private fun persistImageToMediaStore(
         bytes: ByteArray,
         filename: String,
         mimeType: String,
-    ): String {
+        onSaved: (String?) -> Unit,
+    ) {
         val resolver = applicationContext.contentResolver
         val safeName = filename.replace("/", "_").replace("\\", "_")
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val relativePath = "${Environment.DIRECTORY_PICTURES}/$MEDIA_STORE_SUBDIR"
             val values = ContentValues().apply {
                 put(MediaStore.Images.Media.DISPLAY_NAME, safeName)
@@ -280,15 +289,17 @@ class MainActivity : FlutterFragmentActivity() {
             val uri = resolver.insert(collection, values)
                 ?: throw IOException("Failed to create MediaStore record")
 
-            resolver.openOutputStream(uri)?.use { stream ->
-                stream.write(bytes)
-                stream.flush()
-            } ?: throw IOException("Failed to open output stream for MediaStore URI")
+            writePendingImage(delete = { resolver.delete(uri, null, null) }) {
+                resolver.openOutputStream(uri)?.use { stream ->
+                    stream.write(bytes)
+                    stream.flush()
+                } ?: throw IOException("Failed to open output stream for MediaStore URI")
 
-            values.clear()
-            values.put(MediaStore.Images.Media.IS_PENDING, 0)
-            resolver.update(uri, values, null, null)
-            uri.toString()
+                values.clear()
+                values.put(MediaStore.Images.Media.IS_PENDING, 0)
+                resolver.update(uri, values, null, null)
+            }
+            onSaved(uri.toString())
         } else {
             // Legacy fallback (API < 29): write to public Pictures and trigger scan.
             val picturesDir = Environment.getExternalStoragePublicDirectory(
@@ -307,9 +318,10 @@ class MainActivity : FlutterFragmentActivity() {
                 applicationContext,
                 arrayOf(file.absolutePath),
                 arrayOf(mimeType),
-                null
-            )
-            file.absolutePath
+            ) { _, uri ->
+                if (uri == null) runCatching { file.delete() }
+                onSaved(if (uri != null) file.absolutePath else null)
+            }
         }
     }
 
@@ -319,5 +331,15 @@ class MainActivity : FlutterFragmentActivity() {
             "webp" -> "image/webp"
             else -> "image/png"
         }
+    }
+}
+
+internal fun writePendingImage(delete: () -> Unit, writeAndPublish: () -> Unit) {
+    try {
+        writeAndPublish()
+    } catch (error: Throwable) {
+        // Preserve the original failure if cleanup also fails.
+        runCatching(delete)
+        throw error
     }
 }

@@ -553,11 +553,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     AppLocalizations l10n,
     ViewerExportFeedback feedback,
   ) {
-    final icon = feedback.shareFailed
-        ? Icons.warning_amber_rounded
-        : Icons.check_circle_rounded;
-    final iconColor =
-        feedback.shareFailed ? AppColors.warning : AppColors.success;
+    final warning = feedback.shareFailed || feedback.result.galleryCopyFailed;
+    final icon =
+        warning ? Icons.warning_amber_rounded : Icons.check_circle_rounded;
+    final iconColor = warning ? AppColors.warning : AppColors.success;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -637,6 +636,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
       _exportSession = _exportSession.startExport();
     });
 
+    var galleryCopyFailed = false;
     try {
       final saveCopy =
           options.saveCopy && await _exportService.chooseLinuxExportDirectory();
@@ -670,7 +670,12 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
               fractalType: controller.module.id,
             );
             try {
-              await _exportService.saveBytes(styled, filename: filename);
+              final copy = await _exportService.saveBytesWithGalleryStatus(
+                styled,
+                filename: filename,
+                cancellationToken: token,
+              );
+              galleryCopyFailed = copy.galleryCopyFailed;
             } catch (error) {
               copyFailed = true;
               _log.warn(
@@ -702,9 +707,12 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
           : l10n.wallpaperApplied;
       final successMessage =
           copyFailed ? l10n.wallpaperAppliedCopyFailed : applied;
+      final message = ok ? successMessage : l10n.wallpaperFailed;
       ScaffoldMessenger.of(context).showSnackBar(
         appFeedbackSnackBar(
-          message: ok ? successMessage : l10n.wallpaperFailed,
+          message: galleryCopyFailed
+              ? '$message. ${l10n.wallpaperCopySavedAppFolderOnly}'
+              : message,
           success: ok,
         ),
       );
@@ -714,9 +722,12 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
       _log.warn('wallpaper', 'Set wallpaper failed',
           data: {'error': e.toString()});
       if (!mounted) return;
+      final message = l10n.wallpaperFailedWithError(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         appFeedbackSnackBar(
-          message: l10n.wallpaperFailedWithError(e.toString()),
+          message: galleryCopyFailed
+              ? '$message\n${l10n.wallpaperCopySavedAppFolderOnly}'
+              : message,
           success: false,
         ),
       );

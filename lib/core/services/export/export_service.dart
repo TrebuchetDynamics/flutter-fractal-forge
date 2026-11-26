@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, visibleForTesting;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -940,6 +940,19 @@ class ExportService {
     Uint8List bytes, {
     required String filename,
     ExportCancellationToken? cancellationToken,
+  }) async =>
+      (await saveBytesWithGalleryStatus(
+        bytes,
+        filename: filename,
+        cancellationToken: cancellationToken,
+      ))
+          .file;
+
+  /// Saves the app copy before attempting the optional Android gallery copy.
+  Future<({File file, bool galleryCopyFailed})> saveBytesWithGalleryStatus(
+    Uint8List bytes, {
+    required String filename,
+    ExportCancellationToken? cancellationToken,
   }) async {
     ExportSizePolicy.validateEncodedByteLength(bytes.lengthInBytes);
     final destination = await createExportFile(filename: filename);
@@ -948,8 +961,8 @@ class ExportService {
       destination,
       cancellationToken: cancellationToken,
     );
-    await _mirrorImageToMediaStoreIfNeeded(bytes, filename);
-    return committed;
+    final galleryCopyFailed = await _galleryCopyFailed(bytes, filename);
+    return (file: committed, galleryCopyFailed: galleryCopyFailed);
   }
 
   /// Stages bytes beside [destination] and publishes them with one rename.
@@ -1036,15 +1049,14 @@ class ExportService {
       );
     }
 
-    final file = cancellationToken == null
-        ? await saveBytes(bytes, filename: filename)
-        : await saveBytesCancellable(
-            bytes,
-            filename: filename,
-            cancellationToken: cancellationToken,
-          );
+    final saved = await saveBytesWithGalleryStatus(
+      bytes,
+      filename: filename,
+      cancellationToken: cancellationToken,
+    );
     return ExportResult(
-      file: file,
+      file: saved.file,
+      galleryCopyFailed: saved.galleryCopyFailed,
       filename: filename,
       format: format,
       width: width,
@@ -1107,22 +1119,25 @@ class ExportService {
     return 'image/png';
   }
 
-  Future<void> _mirrorImageToMediaStoreIfNeeded(
-    Uint8List bytes,
-    String filename,
-  ) async {
-    if (kIsWeb || !Platform.isAndroid || !_isImageFilename(filename)) {
-      return;
-    }
+  @visibleForTesting
+  bool get isAndroid => Platform.isAndroid;
+
+  Future<bool> _galleryCopyFailed(Uint8List bytes, String filename) async {
+    if (kIsWeb || !isAndroid || !_isImageFilename(filename)) return false;
 
     try {
-      await _mediaStoreChannel.invokeMethod<String>('saveImage', {
-        'bytes': bytes,
-        'filename': filename,
-        'mimeType': _mimeTypeForFilename(filename),
-      });
+      final reference = await _mediaStoreChannel.invokeMethod<String>(
+        'saveImage',
+        {
+          'bytes': bytes,
+          'filename': filename,
+          'mimeType': _mimeTypeForFilename(filename),
+        },
+      );
+      return reference == null || reference.isEmpty;
     } catch (_) {
-      // Best-effort only: keep local export path working even if MediaStore fails.
+      // The app copy has already been committed and remains usable.
+      return true;
     }
   }
 
@@ -1202,6 +1217,7 @@ class ExportResult {
   final int width;
   final int height;
   final int fileSize;
+  final bool galleryCopyFailed;
 
   const ExportResult({
     required this.file,
@@ -1211,6 +1227,7 @@ class ExportResult {
     required this.width,
     required this.height,
     required this.fileSize,
+    this.galleryCopyFailed = false,
   }) : filename = filename ?? '';
 
   String get formattedSize => formatByteSize(fileSize);

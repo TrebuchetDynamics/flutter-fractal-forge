@@ -39,6 +39,7 @@ const juliaUniformOrderTask = 'JULIA-UNIFORM-ORDER-71';
 const escapeTimeUniformDefaultsTask = 'ESCAPE-TIME-UNIFORM-DEFAULTS-72';
 const perturbationOrbitCacheKeyTask = 'PERTURBATION-ORBIT-CACHE-KEY-74';
 const historyReplayModuleIdTask = 'HISTORY-REPLAY-MODULE-ID-75';
+const androidGallerySaveTask = 'ANDROID-GALLERY-SAVE-76';
 
 // This stage may only append these inputs in shader order and add their
 // defaults to the generated Default/Classic presets. Existing data is fixed.
@@ -353,6 +354,17 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    androidGallerySaveTask => const [
+        'lib/core/services/export/export_service.dart',
+        'lib/features/viewer/export/viewer_export_actions.dart',
+        'lib/features/viewer/export/viewer_export_feedback.dart',
+        'lib/features/viewer/fractal_viewer_screen.dart',
+        'lib/l10n/app_localizations.dart',
+        'lib/l10n/app_localizations_en.dart',
+        'lib/l10n/app_localizations_es.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -372,7 +384,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == stateMachineFixesTask ||
       stage['task'] == catalogAdditionSupportTask ||
       stage['task'] == perturbationOrbitCacheKeyTask ||
-      stage['task'] == historyReplayModuleIdTask;
+      stage['task'] == historyReplayModuleIdTask ||
+      stage['task'] == androidGallerySaveTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {

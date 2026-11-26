@@ -27,7 +27,8 @@ Map stageFor(String task) {
       task == startupDeepLinksTask ||
       task == cpuRenderParamsTask ||
       task == stateMachineFixesTask ||
-      task == catalogAdditionSupportTask;
+      task == catalogAdditionSupportTask ||
+      task == androidGallerySaveTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -76,6 +77,7 @@ void main() {
     cpuRenderParamsTask,
     stateMachineFixesTask,
     catalogAdditionSupportTask,
+    androidGallerySaveTask,
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);
@@ -435,6 +437,8 @@ void main() {
       const historicalSources = {
         'lib/core/controllers/fractal_controller.dart':
             '8bf7f233db1606f779ba59231c4026c46f12e446b734e5c5373f45a400561f1d',
+        'lib/features/viewer/fractal_viewer_screen.dart':
+            '130d18a56639d9e1f65eb25a6cbdf5593ee4df8126a4df0b6992f3aadb6f1242',
         'test/migration/support/provenance_transition.dart':
             'd56b206921c86e52216b004e0bf3fc0b46b02837701ec43895e94480da49e7ad',
         'test/migration/support/visual_presentation_evolution.dart':
