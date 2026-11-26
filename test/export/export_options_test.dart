@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 
 void main() {
   group('ExportFormat', () {
@@ -98,6 +99,29 @@ void main() {
       expect(ratio, 8.0);
     });
 
+    for (final (targetWidth, targetHeight, screenWidth, screenHeight) in [
+      (10000, 10000, 1920.0, 1080.0),
+      (4096, 1024, 412.0, 915.0),
+      (4096, 1024, 411.6, 914.7),
+      (4096, 1024, 5000.0, 4000.0),
+    ]) {
+      test(
+          'caps $targetWidth×$targetHeight capture on '
+          '$screenWidth×$screenHeight to the pixel budget', () {
+        final options = ExportOptions(
+          resolution: ExportResolution.custom,
+          customWidth: targetWidth,
+          customHeight: targetHeight,
+        );
+        final ratio = options.calculatePixelRatio(screenWidth, screenHeight);
+        // Flutter rounds each scaled capture dimension up, not down.
+        final pixels =
+            (screenWidth * ratio).ceil() * (screenHeight * ratio).ceil();
+        expect(pixels, lessThanOrEqualTo(ExportSizePolicy.maxPixelCount));
+        expect(pixels, greaterThan(ExportSizePolicy.maxPixelCount * 0.99));
+      });
+    }
+
     test('calculatePixelRatio sanitizes invalid screen dimensions for presets',
         () {
       const options = ExportOptions(resolution: ExportResolution.fullHd);
@@ -184,7 +208,6 @@ void main() {
       );
 
       expect(options.getTargetDimensions(400, 800), (1 << 30, 1 << 30));
-      expect(options.calculatePixelRatio(400, 800), 8.0);
     });
 
     test('screen dimensions used for fallback are at least one pixel', () {

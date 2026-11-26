@@ -334,6 +334,7 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == perturbationOrbitCacheKeyTask ||
           s['task'] == historyReplayModuleIdTask ||
           s['task'] == androidGallerySaveTask ||
+          s['task'] == exportCaptureSizeLimitTask ||
           isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();

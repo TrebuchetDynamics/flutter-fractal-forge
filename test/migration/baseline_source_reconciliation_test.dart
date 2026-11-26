@@ -220,6 +220,7 @@ void main() {
       visualSurfaceTask,
       androidGallerySaveTask,
       visualDefaultsTask,
+      exportCaptureSizeLimitTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -261,6 +262,10 @@ void main() {
     expect(gallerySave['compiled_artifacts'], isEmpty);
     final defaults =
         candidates.singleWhere((s) => s['task'] == visualDefaultsTask);
+    final captureLimit =
+        candidates.singleWhere((s) => s['task'] == exportCaptureSizeLimitTask);
+    expect(captureLimit['semantic_deltas'], isEmpty);
+    expect(captureLimit['compiled_artifacts'], isEmpty);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -294,6 +299,7 @@ void main() {
         surface,
         gallerySave,
         defaults,
+        captureLimit,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -319,7 +325,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            defaults['binding_maps'][id]['after'] as Map,
+            captureLimit['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

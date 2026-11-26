@@ -753,27 +753,26 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     required ExportCancellationToken cancellationToken,
   }) async {
     cancellationToken.throwIfCancelled();
-    final pixelRatio = options
-        .calculatePixelRatio(
-          screenWidth,
-          screenHeight,
-          physicalScreenWidth: physicalScreenWidth,
-          physicalScreenHeight: physicalScreenHeight,
-        )
-        .clamp(1.0, 8.0);
-    var bytes = await _exportService.capturePng(
-      boundaryKey,
-      pixelRatio: pixelRatio,
-    );
-    cancellationToken.throwIfCancelled();
     final targetDims = options.getTargetDimensions(
       screenWidth,
       screenHeight,
       physicalScreenWidth: physicalScreenWidth,
       physicalScreenHeight: physicalScreenHeight,
     );
-    bytes = await _exportService.resizePngInWorker(
-      bytes,
+    ExportSizePolicy.validateTargetDimensions(targetDims.$1, targetDims.$2);
+    final pixelRatio = options.calculatePixelRatio(
+      screenWidth,
+      screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
+    );
+    final capturedBytes = await _exportService.capturePng(
+      boundaryKey,
+      pixelRatio: pixelRatio,
+    );
+    cancellationToken.throwIfCancelled();
+    final bytes = await _exportService.resizePngInWorker(
+      capturedBytes,
       width: targetDims.$1,
       height: targetDims.$2,
       quoteText: options.quoteText,
