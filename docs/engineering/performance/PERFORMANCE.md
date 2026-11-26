@@ -44,3 +44,19 @@ flutter test integration_test/performance/shader_benchmark_test.dart -d linux
 It attempts to load and draw four named legacy shader assets. It does not cover the full shader catalog or the production module renderer. Its `Ticker` samples are driven by `WidgetTester.pump(Duration(milliseconds: 16))`. They are test-pump intervals, not engine `FrameTiming` measurements. The 50 ms assertion does not validate GPU frame throughput. A failed asset load is logged and omitted from the assertion, so a passing result does not prove that all four assets loaded. Use the smoke test above or the Linux catalog audit for engine frame timings. The unit-test file `test/shaders/shader_benchmark_test.dart` is intentionally skipped and is not a benchmark entry point.
 
 For per-module visual and frame-timing audits on Linux, use [`LINUX_FRACTAL_AUDIT.md`](LINUX_FRACTAL_AUDIT.md). Its retained reports use Mesa llvmpipe software rendering. They are not hardware-GPU performance results. Rerun performance candidates on the target GPU with the audit's documented settings before drawing performance conclusions.
+
+## Visual-richness pilot: BlueBlack Linux GPU draw/readback (#12)
+
+[Issue #12 timing evidence](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/12#issuecomment-7196322937) binds these measurements to candidate `01208be28c8fd9dc819ed17746779fab8447bf16`, Flutter 3.47.9/Dart 3.13.7, and the checkout-local Linux GTK debug integration build on BlueBlack. The configured Wayland session (`wayland-1`, X display `:0`) reported an accelerated AMD Radeon RX 6800 XT (`radeonsi`, Mesa 25.2.8, kernel 7.0.0-43-generic); the Flutter process mapped Mesa EGL and opened the AMDGPU render node. This was not an Xvfb/llvmpipe or installed release build.
+
+Each cell is **median / p95 in ms** for 60 completed 512×512 offscreen fragment-shader draws plus awaited raw RGBA readback after 10 warmups, with one reused renderer and frozen time-zero input. PNG encoding, file writes and program loading are outside the timer. These are not viewer frame times, GPU-only throughput or FPS. Effective iteration budgets below are default/edited; the edit changes the view and may change production iteration scaling. The 3D step budgets were 120 for Mandelbulb and 80 for Mandelbox.
+
+| Module / selector / effective iterations | Default opaque | Default transparent request | Edited opaque | Edited transparent request |
+|---|---:|---:|---:|---:|
+| Mandelbrot / 1 / 461, 470 | 5.2535 / 9.184 | 4.3680 / 8.498 | 4.3660 / 8.849 | 4.3910 / 7.046 |
+| Burning Ship / 1 / 413, 422 | 5.3515 / 9.740 | 5.3290 / 9.574 | 4.5610 / 7.456 | 4.7530 / 7.899 |
+| Newton z3 / 2 / 80, 80 | 4.2265 / 8.236 | 4.3375 / 8.858 | 4.1470 / 8.012 | 4.3040 / 7.511 |
+| Mandelbulb / Sculptural 4 / 51, 52 | 5.0860 / 8.981 | 4.6545 / 9.835 | 5.2675 / 8.833 | 5.1005 / 8.455 |
+| Mandelbox / Sculptural 8 / 15, 15 | 5.3080 / 9.350 | 5.3005 / 9.983 | 5.1745 / 9.044 | 5.2940 / 10.780 |
+
+**Same-input legacy-versus-Sculptural A/B: NOT_RUN.** The checked-in timing mode does not switch the material while holding a frozen 3D input fixed. Neither the default/edited split nor the separate historical-source catalog captures supply that comparator. The provisional `Sculptural p95 ≤ 1.15 × legacy p95` budget has no verdict; none of these samples measure the old build.
