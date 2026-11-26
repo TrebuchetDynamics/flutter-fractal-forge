@@ -41,7 +41,7 @@ async function applyLegacyPreset(page) {
   await page.getByRole('group', { name: /Interactive fractal canvas Newton Fractal/ })
     .click({ button: 'right', position: { x: 300, y: 250 }, force: true });
   await page.getByRole('menuitem', { name: /open presets/i }).click({ force: true });
-  const savedPreset = page.getByRole('group', { name: preset.name, exact: true });
+  const savedPreset = page.getByRole('button', { name: preset.name, exact: true });
   await expect(savedPreset).toBeVisible();
   await savedPreset.click({ position: { x: 30, y: 24 }, force: true });
   await expect.poll(async () => (await savedSession(page)).params.relaxation).toBe(1.25);
@@ -69,7 +69,7 @@ test('production restores legacy saved sessions, edits, favorites and usable pre
   await expectNewton(page);
   // UI edits force a fresh snapshot of the restored controller, not a read
   // of the seed left untouched in localStorage.
-  await page.getByRole('button', { name: /^More$/i }).click();
+  await page.getByRole('button', { name: /^(Tools|More)$/i }).click();
   // The rail's palette row cycles the colour scheme; the old long-press
   // "Color Scheme" control left the rail.
   await page.getByRole('button', { name: /^Next palette$/i }).click();
@@ -90,7 +90,7 @@ test('production restores legacy saved sessions, edits, favorites and usable pre
   await enableAccessibility(page);
   await expectNewton(page);
   // A second UI edit proves the reload restored the edited controller values.
-  await page.getByRole('button', { name: /^More$/i }).click();
+  await page.getByRole('button', { name: /^(Tools|More)$/i }).click();
   // The rail's palette row cycles the colour scheme; the old long-press
   // "Color Scheme" control left the rail.
   await page.getByRole('button', { name: /^Next palette$/i }).click();
