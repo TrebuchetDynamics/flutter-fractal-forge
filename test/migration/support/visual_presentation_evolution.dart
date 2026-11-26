@@ -38,6 +38,7 @@ const zetaCriticalStripTask = 'ZETA-CRITICAL-STRIP-65';
 const juliaUniformOrderTask = 'JULIA-UNIFORM-ORDER-71';
 const escapeTimeUniformDefaultsTask = 'ESCAPE-TIME-UNIFORM-DEFAULTS-72';
 const perturbationOrbitCacheKeyTask = 'PERTURBATION-ORBIT-CACHE-KEY-74';
+const historyReplayModuleIdTask = 'HISTORY-REPLAY-MODULE-ID-75';
 
 // This stage may only append these inputs in shader order and add their
 // defaults to the generated Default/Classic presets. Existing data is fixed.
@@ -347,6 +348,11 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    historyReplayModuleIdTask => const [
+        'lib/core/controllers/fractal_controller.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -365,7 +371,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == cpuRenderParamsTask ||
       stage['task'] == stateMachineFixesTask ||
       stage['task'] == catalogAdditionSupportTask ||
-      stage['task'] == perturbationOrbitCacheKeyTask;
+      stage['task'] == perturbationOrbitCacheKeyTask ||
+      stage['task'] == historyReplayModuleIdTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
@@ -400,10 +407,27 @@ void validateVisualStage(Map stage) {
     }
     visualRequire(before.keys.toSet().difference(after.keys.toSet()).isEmpty,
         'removed binding');
+    // These oracles follow the controller's local import graph. The
+    // physical-events oracle already reached both files through the viewer.
+    final addedAliases = stage['task'] == historyReplayModuleIdTask &&
+            const {
+              'state-replay',
+              'precision-replay',
+              'param-interpolation',
+              'randomization',
+              'reference',
+            }.contains(entry.key)
+        ? const {
+            'lib/core/services/storage/preset_store.dart',
+            'lib/core/services/storage/preset_storage_slot.dart',
+          }
+        : const <String>{};
     if (maintenance ||
         stage['task'] == juliaUniformOrderTask ||
         stage['task'] == escapeTimeUniformDefaultsTask) {
-      visualRequire(_equal.equals(before.keys.toSet(), after.keys.toSet()),
+      visualRequire(
+          _equal.equals(
+              after.keys.toSet().difference(before.keys.toSet()), addedAliases),
           'maintenance binding key sets');
     }
     if (catalogPolicy != null) {
@@ -415,6 +439,7 @@ void validateVisualStage(Map stage) {
     for (final key in after.keys.cast<String>()) {
       if (before[key] == after[key]) continue;
       changed = true;
+      if (addedAliases.contains(key)) continue;
       if (catalogPolicy == null) {
         visualRequire(allowed.contains(key), 'undeclared path $key');
       } else if (before.containsKey(key)) {

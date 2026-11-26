@@ -432,7 +432,9 @@ void main() {
               if (before.containsKey(path)) path
           },
           reason: entry.key as String);
-      const historicalHelpers = {
+      const historicalSources = {
+        'lib/core/controllers/fractal_controller.dart':
+            '8bf7f233db1606f779ba59231c4026c46f12e446b734e5c5373f45a400561f1d',
         'test/migration/support/provenance_transition.dart':
             'd56b206921c86e52216b004e0bf3fc0b46b02837701ec43895e94480da49e7ad',
         'test/migration/support/visual_presentation_evolution.dart':
@@ -440,7 +442,7 @@ void main() {
       };
       for (final path in changed) {
         final current = sha256.convert(File(path).readAsBytesSync()).toString();
-        expect(after[path], historicalHelpers[path] ?? current);
+        expect(after[path], historicalSources[path] ?? current);
         expect(stages.last['binding_maps'][entry.key]['after'][path], current);
       }
     }
