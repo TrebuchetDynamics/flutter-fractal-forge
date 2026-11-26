@@ -27,7 +27,8 @@ Map stageFor(String task) {
       task == startupDeepLinksTask ||
       task == cpuRenderParamsTask ||
       task == stateMachineFixesTask ||
-      task == catalogAdditionSupportTask;
+      task == catalogAdditionSupportTask ||
+      task == androidGallerySaveTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -76,6 +77,7 @@ void main() {
     cpuRenderParamsTask,
     stateMachineFixesTask,
     catalogAdditionSupportTask,
+    androidGallerySaveTask,
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);

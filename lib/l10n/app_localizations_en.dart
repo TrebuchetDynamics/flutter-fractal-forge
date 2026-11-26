@@ -487,6 +487,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportSaved => 'Export saved';
 
   @override
+  String get exportSavedAppFolderOnly => 'Saved in the app folder only.';
+
+  @override
+  String get exportSavedAppFolderOnlyShareFailed =>
+      'Saved in the app folder only. Sharing did not open.';
+
+  @override
   String get exporting => 'Exporting...';
 
   @override
@@ -1078,6 +1085,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get wallpaperAppliedCopyFailed =>
       'Wallpaper ready, but the copy couldn’t be saved';
+
+  @override
+  String get wallpaperCopySavedAppFolderOnly =>
+      'The copy was saved in the app folder only.';
 
   @override
   String wallpaperFailedWithError(Object error) {

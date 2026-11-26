@@ -75,6 +75,7 @@ class _LooperExportService extends ExportService {
     this.pickerThrows = false,
     this.pickerResult = true,
     this.shareThrows = false,
+    this.galleryCopyFailed = false,
     this.captureWidth = 2,
     this.captureHeight = 2,
     this.cameraController,
@@ -85,6 +86,7 @@ class _LooperExportService extends ExportService {
   final bool pickerThrows;
   final bool pickerResult;
   final bool shareThrows;
+  final bool galleryCopyFailed;
   final int captureWidth;
   final int captureHeight;
   final FractalController? cameraController;
@@ -129,10 +131,14 @@ class _LooperExportService extends ExportService {
   }
 
   @override
-  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+  Future<({File file, bool galleryCopyFailed})> saveBytesWithGalleryStatus(
+    Uint8List bytes, {
+    required String filename,
+    ExportCancellationToken? cancellationToken,
+  }) async {
     saveCalls++;
     savedBytes = bytes;
-    return File('/tmp/$filename');
+    return (file: File('/tmp/$filename'), galleryCopyFailed: galleryCopyFailed);
   }
 
   @override
@@ -189,9 +195,13 @@ class _BlockingWallpaperExportService extends ExportService {
       pngBytes;
 
   @override
-  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+  Future<({File file, bool galleryCopyFailed})> saveBytesWithGalleryStatus(
+    Uint8List bytes, {
+    required String filename,
+    ExportCancellationToken? cancellationToken,
+  }) async {
     saveCalls++;
-    return File('/tmp/$filename');
+    return (file: File('/tmp/$filename'), galleryCopyFailed: false);
   }
 }
 
@@ -222,6 +232,9 @@ class _BatchDirectoryExportService extends ExportService {
 }
 
 class _ScreenSizeExportService extends ExportService {
+  _ScreenSizeExportService({this.galleryCopyFailed = false});
+
+  final bool galleryCopyFailed;
   double? logicalWidth;
   double? logicalHeight;
   double? physicalScreenWidth;
@@ -253,6 +266,7 @@ class _ScreenSizeExportService extends ExportService {
       width: 1080,
       height: 1920,
       fileSize: 0,
+      galleryCopyFailed: galleryCopyFailed,
     );
   }
 
@@ -2149,6 +2163,27 @@ void main() {
       expect(find.textContaining('Export saved'), findsOneWidget);
     });
 
+    testWidgets('Save reports that the PNG is only in the app folder',
+        (tester) async {
+      tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (_) async => null);
+      addTearDown(() => tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null));
+      await tester.pumpWidget(buildTestWidget(
+        exportService: _ScreenSizeExportService(galleryCopyFailed: true),
+      ));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Saved in the app folder only.'), findsOneWidget);
+      expect(find.text('Export saved'), findsNothing);
+    });
+
     testWidgets('cancelled image export never starts the PNG fallback',
         (tester) async {
       final exportService = _CancelledExportService();
@@ -2693,6 +2728,19 @@ void main() {
           .split('\n')
           .firstWhere((line) => line.startsWith('https://'));
       expect(Uri.parse(sharedUrl).queryParameters['z'], '2');
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper reports an app-only copy even when sharing opens',
+        (tester) async {
+      final exportService = _LooperExportService(galleryCopyFailed: true);
+      await exportLooper(tester, exportService);
+
+      expect(exportService.saveCalls, 1);
+      expect(exportService.sharedText, isNotNull);
+      expect(find.text('Guardado solo en la carpeta de la aplicación.'),
+          findsOneWidget);
+      expect(find.text('GIF en bucle exportado'), findsNothing);
       historyProvider.cancelPendingRecord();
     });
 

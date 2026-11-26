@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/services.dart'
+    show MethodCall, MethodChannel, PlatformException;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
@@ -24,6 +26,18 @@ class _FakePathProviderPlatform extends Fake
 
   @override
   Future<String?> getTemporaryPath() async => tempDir;
+}
+
+class _AndroidExportService extends ExportService {
+  _AndroidExportService(this.directory);
+
+  final Directory directory;
+
+  @override
+  bool get isAndroid => true;
+
+  @override
+  Future<Directory> getExportDirectory() async => directory;
 }
 
 class _RecordingExportWorker implements ExportWorker {
@@ -678,6 +692,47 @@ void main() {
     test('uses AppShareService file adapter by default', () {
       expect(const ExportService().shareFileAdapter, isA<ShareFileCallback>());
     });
+  });
+
+  group('Android image export gallery copy', () {
+    const channel = MethodChannel('fractalforge/media_store');
+    final messenger =
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+
+    for (final galleryFails in [false, true]) {
+      test(
+          galleryFails
+              ? 'reports gallery failure but keeps the PNG'
+              : 'accepts a gallery save reference', () async {
+        final directory =
+            await Directory.systemTemp.createTemp('export_gallery_');
+        addTearDown(() => directory.delete(recursive: true));
+        addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+        final png = img.encodePng(img.Image(width: 2, height: 2));
+        MethodCall? galleryCall;
+        messenger.setMockMethodCallHandler(channel, (call) async {
+          galleryCall = call;
+          if (galleryFails) {
+            throw PlatformException(code: 'media_store_save_failed');
+          }
+          return 'content://media/external_primary/images/media/1';
+        });
+
+        final result = await _AndroidExportService(directory).saveExportBytes(
+          png,
+          filename: 'sample.png',
+          format: ExportFormat.png,
+          width: 2,
+          height: 2,
+        );
+
+        expect(galleryCall?.method, 'saveImage');
+        expect(galleryCall?.arguments,
+            {'bytes': png, 'filename': 'sample.png', 'mimeType': 'image/png'});
+        expect(result.galleryCopyFailed, galleryFails);
+        expect(await result.file!.readAsBytes(), png);
+      });
+    }
   });
 
   group('ExportService native export commits', () {

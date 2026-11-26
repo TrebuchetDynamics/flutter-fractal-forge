@@ -32,6 +32,11 @@ final class ViewerExportFeedback {
   }
 
   String title(AppLocalizations l10n) {
+    if (result.galleryCopyFailed) {
+      return shareFailed
+          ? l10n.exportSavedAppFolderOnlyShareFailed
+          : l10n.exportSavedAppFolderOnly;
+    }
     if (shareFailed) {
       return l10n.exportSavedShareFailed;
     }

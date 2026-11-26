@@ -974,6 +974,18 @@ abstract class AppLocalizations {
   /// **'Export saved'**
   String get exportSaved;
 
+  /// No description provided for @exportSavedAppFolderOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved in the app folder only.'**
+  String get exportSavedAppFolderOnly;
+
+  /// No description provided for @exportSavedAppFolderOnlyShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved in the app folder only. Sharing did not open.'**
+  String get exportSavedAppFolderOnlyShareFailed;
+
   /// No description provided for @exporting.
   ///
   /// In en, this message translates to:
@@ -2096,6 +2108,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wallpaper ready, but the copy couldn’t be saved'**
   String get wallpaperAppliedCopyFailed;
+
+  /// No description provided for @wallpaperCopySavedAppFolderOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'The copy was saved in the app folder only.'**
+  String get wallpaperCopySavedAppFolderOnly;
 
   /// No description provided for @wallpaperFailedWithError.
   ///

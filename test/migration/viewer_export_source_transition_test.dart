@@ -162,6 +162,8 @@ void main() {
         // Later successors changed these sources; this stage keeps its own
         // hashes and the newest stage must match the current file.
         const historicalProduction = {
+          'lib/features/viewer/export/viewer_export_actions.dart':
+              'ad93db9fb534c68c62c42556f17acbd741c01c384b5e05a06031d8f429ca2dd0',
           'lib/features/viewer/fractal_viewer_screen.dart':
               'fc9fb32c7bc6986f2edf35b25e702391223dfaa3cdbc933efa68654de4076136',
           'lib/features/viewer/diagnostics/gpu_health_probe.dart':

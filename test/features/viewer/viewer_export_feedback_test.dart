@@ -12,6 +12,7 @@ void main() {
   ExportResult result({
     ExportFormat format = ExportFormat.png,
     int fileSize = 2048,
+    bool galleryCopyFailed = false,
   }) {
     return ExportResult(
       file: File('/tmp/fractal.${format.extension}'),
@@ -19,6 +20,7 @@ void main() {
       width: 1920,
       height: 1080,
       fileSize: fileSize,
+      galleryCopyFailed: galleryCopyFailed,
     );
   }
 
@@ -43,6 +45,18 @@ void main() {
 
       expect(feedback.formatLabel(l10n), 'PNG fallback');
       expect(feedback.detail(l10n), '1920×1080 • PNG fallback • 2.0 KB');
+    });
+
+    test('reports an app-only save without sending the user to Photos', () {
+      final feedback = ViewerExportFeedback(
+        result: result(galleryCopyFailed: true),
+        usedFallback: false,
+        shareError: StateError('share sheet unavailable'),
+      );
+
+      expect(feedback.saved, isTrue);
+      expect(feedback.title(l10n),
+          'Saved in the app folder only. Sharing did not open.');
     });
 
     test('keeps saved exports saved when optional sharing fails', () {

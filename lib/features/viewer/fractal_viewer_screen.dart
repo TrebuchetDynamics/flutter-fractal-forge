@@ -981,7 +981,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       await _exportService.saveExportResult(result);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
-        message: l10n.exportSaved,
+        message: result.galleryCopyFailed
+            ? l10n.exportSavedAppFolderOnly
+            : l10n.exportSaved,
         success: true,
       ));
     } catch (error) {
