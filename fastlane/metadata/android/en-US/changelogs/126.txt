@@ -1,0 +1,1 @@
+Hold Edit to open Controls directly, or tap it to randomize. On phones, adjust one parameter with a compact slider that leaves more of the fractal visible. History entries are easier to reach in short landscape layouts, and small overlay actions are easier to tap.
