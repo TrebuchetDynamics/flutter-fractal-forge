@@ -44,8 +44,9 @@ if ! systemctl is-active --quiet waydroid-container.service; then
     fail 'container start failed; inspect systemctl status waydroid-container.service'
 fi
 
-# Starting the existing session unit also starts its required compositor.
-systemctl --user start waydroid-headless-session.service
+# kit-waydroid.service is the only display/session owner (wayland-kit socket);
+# it starts Weston and the session. Never start waydroid-headless-* beside it.
+systemctl --user start kit-waydroid.service
 
 ip=
 for ((i=0; i<15; i++)); do

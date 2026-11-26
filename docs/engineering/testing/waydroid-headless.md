@@ -7,11 +7,14 @@ testing, not Play publication or signing access.
 
 For reboot persistence and recurring live-but-unreachable failures, see
 [the boot/reliability audit and recommended hardening](waydroid-reliability.md).
-The 2026-10-30 audit observed enabled container, compositor and user-session
-services with user lingering; that is historical configuration, not current host
-truth. On 2026-11-14 the named user units were absent. See the
-[dated recovery and remaining readiness blocker](#display-recovery-adb-unqualified--2026-11-14)
-before assuming those services exist. Autostart configuration is not a routing fix.
+**Current owner (owner decision, 2026-11-26):** the user service
+`kit-waydroid.service` is the only owner of the headless display and Android
+session. It runs Weston on the Wayland socket `wayland-kit` and supervises
+`waydroid session start`. The older `waydroid-headless-compositor.service` and
+`waydroid-headless-session.service` user units are disabled; do not start them or
+a second manual session. See the [dated owner record](#single-owner-kit-waydroidservice--2026-11-26).
+Earlier sections that name the `waydroid-headless` socket are history.
+Autostart configuration is not a routing fix.
 
 ## Working Android test sequence
 
@@ -27,6 +30,7 @@ message alone was never the readiness check.
 Coordinate with active device workers, then run:
 
 ```bash
+systemctl --user status kit-waydroid.service
 waydroid status
 waydroid adb connect
 adb devices -l
@@ -42,15 +46,18 @@ to determine whether this is the previously observed guest-routing failure.
 
 The earlier incident had an address on `eth0` but Android policy routing ended in
 `unreachable`. Restarting **the existing** session/container restored it. With
-exclusive access and that diagnosis, run as the session user:
+exclusive access and that diagnosis, restart the session through its owner
+service, as the session user:
 
 ```bash
-waydroid session stop
+systemctl --user stop kit-waydroid.service
 sudo systemctl restart waydroid-container
-WAYLAND_DISPLAY=waydroid-headless waydroid session start
+systemctl --user start kit-waydroid.service
 ```
 
-The final command may stay attached: use a second terminal for step 3. This is
+The 2026-10-30 recovery used direct `waydroid session stop/start` commands, before
+`kit-waydroid.service` became the owner. This service-managed sequence has not yet
+been run on this host; record its result the first time it is used. This is
 not container reinitialization, a factory reset, data deletion or a new instance;
 it does close Android apps and must not interrupt another worker. Do not apply
 this recovery blindly to every ADB error. An unavailable sudo session blocks
@@ -202,7 +209,34 @@ access requirement. “Device unavailable” alone is not an adequate explanatio
 Keep Android/Play and dependent F-Droid qualification failures scoped to those
 lanes; do not suppress qualified web/desktop work.
 
+### Single owner: kit-waydroid.service — 2026-11-26
+
+[Issue #3's owner record](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/3#issuecomment-7182298543)
+records live host operations, not offline tests. Before this change, two setups
+competed for the instance. `kit-waydroid.service` (started 2026-11-25 by
+`~/.local/share/kit-waydroid/waydroid-universal-setup.sh --session`) ran the live
+session on socket `wayland-kit`. The re-created, enabled `waydroid-headless-*`
+user units ran a second, unused Weston on `waydroid-headless`, and
+`waydroid-headless-session.service` failed with `start-limit-hit` because the
+session was already running. The transient 2026-11-14 recovery units were gone.
+
+The owner chose `kit-waydroid.service`. The competing units were stopped and
+disabled with
+`systemctl --user disable --now waydroid-headless-session.service waydroid-headless-compositor.service`;
+their unit files remain in `~/.config/systemd/user/`. The container, the Kit
+service and the Android session were not restarted.
+
+Readiness after the change: session and container RUNNING on display
+`wayland-kit`; serial `192.168.240.112:5555` in state `device`; native model
+`WayDroid x86_64 Device`; `sys.boot_completed=1`. ADB was authorized without key
+enrollment, so the 2026-11-14 blocker below no longer applies. Rediscover the IP
+before each run. No Android app installation or test ran; this does not qualify
+app journeys, cold boot, endurance or hardware GPU.
+
 ### Display recovery, ADB unqualified — 2026-11-14
+
+Superseded by the [2026-11-26 owner record](#single-owner-kit-waydroidservice--2026-11-26);
+kept as history.
 
 [Issue #3's recovery evidence](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/3#issuecomment-6885310378)
 and [ownership/blocker receipt](https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues/3#issuecomment-6885318541)
@@ -281,9 +315,10 @@ not automatic authorization to interrupt workers or reset this instance.
   and an SSH login as the Linux user that owns the Waydroid session.
 - `sudo` access for container restart, root Android shell and public-key enrollment.
   Enter passwords locally; never paste them into logs or chat.
-- An existing headless Wayland display named `waydroid-headless`. The inspected
-  running compositor used the following arguments (startup recipe not rerun during
-  this troubleshooting session):
+- An existing headless Wayland display. Since 2026-11-26 it is the socket
+  `wayland-kit`, owned by `kit-waydroid.service`; use that service and do not start
+  another compositor or session. The historical `waydroid-headless` compositor
+  used the following arguments:
 
   ```bash
   weston --backend=headless-backend.so --socket=waydroid-headless \
@@ -295,13 +330,15 @@ not automatic authorization to interrupt workers or reset this instance.
   Reuse an existing compositor rather than starting another on the same socket.
   This page does not install packages or create services.
 
-Start a stopped Waydroid session as the normal user, not with `sudo`:
+Start a stopped Waydroid session through its owner service, as the normal user,
+not with `sudo`:
 
 ```bash
-WAYLAND_DISPLAY=waydroid-headless waydroid session start
+systemctl --user start kit-waydroid.service
 ```
 
-The command may remain attached; use another SSH terminal for diagnostics. No
+The service starts Weston on `wayland-kit`, then the session, and reconnects ADB.
+Do not run a manual `waydroid session start` beside it. No
 `show-full-ui`, desktop display switch or visible debugging dialog is required
 when using the explicit public-key enrollment below.
 
@@ -348,12 +385,14 @@ state, not a fix for every network error. It closes Android apps and interrupts
 other tests: coordinate ownership and preserve needed data first.
 
 ```bash
-waydroid session stop
+systemctl --user stop kit-waydroid.service
 sudo systemctl restart waydroid-container
-WAYLAND_DISPLAY=waydroid-headless waydroid session start
+systemctl --user start kit-waydroid.service
 ```
 
-In another terminal, repeat `waydroid status` and the route probe. The recovered
+(The 2026-10-30 recovery ran `waydroid session stop` and a manual
+`waydroid session start` before `kit-waydroid.service` owned the session.)
+Then repeat `waydroid status` and the route probe. The recovered
 probe selected `eth0_local` and the container IP. Do not add ad hoc routing rules,
 flush firewall rules or disable Android authentication to hide the failure.
 
