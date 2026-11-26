@@ -728,6 +728,31 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      FractalParameter(
+        id: 'juliaCReal',
+        label: (l10n) => l10n.paramJuliaCReal,
+        type: FractalParamType.float,
+        min: -2.0,
+        max: 2.0,
+        step: 0.001,
+        defaultValue: -0.7269,
+      ),
+      FractalParameter(
+        id: 'juliaCImag',
+        label: (l10n) => l10n.paramJuliaCImag,
+        type: FractalParamType.float,
+        min: -2.0,
+        max: 2.0,
+        step: 0.001,
+        defaultValue: 0.1889,
+      ),
+    ],
+    setCustomTail: (shader, extra, transparency) {
+      shader.setFloat(9, extra[0]); // uJuliaReal
+      shader.setFloat(10, extra[1]); // uJuliaImag
+      shader.setFloat(11, transparency); // uTransparentBg
+    },
   ),
   EscapeTimeConfig(
     id: 'mandel_step_escape',
@@ -1493,6 +1518,13 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
         defaultValue: 0.156,
       ),
     ],
+    setCustomTail: (shader, extra, transparency) {
+      shader.setFloat(9, extra[0]); // uPhoenixCReal
+      shader.setFloat(10, extra[1]); // uPhoenixCImag
+      shader.setFloat(11, -0.5); // uPhoenixP (same as Phoenix's default)
+      shader.setFloat(12, 2.0); // uPhoenixPower
+      shader.setFloat(13, transparency); // uTransparentBg
+    },
     extraPresets: [
       catalogPreset(
         id: 'phoenix-julia-classic',

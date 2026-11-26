@@ -467,13 +467,15 @@ void main() {
       expect(after.keys.toSet(), before.keys.toSet());
       final changed = before.keys.where((p) => before[p] != after[p]).toSet();
       expect(changed, helpers.where(before.containsKey).toSet());
+      const historicalHelpers = {
+        'test/migration/support/provenance_transition.dart':
+            '79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31',
+        'test/migration/support/visual_presentation_evolution.dart':
+            'e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28',
+      };
       for (final path in changed.cast<String>()) {
         final current = sha256.convert(File(path).readAsBytesSync()).toString();
-        expect(
-            after[path],
-            path == 'test/migration/support/visual_presentation_evolution.dart'
-                ? 'e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28'
-                : current);
+        expect(after[path], historicalHelpers[path]);
         expect(stages.last['binding_maps'][entry.key]['after'][path], current);
       }
     }
