@@ -433,8 +433,9 @@ Uint8List _encodeContactSheet(Map<String, Object> input) {
   final width = padding + cols * (tileSize + padding);
   final height = padding + rows * (tileSize + padding);
 
+  final background = img.ColorRgba8(12, 12, 12, 255);
   final sheet = img.Image(width: width, height: height, numChannels: 4);
-  img.fill(sheet, color: img.ColorRgba8(12, 12, 12, 255));
+  img.fill(sheet, color: background);
 
   var imageIndex = 0;
   for (final bytes in files) {
@@ -450,6 +451,8 @@ Uint8List _encodeContactSheet(Map<String, Object> input) {
       decoded,
       width: tileSize,
       height: tileSize,
+      maintainAspect: true,
+      backgroundColor: background,
       // Avoid cubic on mobile: Play Console ANRs showed
       // Image.getPixelCubic.cubic blocking input dispatch.
       interpolation: img.Interpolation.average,

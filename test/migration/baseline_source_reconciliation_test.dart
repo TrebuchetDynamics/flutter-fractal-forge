@@ -223,6 +223,7 @@ void main() {
       mandelbrotDf2Task,
       exportCaptureSizeLimitTask,
       diagnosticShareUtf8Task,
+      contactSheetAspectTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -273,6 +274,10 @@ void main() {
         candidates.singleWhere((s) => s['task'] == diagnosticShareUtf8Task);
     expect(diagnosticShare['semantic_deltas'], isEmpty);
     expect(diagnosticShare['compiled_artifacts'], isEmpty);
+    final contactSheet =
+        candidates.singleWhere((s) => s['task'] == contactSheetAspectTask);
+    expect(contactSheet['semantic_deltas'], isEmpty);
+    expect(contactSheet['compiled_artifacts'], isEmpty);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -309,6 +314,7 @@ void main() {
         df2,
         captureLimit,
         diagnosticShare,
+        contactSheet,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -334,7 +340,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            diagnosticShare['binding_maps'][id]['after'] as Map,
+            contactSheet['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

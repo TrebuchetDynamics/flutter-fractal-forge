@@ -1175,6 +1175,39 @@ void main() {
   });
 
   group('BatchExportContactSheetBuilder', () {
+    test('centers a 1920×1080 image in a 512×512 tile without stretching',
+        () async {
+      final dir = await Directory.systemTemp.createTemp('contact_sheet_');
+      addTearDown(() => dir.deleteSync(recursive: true));
+
+      final red = img.Image(width: 1920, height: 1080);
+      img.fill(red, color: img.ColorRgb8(255, 0, 0));
+      final file = File('${dir.path}/wide.png')
+        ..writeAsBytesSync(img.encodePng(red));
+
+      final bytes = await const BatchExportContactSheetBuilder().build(
+        [file],
+        columns: 4,
+        tileSize: 512,
+        padding: 16,
+      );
+
+      final sheet = img.decodePng(bytes)!;
+      expect((sheet.width, sheet.height), (2128, 544));
+      // The 512×288 preview starts 112 rows below the first tile's top.
+      final centerColumn = List.generate(
+        512,
+        (y) => sheet.getPixel(16 + 256, 16 + y).r,
+      );
+      expect(centerColumn, [
+        ...List.filled(112, 12),
+        ...List.filled(288, 255),
+        ...List.filled(112, 12),
+      ]);
+      expect(sheet.getPixel(16, 16 + 112).r, 255);
+      expect(sheet.getPixel(16 + 511, 16 + 112 + 287).r, 255);
+    });
+
     test('builds a PNG sheet from valid image files and skips bad inputs',
         () async {
       final dir = await Directory.systemTemp.createTemp('contact_sheet_');
