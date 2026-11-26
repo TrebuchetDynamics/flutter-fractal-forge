@@ -135,8 +135,10 @@ void main() {
     expect(math('newton_z3').qualification,
         contains('color does not prove convergence'));
     expect(math('halley').method, 'Halley');
-    expect(
-        math('halley').formula({}), contains('relaxation uniform not bound'));
+    expect(math('halley').formula({}), contains('1.0*2*f'));
+    expect(math('halley').formula({'relaxation': 1.7}), contains('1.7*2*f'));
+    expect(math('halley').qualification,
+        contains('color does not prove convergence'));
     expect(math('householder').groupId, isNot(math('newton_z3').groupId));
   });
 

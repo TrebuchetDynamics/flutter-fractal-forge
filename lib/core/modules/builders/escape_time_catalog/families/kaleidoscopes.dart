@@ -264,6 +264,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'paramA',
+        label: 'A',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: -0.81,
+      ),
+      _floatParam(
+        id: 'paramB',
+        label: 'B',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: -0.92,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'bogdanov_map',
@@ -415,6 +433,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'lambda',
+        label: 'Lambda',
+        min: 0,
+        max: 1,
+        step: 0.01,
+        defaultValue: 0.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'cosecant_julia',
@@ -524,6 +552,40 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'paramA',
+        label: 'A',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 1.468,
+      ),
+      _floatParam(
+        id: 'paramB',
+        label: 'B',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 2.407,
+      ),
+      _floatParam(
+        id: 'paramC',
+        label: 'C',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 0.194,
+      ),
+      _floatParam(
+        id: 'paramD',
+        label: 'D',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 1.438,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'gray_scott_rd',
@@ -533,6 +595,32 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'feedRate',
+        label: 'Feed Rate',
+        min: 0.01,
+        max: 0.08,
+        step: 0.001,
+        defaultValue: 0.04,
+      ),
+      _floatParam(
+        id: 'killRate',
+        label: 'Kill Rate',
+        min: 0.04,
+        max: 0.08,
+        step: 0.001,
+        defaultValue: 0.06,
+      ),
+      _floatParam(
+        id: 'scale',
+        label: 'Pattern Scale',
+        min: 1,
+        max: 20,
+        step: 0.1,
+        defaultValue: 5.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'hofstadter_butterfly',
@@ -587,6 +675,40 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'paramA',
+        label: 'A',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 1.7,
+      ),
+      _floatParam(
+        id: 'paramB',
+        label: 'B',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 1.7,
+      ),
+      _floatParam(
+        id: 'paramC',
+        label: 'C',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 0.6,
+      ),
+      _floatParam(
+        id: 'paramD',
+        label: 'D',
+        min: -3,
+        max: 3,
+        step: 0.001,
+        defaultValue: 1.2,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'jason_rampe_2',
@@ -643,6 +765,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'beta',
+        label: 'Beta',
+        min: 0,
+        max: 2,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'kleinian_limit_set',
@@ -687,6 +819,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'friction',
+        label: 'Friction',
+        min: 0.01,
+        max: 1,
+        step: 0.01,
+        defaultValue: 0.01,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'mandelbrot_et',
@@ -703,6 +845,14 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    setCustomTail: (shader, _, transparency) {
+      shader.setFloat(9, transparency);
+      // The diagnostic gradient sums the stop slots, even with no stops.
+      // Keep the original zero-stop gradient without exposing palette knobs.
+      for (var slot = 10; slot <= 42; slot++) {
+        shader.setFloat(slot, 0);
+      }
+    },
   ),
   EscapeTimeConfig(
     id: 'mandelbrot_simple',
@@ -728,6 +878,31 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      FractalParameter(
+        id: 'juliaCReal',
+        label: (l10n) => l10n.paramJuliaCReal,
+        type: FractalParamType.float,
+        min: -2.0,
+        max: 2.0,
+        step: 0.001,
+        defaultValue: -0.7269,
+      ),
+      FractalParameter(
+        id: 'juliaCImag',
+        label: (l10n) => l10n.paramJuliaCImag,
+        type: FractalParamType.float,
+        min: -2.0,
+        max: 2.0,
+        step: 0.001,
+        defaultValue: 0.1889,
+      ),
+    ],
+    setCustomTail: (shader, extra, transparency) {
+      shader.setFloat(9, extra[0]); // uJuliaReal
+      shader.setFloat(10, extra[1]); // uJuliaImag
+      shader.setFloat(11, transparency); // uTransparentBg
+    },
   ),
   EscapeTimeConfig(
     id: 'mandel_step_escape',
@@ -850,6 +1025,24 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'trapReal',
+        label: 'Trap (Real)',
+        min: -2,
+        max: 2,
+        step: 0.01,
+        defaultValue: 0.0,
+      ),
+      _floatParam(
+        id: 'trapImag',
+        label: 'Trap (Imag)',
+        min: -2,
+        max: 2,
+        step: 0.01,
+        defaultValue: 0.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'orbit_trap_ring',
@@ -859,6 +1052,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'ringRadius',
+        label: 'Ring Radius',
+        min: 0.01,
+        max: 5,
+        step: 0.01,
+        defaultValue: 0.01,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'ostrowski',
@@ -892,6 +1095,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'alpha',
+        label: 'Alpha',
+        min: 0,
+        max: 1,
+        step: 0.01,
+        defaultValue: 0.5,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'schroeder_z5',
@@ -1145,6 +1358,32 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'lambda',
+        label: 'Lambda',
+        min: -4,
+        max: 4,
+        step: 0.001,
+        defaultValue: 2.409,
+      ),
+      _floatParam(
+        id: 'alpha',
+        label: 'Alpha',
+        min: -4,
+        max: 4,
+        step: 0.01,
+        defaultValue: -2.5,
+      ),
+      _floatParam(
+        id: 'symmetryOrder',
+        label: 'Symmetry Order',
+        min: 2,
+        max: 8,
+        step: 1,
+        defaultValue: 5.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'transcendental_sin',
@@ -1162,6 +1401,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'alpha',
+        label: 'Alpha',
+        min: 0,
+        max: 2,
+        step: 0.01,
+        defaultValue: 1.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'weierstrass_elliptic',
@@ -1174,6 +1423,16 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultCenterY: 0.0039215686274509665,
     defaultZoom: 1.0876470588235294,
     category: 'Escape-Time',
+    extraParams: [
+      _floatParam(
+        id: 'g2',
+        label: 'g₂',
+        min: -8,
+        max: 8,
+        step: 0.1,
+        defaultValue: 4.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'weierstrass_function',
@@ -1493,6 +1752,13 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
         defaultValue: 0.156,
       ),
     ],
+    setCustomTail: (shader, extra, transparency) {
+      shader.setFloat(9, extra[0]); // uPhoenixCReal
+      shader.setFloat(10, extra[1]); // uPhoenixCImag
+      shader.setFloat(11, -0.5); // uPhoenixP (same as Phoenix's default)
+      shader.setFloat(12, 2.0); // uPhoenixPower
+      shader.setFloat(13, transparency); // uTransparentBg
+    },
     extraPresets: [
       catalogPreset(
         id: 'phoenix-julia-classic',

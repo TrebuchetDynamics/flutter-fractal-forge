@@ -34,6 +34,40 @@ const cpuRenderParamsTask = 'CPU-RENDER-PARAMS-57';
 const stateMachineFixesTask = 'STATE-MACHINE-FIXES-49-60';
 const catalogAdditionSupportTask = 'CATALOG-ADDITION-SUPPORT-63';
 const recamanArcsTask = 'RECAMAN-ARCS-64';
+const zetaCriticalStripTask = 'ZETA-CRITICAL-STRIP-65';
+const juliaUniformOrderTask = 'JULIA-UNIFORM-ORDER-71';
+const escapeTimeUniformDefaultsTask = 'ESCAPE-TIME-UNIFORM-DEFAULTS-72';
+const perturbationOrbitCacheKeyTask = 'PERTURBATION-ORBIT-CACHE-KEY-74';
+const historyReplayModuleIdTask = 'HISTORY-REPLAY-MODULE-ID-75';
+
+// This stage may only append these inputs in shader order and add their
+// defaults to the generated Default/Classic presets. Existing data is fixed.
+const _escapeTimeUniformDefaults = <String, Map<String, double>>{
+  'halley': {'relaxation': 1.0},
+  'schroeder': {'relaxation': 1.0},
+  'newton_z4': {'relaxation': 1.0},
+  'newton_z5': {'relaxation': 1.0},
+  'newton_z6': {'relaxation': 1.0},
+  'bedhead': {'paramA': -0.81, 'paramB': -0.92},
+  'chebyshev_halley_param': {'lambda': 0.0},
+  'fractal_dream': {
+    'paramA': 1.468,
+    'paramB': 2.407,
+    'paramC': 0.194,
+    'paramD': 1.438
+  },
+  'gray_scott_rd': {'feedRate': 0.04, 'killRate': 0.06, 'scale': 5.0},
+  'jason_rampe_1': {'paramA': 1.7, 'paramB': 1.7, 'paramC': 0.6, 'paramD': 1.2},
+  'king': {'beta': 0.5},
+  'magnetic_pendulum': {'friction': 0.01},
+  'orbit_trap_point': {'trapReal': 0.0, 'trapImag': 0.0},
+  'orbit_trap_ring': {'ringRadius': 0.01},
+  'picard_mann_newton': {'alpha': 0.5},
+  'symmetric_icon': {'lambda': 2.409, 'alpha': -2.5, 'symmetryOrder': 5.0},
+  'traub_ostrowski': {'alpha': 1.0},
+  'weierstrass_elliptic': {'g2': 4.0},
+  'f0534_weierstrass_elliptic': {'g2': 4.0},
+};
 const syntheticCatalogAdditionTask = 'SYNTHETIC-CATALOG-ADDITION';
 
 // Each real catalog addition must register its own exact policy here.
@@ -47,6 +81,24 @@ const _catalogAdditionPolicies = {
     'changed_paths': [
       'lib/core/modules/fractal_mathematics.dart',
       'lib/core/modules/module_registry.dart',
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+      'pubspec.yaml',
+      'test/migration/support/visual_presentation_evolution.dart',
+    ],
+  },
+  zetaCriticalStripTask: {
+    'added_module_ids': ['zeta_critical_strip'],
+    'added_paths': [
+      'lib/core/modules/fractals/zeta_critical_strip_module.dart',
+      'shaders/number_theory/zeta_critical_strip_gpu.frag',
+    ],
+    'changed_paths': [
+      'lib/core/modules/fractal_mathematics.dart',
+      'lib/core/modules/module_registry.dart',
+      'lib/features/renderer/cpu/formulas/cpu_formulas.dart',
+      'lib/features/viewer/rendering/cpu_fallback_pane.dart',
       'lib/l10n/app_localizations.dart',
       'lib/l10n/app_localizations_en.dart',
       'lib/l10n/app_localizations_es.dart',
@@ -87,6 +139,7 @@ const _proofPaths = [
   'test/migration/randomization_oracle_test.dart',
 ];
 const _surfacePaths = [
+  'lib/features/viewer/fractal_viewer_screen.dart',
   'shaders/shared/surface_lighting.glsl',
   'lib/core/modules/builders/raymarched_3d/builder.dart',
   'lib/core/controllers/fractal_controller.dart',
@@ -280,6 +333,31 @@ void validateVisualStage(Map stage) {
     cpuRenderParamsTask => _cpuRenderParamsPaths,
     stateMachineFixesTask => _stateMachineFixesPaths,
     catalogAdditionSupportTask => _catalogAdditionSupportPaths,
+    juliaUniformOrderTask => const [
+        'lib/core/modules/builders/escape_time/builder.dart',
+        'lib/core/modules/builders/escape_time_catalog/families/kaleidoscopes.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    escapeTimeUniformDefaultsTask => const [
+        'lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart',
+        'lib/core/modules/builders/escape_time_catalog/families/kaleidoscopes.dart',
+        'lib/core/modules/builders/escape_time_catalog/families/rational_polynomial.dart',
+        'lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart',
+        'lib/core/modules/builders/shared_catalogs/shared_exact_escape_catalog.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    perturbationOrbitCacheKeyTask => const [
+        'lib/core/modules/escape_time_perturb_module.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    historyReplayModuleIdTask => const [
+        'lib/core/controllers/fractal_controller.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -297,7 +375,9 @@ void validateVisualStage(Map stage) {
       stage['task'] == startupDeepLinksTask ||
       stage['task'] == cpuRenderParamsTask ||
       stage['task'] == stateMachineFixesTask ||
-      stage['task'] == catalogAdditionSupportTask;
+      stage['task'] == catalogAdditionSupportTask ||
+      stage['task'] == perturbationOrbitCacheKeyTask ||
+      stage['task'] == historyReplayModuleIdTask;
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
@@ -332,8 +412,27 @@ void validateVisualStage(Map stage) {
     }
     visualRequire(before.keys.toSet().difference(after.keys.toSet()).isEmpty,
         'removed binding');
-    if (maintenance) {
-      visualRequire(_equal.equals(before.keys.toSet(), after.keys.toSet()),
+    // These oracles follow the controller's local import graph. The
+    // physical-events oracle already reached both files through the viewer.
+    final addedAliases = stage['task'] == historyReplayModuleIdTask &&
+            const {
+              'state-replay',
+              'precision-replay',
+              'param-interpolation',
+              'randomization',
+              'reference',
+            }.contains(entry.key)
+        ? const {
+            'lib/core/services/storage/preset_store.dart',
+            'lib/core/services/storage/preset_storage_slot.dart',
+          }
+        : const <String>{};
+    if (maintenance ||
+        stage['task'] == juliaUniformOrderTask ||
+        stage['task'] == escapeTimeUniformDefaultsTask) {
+      visualRequire(
+          _equal.equals(
+              after.keys.toSet().difference(before.keys.toSet()), addedAliases),
           'maintenance binding key sets');
     }
     if (catalogPolicy != null) {
@@ -345,6 +444,7 @@ void validateVisualStage(Map stage) {
     for (final key in after.keys.cast<String>()) {
       if (before[key] == after[key]) continue;
       changed = true;
+      if (addedAliases.contains(key)) continue;
       if (catalogPolicy == null) {
         visualRequire(allowed.contains(key), 'undeclared path $key');
       } else if (before.containsKey(key)) {
@@ -373,8 +473,13 @@ void validateVisualStage(Map stage) {
         maps['shader-contracts']['after'] as Map);
   } else {
     visualRequire(
-        deltas.keys.every(
-            (k) => ['parameters', 'presets', 'shader-contracts'].contains(k)),
+        deltas.keys.every((k) => [
+              'parameters',
+              'presets',
+              'shader-contracts',
+              if (stage['task'] == escapeTimeUniformDefaultsTask)
+                'capabilities',
+            ].contains(k)),
         'undeclared semantic document');
   }
   if (stage['task'] == visualProofTask) {
@@ -577,6 +682,82 @@ bool _allowedDelta(String name, Map document, Map delta, String task) {
   if (index == null || index < 0 || index >= records.length) return false;
   final record = records[index] as Map;
   final id = record['module_id'];
+  if (task == juliaUniformOrderTask) {
+    if (id != 'mandel_julia_dual') return false;
+    if (name == 'parameters' && path.length == 4 && path[3] == 'parameters') {
+      final sibling =
+          records.singleWhere((r) => r['module_id'] == 'julia_dual');
+      final juliaC = (sibling['parameters'] as List)
+          .where((p) => p['id'] == 'juliaCReal' || p['id'] == 'juliaCImag');
+      return _equal
+          .equals(delta['after'], [...record['parameters'], ...juliaC]);
+    }
+    if (name != 'presets' ||
+        !(path.length == 5 && path[3] == 'default' && path[4] == 'params' ||
+            path.length == 6 &&
+                path[3] == 'built_in' &&
+                path[4] == '0' &&
+                path[5] == 'params')) {
+      return false;
+    }
+    final params = _at(document, path) as Map;
+    return !params.containsKey('juliaCReal') &&
+        !params.containsKey('juliaCImag') &&
+        _equal.equals(delta['after'], {
+          ...params,
+          'juliaCReal': -0.7269,
+          'juliaCImag': 0.1889,
+        });
+  }
+  if (task == escapeTimeUniformDefaultsTask) {
+    if (name == 'capabilities') {
+      if (id != 'halley' || path.length != 5 || path[3] != 'mathematics') {
+        return false;
+      }
+      return switch (path[4]) {
+        'qualification' => delta['after'] ==
+            'Source-reviewed update; color does not prove convergence',
+        'default_formula' => delta['after'] ==
+            "z(n+1) = z - 1.0*2*f*f'/(2*f'^2 - f*f''); f(z) = z^3 - 1; regularized division",
+        _ => false,
+      };
+    }
+    final defaults = _escapeTimeUniformDefaults[id];
+    if (defaults == null) return false;
+    final after = delta['after'];
+    if (name == 'parameters' && path.length == 4 && path[3] == 'parameters') {
+      final before = record['parameters'] as List;
+      if (after is! List ||
+          after.length != before.length + defaults.length ||
+          !_equal.equals(after.take(before.length).toList(), before)) {
+        return false;
+      }
+      var index = before.length;
+      for (final entry in defaults.entries) {
+        final param = after[index];
+        if (param is! Map ||
+            param['order'] != index ||
+            param['id'] != entry.key ||
+            param['default'] != entry.value ||
+            before.any((p) => p['id'] == entry.key)) {
+          return false;
+        }
+        index++;
+      }
+      return true;
+    }
+    if (name != 'presets' ||
+        !(path.length == 5 && path[3] == 'default' && path[4] == 'params' ||
+            path.length == 6 &&
+                path[3] == 'built_in' &&
+                path[4] == '0' &&
+                path[5] == 'params')) {
+      return false;
+    }
+    final params = _at(document, path) as Map;
+    return !defaults.keys.any(params.containsKey) &&
+        _equal.equals(after, {...params, ...defaults});
+  }
   final ids = task == visualSurfaceTask
       ? ['mandelbulb', 'mandelbox']
       : task == visualDefaultsTask

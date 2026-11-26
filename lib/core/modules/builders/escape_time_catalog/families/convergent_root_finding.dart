@@ -1,5 +1,14 @@
 part of '../../escape_time_catalog.dart';
 
+final _unitRelaxation = _floatParam(
+  id: 'relaxation',
+  label: 'Relaxation',
+  min: 0.1,
+  max: 2.0,
+  step: 0.01,
+  defaultValue: 1.0,
+);
+
 final List<EscapeTimeConfig> _convergentRootFindingCatalog = [
 // ── II. Convergent/Root-Finding (escape-time variant) ───
   EscapeTimeConfig(
@@ -8,17 +17,7 @@ final List<EscapeTimeConfig> _convergentRootFindingCatalog = [
     shaderAsset: 'shaders/root_finding/newton_z3_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
-    extraParams: [
-      FractalParameter(
-        id: 'relaxation',
-        label: (_) => 'Relaxation',
-        type: FractalParamType.float,
-        min: 0.1,
-        max: 2.0,
-        step: 0.01,
-        defaultValue: 1.0,
-      ),
-    ],
+    extraParams: [_unitRelaxation],
   ),
   EscapeTimeConfig(
     id: 'halley',
@@ -26,6 +25,7 @@ final List<EscapeTimeConfig> _convergentRootFindingCatalog = [
     shaderAsset: 'shaders/root_finding/halley_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
+    extraParams: [_unitRelaxation],
   ),
   EscapeTimeConfig(
     id: 'householder',

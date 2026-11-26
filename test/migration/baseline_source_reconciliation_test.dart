@@ -212,6 +212,11 @@ void main() {
       stateMachineFixesTask,
       catalogAdditionSupportTask,
       recamanArcsTask,
+      zetaCriticalStripTask,
+      juliaUniformOrderTask,
+      escapeTimeUniformDefaultsTask,
+      perturbationOrbitCacheKeyTask,
+      historyReplayModuleIdTask,
       visualSurfaceTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
@@ -232,6 +237,20 @@ void main() {
     final catalogSupport =
         candidates.singleWhere((s) => s['task'] == catalogAdditionSupportTask);
     final recaman = candidates.singleWhere((s) => s['task'] == recamanArcsTask);
+    final zeta =
+        candidates.singleWhere((s) => s['task'] == zetaCriticalStripTask);
+    final julia =
+        candidates.singleWhere((s) => s['task'] == juliaUniformOrderTask);
+    final escapeTimeDefaults = candidates
+        .singleWhere((s) => s['task'] == escapeTimeUniformDefaultsTask);
+    final orbitCacheKey = candidates
+        .singleWhere((s) => s['task'] == perturbationOrbitCacheKeyTask);
+    expect(orbitCacheKey['semantic_deltas'], isEmpty);
+    expect(orbitCacheKey['compiled_artifacts'], isEmpty);
+    final historyReplay =
+        candidates.singleWhere((s) => s['task'] == historyReplayModuleIdTask);
+    expect(historyReplay['semantic_deltas'], isEmpty);
+    expect(historyReplay['compiled_artifacts'], isEmpty);
     final surface = candidates.singleWhere((s) => s['task'] == visualSurfaceTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
@@ -258,6 +277,11 @@ void main() {
         stateMachine,
         catalogSupport,
         recaman,
+        zeta,
+        julia,
+        escapeTimeDefaults,
+        orbitCacheKey,
+        historyReplay,
         surface,
       ]);
       for (final id in maps.keys.cast<String>()) {

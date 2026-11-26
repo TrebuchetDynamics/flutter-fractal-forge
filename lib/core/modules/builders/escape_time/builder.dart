@@ -1,3 +1,5 @@
+import 'dart:ui' show FragmentShader;
+
 import 'package:flutter_fractals/core/models/attractor_trajectory_settings.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
@@ -37,6 +39,10 @@ class EscapeTimeConfig {
   final List<FractalParameter> extraParams;
   final List<FractalPreset> extraPresets;
 
+  /// Overrides slots 9 onward for shaders with a nonstandard tail.
+  /// Extra values are clamped and passed in [extraParams] order.
+  final void Function(FragmentShader, List<double>, double)? setCustomTail;
+
   const EscapeTimeConfig({
     required this.id,
     required this.name,
@@ -56,6 +62,7 @@ class EscapeTimeConfig {
     this.animationCapability = FractalAnimationCapability.static,
     this.extraParams = const [],
     this.extraPresets = const [],
+    this.setCustomTail,
   });
 }
 
@@ -145,8 +152,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
         config.defaultColorScheme.toDouble(),
       );
       shader.setFloat(EscapeTimeUniformSlots.colorScheme, colorScheme);
-      shader.setFloat(EscapeTimeUniformSlots.transparentBackground,
-          state.transparentBackground ? 1.0 : 0.0);
+      final transparency = state.transparentBackground ? 1.0 : 0.0;
       if (config.usesPaletteSampler) {
         PaletteShaderAdapter.instance.bindSamplerPalette(
           shader,
@@ -155,17 +161,26 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
           colorCount: readDouble(state.params, 'colorCount', 64).round(),
         );
       }
-      for (int i = 0; i < config.extraParams.length; i++) {
-        final p = config.extraParams[i];
+      double extraValue(FractalParameter p) {
         final raw = readDouble(
           state.params,
           p.id,
           (p.defaultValue as num).toDouble(),
         );
+        return raw.clamp(p.min, p.max).toDouble();
+      }
+
+      final customTail = config.setCustomTail;
+      if (customTail != null) {
+        customTail(
+            shader, config.extraParams.map(extraValue).toList(), transparency);
+      } else {
         shader.setFloat(
-          EscapeTimeUniformSlots.extraStart + i,
-          raw.clamp(p.min, p.max).toDouble(),
-        );
+            EscapeTimeUniformSlots.transparentBackground, transparency);
+        for (int i = 0; i < config.extraParams.length; i++) {
+          shader.setFloat(EscapeTimeUniformSlots.extraStart + i,
+              extraValue(config.extraParams[i]));
+        }
       }
     },
   );

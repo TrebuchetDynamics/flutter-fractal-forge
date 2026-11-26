@@ -404,6 +404,72 @@ void main() {
       });
     }
 
+    for (final (id, max, label, locale) in const [
+      ('mandelbox', 8, 'Sculptural', Locale('en')),
+      ('mandelbulb', 4, 'Escultural', Locale('es')),
+    ]) {
+      testWidgets('$id picker keeps every legacy choice alongside $label',
+          (tester) async {
+        await tester.binding.setSurfaceSize(const Size(1200, 900));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        controller.selectModule(registry.byId(id), animate: false);
+        controller.updateParam('colorScheme', 2);
+        await openPicker(tester, locale: locale);
+
+        Finder choice(int value) => find.byKey(ValueKey('paletteChoice$value'));
+        for (var value = 0; value <= max; value++) {
+          expect(choice(value).hitTestable(), findsOneWidget);
+        }
+        expect(choice(max + 1), findsNothing);
+        final sculpture = choice(max);
+        expect(find.descendant(of: sculpture, matching: find.text(label)),
+            findsOneWidget);
+        expect(
+          find.descendant(
+              of: sculpture, matching: find.byIcon(Icons.palette_outlined)),
+          findsOneWidget,
+          reason: 'Sculptural is not a global palette swatch',
+        );
+        await tester.tap(sculpture);
+        await tester.pumpAndSettle();
+        expect(controller.params['colorScheme'], max);
+        await tester.tap(choice(2));
+        await tester.pumpAndSettle();
+        expect(controller.params['colorScheme'], 2);
+        expect(
+            find.descendant(
+                of: choice(2),
+                matching: find.byIcon(Icons.check_circle_rounded)),
+            findsOneWidget);
+      });
+
+      testWidgets('$id palette randomization uses the module-local range',
+          (tester) async {
+        await tester.binding.setSurfaceSize(const Size(1200, 900));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        controller.selectModule(registry.byId(id), animate: false);
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle();
+        final palette = find.byKey(const ValueKey('viewerPaletteButton'));
+        expect(palette.hitTestable(), findsOneWidget);
+        for (final start in [2, max]) {
+          final results = <Object?>{};
+          // Sample fixed starts: starting from max must not just wrap to 0,
+          // and starting from a legacy ID must not always choose Sculptural.
+          for (var draw = 0; draw < 24; draw++) {
+            controller.updateParam('colorScheme', start);
+            await tester.tap(palette);
+            final result = controller.params['colorScheme'];
+            expect(result, inInclusiveRange(0, max));
+            expect(result, isNot(start));
+            results.add(result);
+          }
+          expect(results.length, greaterThan(1));
+        }
+        await tester.pumpAndSettle();
+      });
+    }
+
     testWidgets('missing palette service does not invent a gradient',
         (tester) async {
       paletteService.dispose();

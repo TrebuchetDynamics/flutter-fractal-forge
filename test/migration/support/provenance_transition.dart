@@ -329,6 +329,10 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == cpuRenderParamsTask ||
           s['task'] == stateMachineFixesTask ||
           s['task'] == catalogAdditionSupportTask ||
+          s['task'] == juliaUniformOrderTask ||
+          s['task'] == escapeTimeUniformDefaultsTask ||
+          s['task'] == perturbationOrbitCacheKeyTask ||
+          s['task'] == historyReplayModuleIdTask ||
           isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();

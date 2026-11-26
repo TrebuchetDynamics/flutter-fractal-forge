@@ -797,7 +797,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1052 fractals",
+  "homeFractalCountBadge": "1053 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogCategoriesScrollForward": "More categories",
@@ -926,7 +926,7 @@
   "exportResolutionCustom": "Custom",
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1052 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",
@@ -987,6 +987,12 @@
   "reportTagWrongFractal": "Wrong fractal",
   "reportTagMissingShader": "Missing shader",
   "reportTagOther": "Other",
+  "moduleZetaCriticalStrip": "Riemann Zeta Critical Strip",
+  "zetaContours": "Colour contours",
+  "zetaPhaseOnly": "Phase only",
+  "zetaPhaseAndModulus": "Phase + modulus bands",
+  "zetaGpuOnly": "This zeta plot requires its shader. Switch to the GPU renderer to view it; no CPU substitute is available.",
+  "zetaGuides": "Strip and window guides",
   "moduleRecamanArcs": "Recamán's Sequence",
   "recamanTerms": "Terms",
   "recamanLineWidth": "Line width (px)",

@@ -432,17 +432,19 @@ void main() {
               if (before.containsKey(path)) path
           },
           reason: entry.key as String);
-      const historicalHelpers = {
-        'test/migration/support/provenance_transition.dart':
-            'd56b206921c86e52216b004e0bf3fc0b46b02837701ec43895e94480da49e7ad',
+      const historicalSources = {
+        'lib/features/viewer/fractal_viewer_screen.dart':
+            '130d18a56639d9e1f65eb25a6cbdf5593ee4df8126a4df0b6992f3aadb6f1242',
         'lib/core/controllers/fractal_controller.dart':
             '8bf7f233db1606f779ba59231c4026c46f12e446b734e5c5373f45a400561f1d',
+        'test/migration/support/provenance_transition.dart':
+            'd56b206921c86e52216b004e0bf3fc0b46b02837701ec43895e94480da49e7ad',
         'test/migration/support/visual_presentation_evolution.dart':
             'cbc3e4fd39539c7bba3efc6d6e9819c499ba5735bd65ce44393f26996b0cc070',
       };
       for (final path in changed) {
         final current = sha256.convert(File(path).readAsBytesSync()).toString();
-        expect(after[path], historicalHelpers[path] ?? current);
+        expect(after[path], historicalSources[path] ?? current);
         expect(stages.last['binding_maps'][entry.key]['after'][path], current);
       }
     }
@@ -469,13 +471,15 @@ void main() {
       expect(after.keys.toSet(), before.keys.toSet());
       final changed = before.keys.where((p) => before[p] != after[p]).toSet();
       expect(changed, helpers.where(before.containsKey).toSet());
+      const historicalHelpers = {
+        'test/migration/support/provenance_transition.dart':
+            '79290c052b7d70d1d868c2a351da09c69ca40c09849cc05b21dc12368eec4f31',
+        'test/migration/support/visual_presentation_evolution.dart':
+            'e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28',
+      };
       for (final path in changed.cast<String>()) {
         final current = sha256.convert(File(path).readAsBytesSync()).toString();
-        expect(
-            after[path],
-            path == 'test/migration/support/visual_presentation_evolution.dart'
-                ? 'e2904e5bd09d137f72d331c71dd24fcacf17922f0c8beb10ac9d944ebfe44d28'
-                : current);
+        expect(after[path], historicalHelpers[path]);
         expect(stages.last['binding_maps'][entry.key]['after'][path], current);
       }
     }
