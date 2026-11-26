@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1060,
+    "app": 1061,
     "planned": 1,
     "reference": 200,
     "registry": 1623
@@ -8463,6 +8463,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.zaslavsky",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.zeta_critical_strip",
       "name": "",
       "namespace": "app",
       "paper_ids": [],

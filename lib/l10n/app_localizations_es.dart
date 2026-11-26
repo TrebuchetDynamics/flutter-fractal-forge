@@ -1920,7 +1920,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1052 fractales';
+  String get homeFractalCountBadge => '1053 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';
@@ -2247,7 +2247,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'Exploración acelerada por GPU de 1052 fractales de producción, con zoom profundo y renderizado en tiempo real.';
+      'Exploración acelerada por GPU de 1053 fractales de producción, con zoom profundo y renderizado en tiempo real.';
 
   @override
   String get settingsSourceCode => 'Código fuente';
@@ -2377,6 +2377,25 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reportTagOther => 'Otro';
+
+  @override
+  String get moduleZetaCriticalStrip => 'Franja crítica de la zeta de Riemann';
+
+  @override
+  String get zetaContours => 'Contornos de color';
+
+  @override
+  String get zetaPhaseOnly => 'Solo fase';
+
+  @override
+  String get zetaPhaseAndModulus => 'Fase + bandas de módulo';
+
+  @override
+  String get zetaGpuOnly =>
+      'Esta gráfica de la zeta requiere su sombreador. Cambia al motor de renderizado GPU para verla; no hay sustituto para CPU.';
+
+  @override
+  String get zetaGuides => 'Guías de franja y ventana';
 
   @override
   String get moduleRecamanArcs => 'Sucesión de Recamán';

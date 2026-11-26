@@ -1,6 +1,6 @@
 # Fractal Forge
 
-Fractal Forge is an open-source, interactive fractal explorer built with Flutter. Browse **1052 production fractals**, adjust their parameters, and inspect the mathematics behind the view.
+Fractal Forge is an open-source, interactive fractal explorer built with Flutter. Browse **1053 production fractals**, adjust their parameters, and inspect the mathematics behind the view.
 
 - **[Open the web preview](https://fractal.trebuchetdynamics.com)** — start in a modern WebGL 2.0 browser. **Preview limitation:** web is not full app parity; export, sharing, CPU precision, deep zoom and hardware GPU behavior remain incompletely qualified. See the [backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
 - **[Get the Android app](https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge)** — the primary mobile experience, with fuller platform integrations.

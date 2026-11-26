@@ -68,6 +68,17 @@ class _CpuFallbackPaneState extends State<CpuFallbackPane> {
       );
     }
 
+    if (module.id == 'zeta_critical_strip') {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(AppLocalizations.of(context)!.zetaGpuOnly,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white70)),
+        ),
+      );
+    }
+
     if (module.dimension != FractalDimension.twoD) {
       return const Center(
         child: Text(

@@ -5285,6 +5285,11 @@
     "capability": "static"
   },
   {
+    "id": "zeta_critical_strip",
+    "shaderAsset": "shaders/number_theory/zeta_critical_strip_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "zeta_newton",
     "shaderAsset": "shaders/root_finding/zeta_newton_gpu.frag",
     "capability": "static"

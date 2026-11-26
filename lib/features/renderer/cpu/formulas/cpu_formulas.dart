@@ -370,6 +370,10 @@ CpuFormula cpuFormulaForModuleId(String moduleId, {double power = 2}) {
     throw UnsupportedError(
         'Perron tree requires its geometric shader; no CPU substitute is supported.');
   }
+  if (moduleId == 'zeta_critical_strip') {
+    throw UnsupportedError(
+        'Riemann Zeta Critical Strip requires its shader; no CPU substitute is supported.');
+  }
   final direct = cpuFormulasByModuleId[moduleId];
   if (direct != null) return direct;
 

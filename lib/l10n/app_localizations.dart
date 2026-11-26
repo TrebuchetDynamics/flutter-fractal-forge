@@ -3558,7 +3558,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1052 fractals'**
+  /// **'1053 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -4146,7 +4146,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1052 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
@@ -4376,6 +4376,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get reportTagOther;
+
+  /// No description provided for @moduleZetaCriticalStrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Riemann Zeta Critical Strip'**
+  String get moduleZetaCriticalStrip;
+
+  /// No description provided for @zetaContours.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour contours'**
+  String get zetaContours;
+
+  /// No description provided for @zetaPhaseOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Phase only'**
+  String get zetaPhaseOnly;
+
+  /// No description provided for @zetaPhaseAndModulus.
+  ///
+  /// In en, this message translates to:
+  /// **'Phase + modulus bands'**
+  String get zetaPhaseAndModulus;
+
+  /// No description provided for @zetaGpuOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This zeta plot requires its shader. Switch to the GPU renderer to view it; no CPU substitute is available.'**
+  String get zetaGpuOnly;
+
+  /// No description provided for @zetaGuides.
+  ///
+  /// In en, this message translates to:
+  /// **'Strip and window guides'**
+  String get zetaGuides;
 
   /// No description provided for @moduleRecamanArcs.
   ///
