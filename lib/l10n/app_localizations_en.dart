@@ -733,6 +733,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fractalSection3d => '3D';
 
   @override
+  String get colorSculptural => 'Sculptural';
+
+  @override
   String get colorFire => 'Fire';
 
   @override

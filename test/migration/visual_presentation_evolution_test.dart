@@ -433,6 +433,8 @@ void main() {
           },
           reason: entry.key as String);
       const historicalSources = {
+        'lib/features/viewer/fractal_viewer_screen.dart':
+            '130d18a56639d9e1f65eb25a6cbdf5593ee4df8126a4df0b6992f3aadb6f1242',
         'lib/core/controllers/fractal_controller.dart':
             '8bf7f233db1606f779ba59231c4026c46f12e446b734e5c5373f45a400561f1d',
         'test/migration/support/provenance_transition.dart':

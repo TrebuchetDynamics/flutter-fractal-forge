@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
+import 'package:flutter_fractals/core/modules/fractals/mandelbulb_module.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 /// Declarative config for a standard 3D ray-marched fractal.
@@ -90,6 +91,7 @@ class Raymarched3DConfig {
 
 /// Builds a [FractalModule] from a declarative [Raymarched3DConfig].
 FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
+  final sculpturalBulb = config.id == 'mandelbulb';
   final parameters = [
     if (config.exposePower)
       FractalParameter(
@@ -112,10 +114,13 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       min: 1.0,
       max: 8.0,
     ),
-    CommonFractalParams.colorScheme4(
-      defaultValue: config.defaultColorScheme.toDouble(),
-      max: config.maxColorScheme,
-    ),
+    if (sculpturalBulb)
+      mandelbulbColorScheme(defaultValue: config.defaultColorScheme.toDouble())
+    else
+      CommonFractalParams.colorScheme4(
+        defaultValue: config.defaultColorScheme.toDouble(),
+        max: config.maxColorScheme,
+      ),
     if (config.maxFractalType > 0)
       FractalParameter(
         id: 'fractalType',
@@ -165,7 +170,13 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     animationCapability: config.animationCapability,
     shaderAsset: config.shaderAsset,
     parameters: parameters,
-    defaultPreset: defaultPreset,
+    defaultPreset: sculpturalBulb
+        ? defaultPreset.copyWith(
+            params: {...defaultParams, 'colorScheme': 4},
+            view: mandelbulbSculpturalView(),
+          )
+        : defaultPreset,
+    // Keep the generated Classic and named presets on their historical state.
     builtInPresets: buildBuiltInPresetList(
       moduleId: config.id,
       defaultPreset: defaultPreset,

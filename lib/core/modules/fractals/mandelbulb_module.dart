@@ -5,8 +5,28 @@ import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
-import 'package:flutter_fractals/core/services/rendering/palette/palette_shader_adapter.dart';
 import 'package:vector_math/vector_math_64.dart';
+
+FractalParameter mandelbulbColorScheme({Object defaultValue = 0}) =>
+    FractalParameter(
+      id: 'colorScheme',
+      label: (l10n) => l10n.paramColorScheme,
+      type: FractalParamType.enumeration,
+      min: 0,
+      max: 4,
+      step: 1,
+      defaultValue: defaultValue,
+      options: [
+        ...CommonFractalParams.colorScheme4().options,
+        FractalParamOption(value: 4, label: (l10n) => l10n.colorSculptural),
+      ],
+    );
+
+FractalViewState mandelbulbSculpturalView() => FractalViewState(
+      pan: Vector2.zero(),
+      zoom: 1.15,
+      rotation: Vector3(0.3, -0.4, 0.0),
+    );
 
 FractalModule buildMandelbulbModule() {
   final parameters = [
@@ -22,7 +42,7 @@ FractalModule buildMandelbulbModule() {
     CommonFractalParams.iterations(defaultValue: 50, min: 10, max: 100),
     CommonFractalParams.raySteps(defaultValue: 120),
     CommonFractalParams.bailout(defaultValue: 2.0, min: 1.0, max: 4.0),
-    CommonFractalParams.colorScheme4(defaultValue: 0),
+    mandelbulbColorScheme(),
     FractalParameter(
       id: 'fractalType',
       label: (l10n) => l10n.paramFractalType,
@@ -52,10 +72,10 @@ FractalModule buildMandelbulbModule() {
       'iterations': 50,
       'steps': 120,
       'bailout': 2.0,
-      'colorScheme': 0,
+      'colorScheme': 4,
       'fractalType': 0,
     },
-    view: FractalViewState.initial(),
+    view: mandelbulbSculpturalView(),
   );
 
   return FractalModule(
@@ -66,7 +86,19 @@ FractalModule buildMandelbulbModule() {
     parameters: parameters,
     defaultPreset: defaultPreset,
     builtInPresets: [
-      defaultPreset.copyWith(id: 'mandelbulb-classic', name: 'Classic'),
+      defaultPreset.copyWith(
+        id: 'mandelbulb-classic',
+        name: 'Classic',
+        params: const {
+          'power': 8.0,
+          'iterations': 50,
+          'steps': 120,
+          'bailout': 2.0,
+          'colorScheme': 0,
+          'fractalType': 0,
+        },
+        view: FractalViewState.initial(),
+      ),
       // Alien Artifact - top-down view revealing intricate surface
       defaultPreset.copyWith(
         id: 'mandelbulb-artifact',
@@ -273,8 +305,6 @@ FractalModule buildMandelbulbModule() {
         fractalType: fractalType,
         transparentBackground: state.transparentBackground,
       );
-
-      PaletteShaderAdapter.instance.bindUniformPalette(shader, 16, colorScheme);
     },
   );
 }

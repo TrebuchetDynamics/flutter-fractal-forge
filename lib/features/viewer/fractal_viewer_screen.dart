@@ -1268,6 +1268,22 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     controller.updateParam('colorScheme', value >= max ? 0 : value + 1);
   }
 
+  List<FractalParamOption> _paletteOptions(
+      String moduleId, FractalParameter param) {
+    if (moduleId != 'mandelbox') return param.options;
+    // Mandelbox declares a label only for Sculptural; its legacy selectors
+    // are still valid integer choices, not entries in the global palette list.
+    final labels = {for (final option in param.options) option.value: option};
+    return [
+      for (var value = param.min.ceil(); value <= param.max.floor(); value++)
+        labels[value] ??
+            FractalParamOption(
+              value: value,
+              label: (l10n) => '${l10n.paramColorScheme} $value',
+            ),
+    ];
+  }
+
   /// Picks a different palette instead of advancing one step.
   void _randomizePalette(BuildContext context) {
     final controller = _activeController(context);
@@ -1282,8 +1298,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       _cycleColorScheme(context);
       return;
     }
-    final values = colorParam.options.isNotEmpty
-        ? [for (final option in colorParam.options) option.value]
+    final options = _paletteOptions(controller.module.id, colorParam);
+    final values = options.isNotEmpty
+        ? [for (final option in options) option.value]
         : [
             for (var value = colorParam.min.ceil();
                 value <= colorParam.max.floor();
@@ -1391,7 +1408,10 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         break;
       }
     }
-    final options = colorParam?.options ?? const <FractalParamOption>[];
+    final moduleId = controller.module.id;
+    final options = colorParam == null
+        ? const <FractalParamOption>[]
+        : _paletteOptions(moduleId, colorParam);
     if (options.isEmpty) {
       _cycleColorScheme(context);
       return;
@@ -1504,6 +1524,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                                 key: ValueKey('paletteChoice${option.value}'),
                                 label: option.label(l10n),
                                 value: option.value,
+                                showPreview: moduleId != 'mandelbox' &&
+                                    !(moduleId == 'mandelbulb' &&
+                                        option.value == 4),
                                 selected: selected,
                                 onTap: () {
                                   controller.updateParam(
@@ -2256,6 +2279,7 @@ class _TextOverlayEditorSheetState extends State<_TextOverlayEditorSheet> {
 class _PaletteChoiceTile extends StatelessWidget {
   final String label;
   final Object value;
+  final bool showPreview;
   final bool selected;
   final VoidCallback onTap;
 
@@ -2263,6 +2287,7 @@ class _PaletteChoiceTile extends StatelessWidget {
     super.key,
     required this.label,
     required this.value,
+    required this.showPreview,
     required this.selected,
     required this.onTap,
   });
@@ -2270,7 +2295,7 @@ class _PaletteChoiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final gradient = _paletteGradient(value);
+    final gradient = showPreview ? _paletteGradient(value) : null;
     // Which palette is active is otherwise conveyed only by the check icon and
     // the border colour, so a screen reader hears nine identical buttons.
     return MergeSemantics(

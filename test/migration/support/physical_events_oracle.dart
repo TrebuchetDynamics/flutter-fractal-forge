@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3;
 
-import 'baseline_inventory.dart' show canonicalJson;
+import 'baseline_inventory.dart' show canonicalJson, retainedDefaultPreset;
 export 'baseline_inventory.dart' show canonicalJson;
 
 const physicalEventsOutput =
@@ -358,11 +358,20 @@ Future<void> sendPhysicalKey(WidgetTester tester, Map event) async {
   }
 }
 
+// The gesture oracle replays historical inputs, not the current first-view material.
+void _selectPhysicalModule(FractalController controller, String id) {
+  controller.selectModule(
+    controller.registry.byId(id),
+    animate: false,
+    initialParams:
+        id == 'mandelbulb' ? retainedDefaultPreset(id).params : const {},
+  );
+}
+
 Future<Map<String, Object?>> replayPhysicalScenario(
     WidgetTester tester, PhysicalScenario scenario) async {
   final controller = FractalController(ModuleRegistry());
-  controller.selectModule(controller.registry.byId(scenario.module),
-      animate: false);
+  _selectPhysicalModule(controller, scenario.module);
   controller.updateView(controller.view.copyWith(
       zoom: scenario.zoom,
       pan: Vector2.all(scenario.pan),
@@ -444,9 +453,7 @@ Future<Map<String, Object?>> replayPhysicalScenario(
         case 'key':
           await sendPhysicalKey(tester, event);
         case 'module':
-          controller.selectModule(
-              controller.registry.byId(event['id'] as String),
-              animate: false);
+          _selectPhysicalModule(controller, event['id'] as String);
         case 'dispose':
           await tester.pumpWidget(const SizedBox.shrink());
           disposed = true;
@@ -546,7 +553,7 @@ Future<List<Map<String, Object?>>> captureViewerKeys(
     SharedPreferences.setMockInitialValues({});
     final registry = ModuleRegistry();
     final controller = FractalController(registry);
-    controller.selectModule(registry.byId(module), animate: false);
+    _selectPhysicalModule(controller, module);
     final presets = await PresetStore.create();
     final history = HistoryProvider(store: await HistoryStore.create());
     final settings =
