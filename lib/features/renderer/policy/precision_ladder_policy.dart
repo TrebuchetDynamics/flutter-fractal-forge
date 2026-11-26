@@ -120,7 +120,7 @@ class _PrecisionThresholds {
 class _PrecisionThresholdPolicy {
   static const int _gpuMaxIterations = 2000;
   static const int hysteresisFrames = 2;
-  static const _mandelbrotDf2LowerThreshold = 5e6;
+  static const _mandelbrotDf2LowerThreshold = 1e4;
 
   static const _moduleThresholds = <String, _PrecisionThresholds>{
     'mandelbrot': _PrecisionThresholds(

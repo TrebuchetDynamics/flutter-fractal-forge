@@ -126,7 +126,7 @@ pub fn decide(sample: Sample<'_>, cpu_fallback_active: bool) -> Decision<'_> {
         && sample.capabilities.perturbation
         && sample.zoom >= 5e6
         && sample.zoom < 1e30;
-    let double_float = sample.module_id == "mandelbrot" && sample.zoom >= 5e6 && sample.zoom < 1e12;
+    let double_float = sample.module_id == "mandelbrot" && sample.zoom >= 1e4 && sample.zoom < 1e12;
     if perturbation || double_float {
         decision.render_path = if perturbation {
             RenderPath::GpuPerturbation

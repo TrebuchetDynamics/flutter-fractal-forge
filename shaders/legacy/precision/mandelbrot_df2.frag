@@ -4,16 +4,8 @@ precision highp float;
 
 // Double-float (DS) precision Mandelbrot shader.
 //
-// Extends usable GPU zoom range from ~1e7 (float32 limit) to ~1e14.
-// Uses paired-float (Knuth/Dekker) arithmetic for center coordinates.
-//
-// NOTE: This shader is available infrastructure but is NOT yet wired to
-// FractalRenderer. To activate, create mandelbrot_df2_module.dart with the
-// uniform layout below and add a shouldUseDoubleFloat() call site in
-// fractal_renderer.dart before the _loadShader() call (around line 368).
-// Also raise DeepZoomPrecisionPolicy mandelbrot threshold to 1e14.
-//
-// Uniform layout must match mandelbrot_df2_module.dart when created:
+// Keep the pixel offset in the low part of c and carry it through the
+// recurrence. The uniform layout matches MandelbrotDf2UniformSlots.
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform float uCenterHiX;     // 3  (high part of center.x)
@@ -124,15 +116,10 @@ void main() {
   vec2 cx = dsAdd(vec2(uCenterHiX, uCenterLoX), vec2(uvScaled.x, 0.0));
   vec2 cy = dsAdd(vec2(uCenterHiY, uCenterLoY), vec2(uvScaled.y, 0.0));
 
-  // Mandelbrot iteration using regular float for z (z starts at 0,
-  // accumulated rounding error is acceptable for zoom < 1e14).
-  float zx = 0.0;
-  float zy = 0.0;
+  vec2 zx = vec2(0.0);
+  vec2 zy = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
-
-  // Promote c from DS to float for iteration (precision already captured).
-  float cx_f = cx.x + cx.y;
-  float cy_f = cy.x + cy.y;
+  float mag2 = 0.0;
 
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
@@ -140,14 +127,19 @@ void main() {
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
-    float zx2 = zx * zx;
-    float zy2 = zy * zy;
-    zy = 2.0 * zx * zy + cy_f;
-    zx = zx2 - zy2 + cx_f;
-    // Bailout test uses post-update magnitudes (not stale zx2/zy2).
-    if (zx * zx + zy * zy > bailoutSq) { it = j; break; }
+    vec2 zx2 = dsMul(zx, zx);
+    vec2 zy2 = dsMul(zy, zy);
+    zy = dsAdd(2.0 * dsMul(zx, zy), cy);
+    zx = dsAdd(dsSub(zx2, zy2), cx);
+    // Float32 is sufficient for the post-update escape test and shading,
+    // but never feed the rounded values back into the recurrence.
+    mag2 = zx.x * zx.x + zy.x * zy.x;
+    if (mag2 > bailoutSq) { it = j; break; }
     it = j + 1;
   }
+
+  float cx_f = cx.x + cx.y;
+  float cy_f = cy.x + cy.y;
 
   if (it >= target) {
     if (uTransparentBg > 0.5) {
@@ -161,8 +153,7 @@ void main() {
     return;
   }
 
-  float mag2 = max(1e-12, zx * zx + zy * zy);
-  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
+  float smoothVal = float(it) - log2(log2(max(1e-12, mag2))) + 4.0;
   float contour = 0.18 * sin(12.0 * cx_f + 7.0 * cy_f) +
       0.12 * cos(23.0 * length(vec2(cx_f, cy_f)));
   float t = fract(smoothVal / 64.0);

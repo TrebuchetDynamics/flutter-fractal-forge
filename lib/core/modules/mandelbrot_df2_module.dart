@@ -4,7 +4,7 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 
 /// Returns a [FractalModule] that wraps the standard Mandelbrot module
-/// but uses the double-float shader for deep zoom (zoom >= 5e6).
+/// but uses the double-float shader for the extended GPU tier.
 ///
 /// Uniform layout must match [MandelbrotDf2UniformSlots] and
 /// shaders/legacy/precision/mandelbrot_df2.frag.

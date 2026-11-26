@@ -52,6 +52,13 @@ List<dynamic> _inputs(List<dynamic> recorded, List<String> ids) {
     add('policy zoom is not camera-clipped: $id', id, 1e20);
   }
 
+  for (final zoom in [_neighbor(1e4, -1), 1e4, _neighbor(1e4, 1)]) {
+    add('Mandelbrot DF2 boundary $zoom', 'mandelbrot', zoom);
+  }
+  for (final zoom in [1e4, 1e5, 1e6, _neighbor(5e6, -1), 5e6]) {
+    add('Burning Ship perturbation boundary $zoom', 'burning_ship', zoom);
+  }
+
   final random = math.Random(_seed);
   final specialZooms = <Object>[
     {'nonfinite': 'nan'},
@@ -60,6 +67,7 @@ List<dynamic> _inputs(List<dynamic> recorded, List<String> ids) {
     -1,
     0,
     1,
+    1e4,
     1e5,
     5e6,
     1e7,
@@ -117,6 +125,21 @@ List<Object?> _helpers(
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test('only Mandelbrot enters extended GPU at 1e4', () {
+    const policy = PrecisionLadderPolicy();
+    PrecisionLadderRenderPath path(String id, double zoom) => policy
+        .decide(moduleId: id, dimension: FractalDimension.twoD, zoom: zoom)
+        .renderPath;
+    expect(path('mandelbrot', _neighbor(1e4, -1)),
+        PrecisionLadderRenderPath.gpuFloat);
+    expect(path('mandelbrot', 1e4), PrecisionLadderRenderPath.gpuDoubleFloat);
+    expect(path('mandelbrot', _neighbor(1e4, 1)),
+        PrecisionLadderRenderPath.gpuDoubleFloat);
+    for (final id in ['burning_ship', 'julia', 'celtic']) {
+      expect(path(id, _neighbor(5e6, -1)), PrecisionLadderRenderPath.gpuFloat);
+      expect(path(id, 5e6), PrecisionLadderRenderPath.gpuPerturbation);
+    }
+  });
   test('source-bound precision stream is deterministic and exports only opt-in',
       () {
     final frozen = File('migration/baseline/precision-replay.json');
