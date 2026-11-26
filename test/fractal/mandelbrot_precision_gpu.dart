@@ -32,9 +32,9 @@ int _countColumns(Uint8List rgba) {
   return signatures.length;
 }
 
-// Independent binary64 render of DF2's default palette, bailout radius 4,
-// opaque interior and time zero. Sample pixel centers and quantize to RGBA8
-// before counting: identical shaded columns are not always a precision loss.
+// Independent binary64 render with the original float path's palette 0,
+// bailout radius 4, opaque black interior and time zero. Sample pixel centers
+// and quantize to RGBA8: identical shaded columns are not always precision loss.
 int _referenceColumns(double zoom, int target) {
   final rgba = Uint8List(_size * _size * 4);
   for (var y = 0; y < _size; y++) {
@@ -50,29 +50,90 @@ int _referenceColumns(double zoom, int target) {
         mag2 = zx * zx + zy * zy;
         if (mag2 > 16) break;
       }
-      final interior = it == target;
-      final smooth = interior
-          ? 0.0
-          : it - math.log(math.log(mag2) / math.ln2) / math.ln2 + 4;
-      final contour = 0.18 * math.sin(12 * cx + 7 * cy) +
-          0.12 * math.cos(23 * math.sqrt(cx * cx + cy * cy));
-      final t = (smooth / 64 + contour) % 1;
       final i = (y * _size + x) * 4;
+      rgba[i + 3] = 255;
+      if (it == target) continue;
+      final smooth = it - math.log(math.log(mag2) / math.ln2) / math.ln2 + 4;
+      final t = (smooth / 64) % 1;
       const offsets = [0.0, 0.4, 0.7];
       for (var channel = 0; channel < 3; channel++) {
-        final linear =
-            (0.5 + 0.5 * math.cos(6.28318 * (t + offsets[channel]))) *
-                (interior ? 0.72 : 1.0);
+        final linear = 0.5 + 0.5 * math.cos(6.28318 * (t + offsets[channel]));
         final srgb = linear < 0.0031308
             ? 12.92 * linear
             : 1.055 * math.pow(linear, 1 / 2.4) - 0.055;
         rgba[i + channel] = (255 * srgb).round();
       }
-      rgba[i + 3] = 255;
     }
   }
   return _countColumns(rgba);
 }
+
+Future<({Uint8List rgba, String asset, Object? iterations})> _render(
+  WidgetTester tester, {
+  required Vector2 center,
+  required double zoom,
+  int scheme = 0,
+  int size = _size,
+}) async {
+  expect(const bool.fromEnvironment('FORCE_GPU_RENDER'), isTrue,
+      reason: 'Run this dedicated file with FORCE_GPU_RENDER=true');
+  SharedPreferences.setMockInitialValues({});
+  final palettes = await PaletteService.create();
+  final harness = FractalControllerWidgetHarness();
+  final controller = harness.controller;
+  final key = GlobalKey();
+  final sink = FractalRenderSnapshotSink();
+  try {
+    controller.selectModule(harness.registry.byId('mandelbrot'),
+        animate: false);
+    controller.updateParam('colorScheme', scheme);
+    controller.updateParam('iterations', 120);
+    controller.updateParam('bailout', 4.0);
+    controller.updateView(controller.view.copyWith(pan: center, zoom: zoom));
+    await tester.pumpWidget(harness.wrapScaffold(Center(
+      child: SizedBox.square(
+        dimension: size.toDouble(),
+        child: FractalRenderer(
+          animationEnabled: false,
+          showRendererIndicator: false,
+          boundaryKey: key,
+          renderSnapshotSink: sink,
+        ),
+      ),
+    )));
+    await pumpUntil(
+        tester, () => sink.snapshot != null, 'a loaded shader frame');
+    final boundary =
+        key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    final rgba = await tester.runAsync(() async {
+      final image = await boundary.toImage();
+      try {
+        expect(image.width, size);
+        expect(image.height, size);
+        final bytes =
+            (await image.toByteData(format: ui.ImageByteFormat.rawRgba))!;
+        return bytes.buffer
+            .asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+      } finally {
+        image.dispose();
+      }
+    });
+    expect(tester.takeException(), isNull);
+    final snapshot = sink.snapshot!;
+    return (
+      rgba: rgba!,
+      asset: snapshot.module.shaderAsset,
+      iterations: snapshot.state.params['iterations'],
+    );
+  } finally {
+    await tester.pumpWidget(const SizedBox.shrink());
+    harness.dispose();
+    palettes.dispose();
+  }
+}
+
+const _df2Asset = 'shaders/legacy/precision/mandelbrot_df2.frag';
+final _desktop = TargetPlatformVariant({TargetPlatform.linux});
 
 // Run explicitly, like shader_cache_recovery_gpu.dart: the ordinary widget
 // suite replaces the shader surface with a placeholder.
@@ -81,69 +142,47 @@ void main() {
   for (final (zoom, target, minimum) in [(1e5, 330, 461), (1e6, 372, 369)]) {
     testWidgets('Mandelbrot keeps distinct viewer columns at zoom $zoom',
         (tester) async {
-      expect(const bool.fromEnvironment('FORCE_GPU_RENDER'), isTrue,
-          reason: 'Run this dedicated file with FORCE_GPU_RENDER=true');
-      SharedPreferences.setMockInitialValues({});
-      final palettes = await PaletteService.create();
-      final harness = FractalControllerWidgetHarness();
-      final controller = harness.controller;
-      controller.selectModule(harness.registry.byId('mandelbrot'),
-          animate: false);
-      // Use the parameters that established the issue's reference counts.
-      controller.updateParam('colorScheme', 0);
-      controller.updateParam('iterations', 120);
-      controller.updateParam('bailout', 4.0);
-      controller.updateView(controller.view.copyWith(
-        pan: Vector2(_centerX, _centerY),
-        zoom: zoom,
-      ));
-      final key = GlobalKey();
-      final sink = FractalRenderSnapshotSink();
-      try {
-        await tester.pumpWidget(harness.wrapScaffold(Center(
-          child: SizedBox.square(
-            dimension: _size.toDouble(),
-            child: FractalRenderer(
-              animationEnabled: false,
-              boundaryKey: key,
-              renderSnapshotSink: sink,
-            ),
-          ),
-        )));
-        await pumpUntil(
-            tester, () => sink.snapshot != null, 'a loaded shader frame');
-        final boundary =
-            key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-        final count = await tester.runAsync(() async {
-          final image = await boundary.toImage();
-          try {
-            expect(image.width, _size);
-            expect(image.height, _size);
-            final bytes =
-                (await image.toByteData(format: ui.ImageByteFormat.rawRgba))!;
-            return _countColumns(bytes.buffer
-                .asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
-          } finally {
-            image.dispose();
-          }
-        });
-        expect(tester.takeException(), isNull);
-        final snapshot = sink.snapshot!;
-        expect(snapshot.state.params['iterations'], target);
-        final reference = _referenceColumns(zoom, target);
-        final actual =
-            '$zoom using ${snapshot.module.shaderAsset}: $count/$reference distinct columns';
-        expect(count,
-            greaterThanOrEqualTo(math.max(minimum, (reference * 0.9).ceil())),
-            reason: actual);
-        debugPrint(actual);
-        expect(snapshot.module.shaderAsset,
-            'shaders/legacy/precision/mandelbrot_df2.frag');
-      } finally {
-        await tester.pumpWidget(const SizedBox.shrink());
-        harness.dispose();
-        palettes.dispose();
+      final frame = await _render(tester,
+          center: Vector2(_centerX, _centerY), zoom: zoom);
+      expect(frame.iterations, target);
+      final count = _countColumns(frame.rgba);
+      final reference = _referenceColumns(zoom, target);
+      final actual =
+          '$zoom using ${frame.asset}: $count/$reference distinct columns';
+      expect(count,
+          greaterThanOrEqualTo(math.max(minimum, (reference * 0.9).ceil())),
+          reason: actual);
+      debugPrint(actual);
+      expect(frame.asset, _df2Asset);
+    }, variant: _desktop);
+  }
+
+  for (final (label, x, y, scheme) in [
+    ('black interior', 0.0, 0.0, 0),
+    ('relief palette', 0.3, 0.7, 50),
+  ]) {
+    testWidgets('Mandelbrot keeps $label when switching to DF2',
+        (tester) async {
+      const size = 32;
+      final center = Vector2(x, y);
+      final standard = await _render(tester,
+          center: center, zoom: 9999, scheme: scheme, size: size);
+      final extended = await _render(tester,
+          center: center, zoom: 1e4, scheme: scheme, size: size);
+      expect(
+          standard.asset, 'shaders/legacy/escape_time/mandel_step_smooth.frag');
+      expect(extended.asset, _df2Asset);
+      const i = (size * (size ~/ 2) + size ~/ 2) * 4;
+      final standardPixel = standard.rgba.sublist(i, i + 4);
+      expect(standardPixel[3], 255);
+      if (scheme == 0) {
+        expect(standardPixel, [0, 0, 0, 255]);
+      } else {
+        expect(standardPixel.take(3).any((channel) => channel > 0), isTrue);
       }
-    }, variant: TargetPlatformVariant({TargetPlatform.linux}));
+      expect(extended.rgba.sublist(i, i + 4),
+          orderedEquals(standardPixel.map((channel) => closeTo(channel, 1))),
+          reason: '$label should not change at the precision switch');
+    }, variant: _desktop);
   }
 }
