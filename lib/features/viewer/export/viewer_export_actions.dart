@@ -326,11 +326,30 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     ExportOptions options, {
     required bool shareAfterSave,
   }) async {
-    final controller = _activeController(context);
-    final boundaryKey = _activeBoundaryKey();
     final l10n = AppLocalizations.of(context)!;
     final boundarySize = MediaQuery.of(context).size;
     final physicalScreenSize = View.of(context).physicalSize;
+    final targetDims = options.getTargetDimensions(
+      boundarySize.width,
+      boundarySize.height,
+      physicalScreenWidth: physicalScreenSize.width,
+      physicalScreenHeight: physicalScreenSize.height,
+    );
+    try {
+      ExportSizePolicy.validateTargetDimensions(targetDims.$1, targetDims.$2);
+    } on StateError catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        appFeedbackSnackBar(
+          message: l10n.exportFailed(error.toString()),
+          success: false,
+        ),
+      );
+      setState(_finishExportFlow);
+      return;
+    }
+
+    final controller = _activeController(context);
+    final boundaryKey = _activeBoundaryKey();
     final previousTransparency = controller.transparentBackground;
     final numberWallCapture = _numberWallExportCapture;
     final exportModule = numberWallCapture?.module ?? controller.module;
@@ -469,6 +488,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
             result = await _performFallbackPngExport(
               boundaryKey: boundaryKey,
               options: options,
+              targetDims: targetDims,
               screenWidth: boundarySize.width,
               screenHeight: boundarySize.height,
               physicalScreenWidth: physicalScreenSize.width,
@@ -745,6 +765,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   Future<ExportResult> _performFallbackPngExport({
     required GlobalKey boundaryKey,
     required ExportOptions options,
+    required (int, int) targetDims,
     required double screenWidth,
     required double screenHeight,
     required double physicalScreenWidth,
@@ -753,13 +774,6 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     required ExportCancellationToken cancellationToken,
   }) async {
     cancellationToken.throwIfCancelled();
-    final targetDims = options.getTargetDimensions(
-      screenWidth,
-      screenHeight,
-      physicalScreenWidth: physicalScreenWidth,
-      physicalScreenHeight: physicalScreenHeight,
-    );
-    ExportSizePolicy.validateTargetDimensions(targetDims.$1, targetDims.$2);
     final pixelRatio = options.calculatePixelRatio(
       screenWidth,
       screenHeight,

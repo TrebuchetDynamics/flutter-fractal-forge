@@ -276,10 +276,14 @@ class _ScreenSizeExportService extends ExportService {
 }
 
 class _CountingCaptureExportService extends ExportService {
+  int pickerCalls = 0;
   int captures = 0;
 
   @override
-  Future<bool> chooseLinuxExportDirectory() async => true;
+  Future<bool> chooseLinuxExportDirectory() async {
+    pickerCalls++;
+    return false;
+  }
 
   @override
   Future<Uint8List> capturePng(GlobalKey key, {double pixelRatio = 1.0}) async {
@@ -2150,7 +2154,8 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('oversized custom export shows the size error without capture',
+    testWidgets(
+        'oversized custom export shows the size error before the picker or capture',
         (tester) async {
       final exportService = _CountingCaptureExportService();
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
@@ -2158,12 +2163,13 @@ void main() {
 
       await submitCustomImageExport(tester, '10000', '10000');
 
-      expect(exportService.captures, 0);
       expect(
         find.textContaining('Export is too large: 10000×10000 exceeds '
             '${ExportSizePolicy.maxPixelCount} pixels.'),
         findsOneWidget,
       );
+      expect(exportService.pickerCalls, 0);
+      expect(exportService.captures, 0);
     });
 
     testWidgets('PNG fallback caps the capture for a wide custom export',
