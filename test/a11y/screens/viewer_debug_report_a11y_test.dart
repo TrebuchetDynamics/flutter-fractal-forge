@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
@@ -28,6 +30,7 @@ import '../shared/a11y_test_helpers.dart';
 /// by reading the code instead of by measuring it.
 class _FakeExportService extends ExportService {
   final List<String> savedFilenames = [];
+  Uint8List? reportBytes;
   int captureCalls = 0;
 
   @override
@@ -58,6 +61,7 @@ class _FakeExportService extends ExportService {
   @override
   Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
     savedFilenames.add(filename);
+    if (filename.endsWith('.json')) reportBytes = bytes;
     return File('/fake-export/$filename');
   }
 }
@@ -154,6 +158,30 @@ void main() {
       expect(exportService.savedFilenames.first, startsWith('gpu_debug_'));
       expect(exportService.captureCalls, 1);
       expect(find.text('GPU Debug Report'), findsOneWidget);
+    });
+
+    testWidgets('Report saves its original preview as UTF-8', (tester) async {
+      const message = 'Export is too large: 4000×5000…';
+      final module = registry.modules.first;
+      registry.modules[0] = FractalModule(
+        id: message,
+        displayName: module.displayName,
+        dimension: module.dimension,
+        shaderAsset: module.shaderAsset,
+        parameters: module.parameters,
+        defaultPreset: module.defaultPreset,
+        builtInPresets: module.builtInPresets,
+        setUniforms: module.setUniforms,
+      );
+      controller.dispose();
+      controller = FractalController(registry);
+
+      await openReport(tester);
+      final preview =
+          tester.widget<SelectableText>(find.byType(SelectableText));
+      expect(jsonDecode(preview.data!)['moduleId'], message);
+      expect(utf8.decode(exportService.reportBytes!), preview.data);
+      await disposeAccessibilityTestWidget(tester);
     });
 
     testWidgets('every control in the sheet is named exactly once',

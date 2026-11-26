@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -124,7 +126,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
       if (!await exportService.chooseLinuxExportDirectory()) return;
       if (!mounted) return;
       final file = await exportService.saveBytes(
-        Uint8List.fromList(content.codeUnits),
+        utf8.encode(content),
         filename: filename,
       );
       await const AppShareService().shareFile(

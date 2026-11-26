@@ -1,8 +1,37 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/features/debug/log_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// Test the platform boundary without invoking a native share target.
+// ignore: depend_on_referenced_packages
+import 'package:share_plus_platform_interface/share_plus_platform_interface.dart';
+
+class _RecordingSharePlatform extends SharePlatform {
+  late Completer<ShareParams> shared;
+
+  @override
+  Future<ShareResult> share(ShareParams params) async {
+    shared.complete(params);
+    return ShareResult.unavailable;
+  }
+}
+
+class _TestPathProvider extends PathProviderPlatform {
+  _TestPathProvider(this.path);
+
+  final String path;
+
+  @override
+  Future<String?> getApplicationDocumentsPath() async => path;
+}
 
 Widget _wrap() => const MaterialApp(
       locale: Locale('en'),
@@ -47,6 +76,45 @@ void main() {
           expect(actions.at(index).hitTestable(), findsOneWidget);
         }
         expect(tester.takeException(), isNull);
+      });
+    }
+
+    // SharePlus caches its platform on first use; reuse it for both formats.
+    final sharePlatform = _RecordingSharePlatform();
+    for (final isJson in [false, true]) {
+      final label = isJson ? 'Share JSON' : 'Share Text';
+      testWidgets('$label sends the original log as UTF-8', (tester) async {
+        const message = 'Export is too large: 4000×5000…';
+        final logger = AppLogger.instance..warn('export', message);
+        final original = isJson ? logger.exportJson() : logger.exportText();
+        expect(original, contains(message));
+
+        final directory = Directory.systemTemp.createTempSync('log_share_');
+        addTearDown(() => directory.deleteSync(recursive: true));
+        SharedPreferences.setMockInitialValues({});
+        await tester.runAsync(
+          () => const ExportService().setPreferredExportDirectory(directory),
+        );
+        final pathProvider = PathProviderPlatform.instance;
+        PathProviderPlatform.instance = _TestPathProvider(directory.path);
+        addTearDown(() => PathProviderPlatform.instance = pathProvider);
+
+        final originalSharePlatform = SharePlatform.instance;
+        SharePlatform.instance = sharePlatform;
+        addTearDown(() => SharePlatform.instance = originalSharePlatform);
+
+        await tester.pumpWidget(_wrap());
+        await tester.tap(find.byIcon(Icons.file_upload_outlined));
+        await tester.pumpAndSettle();
+        final params = await tester.runAsync(() async {
+          sharePlatform.shared = Completer<ShareParams>();
+          await tester.tap(find.text(label));
+          return sharePlatform.shared.future
+              .timeout(const Duration(seconds: 5));
+        });
+        final attachment = params!.files!.single;
+        expect(attachment.name, endsWith(isJson ? '.json' : '.txt'));
+        expect(utf8.decode(File(attachment.path).readAsBytesSync()), original);
       });
     }
 
