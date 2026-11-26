@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:equatable/equatable.dart';
 
 /// Supported export image formats
@@ -51,7 +53,35 @@ extension ExportFormatExtension on ExportFormat {
 class ExportDimensionPolicy {
   static const int maxPixelDimension = 1 << 30;
 
+  /// Enough for 4K presets with headroom for square/social custom exports.
+  static const int maxPixelCount = 16 * 1024 * 1024;
+
   const ExportDimensionPolicy._();
+
+  static double _positiveExtent(double value) =>
+      value.isFinite && value > 0 ? value : 1.0;
+
+  /// Limits a capture using its unrounded logical dimensions.
+  static double capCaptureRatio(double width, double height, double ratio) {
+    final safeWidth = _positiveExtent(width);
+    final safeHeight = _positiveExtent(height);
+    if ((safeWidth * ratio).ceilToDouble() *
+            (safeHeight * ratio).ceilToDouble() <=
+        maxPixelCount) {
+      return ratio;
+    }
+
+    final longAxis = math.max(safeWidth, safeHeight);
+    final shortAxis = math.min(safeWidth, safeHeight);
+    final areaRatio =
+        math.sqrt(maxPixelCount / longAxis) / math.sqrt(shortAxis);
+    // Flutter rounds both axes up. Budget for the short axis's rounded size
+    // before assigning whole pixels to the long axis.
+    final shortPixels = (shortAxis * areaRatio).ceil();
+    final longPixels = maxPixelCount ~/ shortPixels;
+    // Leave room for floating-point error at the whole-pixel boundary.
+    return math.min(areaRatio, longPixels / longAxis) * (1 - 1e-12);
+  }
 
   static int positiveRoundedScreenDimension(double value) {
     if (!value.isFinite || value <= 0) return 1;
@@ -260,12 +290,6 @@ class ExportOptions extends Equatable {
         ExportDimensionPolicy.positiveRoundedScreenDimension(screenValue);
   }
 
-  double _safeDimensionRatio(int targetDimension, double screenDimension) {
-    final safeScreenDimension =
-        ExportDimensionPolicy.positiveRoundedScreenDimension(screenDimension);
-    return targetDimension / safeScreenDimension;
-  }
-
   /// Instagram's post and story formats are platform-mandated canvas shapes
   /// (square / fixed 9:16) that must stay fixed regardless of how the device
   /// is held. Twitter/X has no such hard requirement, so its preset instead
@@ -297,46 +321,31 @@ class ExportOptions extends Equatable {
     return dims;
   }
 
-  /// Calculate the pixel ratio needed to achieve target resolution
+  /// Calculate the capture ratio for the target, within the pixel budget.
   double calculatePixelRatio(
     double screenWidth,
     double screenHeight, {
     double? physicalScreenWidth,
     double? physicalScreenHeight,
   }) {
-    final dims = _orientedPresetDimensions(screenWidth, screenHeight);
-    if (dims != null) {
-      // Use the larger ratio to ensure we meet target resolution
-      final widthRatio = _safeDimensionRatio(dims.$1, screenWidth);
-      final heightRatio = _safeDimensionRatio(dims.$2, screenHeight);
-      // Use max to ensure we hit the target resolution on both axes
-      return (widthRatio > heightRatio ? widthRatio : heightRatio)
-          .clamp(1.0, 8.0);
-    }
-
-    if (resolution == ExportResolution.custom) {
-      final targetWidth = _customOrScreenDimension(customWidth, screenWidth);
-      final targetHeight = _customOrScreenDimension(customHeight, screenHeight);
-      final widthRatio = _safeDimensionRatio(targetWidth, screenWidth);
-      final heightRatio = _safeDimensionRatio(targetHeight, screenHeight);
-      return (widthRatio > heightRatio ? widthRatio : heightRatio)
-          .clamp(1.0, 8.0);
-    }
-
-    final targetDimensions = _screenTargetDimensions(
+    final (targetWidth, targetHeight) = getTargetDimensions(
       screenWidth,
       screenHeight,
       physicalScreenWidth: physicalScreenWidth,
       physicalScreenHeight: physicalScreenHeight,
     );
-    final safeScreenWidth =
-        screenWidth.isFinite && screenWidth > 0 ? screenWidth : 1.0;
-    final safeScreenHeight =
-        screenHeight.isFinite && screenHeight > 0 ? screenHeight : 1.0;
-    final widthRatio = targetDimensions.$1 / safeScreenWidth;
-    final heightRatio = targetDimensions.$2 / safeScreenHeight;
-    return (widthRatio > heightRatio ? widthRatio : heightRatio)
+    final screenExtent = resolution == ExportResolution.screen
+        ? ExportDimensionPolicy._positiveExtent
+        : ExportDimensionPolicy.positiveRoundedScreenDimension;
+    // Aim to meet the target on both axes before cropping, if budget allows.
+    final ratio = math
+        .max(
+          targetWidth / screenExtent(screenWidth),
+          targetHeight / screenExtent(screenHeight),
+        )
         .clamp(1.0, 8.0);
+    return ExportDimensionPolicy.capCaptureRatio(
+        screenWidth, screenHeight, ratio);
   }
 
   /// Get the target dimensions for this export

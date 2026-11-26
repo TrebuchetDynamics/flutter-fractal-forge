@@ -41,6 +41,7 @@ const perturbationOrbitCacheKeyTask = 'PERTURBATION-ORBIT-CACHE-KEY-74';
 const historyReplayModuleIdTask = 'HISTORY-REPLAY-MODULE-ID-75';
 const androidGallerySaveTask = 'ANDROID-GALLERY-SAVE-76';
 const mandelbrotDf2Task = 'MANDELBROT-DF2-73';
+const exportCaptureSizeLimitTask = 'EXPORT-CAPTURE-SIZE-LIMIT-77';
 
 // This stage may only append these inputs in shader order and add their
 // defaults to the generated Default/Classic presets. Existing data is fixed.
@@ -392,6 +393,13 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    exportCaptureSizeLimitTask => const [
+        'lib/core/models/export_options.dart',
+        'lib/core/services/export/export_service.dart',
+        'lib/features/viewer/export/viewer_export_actions.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -412,7 +420,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == catalogAdditionSupportTask ||
       stage['task'] == perturbationOrbitCacheKeyTask ||
       stage['task'] == historyReplayModuleIdTask ||
-      stage['task'] == androidGallerySaveTask;
+      stage['task'] == androidGallerySaveTask ||
+      stage['task'] == exportCaptureSizeLimitTask;
   final precisionChange = stage['task'] == mandelbrotDf2Task;
   final maps = stage['binding_maps'] as Map;
   visualRequire(

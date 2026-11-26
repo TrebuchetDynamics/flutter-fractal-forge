@@ -161,8 +161,7 @@ final class ExportAspectCrop {
 }
 
 class ExportSizePolicy {
-  /// Enough for 4K presets with headroom for square/social custom exports.
-  static const int maxPixelCount = 16 * 1024 * 1024;
+  static const int maxPixelCount = ExportDimensionPolicy.maxPixelCount;
 
   /// Guard against accidentally routing huge byte payloads through file IO or
   /// Android MethodChannels. PNG/JPG exports that exceed this should be reduced
@@ -543,7 +542,15 @@ class ExportService {
           throw StateError('Boundary not found');
         }
 
-        final image = await boundary.toImage(pixelRatio: pixelRatio);
+        // The laid-out boundary can differ from the screen metrics supplied
+        // when the export was requested (for example after a window resize).
+        final size = boundary.size;
+        final captureRatio = ExportDimensionPolicy.capCaptureRatio(
+          size.width,
+          size.height,
+          pixelRatio,
+        );
+        final image = await boundary.toImage(pixelRatio: captureRatio);
         try {
           final byteData =
               await image.toByteData(format: ui.ImageByteFormat.png);

@@ -31,6 +31,7 @@ import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dar
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/features/looper/looper_sheet.dart';
 import 'package:flutter_fractals/features/export/batch_export_dialog.dart';
+import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -272,6 +273,23 @@ class _ScreenSizeExportService extends ExportService {
 
   @override
   Future<void> saveExportResult(ExportResult result) async {}
+}
+
+class _CountingCaptureExportService extends ExportService {
+  int pickerCalls = 0;
+  int captures = 0;
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async {
+    pickerCalls++;
+    return false;
+  }
+
+  @override
+  Future<Uint8List> capturePng(GlobalKey key, {double pixelRatio = 1.0}) async {
+    captures++;
+    throw StateError('Unexpected capture');
+  }
 }
 
 class _FallbackScreenSizeExportService extends ExportService {
@@ -2104,6 +2122,71 @@ void main() {
       expect(exportService.logicalHeight, closeTo(1920 / 2.625, 0.001));
       expect(exportService.physicalScreenWidth, 1080);
       expect(exportService.physicalScreenHeight, 1920);
+    });
+
+    Future<void> submitCustomImageExport(
+        WidgetTester tester, String width, String height) async {
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Customize'));
+      await tester.pumpAndSettle();
+      final scrollable = find
+          .descendant(
+            of: find.byType(ExportOptionsSheet),
+            matching: find.byType(Scrollable),
+          )
+          .first;
+      await tester.scrollUntilVisible(find.text('Custom'), 100,
+          scrollable: scrollable);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Custom').hitTestable());
+      await tester.pumpAndSettle();
+      for (final (label, value) in [('Width', width), ('Height', height)]) {
+        final field = find.widgetWithText(TextField, label);
+        await tester.scrollUntilVisible(field, 100, scrollable: scrollable);
+        await tester.pumpAndSettle();
+        await tester.enterText(field, value);
+        await tester.pumpAndSettle();
+      }
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets(
+        'oversized custom export shows the size error before the picker or capture',
+        (tester) async {
+      final exportService = _CountingCaptureExportService();
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+
+      await submitCustomImageExport(tester, '10000', '10000');
+
+      expect(
+        find.textContaining('Export is too large: 10000×10000 exceeds '
+            '${ExportSizePolicy.maxPixelCount} pixels.'),
+        findsOneWidget,
+      );
+      expect(exportService.pickerCalls, 0);
+      expect(exportService.captures, 0);
+    });
+
+    testWidgets('PNG fallback caps the capture for a wide custom export',
+        (tester) async {
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = const Size(412, 915);
+      addTearDown(tester.view.reset);
+      final exportService = _FallbackScreenSizeExportService();
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+
+      await submitCustomImageExport(tester, '4096', '1024');
+
+      final ratio = exportService.capturedPixelRatio!;
+      expect((412 * ratio).ceil() * (915 * ratio).ceil(),
+          lessThanOrEqualTo(ExportSizePolicy.maxPixelCount));
+      expect(exportService.resizedDimensions, (4096, 1024));
     });
 
     testWidgets('fallback screen export keeps the physical pixel dimensions',
