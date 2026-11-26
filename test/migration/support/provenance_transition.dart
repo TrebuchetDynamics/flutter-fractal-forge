@@ -327,7 +327,9 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == overlayHitTargetsTask ||
           s['task'] == startupDeepLinksTask ||
           s['task'] == cpuRenderParamsTask ||
-          s['task'] == stateMachineFixesTask)
+          s['task'] == stateMachineFixesTask ||
+          s['task'] == catalogAdditionSupportTask ||
+          isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
   _require(
@@ -406,7 +408,7 @@ void verifyRetainedBytes(String name, String bytes) {
 }
 
 void verifyBoundDocument(String name, String beforeBytes, Map generated,
-    {List<Map>? stages, String? originalBytes}) {
+    {List<Map>? stages, List<Map>? visualStages, String? originalBytes}) {
   verifyRetainedBytes(name, beforeBytes);
   final before = jsonDecode(beforeBytes) as Map;
   final selected = stages ?? readProvenanceStages();
@@ -428,7 +430,7 @@ void verifyBoundDocument(String name, String beforeBytes, Map generated,
             _canonical(before),
         'historical nonbinding drift');
   }
-  final visual = readVisualStages();
+  final visual = visualStages ?? readVisualStages();
   // Validate unchanged historical documents/stages first; visual evolution is
   // never a replacement for original custody or metadata equality.
   final historicalSources = visual.isEmpty
@@ -446,7 +448,9 @@ void verifyBoundDocument(String name, String beforeBytes, Map generated,
       'semantic/metadata drift $name');
   // Validate the current digest too; replacement must not hide a corrupt digest.
   _withBindings(generated, _bindings(generated));
-  recordProvenanceObservation(name, before, generated);
+  // In-memory stages exercise the comparator, not the observation exporter.
+  if (visualStages == null)
+    recordProvenanceObservation(name, before, generated);
 }
 
 // Preserve the original public comparator seam and its mutation cases.

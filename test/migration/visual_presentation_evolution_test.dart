@@ -26,7 +26,8 @@ Map stageFor(String task) {
       task == overlayHitTargetsTask ||
       task == startupDeepLinksTask ||
       task == cpuRenderParamsTask ||
-      task == stateMachineFixesTask;
+      task == stateMachineFixesTask ||
+      task == catalogAdditionSupportTask;
   final prior = maintenance
       ? orderedVisualStages(readVisualStages()).last['binding_maps'] as Map
       : readProvenanceStages().last['binding_maps'] as Map;
@@ -74,6 +75,7 @@ void main() {
     startupDeepLinksTask,
     cpuRenderParamsTask,
     stateMachineFixesTask,
+    catalogAdditionSupportTask,
   ]) {
     test('$task is exact source-only maintenance with unchanged key sets', () {
       final stage = stageFor(task);
@@ -410,8 +412,8 @@ void main() {
       'test/migration/support/visual_presentation_evolution.dart',
     };
     final stages = orderedVisualStages(readVisualStages());
-    final stage = stages.last;
-    final prior = stages[stages.length - 2];
+    final stage = stages.singleWhere((s) => s['task'] == stateMachineFixesTask);
+    final prior = stages[stages.indexOf(stage) - 1];
     expect(stage['task'], stateMachineFixesTask);
     expect(prior['task'], cpuRenderParamsTask);
     expect(stage['semantic_deltas'], isEmpty);
@@ -430,7 +432,41 @@ void main() {
               if (before.containsKey(path)) path
           },
           reason: entry.key as String);
+      const historicalHelpers = {
+        'test/migration/support/provenance_transition.dart':
+            'd56b206921c86e52216b004e0bf3fc0b46b02837701ec43895e94480da49e7ad',
+        'test/migration/support/visual_presentation_evolution.dart':
+            'cbc3e4fd39539c7bba3efc6d6e9819c499ba5735bd65ce44393f26996b0cc070',
+      };
       for (final path in changed) {
+        final current = sha256.convert(File(path).readAsBytesSync()).toString();
+        expect(after[path], historicalHelpers[path] ?? current);
+        expect(stages.last['binding_maps'][entry.key]['after'][path], current);
+      }
+    }
+  });
+
+  test('catalog addition support is a source-only maintenance successor', () {
+    const helpers = {
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    };
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    final prior = stages[stages.length - 2];
+    expect(stage['task'], catalogAdditionSupportTask);
+    expect(prior['task'], stateMachineFixesTask);
+    expect(stage['base_revision'], 'e1e47079b3473c6bf2f1e46871cd75b2123aa230');
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    for (final entry in (stage['binding_maps'] as Map).entries) {
+      final before = entry.value['before'] as Map;
+      final after = entry.value['after'] as Map;
+      expect(before, prior['binding_maps'][entry.key]['after']);
+      expect(after.keys.toSet(), before.keys.toSet());
+      final changed = before.keys.where((p) => before[p] != after[p]).toSet();
+      expect(changed, helpers.where(before.containsKey).toSet());
+      for (final path in changed.cast<String>()) {
         expect(after[path],
             sha256.convert(File(path).readAsBytesSync()).toString());
       }
