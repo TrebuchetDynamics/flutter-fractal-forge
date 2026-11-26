@@ -301,9 +301,9 @@ void main() {
   test('other modules retain the neutral session reset', () {
     final controller = FractalController(registry);
     addTearDown(controller.dispose);
-    final mandelbrot = registry.byId('mandelbrot');
-    controller.selectModule(mandelbrot, animate: false);
-    controller.updateView(mandelbrot.defaultPreset.view.copyWith(zoom: 3));
+    final nonPilot = registry.byId('halley');
+    controller.selectModule(nonPilot, animate: false);
+    controller.updateView(nonPilot.defaultPreset.view.copyWith(zoom: 3));
     controller.resetSession();
     expect(viewJson(controller.view), viewJson(FractalViewState.initial()));
   });

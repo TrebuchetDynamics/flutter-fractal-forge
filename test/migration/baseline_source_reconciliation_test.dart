@@ -219,6 +219,7 @@ void main() {
       historyReplayModuleIdTask,
       visualSurfaceTask,
       androidGallerySaveTask,
+      visualDefaultsTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -252,11 +253,14 @@ void main() {
         candidates.singleWhere((s) => s['task'] == historyReplayModuleIdTask);
     expect(historyReplay['semantic_deltas'], isEmpty);
     expect(historyReplay['compiled_artifacts'], isEmpty);
-    final surface = candidates.singleWhere((s) => s['task'] == visualSurfaceTask);
+    final surface =
+        candidates.singleWhere((s) => s['task'] == visualSurfaceTask);
     final gallerySave =
         candidates.singleWhere((s) => s['task'] == androidGallerySaveTask);
     expect(gallerySave['semantic_deltas'], isEmpty);
     expect(gallerySave['compiled_artifacts'], isEmpty);
+    final defaults =
+        candidates.singleWhere((s) => s['task'] == visualDefaultsTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -289,6 +293,7 @@ void main() {
         historyReplay,
         surface,
         gallerySave,
+        defaults,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -314,7 +319,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            gallerySave['binding_maps'][id]['after'] as Map,
+            defaults['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

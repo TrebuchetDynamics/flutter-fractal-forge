@@ -39,7 +39,9 @@ void main() {
     expect(controller.params['iterations'], iterationsParam.max.round());
     expect(controller.params['bailout'], bailoutParam.max);
     // Enumeration invalid -> default for module.
-    expect(controller.params['colorScheme'], 0);
+    final schemeParam =
+        controller.module.parameters.firstWhere((p) => p.id == 'colorScheme');
+    expect(controller.params['colorScheme'], schemeParam.defaultValue);
   });
 
   test('FractalController does not promote NaN numeric params to max bounds',

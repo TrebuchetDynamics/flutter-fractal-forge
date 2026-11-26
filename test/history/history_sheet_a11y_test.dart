@@ -60,10 +60,16 @@ Future<void> _pumpSheet(
 
   // recordLocation debounces through a Timer, so the fake clock has to be
   // pumped past the delay rather than awaited.
+  final classic = controllerOverride == null
+      ? registry
+          .byId('mandelbrot')
+          .builtInPresets
+          .singleWhere((preset) => preset.id == 'mandelbrot-classic')
+      : null;
   provider.recordLocation(
     moduleId: controller.module.id,
-    view: controller.view,
-    params: Map<String, Object>.from(controller.params),
+    view: classic?.view ?? controller.view,
+    params: Map<String, Object>.from(classic?.params ?? controller.params),
   );
   await tester.pump(const Duration(milliseconds: 700));
   await tester.pumpAndSettle();

@@ -116,6 +116,10 @@ void main() {
 
   testWidgets('single slider isolates edits and exposes renderer pan and pinch',
       (tester) async {
+    // Keep this gesture fixture below the zoom that adapts iterations.
+    await harness.controller.applyPreset(harness
+        .controller.module.builtInPresets
+        .singleWhere((preset) => preset.id == 'mandelbrot-classic'));
     await pumpSelected(tester);
     expect(
         tester.getSize(find.byType(Slider)).height, greaterThanOrEqualTo(48));

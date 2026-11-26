@@ -130,8 +130,9 @@ void main() {
       expect(find.text('1.0'), findsOneWidget);
     });
 
-    testWidgets('resetSession triggers rebuild', (tester) async {
+    testWidgets('resetSession rebuilds with the curated view', (tester) async {
       final defaultIterationsText = controller.params['iterations'].toString();
+      final defaultZoomText = controller.view.zoom.toStringAsFixed(1);
       // updateZoom may trigger adaptive iterations; do not hard-code the
       // intermediate iterations value. We only verify zoom and transparency
       // before reset, then check all three values return to defaults after.
@@ -162,7 +163,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text(defaultIterationsText), findsOneWidget);
-      expect(find.text('1.0'), findsOneWidget);
+      expect(find.text(defaultZoomText), findsOneWidget);
       expect(find.text('opaque'), findsOneWidget);
     });
 

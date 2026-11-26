@@ -43,6 +43,9 @@ class EscapeTimeConfig {
   /// Extra values are clamped and passed in [extraParams] order.
   final void Function(FragmentShader, List<double>, double)? setCustomTail;
 
+  /// Retained Classic when the default is deliberately reframed.
+  final FractalPreset? classicPreset;
+
   const EscapeTimeConfig({
     required this.id,
     required this.name,
@@ -63,6 +66,7 @@ class EscapeTimeConfig {
     this.extraParams = const [],
     this.extraPresets = const [],
     this.setCustomTail,
+    this.classicPreset,
   });
 }
 
@@ -134,6 +138,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       moduleId: config.id,
       defaultPreset: defaultPreset,
       extraPresets: config.extraPresets,
+      classicPreset: config.classicPreset,
     ),
     setUniforms: (shader, state, size, time) {
       shader.setFloat(EscapeTimeUniformSlots.time, time);

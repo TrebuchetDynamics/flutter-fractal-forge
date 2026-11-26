@@ -17,6 +17,27 @@ final List<EscapeTimeConfig> _convergentRootFindingCatalog = [
     shaderAsset: 'shaders/root_finding/newton_z3_gpu.frag',
     defaultIterations: 80,
     defaultBailout: 4.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 0.45,
+    defaultColorScheme: 2,
+    // Preserve the original resolved Classic independently of the new default.
+    classicPreset: catalogPreset(
+      id: 'newton_z3-classic',
+      moduleId: 'newton_z3',
+      name: 'Classic',
+      params: {
+        'iterations': 80.0,
+        'bailout': 4.0,
+        'colorScheme': 0,
+        'relaxation': 1.0
+      },
+      view: FractalViewState(
+        pan: Vector2(-0.41568627450980394, -0.05411764705882354),
+        zoom: 1.4688235294117646,
+        rotation: Vector3.zero(),
+      ),
+    ),
     extraParams: [_unitRelaxation],
   ),
   EscapeTimeConfig(

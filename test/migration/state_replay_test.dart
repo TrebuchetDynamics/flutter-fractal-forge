@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'support/replay_codec.dart';
 import 'support/provenance_transition.dart';
+import 'support/visual_presentation_evolution.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,8 @@ void main() {
       };
       verifyProvenanceTransition(
           name, before, generated, readProvenanceTransition());
-      expect(actual, document['expected'], reason: name);
+      final expected = evolveVisualDocument(name, document, readVisualStages());
+      expect(actual, expected['expected'], reason: name);
       expect(before, canonicalJson(document));
 
       final altered = jsonDecode(jsonEncode(actual)) as List;

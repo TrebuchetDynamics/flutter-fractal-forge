@@ -26,9 +26,12 @@ void main() {
     expect(controller.view.rotation, viewBeforeReset.rotation);
   });
 
-  test('FractalController.resetSession resets params + view + transparency',
+  test('Non-pilot resetSession resets params + neutral view + transparency',
       () {
     final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    controller.selectModule(controller.registry.byId('halley'), animate: false);
+    expect(controller.view.pan, isNot(Vector2.zero()));
     final initialIterations = controller.params['iterations'];
 
     // Mutate away from defaults.
@@ -43,7 +46,7 @@ void main() {
 
     controller.resetSession();
 
-    // Defaults for the initial module (mandelbrot).
+    // Non-pilot sessions still reset to a neutral view, not their entry view.
     expect(controller.params['iterations'], initialIterations);
     expect(controller.view.zoom, 1.0);
     expect(controller.view.pan, Vector2.zero());

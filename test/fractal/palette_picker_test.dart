@@ -113,11 +113,13 @@ void main() {
       expect(find.byIcon(Icons.close_rounded).hitTestable(), findsOneWidget);
       expect(find.byIcon(Icons.check_circle_rounded).hitTestable(),
           findsOneWidget);
+      final initialScheme = controller.params['colorScheme'];
+      final otherScheme = initialScheme == 0 ? 1 : 0;
       final selected = tester.widget<AnimatedContainer>(find.descendant(
-          of: find.byKey(const ValueKey('paletteChoice0')),
+          of: find.byKey(ValueKey('paletteChoice$initialScheme')),
           matching: find.byType(AnimatedContainer)));
       final unselected = tester.widget<AnimatedContainer>(find.descendant(
-          of: find.byKey(const ValueKey('paletteChoice1')),
+          of: find.byKey(ValueKey('paletteChoice$otherScheme')),
           matching: find.byType(AnimatedContainer)));
       final selectedDecoration = selected.decoration! as BoxDecoration;
       final unselectedDecoration = unselected.decoration! as BoxDecoration;

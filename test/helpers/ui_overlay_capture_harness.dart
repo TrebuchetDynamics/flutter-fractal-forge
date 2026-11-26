@@ -659,11 +659,16 @@ Future<OverlayCaptureResult> captureOverlayRow(
       final store = await PresetStore.create();
       final historyStore = await HistoryStore.create();
       if (state == 'history-populated' || state == 'favorite-rename') {
+        // Exercise a stored legacy location, not the current first view.
+        final classic = registry
+            .byId('mandelbrot')
+            .builtInPresets
+            .singleWhere((preset) => preset.id == 'mandelbrot-classic');
         final entry = HistoryEntry(
           id: 'overlay-capture-history',
-          moduleId: controller.module.id,
-          view: controller.view,
-          params: Map<String, Object>.from(controller.params),
+          moduleId: classic.moduleId,
+          view: classic.view,
+          params: classic.params,
           visitedAt: DateTime.utc(2026, 1, 1),
         );
         await historyStore.saveHistory([entry]);
