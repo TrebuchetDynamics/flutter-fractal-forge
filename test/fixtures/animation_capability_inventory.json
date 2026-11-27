@@ -3451,7 +3451,7 @@
   },
   {
     "id": "langton_ant",
-    "shaderAsset": "shaders/cellular_and_stochastic/langton_ant_gpu.frag",
+    "shaderAsset": "",
     "capability": "static"
   },
   {

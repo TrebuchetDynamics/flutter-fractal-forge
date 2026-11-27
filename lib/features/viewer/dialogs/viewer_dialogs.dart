@@ -22,7 +22,9 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
   void _openLooper(BuildContext context) {
     _log.info('action', 'Open looper');
     final looper = _looperController;
-    if (looper == null) return;
+    if (looper == null || _activeController(context).module.id == 'langton_ant') {
+      return;
+    }
     _showViewerBottomSheet<void>(
       context,
       builder: (_) => LooperSheet(

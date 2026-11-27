@@ -704,6 +704,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get paramIterations => 'Iteraciones';
 
   @override
+  String get langtonAntRule => 'Regla de giro (L/R)';
+
+  @override
+  String get langtonAntInvalidRule =>
+      'Introduce entre 2 y 20 letras, solo L o R.';
+
+  @override
+  String get langtonAntComputing => 'Calculando la cuadrícula de la hormiga…';
+
+  @override
+  String langtonAntBoundary(int steps) {
+    return 'Se detuvo en el paso $steps: llegó al límite de la cuadrícula.';
+  }
+
+  @override
   String get paramSteps => 'Pasos';
 
   @override

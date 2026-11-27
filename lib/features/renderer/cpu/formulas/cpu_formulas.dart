@@ -247,7 +247,6 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'stable_square_turing_model': _cpu_stable_square_turing_model,
   'flow_lenia': _cpu_flow_lenia,
   'coupled_logistic_map_lattice': _cpu_coupled_logistic_map_lattice,
-  'langton_ant': _cpu_langton_ant,
   'turmite': _cpu_turmite,
   'wireworld': _cpu_wireworld,
   'sandpile': _cpu_sandpile,
@@ -2356,17 +2355,6 @@ CpuFormula cpuFormulaForModuleId(String moduleId, {double power = 2}) {
 ) {
   // Ported from shaders/cellular_and_stochastic/lattice_automata/wolfram_rule30_gpu.frag (CPU approximation, seed=0x48c5a56d)
   return _cpu_synthetic(0x48c5a56d, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_langton_ant(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/cellular_and_stochastic/agent_walkers/langton_ant_gpu.frag (CPU approximation, seed=0x11322f64)
-  return _cpu_synthetic(0x11322f64, x, y, iterations, bailout);
 }
 
 (double r, double g, double b) _cpu_turmite(

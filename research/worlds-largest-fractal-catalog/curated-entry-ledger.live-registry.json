@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-29T22:00:53.000Z",
-  "purpose": "Promoted ledger from live production ModuleRegistry entries that have shader assets and runtime-rendered catalog previews.",
+  "purpose": "Promoted ledger from live production ModuleRegistry entries that have renderer sources and runtime-rendered catalog previews.",
   "counting_rule": "Counts stable live module formula/rule identities only; built-in presets, random seeds, palettes, camera views, and runtime thumbnails are ignored.",
   "skipped": {
     "diagnostic": 7,
@@ -6475,13 +6475,13 @@
     {
       "stable_id": "langton_ant",
       "display_name": "langton ant",
-      "family": "escape_time_polynomial_complex",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: langton_ant; catalog category: Escape-Time; shader asset: shaders/cellular_and_stochastic/langton_ant_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/cellular_and_stochastic/langton_ant_gpu.frag",
+      "family": "cellular_automata",
+      "mathematical_identity_type": "rule",
+      "formula_or_rule": "Live app FractalModule identity: langton_ant; source category: Cellular automata and growth; Canvas renderer: lib/features/viewer/langton_ant_view.dart. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "lib/features/viewer/langton_ant_view.dart",
       "parameter_schema": {
-        "iterations": "integer",
-        "bailout": "float",
+        "rule": "turnRule",
+        "steps": "integer",
         "colorScheme": "enumeration"
       },
       "provenance": {
@@ -6489,14 +6489,14 @@
         "source": "lib/core/modules/module_registry.dart",
         "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
       },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "license_context": "local app module and Canvas renderer; no upstream source copied by this ledger",
       "thumbnail_plan": "runtime-rendered catalog preview",
       "validation": {
         "status": "validated",
         "signals": [
           "ModuleRegistry entry exists",
           "CatalogRepository entry exists",
-          "shader asset exists",
+          "Canvas renderer source exists",
           "runtime thumbnail renderer available",
           "presets ignored for counted-entry total"
         ]

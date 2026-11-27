@@ -10,6 +10,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/features/controls/module_control_sections.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
+import 'package:flutter_fractals/features/controls/widgets/langton_ant_rule_control.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_style_controls.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -518,6 +519,12 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
               ),
             ],
           ),
+        );
+
+      case FractalParamControl.turnRule:
+        return LangtonAntRuleControl(
+          rule: value as String,
+          onApplied: (rule) => controller.updateParam(param.id, rule),
         );
 
       case FractalParamControl.prime:

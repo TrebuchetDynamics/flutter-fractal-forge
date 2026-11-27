@@ -31,6 +31,7 @@ import '../../policy/render_plan.dart';
 import '../canvas/attractor_trajectory_canvas.dart';
 import '../canvas/fractal_canvas.dart';
 import 'number_wall_exact_renderer.dart';
+import 'package:flutter_fractals/features/viewer/langton_ant_view.dart';
 import '../effects/fluid_warp_effect.dart';
 import 'shaders/shader_error_policy.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -395,6 +396,16 @@ class _FractalRendererState extends State<FractalRenderer>
     final module = controller.module;
 
     // Exact fields must win over generic CPU/precision overrides as well.
+    if (module.id == 'langton_ant') {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
+      return _wrapWithGestures(LangtonAntView(
+        boundaryKey: widget.boundaryKey,
+        rule: controller.params['rule'] as String,
+        steps: controller.params['steps'] as int,
+        colorScheme: controller.params['colorScheme'] as int,
+        view: controller.view,
+      ));
+    }
     if (module.id == 'number_wall') {
       _stopAnimationTicker(reset: !widget.animationEnabled);
       final mode = context.watch<RendererSettingsService?>()?.backendMode ??

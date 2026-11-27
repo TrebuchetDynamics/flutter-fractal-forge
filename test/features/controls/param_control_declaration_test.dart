@@ -19,6 +19,7 @@ void main() {
           FractalParamType.integer => 0,
           FractalParamType.enumeration => 0,
           FractalParamType.decimalInteger => '0',
+          FractalParamType.turnRule => 'RL',
           FractalParamType.boolean => false,
         },
         control: control,
@@ -70,6 +71,8 @@ void main() {
             case FractalParamControl.prime:
               expect(parameter.type, FractalParamType.decimalInteger,
                   reason: reason);
+            case FractalParamControl.turnRule:
+              expect(parameter.type, FractalParamType.turnRule, reason: reason);
             case FractalParamControl.color:
               expect(parameter.type, FractalParamType.integer, reason: reason);
           }
@@ -99,12 +102,12 @@ void main() {
       expect(colourOwners, {'number_wall'});
     });
 
-    test('only number walls hide the shared effect controls', () {
+    test('exact grid modules hide the shared effect controls', () {
       final hiding = {
         for (final module in registry.modules)
           if (module.hidesEffectControls) module.id,
       };
-      expect(hiding, {'number_wall'},
+      expect(hiding, {'number_wall', 'langton_ant'},
           reason: 'a second exception needs its own review, not a silent add');
     });
   });

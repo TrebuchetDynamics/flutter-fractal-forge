@@ -34,6 +34,10 @@ enum FractalParamType {
   /// Value type: [String]
   decimalInteger,
 
+  /// A canonical uppercase sequence of L/R turns.
+  /// Value type: [String].
+  turnRule,
+
   /// A boolean on/off parameter.
   ///
   /// Rendered as a switch or checkbox.
@@ -64,6 +68,9 @@ enum FractalParamControl {
   /// An exact base-10 integer editor that validates a prime modulus.
   /// Value type: [String].
   prime,
+
+  /// A validated L/R turn sequence editor. Value type: [String].
+  turnRule,
 
   /// A colour swatch with an RGB editor. Value type: [int], 0xRRGGBB.
   color,
@@ -185,6 +192,7 @@ class FractalParameter {
         FractalParamType.enumeration => FractalParamControl.chips,
         FractalParamType.boolean => FractalParamControl.toggle,
         FractalParamType.decimalInteger => FractalParamControl.prime,
+        FractalParamType.turnRule => FractalParamControl.turnRule,
       };
 
   /// Creates a new [FractalParameter] with the specified schema.

@@ -225,6 +225,17 @@
   "dimension3d": "3D",
   "dimensionKaleidoscope": "Kaleidoscope",
   "paramIterations": "Iterations",
+  "langtonAntRule": "Turn rule (L/R)",
+  "langtonAntInvalidRule": "Enter 2–20 letters, using only L or R.",
+  "langtonAntComputing": "Computing ant grid…",
+  "langtonAntBoundary": "Stopped at step {steps}: grid boundary reached.",
+  "@langtonAntBoundary": {
+    "placeholders": {
+      "steps": {
+        "type": "int"
+      }
+    }
+  },
   "paramSteps": "Steps",
   "paramBailout": "Bailout",
   "paramPower": "Power",

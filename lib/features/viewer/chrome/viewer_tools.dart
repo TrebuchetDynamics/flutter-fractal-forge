@@ -277,6 +277,7 @@ class AutoExploreHandler {
 /// True when the environment may render this tool at all.
 bool viewerToolVisible(ViewerTool tool, ViewerToolContext context) =>
     switch (tool) {
+      ViewerTool.play => context.looperAvailable,
       ViewerTool.autoExplore =>
         context.supportsAuxiliaryTools && context.autoExplore != null,
       ViewerTool.kaleidoscope ||

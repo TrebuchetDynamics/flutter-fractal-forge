@@ -13,15 +13,15 @@ import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 /// These tests act as a lock on the catalog — any accidental rename,
 /// removal, or duplication of a catalog ID will be caught here.
 ///
-/// ## Expected counts (update when catalog intentionally grows)
+/// ## Expected counts (update when catalog composition intentionally changes)
 ///
-/// - Escape-time catalog raw unique IDs       : 568
+/// - Escape-time catalog raw unique IDs       : 567
 /// - Raymarched-3D catalog unique IDs         :  38
-/// - Custom hand-built modules                :  16
+/// - Custom hand-built modules                :  17
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital, quaternion_julia_3d, juliabulb_3d,
 ///    perron_tree, milnor_brieskorn, number_wall, fibonacci_complex_julia,
-///    recursive_sine_sphere, recaman_arcs, zeta_critical_strip)
+///    recursive_sine_sphere, recaman_arcs, zeta_critical_strip, langton_ant)
 /// - Total ModuleRegistry modules (debug/test) : 1061
 /// - Production modules excluding diagnostics  : 1054
 /// - Production fractals (excluding Hydrogen)  : 1053
@@ -40,8 +40,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 568', () {
-      expect(catalog.length, 568,
+    test('total entry count is 567', () {
+      expect(catalog.length, 567,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -156,14 +156,12 @@ void main() {
       expect(bad, isEmpty, reason: 'Non-conforming module IDs: $bad');
     });
 
-    test('no module has an empty shader asset path', () {
+    test('only the exact ant has no shader asset', () {
       final empty = registry.modules
           .where((m) => m.shaderAsset.trim().isEmpty)
           .map((m) => m.id)
           .toList();
-      expect(empty, isEmpty,
-          reason: 'Every module must declare a non-empty shaderAsset. '
-              'Missing: $empty');
+      expect(empty, ['langton_ant']);
     });
 
     test('byId lookup succeeds for mandelbrot', () {
@@ -186,6 +184,7 @@ void main() {
     test('byId lookup succeeds for all custom hand-built modules', () {
       const customIds = [
         'number_wall',
+        'langton_ant',
         'fibonacci_complex_julia',
         'recaman_arcs',
         'zeta_critical_strip',

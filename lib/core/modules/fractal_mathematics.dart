@@ -218,6 +218,14 @@ class FractalMathematics {
       qualification =
           'Numerical ζ for −10 ≤ Re(s) ≤ 10 and |Im(s)| ≤ 50. Colours meet at zeros: the trivial zeros lie at negative even integers on the real axis. The non-trivial zeros shown on Re(s) = ½ illustrate the Riemann hypothesis; this is not a proof.';
     }
+    if (module.id == 'langton_ant') {
+      family = 'Cellular automata and growth';
+      algebra = 'Discrete';
+      view = 'Square grid';
+      method = 'Exact multicolour ant walk';
+      qualification = 'Finite walk on a bounded grid';
+      relationship = 'Turn-rule variants of one ant';
+    }
     if (module.id == 'recaman_arcs') {
       family = 'Number Theory';
       algebra = 'Integers';
@@ -250,6 +258,10 @@ class FractalMathematics {
     }
     if (_module.id == 'zeta_critical_strip') {
       return 'ζ(s) = η(s)/(1 − 2^(1−s)), reflected for Re(s) < ½. Hue shows arg ζ(s); optional bands show log|ζ(s)|. The bright guide marks Re(s) = ½, the dim guides mark Re(s) = 0 and 1.';
+    }
+    if (_module.id == 'langton_ant') {
+      final rule = params['rule'] ?? _module.defaultPreset.params['rule'];
+      return 'Turn by $rule[k], set colour to (k + 1) mod rule length, then move one cell';
     }
     if (_module.id == 'recaman_arcs') {
       return 'a(0) = 0; a(n) = a(n−1) − n if positive and unused, otherwise a(n−1) + n';

@@ -307,6 +307,10 @@ void main() {
 
     testWidgets('each module has valid shader asset', (tester) async {
       for (final module in registry.modules) {
+        if (module.id == 'langton_ant') {
+          expect(module.shaderAsset, isEmpty);
+          continue;
+        }
         expect(module.shaderAsset, isNotEmpty);
         expect(module.shaderAsset.endsWith('.frag'), isTrue);
       }

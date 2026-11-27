@@ -153,24 +153,26 @@ Map<String, Map<String, Object?>> buildBaselineInventory({
     });
     final math = entries.isEmpty ? null : entries.first.mathematics;
     final power = module.defaultPreset.params['power'];
+    final shaderBased = module.shaderAsset.isNotEmpty;
     records['capabilities']!.add({
       'module_id': id,
       'native_cpu': hasNativeCpuFormula(id),
       'curated_cpu': hasCuratedCpuFormula(id),
-      'gpu_ceiling_zoom': precision.gpuRenderableCeilingZoom(id),
+      'gpu_ceiling_zoom': shaderBased ? precision.gpuRenderableCeilingZoom(id) : null,
       // Samples describe current policy, not mathematical certification or a
       // promise that a dimension/parameter variant has an executable backend.
-      'precision_default_power': power is num ? power : 2,
+      'precision_default_power': shaderBased ? (power is num ? power : 2) : null,
       'precision_samples': [
-        for (final zoom in [1.0, 1e5, 5e6, 1e7, 1e9, 1e12, 1e30])
-          _precisionRecord(
-              module,
-              precision.decide(
-                moduleId: id,
-                dimension: module.dimension,
-                zoom: zoom,
-                power: power is num ? power.toDouble() : 2,
-              )),
+        if (shaderBased)
+          for (final zoom in [1.0, 1e5, 5e6, 1e7, 1e9, 1e12, 1e30])
+            _precisionRecord(
+                module,
+                precision.decide(
+                  moduleId: id,
+                  dimension: module.dimension,
+                  zoom: zoom,
+                  power: power is num ? power.toDouble() : 2,
+                )),
       ],
       'mathematics': math == null
           ? null
@@ -190,7 +192,8 @@ Map<String, Map<String, Object?>> buildBaselineInventory({
   final pubspec = loadYaml(readSource('pubspec.yaml')) as YamlMap;
   final assets = <String>{
     ...(pubspec['flutter']['shaders'] as YamlList).cast<String>(),
-    for (final module in allModules.values) module.shaderAsset,
+    for (final module in allModules.values)
+      if (module.shaderAsset.isNotEmpty) module.shaderAsset,
   }.toList()
     ..sort();
   final shaderHashes = <String, String>{};

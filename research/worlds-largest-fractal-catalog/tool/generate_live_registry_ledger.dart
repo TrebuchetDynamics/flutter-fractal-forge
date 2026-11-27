@@ -141,9 +141,13 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
       skippedNonFractal++;
       continue;
     }
-    if (!File(module.shaderAsset).existsSync()) {
+    final exactAnt = module.id == 'langton_ant' && module.shaderAsset.isEmpty;
+    final renderer = exactAnt
+        ? 'lib/features/viewer/langton_ant_view.dart'
+        : module.shaderAsset;
+    if (!File(renderer).existsSync()) {
       throw StateError(
-          'Live registry shader missing for ${module.id}: ${module.shaderAsset}');
+          'Live registry renderer missing for ${module.id}: $renderer');
     }
     final category = sourceCategories[module.id] ??
         (module.dimension == FractalDimension.threeD
@@ -165,10 +169,11 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
       'stable_id': module.id,
       'display_name': module.id.replaceAll('_', ' '),
       'family': targetFamily,
-      'mathematical_identity_type': identityTypeFor(category),
+      'mathematical_identity_type':
+          exactAnt ? 'rule' : identityTypeFor(category),
       'formula_or_rule':
-          'Live app FractalModule identity: ${module.id}; source category: $category; shader asset: ${module.shaderAsset}. Counts the module formula/rule identity only, not presets, palettes, or camera views.',
-      'renderer_path': module.shaderAsset,
+          'Live app FractalModule identity: ${module.id}; source category: $category; ${exactAnt ? 'Canvas renderer' : 'shader asset'}: $renderer. Counts the module formula/rule identity only, not presets, palettes, or camera views.',
+      'renderer_path': renderer,
       'parameter_schema': parameterSchema(module.parameters),
       'provenance': {
         'source_type': 'live_module_registry',
@@ -177,14 +182,14 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
             'local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds',
       },
       'license_context':
-          'local app module and shader artifact; no upstream source copied by this ledger',
+          'local app module and ${exactAnt ? 'Canvas renderer' : 'shader artifact'}; no upstream source copied by this ledger',
       'thumbnail_plan': 'runtime-rendered catalog preview',
       'validation': {
         'status': 'validated',
         'signals': [
           'ModuleRegistry entry exists',
           'CatalogRepository entry exists',
-          'shader asset exists',
+          exactAnt ? 'Canvas renderer source exists' : 'shader asset exists',
           'runtime thumbnail renderer available',
           'presets ignored for counted-entry total',
         ],
@@ -200,7 +205,7 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
   return {
     'generated_at': (generatedAt ?? DateTime.now()).toUtc().toIso8601String(),
     'purpose':
-        'Promoted ledger from live production ModuleRegistry entries that have shader assets and runtime-rendered catalog previews.',
+        'Promoted ledger from live production ModuleRegistry entries that have renderer sources and runtime-rendered catalog previews.',
     'counting_rule':
         'Counts stable live module formula/rule identities only; built-in presets, random seeds, palettes, camera views, and runtime thumbnails are ignored.',
     'skipped': {
