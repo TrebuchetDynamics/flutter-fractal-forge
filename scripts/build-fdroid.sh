@@ -99,6 +99,8 @@ rm -rf "$FDROIDDATA_DIR"
 mkdir -p "$METADATA_DIR"
 
 metadata="$METADATA_DIR/$PACKAGE_ID.yml"
+# Keep the trailing space after "Changelog:" and "binary:": fdroiddata CI's
+# rewritemeta writes it before a wrapped long value and fails without it.
 cat >"$metadata" <<EOF
 Categories:
   - Graphics
@@ -109,7 +111,7 @@ AuthorWebSite: https://trebuchetdynamics.com
 WebSite: https://fractal.trebuchetdynamics.com
 SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge
 IssueTracker: https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues
-Changelog:
+Changelog: 
   https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/HEAD/CHANGELOG.md
 
 AutoName: Fractal Forge
@@ -131,7 +133,7 @@ render_build_block() {
     versionCode: $version_code
     commit: $COMMIT
     output: build/app/outputs/flutter-apk/app-$abi-release.apk
-    binary:
+    binary: 
       https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/download/v%v/fractal-forge-android-$abi-v%v.apk
     srclibs:
       - flutter@stable
