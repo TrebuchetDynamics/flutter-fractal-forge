@@ -1359,6 +1359,30 @@ abstract class AppLocalizations {
   /// **'Iterations'**
   String get paramIterations;
 
+  /// No description provided for @langtonAntRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn rule (L/R)'**
+  String get langtonAntRule;
+
+  /// No description provided for @langtonAntInvalidRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 2–20 letters, using only L or R.'**
+  String get langtonAntInvalidRule;
+
+  /// No description provided for @langtonAntComputing.
+  ///
+  /// In en, this message translates to:
+  /// **'Computing ant grid…'**
+  String get langtonAntComputing;
+
+  /// No description provided for @langtonAntBoundary.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped at step {steps}: grid boundary reached.'**
+  String langtonAntBoundary(int steps);
+
   /// No description provided for @paramSteps.
   ///
   /// In en, this message translates to:

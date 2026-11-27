@@ -133,7 +133,8 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
   void _scheduleGpuHealthCheck() {
     _gpuHealthCheckRequests++;
     _gpuHealthTimer?.cancel();
-    if (RuntimeModeService.useRendererPlaceholderSurface) {
+    if (RuntimeModeService.useRendererPlaceholderSurface ||
+        context.read<FractalController>().module.shaderAsset.isEmpty) {
       return;
     }
     _gpuHealthTimer = Timer(const Duration(seconds: 2), () async {

@@ -117,7 +117,6 @@ const _kKnownThumbnailIds = <String>{
   'dla',
   'eden_growth',
   'forest_fire',
-  'langton_ant',
   'brian_brain',
   'kicked_rotator',
   'benesi',

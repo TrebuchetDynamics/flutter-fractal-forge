@@ -1,4 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
+import 'package:flutter_fractals/core/modules/fractals/langton_ant_frame.dart';
 
 /// Numeric bounds derived from a [FractalParameter] schema.
 ///
@@ -67,6 +68,9 @@ final class FractalNumericParamBounds {
 /// booleans, and non-finite numeric values fall back to the schema default
 /// instead of being promoted to an arbitrary bound.
 Object normalizeFractalParamValue(FractalParameter schema, Object value) {
+  if (schema.type == FractalParamType.turnRule) {
+    return normalizeLangtonAntRule(value) ?? schema.defaultValue;
+  }
   if (schema.type == FractalParamType.decimalInteger) {
     return value is String && RegExp(r'^(0|[1-9][0-9]*)$').hasMatch(value)
         ? value

@@ -19,6 +19,7 @@ void main() {
 
       var nonDiagnostic = 0;
       var shaderBacked = 0;
+      var exactAnt = 0;
       final missingShaders = <String>[];
 
       for (final entry in catalog.entries) {
@@ -26,7 +27,11 @@ void main() {
         if (_isDiagnosticModule(module.id, module.shaderAsset)) continue;
         nonDiagnostic++;
 
-        if (File(module.shaderAsset).existsSync()) {
+        if (module.id == 'langton_ant' && module.shaderAsset.isEmpty) {
+          expect(File('lib/features/viewer/langton_ant_view.dart').existsSync(),
+              isTrue);
+          exactAnt++;
+        } else if (File(module.shaderAsset).existsSync()) {
           shaderBacked++;
         } else {
           missingShaders.add('${module.id}|${module.shaderAsset}');
@@ -34,7 +39,8 @@ void main() {
       }
 
       expect(missingShaders, isEmpty);
-      expect(shaderBacked, nonDiagnostic);
+      expect(exactAnt, 1);
+      expect(shaderBacked + exactAnt, nonDiagnostic);
       expect(shaderBacked, greaterThanOrEqualTo(890));
     });
   });

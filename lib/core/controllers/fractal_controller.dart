@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/number_wall_model.dart';
 import 'package:flutter_fractals/core/modules/fractals/number_wall_frame.dart';
+import 'package:flutter_fractals/core/modules/fractals/langton_ant_frame.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/burning_ship_degrees.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -492,7 +493,11 @@ class FractalController extends ChangeNotifier {
       return;
     }
     final schema = _findParam(id);
-    if (schema == null) return;
+    if (schema == null ||
+        (schema.type == FractalParamType.turnRule &&
+            normalizeLangtonAntRule(value) == null)) {
+      return;
+    }
     _cancelPendingNumberWallRequestForEdit();
     _paramLerpTimer?.cancel();
     _params = Map<String, Object>.from(_params);

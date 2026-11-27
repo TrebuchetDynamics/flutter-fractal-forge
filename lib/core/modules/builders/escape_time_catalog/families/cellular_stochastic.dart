@@ -354,13 +354,6 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     ],
   ),
   EscapeTimeConfig(
-    id: 'langton_ant',
-    name: "Langton's Ant",
-    shaderAsset: 'shaders/cellular_and_stochastic/langton_ant_gpu.frag',
-    defaultIterations: 260,
-    defaultBailout: 4.0,
-  ),
-  EscapeTimeConfig(
     id: 'turmite',
     name: 'Turmite',
     shaderAsset: 'shaders/cellular_and_stochastic/turmite_gpu.frag',

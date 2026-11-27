@@ -19,7 +19,6 @@ void main() {
         'stable_square_turing_model',
         'flow_lenia',
         'coupled_logistic_map_lattice',
-        'langton_ant',
         'turmite',
         'wireworld',
         'sandpile',

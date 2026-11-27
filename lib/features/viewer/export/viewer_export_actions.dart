@@ -259,6 +259,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
 
   Future<void> _shareCurrentImage(BuildContext context) async {
     if (_exportSession.phase != ViewerExportPhase.idle) return;
+    if (_activeController(context).module.id == 'langton_ant') {
+      await _exportLangtonAnt(context, share: true);
+      return;
+    }
     if (!_freezeNumberWallForExport(context)) return;
     _log.info('action', 'Quick share image');
     final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
@@ -282,7 +286,12 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   }
 
   Future<void> _openExport(BuildContext context) async {
-    if (_exportFlowActive || !_freezeNumberWallForExport(context)) return;
+    if (_exportFlowActive) return;
+    if (_activeController(context).module.id == 'langton_ant') {
+      await _exportLangtonAnt(context);
+      return;
+    }
+    if (!_freezeNumberWallForExport(context)) return;
     _log.info('action', 'Open export');
     final controller = _activeController(context);
     final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
@@ -319,6 +328,61 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
       submission.options,
       shareAfterSave: submission.action == ExportAction.saveAndShare,
     );
+  }
+
+  Future<void> _exportLangtonAnt(BuildContext context,
+      {bool share = false}) async {
+    final l10n = AppLocalizations.of(context)!;
+    final boundary = _activeBoundaryKey();
+    if (boundary.currentContext == null) {
+      ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
+          message: l10n.langtonAntComputing, success: false));
+      return;
+    }
+    final ratio = MediaQuery.devicePixelRatioOf(context);
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() {
+      _exportSession = _exportSession
+          .openSheet(resumeAutoExploreWhenFinished: false)
+          .startExport();
+    });
+    try {
+      await _exportService.coordinator.run<void>(ExportKind.image, (token) async {
+        final png = await _exportService.capturePng(boundary, pixelRatio: ratio);
+        token.throwIfCancelled();
+        if (!await _exportService.chooseLinuxExportDirectory()) return;
+        token.throwIfCancelled();
+        final decoded = img.decodePng(png);
+        if (decoded == null) throw const FormatException('Invalid PNG data');
+        final result = await _exportService.saveExportBytes(
+          png,
+          filename: _exportService.generateFilename(
+              format: ExportFormat.png, fractalType: 'langton_ant'),
+          format: ExportFormat.png,
+          width: decoded.width,
+          height: decoded.height,
+        );
+        await _exportService.saveExportResult(result);
+        if (share) await _exportService.shareExportResult(result);
+        if (mounted) {
+          messenger.showSnackBar(appFeedbackSnackBar(
+            message: result.galleryCopyFailed
+                ? l10n.exportSavedAppFolderOnly
+                : l10n.exportSaved,
+            success: true,
+          ));
+        }
+      });
+    } on ExportCancelledException {
+      _log.info('export', 'Langton ant export cancelled');
+    } catch (error) {
+      if (mounted) {
+        messenger.showSnackBar(appFeedbackSnackBar(
+            message: l10n.exportFailed(error.toString()), success: false));
+      }
+    } finally {
+      if (mounted) setState(_finishExportFlow);
+    }
   }
 
   Future<void> _performExport(

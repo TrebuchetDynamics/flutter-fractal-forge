@@ -958,16 +958,16 @@ fractals:
       confidence: 1.0
   - id: langton_ant
     name: "Langton's Ant"
-    shader: shaders/cellular_and_stochastic/langton_ant_gpu.frag
+    shader: ""
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
     defaultCenterX: 0.0
     defaultCenterY: 0.0
-    defaultIterations: 260
-    defaultBailout: 4.0
+    defaultRule: RL
+    defaultSteps: 11000
     defaultColorScheme: 0
-    hasThumbnail: true
+    hasThumbnail: false
     implemented: true
     presets: []
     variants: []

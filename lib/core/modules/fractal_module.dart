@@ -112,6 +112,7 @@ class FractalModule {
   ///
   /// The shader must be registered in `pubspec.yaml` under `flutter.shaders`.
   /// Example: `'shaders/legacy/diagnostics/mandelbrot.frag'`
+  /// Empty for a module that paints its own exact geometry instead.
   final String shaderAsset;
 
   /// The configurable parameters for this fractal type.

@@ -226,6 +226,7 @@ void main() {
       contactSheetAspectTask,
       wallpaperStyleWorkerTask,
       unusedHelpersTask,
+      langtonAntTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -288,6 +289,7 @@ void main() {
         candidates.singleWhere((s) => s['task'] == unusedHelpersTask);
     expect(unusedHelpers['semantic_deltas'], isEmpty);
     expect(unusedHelpers['compiled_artifacts'], isEmpty);
+    final exactAnt = candidates.singleWhere((s) => s['task'] == langtonAntTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -327,6 +329,7 @@ void main() {
         contactSheet,
         wallpaperStyleWorker,
         unusedHelpers,
+        exactAnt,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -352,7 +355,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            unusedHelpers['binding_maps'][id]['after'] as Map,
+            exactAnt['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

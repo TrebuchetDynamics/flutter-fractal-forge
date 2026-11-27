@@ -695,6 +695,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paramIterations => 'Iterations';
 
   @override
+  String get langtonAntRule => 'Turn rule (L/R)';
+
+  @override
+  String get langtonAntInvalidRule => 'Enter 2–20 letters, using only L or R.';
+
+  @override
+  String get langtonAntComputing => 'Computing ant grid…';
+
+  @override
+  String langtonAntBoundary(int steps) {
+    return 'Stopped at step $steps: grid boundary reached.';
+  }
+
+  @override
   String get paramSteps => 'Steps';
 
   @override

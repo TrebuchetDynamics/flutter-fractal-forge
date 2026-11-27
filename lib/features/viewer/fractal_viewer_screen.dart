@@ -411,7 +411,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
   void _toggleLooper(BuildContext context) {
     final looper = _looperController;
-    if (looper == null) return;
+    if (looper == null || _activeController(context).module.id == 'langton_ant') {
+      return;
+    }
     if (looper.isPlaying) {
       looper.stop();
       AccessibilityService.announce(
@@ -472,7 +474,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
     // Record view/config changes into history
     if (!exportOwnsController) _recordHistory(context);
-    if (controller.module.id == 'number_wall') {
+    if (controller.module.id == 'number_wall' ||
+        controller.module.id == 'langton_ant') {
       _autoExploreService?.stop();
       _looperController?.stop();
       if (_fourierEnabled) _disableFourier();
@@ -1604,7 +1607,10 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       child: Focus(
         autofocus: true,
         focusNode: _keyboardFocusNode,
-        onKeyEvent: (node, event) => _gaussianWalk
+        // While editing an ant rule, R and the arrow keys belong to the HUD,
+        // not to the viewer's reset/pan shortcuts.
+        onKeyEvent: (node, event) => _gaussianWalk ||
+                (controller.module.id == 'langton_ant' && _showControlsHud)
             ? KeyEventResult.ignored
             : _onKeyEvent(context, event),
         child: Scaffold(
@@ -1745,7 +1751,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                         kaleidoscopeMirror: activeController.kaleidoscopeMirror,
                         looperPlaying:
                             _looperController?.isPlaying ?? false,
-                        looperAvailable: _looperController != null,
+                        looperAvailable: _looperController != null &&
+                            activeController.module.id != 'langton_ant',
                         canGoPreviousFractal:
                             context.watch<HistoryProvider?>()?.canGoBack ??
                                 false,
@@ -1861,7 +1868,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             freezeFrame: !_liveRenderingEnabled,
                             activeSnapshotSink: _fourierRenderSnapshotSink,
                           )
-                        : (_backendDecision.backend == RendererBackend.cpu
+                        : (_backendDecision.backend == RendererBackend.cpu &&
+                                controller.module.shaderAsset.isNotEmpty
                             ? FractalRenderer(
                                 renderPlan: _currentRendererPlan(controller),
                                 animationEnabled: _liveRenderingEnabled,
@@ -1997,6 +2005,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                     overlaySlots.topFullWidth(chromeHeader),
 
                   if (_showCoreViewerChrome &&
+                      activeController.module.shaderAsset.isNotEmpty &&
                       _backendDecision.backend == RendererBackend.cpu)
                     overlaySlots.topTrailing(
                       // Reserve the tools region too: a button can be inside

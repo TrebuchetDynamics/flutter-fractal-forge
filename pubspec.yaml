@@ -302,7 +302,6 @@ flutter:
     - shaders/cellular_and_stochastic/stable_square_turing_model_gpu.frag
     - shaders/cellular_and_stochastic/flow_lenia_gpu.frag
     - shaders/cellular_and_stochastic/coupled_logistic_map_lattice_gpu.frag
-    - shaders/cellular_and_stochastic/langton_ant_gpu.frag
     - shaders/cellular_and_stochastic/sandpile_gpu.frag
     - shaders/cellular_and_stochastic/dla_gpu.frag
     - shaders/cellular_and_stochastic/forest_fire_gpu.frag
