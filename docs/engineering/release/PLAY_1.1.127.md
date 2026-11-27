@@ -32,7 +32,9 @@ f90ffc6745e92edc0c01dba0240d378858ccbe805fe78543d9ba638661943bfb  fractal-forge-
 3153974a1ff77e11a6247c2f3edaca5c7bad1fc030fe8250240cdd83680f122a  fractal-forge-android-x86_64-v1.1.127.apk
 ```
 
-[!46920](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920) now has head `7d1c4b85` with the 1.1.127 metadata, which builds from the GitHub repository. Its description now names 1.1.127, and note 4336473275 asks a maintainer to run the pipeline and the original reviewer to retest KIFS Menger Sponge on Adreno 610. Fork pipelines fail at creation with no jobs (also in 2026-09). The `v1.1.127` tag is on GitHub only: the GitLab mirror rejected the stored git credential.
+[!46920](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920) now has head `535f9951` with the 1.1.127 metadata, which builds from the GitHub repository. The first update (`7d1c4b85`) dropped the trailing space that `rewritemeta` keeps after `Changelog:` and `binary:`; `535f9951` restores it, and the generator fix is in #109. Its description now names 1.1.127, and note 4336473275 asks a maintainer to run the pipeline and the original reviewer to retest KIFS Menger Sponge on Adreno 610. Fork pipelines fail at creation with no jobs (also in 2026-09).
+
+Note 4336647948 corrects the KIFS claim in note 4336473275: the 8-fold cap does not explain the 1.1.104 crash, which happened at the default 8 folds. A NumPy port of the ray march at the default view gives 133 fold iterations per pixel for the 1.1.104 Sponge (crashed), 199 for the 1.1.104 Menger Cross 3D (worked, same shader file) and 42 for the 1.1.127 Sponge. The root cause is unknown, and an Adreno 610 retest is still required. The `v1.1.127` tag is on GitHub only: the GitLab mirror rejected the stored git credential.
 
 ## Qualification
 
