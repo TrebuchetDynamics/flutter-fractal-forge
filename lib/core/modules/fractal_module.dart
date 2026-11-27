@@ -43,13 +43,16 @@ enum FractalDimension {
   threeD,
 }
 
-/// Declares whether rendering this module requires advancing shader time.
+/// Declares how a module can animate.
 ///
 /// This is explicit metadata rather than an inference from shader source so
 /// static shaders can render on demand without freezing known animated ones.
 enum FractalAnimationCapability {
   static,
   timeDriven,
+
+  /// Playback advances discrete simulation steps without a shader ticker.
+  stepDriven,
 }
 
 /// Defines a complete fractal type with its rendering configuration.
@@ -105,7 +108,7 @@ class FractalModule {
   /// existing modules' controls; a module can opt into the opposite convention.
   final double horizontalOrbitSign;
 
-  /// Whether this module's shader output changes as elapsed time advances.
+  /// How this module animates, if at all.
   final FractalAnimationCapability animationCapability;
 
   /// Path to the GLSL fragment shader asset.

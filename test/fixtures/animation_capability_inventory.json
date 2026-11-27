@@ -3452,7 +3452,7 @@
   {
     "id": "langton_ant",
     "shaderAsset": "",
-    "capability": "static"
+    "capability": "stepDriven"
   },
   {
     "id": "lattes_map_julia",

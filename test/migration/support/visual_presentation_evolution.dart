@@ -47,8 +47,14 @@ const contactSheetAspectTask = 'CONTACT-SHEET-ASPECT-79';
 const wallpaperStyleWorkerTask = 'WALLPAPER-STYLE-WORKER-80';
 const unusedHelpersTask = 'UNUSED-HELPERS-82';
 const langtonAntTask = 'LANGTON-ANT-96';
+const langtonAntPlaybackTask = 'LANGTON-ANT-97';
+const _langtonAntPlaybackBase = 'b22c6f494e038a8f5d81c6e38902c8de1bf79350';
+// Authorize the complete module replacement independently of its stage seal.
+const _antPlaybackDeltaHash =
+    'd5907c9207f2e12c076fcba7b6646d78643baa26cdae3d9456ab41cd6f886d4a';
 const _langtonAntBase = 'df7183703bd6cb8e54744ae49fbbaff766bb4487';
-const _removedAntShader = 'shaders/cellular_and_stochastic/langton_ant_gpu.frag';
+const _removedAntShader =
+    'shaders/cellular_and_stochastic/langton_ant_gpu.frag';
 // Independent of the candidate seal. Re-sealing cannot approve a different
 // module, shader record, preset, or parameter value in this successor.
 const _langtonAntDeltaHash =
@@ -463,6 +469,18 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    langtonAntPlaybackTask => const [
+        'lib/core/modules/fractal_module.dart',
+        'lib/core/modules/fractals/langton_ant_frame.dart',
+        'lib/core/modules/fractals/langton_ant_module.dart',
+        'lib/features/renderer/widgets/renderer/fractal_renderer.dart',
+        'lib/features/viewer/langton_ant_view.dart',
+        'lib/l10n/app_localizations.dart',
+        'lib/l10n/app_localizations_en.dart',
+        'lib/l10n/app_localizations_es.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -491,8 +509,13 @@ void validateVisualStage(Map stage) {
       stage['task'] == unusedHelpersTask;
   final precisionChange = stage['task'] == mandelbrotDf2Task;
   final exactAnt = stage['task'] == langtonAntTask;
+  final antPlayback = stage['task'] == langtonAntPlaybackTask;
   if (exactAnt) {
     visualRequire(stage['base_revision'] == _langtonAntBase, 'exact ant base');
+  }
+  if (antPlayback) {
+    visualRequire(
+        stage['base_revision'] == _langtonAntPlaybackBase, 'ant playback base');
   }
   final maps = stage['binding_maps'] as Map;
   visualRequire(
@@ -538,36 +561,44 @@ void validateVisualStage(Map stage) {
       };
       visualRequire(
           _equal.equals(after.keys.toSet().difference(before.keys.toSet()),
-              expectedAdded) &&
-          _equal.equals(removed, {
-            if (baselineNames.contains(entry.key) || entry.key == 'reference')
-              _removedAntShader,
-          }), 'exact ant binding key sets');
+                  expectedAdded) &&
+              _equal.equals(removed, {
+                if (baselineNames.contains(entry.key) ||
+                    entry.key == 'reference')
+                  _removedAntShader,
+              }),
+          'exact ant binding key sets');
     } else {
       visualRequire(removed.isEmpty, 'removed binding');
     }
-    // These oracles follow the controller's local import graph. The
-    // physical-events oracle already reached both files through the viewer.
-    final addedAliases = stage['task'] == historyReplayModuleIdTask &&
-            const {
-              'state-replay',
-              'precision-replay',
-              'param-interpolation',
-              'randomization',
-              'reference',
-            }.contains(entry.key)
-        ? const {
-            'lib/core/services/storage/preset_store.dart',
-            'lib/core/services/storage/preset_storage_slot.dart',
-          }
-        : const <String>{};
+    // The reference renderer newly reaches the ant's accessibility setting.
+    // Physical-events already reached it through the full viewer.
+    final addedDependencies = switch (stage['task']) {
+      langtonAntPlaybackTask when entry.key == 'reference' => const {
+          'lib/core/services/platform/accessibility_service.dart',
+        },
+      historyReplayModuleIdTask
+          when const {
+            'state-replay',
+            'precision-replay',
+            'param-interpolation',
+            'randomization',
+            'reference',
+          }.contains(entry.key) =>
+        const {
+          'lib/core/services/storage/preset_store.dart',
+          'lib/core/services/storage/preset_storage_slot.dart',
+        },
+      _ => const <String>{},
+    };
     if (maintenance ||
+        antPlayback ||
         precisionChange ||
         stage['task'] == juliaUniformOrderTask ||
         stage['task'] == escapeTimeUniformDefaultsTask) {
       visualRequire(
-          _equal.equals(
-              after.keys.toSet().difference(before.keys.toSet()), addedAliases),
+          _equal.equals(after.keys.toSet().difference(before.keys.toSet()),
+              addedDependencies),
           'maintenance binding key sets');
     }
     if (catalogPolicy != null) {
@@ -579,7 +610,8 @@ void validateVisualStage(Map stage) {
     for (final key in after.keys.cast<String>()) {
       if (before[key] == after[key]) continue;
       changed = true;
-      if (addedAliases.contains(key) || (exactAnt && !before.containsKey(key))) {
+      if (addedDependencies.contains(key) ||
+          (exactAnt && !before.containsKey(key))) {
         continue; // Additions have already been checked against exact sets.
       }
       if (catalogPolicy == null) {
@@ -611,6 +643,9 @@ void validateVisualStage(Map stage) {
   } else if (exactAnt) {
     visualRequire(visualHash(deltas) == _langtonAntDeltaHash,
         'unapproved exact ant semantic deltas');
+  } else if (antPlayback) {
+    visualRequire(visualHash(deltas) == _antPlaybackDeltaHash,
+        'unapproved ant playback semantic deltas');
   } else if (precisionChange) {
     visualRequire(
         _equal
@@ -795,8 +830,8 @@ void validateVisualSourceChain(
   String pubspecAt(Object? revision) {
     final result = Process.runSync(
         'timeout', ['10', 'git', 'show', '$revision:pubspec.yaml']);
-    visualRequire(result.exitCode == 0,
-        'cannot read base pubspec: ${result.stderr}');
+    visualRequire(
+        result.exitCode == 0, 'cannot read base pubspec: ${result.stderr}');
     return result.stdout as String;
   }
 
@@ -1149,6 +1184,7 @@ Map evolveVisualDocument(String name, Map historical, List<Map> stages) {
       visualRequire(
           // orderedVisualStages already verified these exact bundles.
           stage['task'] == langtonAntTask ||
+              stage['task'] == langtonAntPlaybackTask ||
               (stage['task'] == visualDefaultsTask &&
                   _curatedRuntimeDocuments.contains(name)) ||
               _allowedDelta(name, document, delta, stage['task'] as String),

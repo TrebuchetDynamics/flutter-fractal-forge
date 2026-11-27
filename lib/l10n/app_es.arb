@@ -221,6 +221,7 @@
   "langtonAntInvalidRule": "Introduce entre 2 y 20 letras, solo L o R.",
   "langtonAntComputing": "Calculando la cuadrícula de la hormiga…",
   "langtonAntBoundary": "Se detuvo en el paso {steps}: llegó al límite de la cuadrícula.",
+  "langtonAntCurrentStep": "Paso actual: {steps}",
   "paramSteps": "Pasos",
   "paramBailout": "Escape",
   "paramPower": "Potencia",

@@ -38,6 +38,39 @@ void main() {
     expect(frame.cells, isEmpty);
   });
 
+  test('incremental playback matches fresh walks at three checkpoints',
+      () async {
+    for (final rule in ['RL', 'RLR']) {
+      final first = LangtonAntFrame.simulate(rule, 17);
+      final walk = await LangtonAntWalk.resume(first);
+      for (final steps in [129, 11000, 50123]) {
+        final maxBatches = (steps - walk.completedSteps + 256) ~/ 257;
+        for (var i = 0; i < maxBatches; i++) {
+          if (!walk.advanceTo(steps, batch: 257)) break;
+        }
+        final actual = await walk.snapshot();
+        final fresh = LangtonAntFrame.simulate(rule, steps);
+        expect(actual.cells, fresh.cells);
+        expect((actual.x, actual.y), (fresh.x, fresh.y));
+        expect((actual.minX, actual.maxX, actual.minY, actual.maxY),
+            (fresh.minX, fresh.maxX, fresh.minY, fresh.maxY));
+        expect(actual.completedSteps, steps);
+      }
+      expect(first.cells, LangtonAntFrame.simulate(rule, 17).cells);
+    }
+  });
+
+  test('incremental walk stops exactly at the grid boundary', () async {
+    final walk = await LangtonAntWalk.resume(
+        LangtonAntFrame.simulate('RL', 0, bound: 1));
+    expect(walk.advanceTo(100), isFalse);
+    final actual = await walk.snapshot();
+    final fresh = LangtonAntFrame.simulate('RL', 100, bound: 1);
+    expect(actual.stoppedAtBoundary, isTrue);
+    expect(actual.completedSteps, fresh.completedSteps);
+    expect(actual.cells, fresh.cells);
+  });
+
   test('rules are normalized without discarding invalid characters', () {
     expect(normalizeLangtonAntRule('rllr'), 'RLLR');
     expect(normalizeLangtonAntRule('L' * 20), 'L' * 20);
