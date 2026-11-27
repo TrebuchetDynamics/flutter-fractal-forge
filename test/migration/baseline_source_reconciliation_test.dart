@@ -225,6 +225,7 @@ void main() {
       diagnosticShareUtf8Task,
       contactSheetAspectTask,
       wallpaperStyleWorkerTask,
+      unusedHelpersTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -283,6 +284,10 @@ void main() {
         candidates.singleWhere((s) => s['task'] == wallpaperStyleWorkerTask);
     expect(wallpaperStyleWorker['semantic_deltas'], isEmpty);
     expect(wallpaperStyleWorker['compiled_artifacts'], isEmpty);
+    final unusedHelpers =
+        candidates.singleWhere((s) => s['task'] == unusedHelpersTask);
+    expect(unusedHelpers['semantic_deltas'], isEmpty);
+    expect(unusedHelpers['compiled_artifacts'], isEmpty);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -321,6 +326,7 @@ void main() {
         diagnosticShare,
         contactSheet,
         wallpaperStyleWorker,
+        unusedHelpers,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -346,7 +352,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            wallpaperStyleWorker['binding_maps'][id]['after'] as Map,
+            unusedHelpers['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

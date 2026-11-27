@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 enum ExportKind { image, batch, video, looper }
 
@@ -33,17 +32,6 @@ final class ExportCancellationToken {
 
   void throwIfCancelled() {
     if (isCancelled) throw const ExportCancelledException();
-  }
-
-  Future<File> retainSavedFileUnlessCancelled(File file) async {
-    if (!isCancelled) return file;
-    try {
-      if (await file.exists()) await file.delete();
-    } catch (_) {
-      // Cancellation remains authoritative even when external storage refuses
-      // cleanup; callers still suppress publication and success feedback.
-    }
-    throw const ExportCancelledException();
   }
 }
 

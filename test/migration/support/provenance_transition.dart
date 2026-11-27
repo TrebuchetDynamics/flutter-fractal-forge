@@ -339,6 +339,7 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == diagnosticShareUtf8Task ||
           s['task'] == contactSheetAspectTask ||
           s['task'] == wallpaperStyleWorkerTask ||
+          s['task'] == unusedHelpersTask ||
           isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
