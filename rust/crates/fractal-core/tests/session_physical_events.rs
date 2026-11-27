@@ -346,6 +346,59 @@ fn absent_layout_keeps_pan_and_uses_only_unlocked_3d_twist() {
 }
 
 #[test]
+fn finger_lift_starts_gesture_and_keeps_session_usable() {
+    use PointerPhase::*;
+
+    let mut s = Session::new(catalog(), 1, "mandelbrot").unwrap();
+    let before = s.snapshot();
+    for (sequence, id, phase, x) in [
+        (0, 1, Down, 100.0),
+        (1, 2, Down, 100.0),
+        (2, 3, Down, 400.0),
+        (3, 3, Up, 400.0),
+        (4, 1, Move, 101.0),
+    ] {
+        let result = s
+            .apply_physical(
+                1,
+                s.snapshot().revision(),
+                Some([300.0, 240.0]),
+                &[PhysicalEvent {
+                    sequence,
+                    source_us: None,
+                    consumed: false,
+                    input: PhysicalInput::Pointer {
+                        id,
+                        local: [x, 100.0],
+                        phase,
+                        kind: PointerKind::Touch,
+                        buttons: if phase == Up { 0 } else { 1 },
+                    },
+                }],
+            )
+            .unwrap();
+        if phase == Up {
+            assert_eq!(result.output.interactions, vec![Interaction::Start]);
+        } else {
+            assert!(result.output.interactions.is_empty());
+        }
+    }
+
+    let after = s.snapshot();
+    assert_eq!(after.revision(), before.revision() + 5);
+    let start = input(before.view());
+    // The remaining fingers' midpoint moves half a pixel from the lift focal point.
+    close(
+        input(after.view()),
+        ViewInput {
+            pan: [start.pan[0] - 0.5 / 240.0 / start.zoom, start.pan[1]],
+            ..start
+        },
+        "move after lift-start",
+    );
+}
+
+#[test]
 fn rejected_transactions_preserve_hidden_anchors_and_detached_snapshots() {
     let mut s = Session::new(catalog(), 1, "mandelbrot").unwrap();
     let token = s
