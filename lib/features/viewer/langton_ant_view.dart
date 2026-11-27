@@ -1,96 +1,213 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' show PointMode;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractals/langton_ant_frame.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 /// One worker at a time. Slider drags can request many settings; only the
 /// newest request after the active one needs a new walk.
 class LangtonAntView extends StatefulWidget {
   const LangtonAntView(
-      {super.key,
-      required this.boundaryKey,
-      required this.rule,
-      required this.steps,
-      required this.colorScheme,
-      required this.view});
+      {super.key, required this.boundaryKey, required this.controller});
 
   final GlobalKey? boundaryKey;
-  final String rule;
-  final int steps, colorScheme;
-  final FractalViewState view;
+  final FractalController controller;
 
   @override
   State<LangtonAntView> createState() => _LangtonAntViewState();
 }
 
 class _LangtonAntViewState extends State<LangtonAntView> {
+  static const _growthInterval = Duration(milliseconds: 50);
   LangtonAntPainter? _painter;
+  LangtonAntWalk? _walk;
+  Timer? _growthTimer;
+  bool _advancing = false;
   bool _computing = false;
 
-  (String, int) get _request => (widget.rule, widget.steps);
+  FractalController get _controller => widget.controller;
+  (String, int)? get _request => _controller.module.id == 'langton_ant'
+      ? (
+          _controller.params['rule'] as String,
+          _controller.params['steps'] as int
+        )
+      : null;
+  (String, int)? get _showing {
+    final frame = _painter?.frame;
+    return frame == null ? null : (frame.rule, frame.requestedSteps);
+  }
 
   @override
   void initState() {
     super.initState();
+    _controller.addListener(_onParametersChanged);
     _prepare();
   }
 
-  @override
-  void didUpdateWidget(covariant LangtonAntView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.rule != widget.rule || oldWidget.steps != widget.steps) {
-      _prepare();
+  void _onParametersChanged() {
+    if (_request == _showing) return;
+    _stopGrowth();
+    _walk = null;
+    if (_request != null && !_computing) {
+      unawaited(_prepare());
+      setState(() {});
     }
   }
 
   Future<void> _prepare() async {
-    if (_computing) return;
-    final showing = _painter?.frame;
-    if ((showing?.rule, showing?.requestedSteps) == _request) return;
     _computing = true;
     while (mounted) {
-      final (rule, steps) = _request;
+      final request = _request;
+      if (request == null) return;
+      final (rule, steps) = request;
       final frame = await LangtonAntFrame.prepare(rule, steps);
+      if (!mounted || _request == null) return;
+      final painter = request == _request ? await _preparePainter(frame) : null;
       if (!mounted) return;
-      if ((rule, steps) != _request) {
-        if ((showing?.rule, showing?.requestedSteps) == _request) {
-          setState(() => _computing = false);
-          return;
-        }
-        continue;
-      }
+      if (request != _request && _request != _showing) continue;
       setState(() {
-        _painter = LangtonAntPainter(frame, widget.view, widget.colorScheme);
+        if (request == _request && painter != null) _painter = painter;
         _computing = false;
       });
       return;
     }
   }
 
+  Future<LangtonAntPainter> _preparePainter(LangtonAntFrame frame) =>
+      LangtonAntPainter.prepare(
+          frame, _controller.view, _controller.params['colorScheme'] as int);
+
+  bool get _reducedMotion =>
+      MediaQuery.disableAnimationsOf(context) ||
+      context.read<AccessibilityService?>()?.reducedMotionEnabled == true;
+
+  void _toggleGrowth() {
+    if (_growthTimer != null) {
+      setState(_stopGrowth);
+      return;
+    }
+    if (_reducedMotion || _computing) return;
+    setState(
+        () => _growthTimer = Timer.periodic(_growthInterval, _advanceGrowth));
+  }
+
+  void _stopGrowth() {
+    _growthTimer?.cancel();
+    _growthTimer = null;
+    // If a batch was in flight, resume from the last displayed frame instead.
+    if (_advancing) _walk = null;
+  }
+
+  Future<void> _advanceGrowth(Timer timer) async {
+    if (_reducedMotion) {
+      setState(_stopGrowth);
+      return;
+    }
+    if (_advancing) return;
+    final current = _painter!.frame;
+    _advancing = true;
+    try {
+      final walk = _walk ?? await LangtonAntWalk.resume(current);
+      if (timer != _growthTimer) return;
+      // About 12 s to the RL highway from zero, with a bounded batch even
+      // when starting from a high slider value. Never catch up missed ticks.
+      final count = math.min(4096, 24 + current.completedSteps ~/ 180);
+      walk.advanceTo(
+          math.min(langtonAntMaxSteps, current.completedSteps + count));
+      final frame = await walk.snapshot();
+      if (timer != _growthTimer) return;
+      final painter = await _preparePainter(frame);
+      if (timer != _growthTimer) return;
+      if (_reducedMotion) {
+        setState(_stopGrowth);
+        return;
+      }
+      setState(() {
+        _painter = painter;
+        if (frame.stoppedAtBoundary ||
+            frame.completedSteps == langtonAntMaxSteps) {
+          _stopGrowth();
+        }
+        _walk = walk;
+      });
+      _controller.updateParam('steps', frame.completedSteps);
+    } finally {
+      _advancing = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _stopGrowth();
+    _controller.removeListener(_onParametersChanged);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final reducedMotion =
+        context.watch<AccessibilityService?>()?.reducedMotionEnabled == true ||
+            MediaQuery.disableAnimationsOf(context);
+    if (reducedMotion) _stopGrowth();
     final painter = _painter;
+    final frame = painter?.frame;
+    final playing = _growthTimer != null;
     return Stack(fit: StackFit.expand, children: [
       if (painter != null)
         RepaintBoundary(
           // The retained grid is visible during a walk, but must not be
           // exported as the newly requested rule/step count.
-          key: (painter.frame.rule, painter.frame.requestedSteps) == _request
-              ? widget.boundaryKey
-              : null,
+          key: _showing == _request ? widget.boundaryKey : null,
           child: CustomPaint(
-            painter: painter.withStyle(widget.view, widget.colorScheme),
+            painter: painter.withStyle(
+                _controller.view, _controller.params['colorScheme'] as int),
           ),
         )
       else
         const ColoredBox(color: Color(0xff090b12)),
+      if (frame != null)
+        Positioned(
+          top: MediaQuery.paddingOf(context).top + 64,
+          left: 12,
+          right: 12,
+          child: Center(
+            child: Material(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  children: [
+                    Text(l10n.langtonAntCurrentStep(frame.completedSteps)),
+                    if (!reducedMotion)
+                      FilledButton(
+                        onPressed: _computing ||
+                                frame.stoppedAtBoundary ||
+                                frame.completedSteps == langtonAntMaxSteps
+                            ? null
+                            : _toggleGrowth,
+                        child:
+                            Text(playing ? l10n.actionPause : l10n.actionPlay),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       if (_computing || painter?.frame.stoppedAtBoundary == true)
         Align(
           alignment: Alignment.center,
@@ -116,10 +233,6 @@ class _LangtonAntViewState extends State<LangtonAntView> {
 
 /// The boundary captures this same painter, transform and palette for PNG.
 class LangtonAntPainter extends CustomPainter {
-  LangtonAntPainter(this.frame, this.view, this.colorScheme)
-      : _points = _groupPoints(frame),
-        _colors = _palette(frame.rule.length, colorScheme);
-
   LangtonAntPainter._(
       this.frame, this.view, this.colorScheme, this._points, this._colors);
 
@@ -139,14 +252,22 @@ class LangtonAntPainter extends CustomPainter {
               ? _colors
               : _palette(frame.rule.length, scheme));
 
-  static List<Float32List> _groupPoints(LangtonAntFrame frame) {
+  static Future<LangtonAntPainter> prepare(
+      LangtonAntFrame frame, FractalViewState view, int scheme) async {
     final points = List.generate(frame.rule.length, (_) => <double>[]);
+    var count = 0;
     for (final cell in frame.cells.entries) {
       points[cell.value]
         ..add(LangtonAntFrame.cellX(cell.key).toDouble())
         ..add(-LangtonAntFrame.cellY(cell.key).toDouble());
+      if (++count % 8192 == 0) await Future<void>.delayed(Duration.zero);
     }
-    return points.map(Float32List.fromList).toList();
+    return LangtonAntPainter._(
+        frame,
+        view,
+        scheme,
+        points.map(Float32List.fromList).toList(),
+        _palette(frame.rule.length, scheme));
   }
 
   static List<Color> _palette(int length, int scheme) {

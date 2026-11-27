@@ -236,6 +236,14 @@
       }
     }
   },
+  "langtonAntCurrentStep": "Current step: {steps}",
+  "@langtonAntCurrentStep": {
+    "placeholders": {
+      "steps": {
+        "type": "int"
+      }
+    }
+  },
   "paramSteps": "Steps",
   "paramBailout": "Bailout",
   "paramPower": "Power",

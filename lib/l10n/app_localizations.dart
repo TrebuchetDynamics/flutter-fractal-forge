@@ -1383,6 +1383,12 @@ abstract class AppLocalizations {
   /// **'Stopped at step {steps}: grid boundary reached.'**
   String langtonAntBoundary(int steps);
 
+  /// No description provided for @langtonAntCurrentStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Current step: {steps}'**
+  String langtonAntCurrentStep(int steps);
+
   /// No description provided for @paramSteps.
   ///
   /// In en, this message translates to:

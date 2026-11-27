@@ -709,6 +709,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String langtonAntCurrentStep(int steps) {
+    return 'Current step: $steps';
+  }
+
+  @override
   String get paramSteps => 'Steps';
 
   @override

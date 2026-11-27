@@ -28,6 +28,7 @@ FractalModule buildLangtonAntModule() {
     displayName: (_) => "Langton's Ant",
     dimension: FractalDimension.twoD,
     hidesEffectControls: true,
+    animationCapability: FractalAnimationCapability.stepDriven,
     shaderAsset: '',
     parameters: [
       FractalParameter(

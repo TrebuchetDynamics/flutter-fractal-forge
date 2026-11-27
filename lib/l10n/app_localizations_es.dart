@@ -719,6 +719,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String langtonAntCurrentStep(int steps) {
+    return 'Paso actual: $steps';
+  }
+
+  @override
   String get paramSteps => 'Pasos';
 
   @override

@@ -341,6 +341,7 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == wallpaperStyleWorkerTask ||
           s['task'] == unusedHelpersTask ||
           s['task'] == langtonAntTask ||
+          s['task'] == langtonAntPlaybackTask ||
           isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();

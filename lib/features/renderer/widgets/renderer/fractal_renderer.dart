@@ -399,11 +399,9 @@ class _FractalRendererState extends State<FractalRenderer>
     if (module.id == 'langton_ant') {
       _stopAnimationTicker(reset: !widget.animationEnabled);
       return _wrapWithGestures(LangtonAntView(
+        key: ObjectKey(controller),
         boundaryKey: widget.boundaryKey,
-        rule: controller.params['rule'] as String,
-        steps: controller.params['steps'] as int,
-        colorScheme: controller.params['colorScheme'] as int,
-        view: controller.view,
+        controller: controller,
       ));
     }
     if (module.id == 'number_wall') {
