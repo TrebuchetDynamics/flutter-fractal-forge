@@ -53,6 +53,11 @@ teardown() {
   grep -Fxq 'SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge' "$metadata"
   grep -Fxq 'IssueTracker: https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues' "$metadata"
   grep -Fq 'https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/HEAD/CHANGELOG.md' "$metadata"
+  # fdroiddata CI's rewritemeta (ruamel.yaml 0.18.10) keeps a trailing space
+  # before a wrapped long value; without it the rewritemeta job fails.
+  grep -Fxq 'Changelog: ' "$metadata"
+  [ "$(grep -Fxc '    binary: ' "$metadata")" -eq 3 ]
+  ! grep -Exq '(Changelog|    binary):' "$metadata"
   ! grep -Fq 'gitlab.com/TrebuchetDynamics/flutter-fractal-forge' "$metadata"
   [ "$(grep -Fc "versionName: $RELEASE_VERSION" "$metadata")" -eq 3 ]
   grep -Fq "versionCode: ${RELEASE_BUILD_NUMBER}1" "$metadata"
