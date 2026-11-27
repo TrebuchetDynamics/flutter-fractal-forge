@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
+import 'package:flutter_fractals/features/viewer/langton_ant_view.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +54,43 @@ void main() {
       expect(controller.params['steps'], 1000000);
     });
   }
+
+  testWidgets('the capture boundary never exposes an old ant request',
+      (tester) async {
+    final boundary = GlobalKey();
+    Widget app(int steps) => MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: LangtonAntView(
+              boundaryKey: boundary,
+              rule: 'LRRRRRLLR',
+              steps: steps,
+              colorScheme: 0,
+              view: FractalViewState.initial(),
+            ),
+          ),
+        );
+
+    Future<LangtonAntPainter> waitForPaint() async {
+      for (var i = 0; i < 300 && boundary.currentContext == null; i++) {
+        await tester.runAsync(
+            () => Future<void>.delayed(const Duration(milliseconds: 10)));
+        await tester.pump();
+      }
+      final captured = find.byKey(boundary);
+      expect(captured, findsOneWidget);
+      final paint =
+          find.descendant(of: captured, matching: find.byType(CustomPaint));
+      return tester.widget<CustomPaint>(paint).painter! as LangtonAntPainter;
+    }
+
+    await tester.pumpWidget(app(11000));
+    expect((await waitForPaint()).frame.completedSteps, 11000);
+    await tester.pumpWidget(app(1000000));
+    expect(boundary.currentContext, isNull);
+    expect((await waitForPaint()).frame.completedSteps, 1000000);
+  });
 
   test('old saved states drop approximation settings; presets stay selectable',
       () async {

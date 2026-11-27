@@ -448,6 +448,7 @@ void validateVisualStage(Map stage) {
         'lib/features/controls/param_control_plan.dart',
         'lib/features/renderer/cpu/formulas/cpu_formulas.dart',
         'lib/features/renderer/widgets/renderer/fractal_renderer.dart',
+        'lib/features/export/batch_export_dialog.dart',
         'lib/features/viewer/chrome/fractal_controls_hud.dart',
         'lib/features/viewer/chrome/viewer_tools.dart',
         'lib/features/viewer/diagnostics/viewer_gpu_health.dart',

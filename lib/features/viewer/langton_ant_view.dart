@@ -80,7 +80,11 @@ class _LangtonAntViewState extends State<LangtonAntView> {
     return Stack(fit: StackFit.expand, children: [
       if (painter != null)
         RepaintBoundary(
-          key: widget.boundaryKey,
+          // The retained grid is visible during a walk, but must not be
+          // exported as the newly requested rule/step count.
+          key: (painter.frame.rule, painter.frame.requestedSteps) == _request
+              ? widget.boundaryKey
+              : null,
           child: CustomPaint(
             painter: painter.withStyle(widget.view, widget.colorScheme),
           ),

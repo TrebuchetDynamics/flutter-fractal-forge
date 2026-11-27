@@ -2899,7 +2899,7 @@
         "test/migration/support/baseline_inventory.dart": "70a63633953f6aa265b4af4e87e35cb6a378a73db8fc3bda14ebd72edfc8706b",
         "test/migration/support/provenance_transition.dart": "acd61c4b408b794f82bb21f0bebef5b76efdc737bbad38e6f5ec908ef8482efa",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "cbb7b453bce96322f4016e9e80385804eacd3d76dd330dcbbdcb75a5681e0ffc"
+        "test/migration/support/visual_presentation_evolution.dart": "5a1f9e6de11d3b32f6d35c0b83a68b1df638b53a4cbf161d886863a376841e76"
       },
       "before": {
         "dart-sdk/lib/_internal/vm/lib/math_patch.dart": "3cd16c96c4c1b6985317c6d3f9fab3e4b0466b87a9450230784249070d687790",
@@ -4629,7 +4629,7 @@
         "lib/features/controls/widgets/number_wall_prime_control.dart": "5e80c0a1f3c4b953471a751453d96f5afe1484f590299b6d425621f73df7bf56",
         "lib/features/controls/widgets/number_wall_style_controls.dart": "a7a933b6405f73d472e0aa2bbc50b24575d9d82be1dffe3a0a70ec638ffe4f33",
         "lib/features/debug/shader_lab_screen.dart": "5d1852f17f5e2d563d1e961be8a3acdd506d6433ebf338a92499c29204a88c1d",
-        "lib/features/export/batch_export_dialog.dart": "bcf21d99ec2f91b75bec42cf4d12da9adde18cb314d6844a278d54967f138198",
+        "lib/features/export/batch_export_dialog.dart": "87a38b4699be78c3b1c31f8230d892f3cd0c78f2604b7e4e595dcc590fa5afb8",
         "lib/features/export/custom_export_dimensions.dart": "dfc9344f7bd239018d083ea3e252f3d93a7b33809759757681d8b83258913258",
         "lib/features/export/export_actions.dart": "3ff11be4cc0473552b927b8a18e83f4805f9a150270e0413f166aa573acfddc9",
         "lib/features/export/export_options_sheet.dart": "17bddc0cbf6b4687eb53b19b2076d0e2ad639cef5ed6eb03e0ac99ab31cff5df",
@@ -4713,7 +4713,7 @@
         "lib/features/viewer/fractal_viewer_screen.dart": "c8174ce92bcaf7cbea5404db2ef9585939ce516337e7365708507031c82b2d6b",
         "lib/features/viewer/gaussian_moat_map.dart": "ede7df1f31d1e2d2c9c91852d498ce8330784c0cf3a55959f099253149d786a0",
         "lib/features/viewer/gaussian_moat_plot.dart": "b04d49e785ce20042e9e766087bfc26ad05d92f050e31c5c4bcf6eb90701e31d",
-        "lib/features/viewer/langton_ant_view.dart": "5832d29732e2c9537ed65b19664edb4bfe39d3823466e7d767323205e1afec19",
+        "lib/features/viewer/langton_ant_view.dart": "6198cf2836b2ca0dfdab85e1e1366c8ad179de4bdc105d03df1c7eb101e35e2c",
         "lib/features/viewer/navigation/viewer_history.dart": "0f3496f1925db9a33753a389bdffa8a8d4819fcf2cf280abf73377e6f50744c9",
         "lib/features/viewer/navigation/viewer_interactions.dart": "0136f541e62468c5e8cb54a54764623803ad670ed82f2ddc3676884228982d0c",
         "lib/features/viewer/overlays/auto_pilot_alignment_overlay.dart": "3b84e7536a6bed3a8d3bf6410497daeaed420f451dc258706e15419c0a071a94",
@@ -4740,7 +4740,7 @@
         "test/migration/support/baseline_inventory.dart": "70a63633953f6aa265b4af4e87e35cb6a378a73db8fc3bda14ebd72edfc8706b",
         "test/migration/support/physical_events_oracle.dart": "207da06b2e46be1c3ee6b03cf731b45a223a80e25a20f6640b8033689bb52371",
         "test/migration/support/provenance_transition.dart": "acd61c4b408b794f82bb21f0bebef5b76efdc737bbad38e6f5ec908ef8482efa",
-        "test/migration/support/visual_presentation_evolution.dart": "cbb7b453bce96322f4016e9e80385804eacd3d76dd330dcbbdcb75a5681e0ffc"
+        "test/migration/support/visual_presentation_evolution.dart": "5a1f9e6de11d3b32f6d35c0b83a68b1df638b53a4cbf161d886863a376841e76"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -5205,7 +5205,7 @@
         "test/migration/support/baseline_inventory.dart": "70a63633953f6aa265b4af4e87e35cb6a378a73db8fc3bda14ebd72edfc8706b",
         "test/migration/support/provenance_transition.dart": "acd61c4b408b794f82bb21f0bebef5b76efdc737bbad38e6f5ec908ef8482efa",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "cbb7b453bce96322f4016e9e80385804eacd3d76dd330dcbbdcb75a5681e0ffc"
+        "test/migration/support/visual_presentation_evolution.dart": "5a1f9e6de11d3b32f6d35c0b83a68b1df638b53a4cbf161d886863a376841e76"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -6888,7 +6888,7 @@
         "test/migration/support/provenance_transition.dart": "acd61c4b408b794f82bb21f0bebef5b76efdc737bbad38e6f5ec908ef8482efa",
         "test/migration/support/randomization_oracle.dart": "026a436086bebfe86a84964de00e86f3bb88efd9f48bbdbe1984904449ccbd91",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "cbb7b453bce96322f4016e9e80385804eacd3d76dd330dcbbdcb75a5681e0ffc"
+        "test/migration/support/visual_presentation_evolution.dart": "5a1f9e6de11d3b32f6d35c0b83a68b1df638b53a4cbf161d886863a376841e76"
       },
       "before": {
         "dart-sdk/lib/_internal/vm/lib/math_patch.dart": "3cd16c96c4c1b6985317c6d3f9fab3e4b0466b87a9450230784249070d687790",
@@ -7225,7 +7225,7 @@
         "lib/features/renderer/widgets/renderer/number_wall_exact_renderer.dart": "a4e083dd3afe16a33ab24e3f9e1532309b7dc9809d210706f23021f39b4e5850",
         "lib/features/renderer/widgets/renderer/shaders/shader_error_policy.dart": "218f0d6c184004bc6b6e5554a74cefce8a9ade414b648c1aebcef4b572b23c87",
         "lib/features/renderer/widgets/renderer/shaders/shader_loader.dart": "78ac9b5fe864ef9be8a92690bafe9154f34832fce07275e052565c1520131da2",
-        "lib/features/viewer/langton_ant_view.dart": "5832d29732e2c9537ed65b19664edb4bfe39d3823466e7d767323205e1afec19",
+        "lib/features/viewer/langton_ant_view.dart": "6198cf2836b2ca0dfdab85e1e1366c8ad179de4bdc105d03df1c7eb101e35e2c",
         "lib/l10n/app_localizations.dart": "460be42fc2e0f56b8f45cc76897ccf66a94c62a5c3e6d1f82c6c058b24baf76a",
         "lib/l10n/app_localizations_en.dart": "a6b5c5bfe1be8d9711c8918b3361beeb47f6c44b8b8ba081c5454b85646ba867",
         "lib/l10n/app_localizations_es.dart": "cf12961dc165d35594ded43df259b5e36d5615d1bba9900d424a8305bf8928c0",
@@ -7783,7 +7783,7 @@
         "test/migration/support/provenance_transition.dart": "acd61c4b408b794f82bb21f0bebef5b76efdc737bbad38e6f5ec908ef8482efa",
         "test/migration/support/reference_capture.dart": "cd579c6889460a366b8b530d4119ecde09144823637289ac03c2054ed233a6c4",
         "test/migration/support/reference_source_transition.dart": "3c0b6929f089df4d0b36ad3aa628be66a51ad34b9c0525a40321791b12468b0b",
-        "test/migration/support/visual_presentation_evolution.dart": "cbb7b453bce96322f4016e9e80385804eacd3d76dd330dcbbdcb75a5681e0ffc",
+        "test/migration/support/visual_presentation_evolution.dart": "5a1f9e6de11d3b32f6d35c0b83a68b1df638b53a4cbf161d886863a376841e76",
         "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6",
         "test/shaders/sculptural_surface_fixture.frag": "6f430db67160e05fe5c4c20dd000fd7058a42ce3c18d4cf8291b0d545bcf384e"
       },
@@ -10049,7 +10049,7 @@
         "test/migration/support/baseline_inventory.dart": "70a63633953f6aa265b4af4e87e35cb6a378a73db8fc3bda14ebd72edfc8706b",
         "test/migration/support/provenance_transition.dart": "acd61c4b408b794f82bb21f0bebef5b76efdc737bbad38e6f5ec908ef8482efa",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "cbb7b453bce96322f4016e9e80385804eacd3d76dd330dcbbdcb75a5681e0ffc"
+        "test/migration/support/visual_presentation_evolution.dart": "5a1f9e6de11d3b32f6d35c0b83a68b1df638b53a4cbf161d886863a376841e76"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -10205,7 +10205,7 @@
       }
     }
   },
-  "candidate_identity": "ead6da6239edafc39df808c15676fe46a072f23430efec5bd66b294222ad71f7",
+  "candidate_identity": "a910df037e38ae69cc444df0654517ab0960e967e0957c2167f4bc71934b09c7",
   "compiled_artifacts": [],
   "schema": 1,
   "semantic_deltas": {

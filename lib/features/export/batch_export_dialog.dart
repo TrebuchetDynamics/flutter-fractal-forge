@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -123,6 +124,20 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
         applyPreset: (preset) async {
           if (!presetBelongsToModule(preset, controller.module.id)) return;
           await controller.applyPreset(preset);
+          if (controller.module.id == 'langton_ant') {
+            // The boundary is available only when the new exact grid has
+            // painted. Waiting a fixed number of frames can save the prior
+            // preset under this preset's name.
+            final elapsed = Stopwatch()..start();
+            const budget = Duration(seconds: 5);
+            do {
+              final remaining = budget - elapsed.elapsed;
+              if (remaining <= Duration.zero) {
+                throw TimeoutException('Langton ant frame did not render');
+              }
+              await WidgetsBinding.instance.endOfFrame.timeout(remaining);
+            } while (!_cancelled && widget.boundaryKey.currentContext == null);
+          }
         },
         presets: presets,
         options: options,
