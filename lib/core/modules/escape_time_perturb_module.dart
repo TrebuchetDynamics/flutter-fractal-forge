@@ -9,7 +9,6 @@ import 'package:flutter_fractals/core/services/rendering/perturb_orbit_texture.d
 
 /// Formula IDs matching `uFormula` in escape_time_perturb_gpu.frag
 const _kFormulaMandelbrot = 0;
-// const _kFormulaJulia      = 1;  // handled by julia_perturb_module.dart
 const _kFormulaBurningShip = 2;
 const _kFormulaBuffalo = 3;
 const _kFormulaTricorn = 4;

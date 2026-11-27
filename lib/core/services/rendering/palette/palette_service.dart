@@ -157,19 +157,6 @@ class PaletteService extends ChangeNotifier {
     await _commitUserPalettes(_user.where((p) => p.id != id).toList());
   }
 
-  /// Imports a palette from JSON. If id is missing/duplicate, a new id is generated.
-  Future<FractalPalette> importPaletteJson(String input) async {
-    final palette = _prepareNewUserPalette(
-      FractalPalette.fromJsonString(input),
-    );
-    await _commitUserPalettes([..._user, palette]);
-    return palette;
-  }
-
-  String exportPaletteJson(FractalPalette palette, {bool pretty = true}) {
-    return palette.copyWith(isBuiltIn: false).toJsonString(pretty: pretty);
-  }
-
   FractalPalette createEmptyPalette({String? name}) {
     final id = _allocateUserPaletteId('');
     return FractalPalette(

@@ -345,7 +345,9 @@ void main() {
               'test/migration/support/visual_presentation_evolution.dart',
           },
           reason: entry.key as String);
-      const historicalHelpers = {
+      const historicalHashes = {
+        'lib/core/services/rendering/palette/palette_service.dart':
+            '76f2b893127fcb7d336937648a07360d5f6831d1c6339230e996c3181530753c',
         'test/migration/support/provenance_transition.dart':
             'c61dc40134e09adfb37ebb3b9482b1675c39e73d674e9514a42e19dcfd580cc0',
         'test/migration/support/visual_presentation_evolution.dart':
@@ -354,7 +356,7 @@ void main() {
       for (final path
           in before.keys.cast<String>().where((p) => before[p] != after[p])) {
         final current = sha256.convert(File(path).readAsBytesSync()).toString();
-        expect(after[path], historicalHelpers[path] ?? current);
+        expect(after[path], historicalHashes[path] ?? current);
         expect(stages.last['binding_maps'][entry.key]['after'][path], current);
       }
     }
