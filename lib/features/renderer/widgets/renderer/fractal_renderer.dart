@@ -153,9 +153,7 @@ class FractalRenderer extends StatefulWidget {
   /// Called when the user ends a continuous gesture (drag/pinch).
   final VoidCallback? onUserInteractionEnd;
 
-  /// Whether time-based animation should advance.
-  ///
-  /// When false, rendering uses a fixed time (frame is frozen).
+  /// Whether animation should advance. When false, the frame is frozen.
   final bool animationEnabled;
 
   /// Optional child override that keeps full gesture handling while
@@ -398,11 +396,14 @@ class _FractalRendererState extends State<FractalRenderer>
     // Exact fields must win over generic CPU/precision overrides as well.
     if (module.id == 'langton_ant') {
       _stopAnimationTicker(reset: !widget.animationEnabled);
-      return _wrapWithGestures(LangtonAntView(
+      return LangtonAntView(
         key: ObjectKey(controller),
         boundaryKey: widget.boundaryKey,
         controller: controller,
-      ));
+        animationEnabled: widget.animationEnabled,
+        controlsEnabled: widget.gesturesEnabled,
+        wrapCanvas: _wrapWithGestures,
+      );
     }
     if (module.id == 'number_wall') {
       _stopAnimationTicker(reset: !widget.animationEnabled);

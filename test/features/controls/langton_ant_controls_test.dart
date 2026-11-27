@@ -2,16 +2,17 @@ import 'dart:ui' show ImageByteFormat;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_fractals/core/modules/fractals/langton_ant_frame.dart';
-import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/core/modules/fractals/langton_ant_frame.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/langton_ant_view.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   for (final (locale, error, apply) in const [
@@ -149,6 +150,63 @@ void main() {
     expect(harness.steps, paused);
   });
 
+  testWidgets('renderer freeze stops playback and preserves the capture',
+      (tester) async {
+    final harness = _AntHarness(steps: 0);
+    addTearDown(harness.controller.dispose);
+    await tester.pumpWidget(harness.app());
+    await harness.waitForPaint(tester);
+    await tester.tap(find.text('Play'));
+    await tester.pump(const Duration(milliseconds: 50));
+    final paused = harness.steps;
+    expect(paused, greaterThan(0));
+    final png = await harness.capture(tester);
+
+    await tester.pumpWidget(harness.app(animationEnabled: false));
+    await tester.pump(const Duration(seconds: 1));
+    expect(harness.steps, paused);
+    expect(await harness.capture(tester), png);
+    expect(find.text('Pause'), findsNothing);
+
+    await tester.pumpWidget(harness.app());
+    expect(find.text('Play'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 1));
+    expect(harness.steps, paused);
+
+    await tester.pumpWidget(
+        harness.app(animationEnabled: false, gesturesEnabled: false));
+    expect(find.text('Play'), findsNothing);
+    expect(find.text('Current step: $paused'), findsNothing);
+    expect(await harness.capture(tester), png);
+  });
+
+  testWidgets('backgrounding cancels playback without requiring a new frame',
+      (tester) async {
+    final harness = _AntHarness(steps: 0);
+    addTearDown(harness.controller.dispose);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    addTearDown(() => tester.binding
+        .handleAppLifecycleStateChanged(AppLifecycleState.resumed));
+    await tester.pumpWidget(harness.app());
+    await harness.waitForPaint(tester);
+    await tester.tap(find.text('Play'));
+    await tester.pump(const Duration(milliseconds: 50));
+    final paused = harness.steps;
+    expect(paused, greaterThan(0));
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    await tester.pump(const Duration(seconds: 1));
+    expect(harness.steps, paused);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump(const Duration(seconds: 1));
+    expect(harness.steps, paused);
+    expect(find.text('Play'), findsOneWidget);
+  });
+
   testWidgets('the capture boundary never exposes an old ant request',
       (tester) async {
     final harness = _AntHarness(steps: 11000);
@@ -213,8 +271,12 @@ class _AntHarness {
   final boundary = GlobalKey();
   int get steps => controller.params['steps'] as int;
 
-  Widget app(
-          {bool reducedMotion = false, AccessibilityService? accessibility}) =>
+  Widget app({
+    bool reducedMotion = false,
+    bool animationEnabled = true,
+    bool gesturesEnabled = true,
+    AccessibilityService? accessibility,
+  }) =>
       MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: controller),
@@ -232,8 +294,10 @@ class _AntHarness {
           home: Scaffold(
               body: Column(children: [
             Expanded(
-                child: LangtonAntView(
-                    boundaryKey: boundary, controller: controller)),
+                child: FractalRenderer(
+                    boundaryKey: boundary,
+                    animationEnabled: animationEnabled,
+                    gesturesEnabled: gesturesEnabled)),
             const FractalControlsHud(),
           ])),
         ),

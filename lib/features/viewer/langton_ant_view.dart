@@ -16,17 +16,26 @@ import 'package:provider/provider.dart';
 /// One worker at a time. Slider drags can request many settings; only the
 /// newest request after the active one needs a new walk.
 class LangtonAntView extends StatefulWidget {
-  const LangtonAntView(
-      {super.key, required this.boundaryKey, required this.controller});
+  const LangtonAntView({
+    super.key,
+    required this.boundaryKey,
+    required this.controller,
+    required this.animationEnabled,
+    required this.controlsEnabled,
+    required this.wrapCanvas,
+  });
 
   final GlobalKey? boundaryKey;
   final FractalController controller;
+  final bool animationEnabled, controlsEnabled;
+  final Widget Function(Widget) wrapCanvas;
 
   @override
   State<LangtonAntView> createState() => _LangtonAntViewState();
 }
 
-class _LangtonAntViewState extends State<LangtonAntView> {
+class _LangtonAntViewState extends State<LangtonAntView>
+    with WidgetsBindingObserver {
   static const _growthInterval = Duration(milliseconds: 50);
   LangtonAntPainter? _painter;
   LangtonAntWalk? _walk;
@@ -49,8 +58,23 @@ class _LangtonAntViewState extends State<LangtonAntView> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _controller.addListener(_onParametersChanged);
-    _prepare();
+    unawaited(_prepare());
+  }
+
+  @override
+  void didUpdateWidget(covariant LangtonAntView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.animationEnabled || !widget.controlsEnabled) _stopGrowth();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // App pause can suppress frames before the renderer receives its update.
+    if (state != AppLifecycleState.resumed && _growthTimer != null) {
+      setState(_stopGrowth);
+    }
   }
 
   void _onParametersChanged() {
@@ -95,7 +119,12 @@ class _LangtonAntViewState extends State<LangtonAntView> {
       setState(_stopGrowth);
       return;
     }
-    if (_reducedMotion || _computing) return;
+    if (!widget.animationEnabled ||
+        !widget.controlsEnabled ||
+        _reducedMotion ||
+        _computing) {
+      return;
+    }
     setState(
         () => _growthTimer = Timer.periodic(_growthInterval, _advanceGrowth));
   }
@@ -148,6 +177,7 @@ class _LangtonAntViewState extends State<LangtonAntView> {
   @override
   void dispose() {
     _stopGrowth();
+    WidgetsBinding.instance.removeObserver(this);
     _controller.removeListener(_onParametersChanged);
     super.dispose();
   }
@@ -162,20 +192,21 @@ class _LangtonAntViewState extends State<LangtonAntView> {
     final painter = _painter;
     final frame = painter?.frame;
     final playing = _growthTimer != null;
+    final canvas = painter == null
+        ? const ColoredBox(color: Color(0xff090b12))
+        : RepaintBoundary(
+            // The retained grid is visible during a walk, but must not be
+            // exported as the newly requested rule/step count.
+            key: _showing == _request ? widget.boundaryKey : null,
+            child: CustomPaint(
+              painter: painter.withStyle(
+                  _controller.view, _controller.params['colorScheme'] as int),
+            ),
+          );
     return Stack(fit: StackFit.expand, children: [
-      if (painter != null)
-        RepaintBoundary(
-          // The retained grid is visible during a walk, but must not be
-          // exported as the newly requested rule/step count.
-          key: _showing == _request ? widget.boundaryKey : null,
-          child: CustomPaint(
-            painter: painter.withStyle(
-                _controller.view, _controller.params['colorScheme'] as int),
-          ),
-        )
-      else
-        const ColoredBox(color: Color(0xff090b12)),
-      if (frame != null)
+      // Canvas double-taps must not delay or intercept Play/Pause taps.
+      widget.wrapCanvas(canvas),
+      if (frame != null && widget.controlsEnabled)
         Positioned(
           top: MediaQuery.paddingOf(context).top + 64,
           left: 12,
@@ -192,7 +223,7 @@ class _LangtonAntViewState extends State<LangtonAntView> {
                   spacing: 8,
                   children: [
                     Text(l10n.langtonAntCurrentStep(frame.completedSteps)),
-                    if (!reducedMotion)
+                    if (!reducedMotion && widget.animationEnabled)
                       FilledButton(
                         onPressed: _computing ||
                                 frame.stoppedAtBoundary ||
