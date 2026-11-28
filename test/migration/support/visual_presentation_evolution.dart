@@ -49,6 +49,7 @@ const unusedHelpersTask = 'UNUSED-HELPERS-82';
 const langtonAntTask = 'LANGTON-ANT-96';
 const langtonAntPlaybackTask = 'LANGTON-ANT-97';
 const ulamSpiralTask = 'ULAM-SPIRAL-111';
+const pascalUlamPrimesTask = 'PASCAL-ULAM-PRIMES-112';
 const _ulamShader = 'shaders/number_theory/ulam_spiral_gpu.frag';
 const _langtonAntPlaybackBase = 'b22c6f494e038a8f5d81c6e38902c8de1bf79350';
 // Authorize the complete module replacement independently of its stage seal.
@@ -391,6 +392,11 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    pascalUlamPrimesTask => const [
+        'shaders/number_theory/pascal_ulam_gpu.frag',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     escapeTimeUniformDefaultsTask => const [
         'lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart',
         'lib/core/modules/builders/escape_time_catalog/families/kaleidoscopes.dart',
@@ -524,7 +530,8 @@ void validateVisualStage(Map stage) {
       stage['task'] == diagnosticShareUtf8Task ||
       stage['task'] == contactSheetAspectTask ||
       stage['task'] == wallpaperStyleWorkerTask ||
-      stage['task'] == unusedHelpersTask;
+      stage['task'] == unusedHelpersTask ||
+      stage['task'] == pascalUlamPrimesTask;
   final precisionChange = stage['task'] == mandelbrotDf2Task;
   final exactAnt = stage['task'] == langtonAntTask;
   final antPlayback = stage['task'] == langtonAntPlaybackTask;
