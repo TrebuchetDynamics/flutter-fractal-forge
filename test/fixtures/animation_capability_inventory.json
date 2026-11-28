@@ -5180,6 +5180,11 @@
     "capability": "static"
   },
   {
+    "id": "ulam_spiral",
+    "shaderAsset": "shaders/number_theory/ulam_spiral_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "ulam_warburton_toothpick",
     "shaderAsset": "shaders/cellular_and_stochastic/ulam_warburton_toothpick_gpu.frag",
     "capability": "static"

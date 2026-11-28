@@ -3612,7 +3612,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1053 fractals'**
+  /// **'1054 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -4200,7 +4200,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1054 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
@@ -4472,6 +4472,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recamán\'s Sequence'**
   String get moduleRecamanArcs;
+
+  /// No description provided for @moduleUlamSpiral.
+  ///
+  /// In en, this message translates to:
+  /// **'Ulam Spiral'**
+  String get moduleUlamSpiral;
+
+  /// No description provided for @ulamStartValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Centre value'**
+  String get ulamStartValue;
+
+  /// No description provided for @ulamPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Pattern'**
+  String get ulamPattern;
+
+  /// No description provided for @ulamPrimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Primes'**
+  String get ulamPrimes;
+
+  /// No description provided for @ulamRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random with prime density'**
+  String get ulamRandom;
 
   /// No description provided for @recamanTerms.
   ///

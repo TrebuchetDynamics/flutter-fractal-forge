@@ -50389,16 +50389,12 @@ fractals:
       confidence: 0.9
   - id: f0792_ulam_spiral
     name: Ulam Spiral
-    shader: shaders/f0792_ulam_spiral_gpu.frag
+    shader: shaders/number_theory/ulam_spiral_gpu.frag
     category: Number-Theory Fractals
     dimension: 2D
-    defaultPower: 2.0
-    defaultIterations: 100000.0
-    defaultSteps: 0.0
-    defaultBailout: 2.0
-    defaultColorScheme: 0
+    defaultColorScheme: 1
     hasThumbnail: true
-    implemented: false
+    implemented: true
     presets:
       - default
     variants: []
@@ -50407,10 +50403,11 @@ fractals:
         title: A visual display of some properties of the distribution of primes
         year: 1964
         url: https://mathworld.wolfram.com/PrimeSpiral.html
-    tier: reference
+    tier: implemented
     formula_hash: sha256:1dfb984b09687bf0160042e3461b139affd83c23bc320c16174f8dda6ffbe57f
     aliases:
       - Ulam spiral
+      - ulam_spiral
     canonical_name: Ulam Spiral
     quality:
       formula_hash: sha256:1dfb984b09687bf0160042e3461b139affd83c23bc320c16174f8dda6ffbe57f

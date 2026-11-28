@@ -789,7 +789,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1053 fractales",
+  "homeFractalCountBadge": "1054 fractales",
 
   "catalogAllFractals": "Todos los fractales",
   "catalogCategoriesScrollForward": "Más categorías",
@@ -918,7 +918,7 @@
   "exportResolutionCustom": "Personalizada",
   "settingsColorTheme": "Tema de color",
   "settingsColorThemeSubtitle": "Elige un estilo de contraste y superficie.",
-  "settingsAboutBlurb": "Exploración acelerada por GPU de 1053 fractales de producción, con zoom profundo y renderizado en tiempo real.",
+  "settingsAboutBlurb": "Exploración acelerada por GPU de 1054 fractales de producción, con zoom profundo y renderizado en tiempo real.",
   "settingsSourceCode": "Código fuente",
   "settingsSourceCodeSubtitle": "Ver Fractal Forge en GitHub ↗",
   "settingsSourceCodeOpenFailed": "No se pudo abrir el código fuente.",
@@ -986,6 +986,11 @@
   "zetaGpuOnly": "Esta gráfica de la zeta requiere su sombreador. Cambia al motor de renderizado GPU para verla; no hay sustituto para CPU.",
   "zetaGuides": "Guías de franja y ventana",
   "moduleRecamanArcs": "Sucesión de Recamán",
+  "moduleUlamSpiral": "Espiral de Ulam",
+  "ulamStartValue": "Valor central",
+  "ulamPattern": "Patrón",
+  "ulamPrimes": "Primos",
+  "ulamRandom": "Aleatorio con densidad de primos",
   "recamanTerms": "Términos",
   "recamanLineWidth": "Grosor de línea (px)",
   "recamanLayout": "Disposición de arcos",

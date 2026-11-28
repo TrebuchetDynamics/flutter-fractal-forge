@@ -226,6 +226,14 @@ class FractalMathematics {
       qualification = 'Finite walk on a bounded grid';
       relationship = 'Turn-rule variants of one ant';
     }
+    if (module.id == 'ulam_spiral') {
+      family = 'Number Theory';
+      algebra = 'Integers';
+      view = 'Square spiral of integers';
+      method = 'Ulam prime spiral';
+      qualification =
+          'Prime distribution on a finite square spiral, not a self-similar fractal';
+    }
     if (module.id == 'recaman_arcs') {
       family = 'Number Theory';
       algebra = 'Integers';
@@ -262,6 +270,11 @@ class FractalMathematics {
     if (_module.id == 'langton_ant') {
       final rule = params['rule'] ?? _module.defaultPreset.params['rule'];
       return 'Turn by $rule[k], set colour to (k + 1) mod rule length, then move one cell';
+    }
+    if (_module.id == 'ulam_spiral') {
+      final raw = params['startValue'];
+      final start = raw is num && raw.isFinite ? raw.clamp(1, 100).round() : 1;
+      return 'n = $start + k − 1; k = 1 at the centre, then right, up, left, and down in expanding square rings. Primality is exact by trial division in rings 0–500.';
     }
     if (_module.id == 'recaman_arcs') {
       return 'a(0) = 0; a(n) = a(n−1) − n if positive and unused, otherwise a(n−1) + n';

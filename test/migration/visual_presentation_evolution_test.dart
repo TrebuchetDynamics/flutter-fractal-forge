@@ -136,6 +136,15 @@ void main() {
     });
   }
 
+  test('Ulam Spiral is the catalog-only successor to Langton Ant playback', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.singleWhere((s) => s['task'] == ulamSpiralTask);
+    expect(stages[stages.indexOf(stage) - 1]['task'], langtonAntPlaybackTask);
+    expect(stage['kind'], 'catalog-addition');
+    expect(stage['added_module_ids'], ['ulam_spiral']);
+    expect(stage['compiled_artifacts'], isEmpty);
+  });
+
   test('phone slider successor binds exactly HUD and provenance helpers', () {
     final stages = orderedVisualStages(readVisualStages());
     final stage = stages.singleWhere((s) => s['task'] == phoneSliderTask);

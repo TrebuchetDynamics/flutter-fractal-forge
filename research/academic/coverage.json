@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1061,
+    "app": 1062,
     "planned": 1,
     "reference": 200,
     "registry": 1623
@@ -8295,6 +8295,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.twin_dragon",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.ulam_spiral",
       "name": "",
       "namespace": "app",
       "paper_ids": [],
