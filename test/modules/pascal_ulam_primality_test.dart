@@ -131,9 +131,9 @@ void main() {
         // The existing axis glow extends to the adjacent cells and makes
         // even composites opaque there. Distinguish the prime palette from
         // the axis-only sRGB colour instead of changing that glow.
-        final rgba = pixels.getUint32((py * side + px) * 4);
-        expect(rgba, primes[n] ? isNot(0x2f2f37ff) : 0x2f2f37ff,
-            reason: reason);
+        expect(_alpha(pixels, side, px, py), _lit(true), reason: reason);
+        final rgb = pixels.getUint32((py * side + px) * 4) >> 8;
+        expect(rgb, primes[n] ? isNot(0x2f2f37) : 0x2f2f37, reason: reason);
       } else {
         expect(_alpha(pixels, side, px, py), _lit(primes[n]), reason: reason);
       }
@@ -150,7 +150,8 @@ void main() {
     expect(_alpha(edge, side, mid, mid), _lit(true));
     expect(_alpha(edge, side, mid + _pixelsPerCell, mid), 0);
 
-    final zoomedOut = await _render(module, side: side, zoom: 1e-9);
+    final zoomedOut =
+        await _render(module, side: side, pan: _panAt(0, 0), zoom: 1e-9);
     expect(_alpha(zoomedOut, side, mid + _pixelsPerCell, mid), 0);
   });
 
