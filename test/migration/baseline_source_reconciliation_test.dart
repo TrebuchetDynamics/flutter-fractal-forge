@@ -228,6 +228,7 @@ void main() {
       unusedHelpersTask,
       langtonAntTask,
       langtonAntPlaybackTask,
+      ulamSpiralTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -292,6 +293,7 @@ void main() {
     expect(unusedHelpers['compiled_artifacts'], isEmpty);
     final antPlayback =
         candidates.singleWhere((s) => s['task'] == langtonAntPlaybackTask);
+    final ulam = candidates.singleWhere((s) => s['task'] == ulamSpiralTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -333,6 +335,7 @@ void main() {
         unusedHelpers,
         candidates.singleWhere((s) => s['task'] == langtonAntTask),
         antPlayback,
+        ulam,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -358,7 +361,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            antPlayback['binding_maps'][id]['after'] as Map,
+            ulam['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

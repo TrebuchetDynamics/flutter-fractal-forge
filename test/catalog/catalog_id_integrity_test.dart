@@ -17,17 +17,17 @@ import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 ///
 /// - Escape-time catalog raw unique IDs       : 567
 /// - Raymarched-3D catalog unique IDs         :  38
-/// - Custom hand-built modules                :  17
+/// - Custom hand-built modules                :  18
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital, quaternion_julia_3d, juliabulb_3d,
 ///    perron_tree, milnor_brieskorn, number_wall, fibonacci_complex_julia,
-///    recursive_sine_sphere, recaman_arcs, zeta_critical_strip, langton_ant)
-/// - Total ModuleRegistry modules (debug/test) : 1061
-/// - Production modules excluding diagnostics  : 1054
-/// - Production fractals (excluding Hydrogen)  : 1053
+///    recursive_sine_sphere, recaman_arcs, ulam_spiral, zeta_critical_strip, langton_ant)
+/// - Total ModuleRegistry modules (debug/test) : 1062
+/// - Production modules excluding diagnostics  : 1055
+/// - Production fractals (excluding Hydrogen)  : 1054
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
-/// should use 1053 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// should use 1054 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------
@@ -125,10 +125,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 1061 in debug/test', () {
+    test('total module count is 1062 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules and one non-fractal
       // scientific visualization. The public total excludes both.
-      expect(registry.modules.length, 1061,
+      expect(registry.modules.length, 1062,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
@@ -187,6 +187,7 @@ void main() {
         'langton_ant',
         'fibonacci_complex_julia',
         'recaman_arcs',
+        'ulam_spiral',
         'zeta_critical_strip',
         'julia',
         'julia_dual',

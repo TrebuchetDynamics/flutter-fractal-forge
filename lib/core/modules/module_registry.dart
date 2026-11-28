@@ -2,6 +2,7 @@ import 'builders/fibonacci_complex_module.dart';
 import 'burning_ship_degrees.dart';
 import 'fractals/perron_tree_module.dart';
 import 'fractals/recaman_arcs_module.dart';
+import 'fractals/ulam_spiral_module.dart';
 import 'fractals/zeta_critical_strip_module.dart';
 import 'fractals/milnor_brieskorn_module.dart';
 import 'package:flutter/foundation.dart';
@@ -118,6 +119,7 @@ class ModuleRegistry {
       buildJuliabulb3DModule(),
       buildRecursiveSineSphereModule(),
       buildRecamanArcsModule(),
+      buildUlamSpiralModule(),
       buildZetaCriticalStripModule(),
     ];
 

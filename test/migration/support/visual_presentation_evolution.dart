@@ -48,6 +48,8 @@ const wallpaperStyleWorkerTask = 'WALLPAPER-STYLE-WORKER-80';
 const unusedHelpersTask = 'UNUSED-HELPERS-82';
 const langtonAntTask = 'LANGTON-ANT-96';
 const langtonAntPlaybackTask = 'LANGTON-ANT-97';
+const ulamSpiralTask = 'ULAM-SPIRAL-111';
+const _ulamShader = 'shaders/number_theory/ulam_spiral_gpu.frag';
 const _langtonAntPlaybackBase = 'b22c6f494e038a8f5d81c6e38902c8de1bf79350';
 // Authorize the complete module replacement independently of its stage seal.
 const _antPlaybackDeltaHash =
@@ -119,6 +121,22 @@ const _catalogAdditionPolicies = {
       'lib/core/modules/module_registry.dart',
       'lib/features/renderer/cpu/formulas/cpu_formulas.dart',
       'lib/features/viewer/rendering/cpu_fallback_pane.dart',
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+      'pubspec.yaml',
+      'test/migration/support/visual_presentation_evolution.dart',
+    ],
+  },
+  ulamSpiralTask: {
+    'added_module_ids': ['ulam_spiral'],
+    'added_paths': [
+      'lib/core/modules/fractals/ulam_spiral_module.dart',
+      _ulamShader,
+    ],
+    'changed_paths': [
+      'lib/core/modules/fractal_mathematics.dart',
+      'lib/core/modules/module_registry.dart',
       'lib/l10n/app_localizations.dart',
       'lib/l10n/app_localizations_en.dart',
       'lib/l10n/app_localizations_es.dart',
@@ -849,9 +867,34 @@ void validateVisualSourceChain(
                   record['after']['pubspec.yaml'],
           'exact ant removes only its retired shader registration');
     }
+    const ulamRegistration = '    - $_ulamShader\n';
+    for (final stage in ordered.where((s) => s['task'] == ulamSpiralTask)) {
+      final record = stage['binding_maps'][name] as Map;
+      final before = pubspecAt(stage['base_revision']);
+      const recamanRegistration =
+          '    - shaders/number_theory/recaman_arcs_gpu.frag\n';
+      final after = before
+          .replaceFirst(
+              recamanRegistration, '$recamanRegistration$ulamRegistration')
+          .replaceFirst('1053 production fractals', '1054 production fractals');
+      visualRequire(
+          !before.contains(ulamRegistration) &&
+              after.contains(ulamRegistration) &&
+              sha256.convert(utf8.encode(before)).toString() ==
+                  record['before']['pubspec.yaml'] &&
+              sha256.convert(utf8.encode(after)).toString() ==
+                  record['after']['pubspec.yaml'],
+          'Ulam adds only its shader registration and bumps the count');
+    }
     // After #96, the pre-retirement bytes are the historical witness for
     // the fixture insertion, even when a test verifies just a chain prefix.
-    final currentPubspec = File('pubspec.yaml').readAsStringSync();
+    // Reverse the exact Ulam addition for historical prefix checks. The
+    // current bytes are bound separately by the terminal Ulam stage.
+    final pubspec = File('pubspec.yaml').readAsStringSync();
+    final currentPubspec = pubspec.contains(ulamRegistration)
+        ? pubspec.replaceFirst(ulamRegistration, '').replaceFirst(
+            '1054 production fractals', '1053 production fractals')
+        : pubspec;
     const antRegistration = '    - $_removedAntShader\n';
     var fixturePubspec = currentPubspec;
     if (!currentPubspec.contains(antRegistration)) {

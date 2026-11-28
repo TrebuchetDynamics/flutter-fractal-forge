@@ -1931,7 +1931,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1053 fractals';
+  String get homeFractalCountBadge => '1054 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -2255,7 +2255,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1054 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';
@@ -2405,6 +2405,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moduleRecamanArcs => 'Recamán\'s Sequence';
+
+  @override
+  String get moduleUlamSpiral => 'Ulam Spiral';
+
+  @override
+  String get ulamStartValue => 'Centre value';
+
+  @override
+  String get ulamPattern => 'Pattern';
+
+  @override
+  String get ulamPrimes => 'Primes';
+
+  @override
+  String get ulamRandom => 'Random with prime density';
 
   @override
   String get recamanTerms => 'Terms';

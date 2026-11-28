@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1061,
+    "explore_core": 1062,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -1052,6 +1052,7 @@
       "core.turmite",
       "core.turtlebrot_3d",
       "core.twin_dragon",
+      "core.ulam_spiral",
       "core.ulam_warburton_toothpick",
       "core.undefined",
       "core.vase",

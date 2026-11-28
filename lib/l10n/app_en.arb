@@ -819,7 +819,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1053 fractals",
+  "homeFractalCountBadge": "1054 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogCategoriesScrollForward": "More categories",
@@ -948,7 +948,7 @@
   "exportResolutionCustom": "Custom",
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1054 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",
@@ -1016,6 +1016,11 @@
   "zetaGpuOnly": "This zeta plot requires its shader. Switch to the GPU renderer to view it; no CPU substitute is available.",
   "zetaGuides": "Strip and window guides",
   "moduleRecamanArcs": "Recamán's Sequence",
+  "moduleUlamSpiral": "Ulam Spiral",
+  "ulamStartValue": "Centre value",
+  "ulamPattern": "Pattern",
+  "ulamPrimes": "Primes",
+  "ulamRandom": "Random with prime density",
   "recamanTerms": "Terms",
   "recamanLineWidth": "Line width (px)",
   "recamanLayout": "Arc layout",
