@@ -1359,6 +1359,36 @@ abstract class AppLocalizations {
   /// **'Iterations'**
   String get paramIterations;
 
+  /// No description provided for @langtonAntRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn rule (L/R)'**
+  String get langtonAntRule;
+
+  /// No description provided for @langtonAntInvalidRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 2–20 letters, using only L or R.'**
+  String get langtonAntInvalidRule;
+
+  /// No description provided for @langtonAntComputing.
+  ///
+  /// In en, this message translates to:
+  /// **'Computing ant grid…'**
+  String get langtonAntComputing;
+
+  /// No description provided for @langtonAntBoundary.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped at step {steps}: grid boundary reached.'**
+  String langtonAntBoundary(int steps);
+
+  /// No description provided for @langtonAntCurrentStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Current step: {steps}'**
+  String langtonAntCurrentStep(int steps);
+
   /// No description provided for @paramSteps.
   ///
   /// In en, this message translates to:
@@ -3582,7 +3612,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1053 fractals'**
+  /// **'1055 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -4170,7 +4200,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1055 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
@@ -4442,6 +4472,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recamán\'s Sequence'**
   String get moduleRecamanArcs;
+
+  /// No description provided for @moduleSacksSpiral.
+  ///
+  /// In en, this message translates to:
+  /// **'Sacks Spiral'**
+  String get moduleSacksSpiral;
+
+  /// No description provided for @sacksMarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Marks'**
+  String get sacksMarks;
+
+  /// No description provided for @sacksPrimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Primes'**
+  String get sacksPrimes;
+
+  /// No description provided for @sacksPrimesAndSquares.
+  ///
+  /// In en, this message translates to:
+  /// **'Primes and squares'**
+  String get sacksPrimesAndSquares;
+
+  /// No description provided for @moduleUlamSpiral.
+  ///
+  /// In en, this message translates to:
+  /// **'Ulam Spiral'**
+  String get moduleUlamSpiral;
+
+  /// No description provided for @ulamStartValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Centre value'**
+  String get ulamStartValue;
+
+  /// No description provided for @ulamPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Pattern'**
+  String get ulamPattern;
+
+  /// No description provided for @ulamPrimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Primes'**
+  String get ulamPrimes;
+
+  /// No description provided for @ulamRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random with prime density'**
+  String get ulamRandom;
 
   /// No description provided for @recamanTerms.
   ///

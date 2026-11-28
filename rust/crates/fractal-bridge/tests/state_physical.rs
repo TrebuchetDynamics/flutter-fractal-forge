@@ -236,6 +236,26 @@ fn supported_raw_oracle_inputs_and_ordered_results_through_typed_constructors() 
 }
 
 #[test]
+fn finger_lift_starts_gesture_and_keeps_session_usable() {
+    use StatePointerPhase::*;
+
+    let s = session();
+    let before = s.snapshot().unwrap();
+    for event in [
+        pointer(0, 1, 100.0, Down, 0),
+        pointer(1, 2, 100.0, Down, 16000),
+        pointer(2, 3, 400.0, Down, 32000),
+        pointer(3, 3, 400.0, Up, 48000),
+        pointer(4, 1, 101.0, Move, 64000),
+    ] {
+        apply(&s, vec![event]);
+    }
+    let after = s.snapshot().unwrap();
+    assert_eq!(after.session_id(), before.session_id());
+    assert_eq!(after.revision(), before.revision() + 5);
+}
+
+#[test]
 fn rejected_batches_and_abandoned_pumps_are_atomic_and_detached() {
     let s = session();
     let control = session();

@@ -124,28 +124,6 @@ void main() {
       expect(store.loadFavorites(), isEmpty);
     });
 
-    test('addFavorite appends entry to favorites', () async {
-      final store = await HistoryStore.create();
-      final entry = _makeEntry('fav1');
-
-      await store.addFavorite(entry);
-      final favorites = store.loadFavorites();
-
-      expect(favorites, hasLength(1));
-      expect(favorites.first.id, equals('fav1'));
-    });
-
-    test('addFavorite does not duplicate existing entry', () async {
-      final store = await HistoryStore.create();
-      final entry = _makeEntry('fav1');
-
-      await store.addFavorite(entry);
-      await store.addFavorite(entry);
-      final favorites = store.loadFavorites();
-
-      expect(favorites, hasLength(1));
-    });
-
     test('saveFavorites caps oldest-first favorites to most recent entries',
         () async {
       final store = await HistoryStore.create();
@@ -160,18 +138,6 @@ void main() {
       expect(loaded, hasLength(HistoryStore.maxFavoriteEntries));
       expect(loaded.first.id, 'favorite_2');
       expect(loaded.last.id, 'favorite_${HistoryStore.maxFavoriteEntries + 1}');
-    });
-
-    test('removeFavorite removes entry by ID', () async {
-      final store = await HistoryStore.create();
-      await store.addFavorite(_makeEntry('fav1'));
-      await store.addFavorite(_makeEntry('fav2'));
-
-      await store.removeFavorite('fav1');
-      final favorites = store.loadFavorites();
-
-      expect(favorites, hasLength(1));
-      expect(favorites.first.id, equals('fav2'));
     });
 
     test('clearHistory removes all history', () async {

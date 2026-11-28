@@ -75,7 +75,8 @@ final class NumericParamControlPlan {
       FractalParamType.float => floatPrecision.round(clamped),
       FractalParamType.boolean ||
       FractalParamType.enumeration ||
-      FractalParamType.decimalInteger =>
+      FractalParamType.decimalInteger ||
+      FractalParamType.turnRule =>
         clamped,
     };
   }

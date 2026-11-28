@@ -1,4 +1,4 @@
-/// Generates GPU-rendered catalog thumbnails and render-health audit metrics.
+/// Generates catalog thumbnails and render-health audit metrics.
 ///
 /// Stages output by default so catalog-wide audit runs do not accidentally churn
 /// tracked assets. Use UPDATE_CATALOG_THUMBS=true to write to
@@ -57,6 +57,7 @@ import 'package:flutter_fractals/features/renderer/diagnostics/render_audit_metr
 import 'package:flutter_fractals/features/renderer/diagnostics/render_math_oracle.dart';
 import 'package:flutter_fractals/features/renderer/models/fractal_render_snapshot.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/viewer/langton_ant_view.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
@@ -202,8 +203,9 @@ void main() {
       try {
         final totalStopwatch = Stopwatch()..start();
         final shaderLoadStopwatch = Stopwatch();
-        var shaderLoadMode = 'renderer-warmup';
-        if (!skipShaderPreflight) {
+        final exactAnt = module.id == 'langton_ant';
+        var shaderLoadMode = exactAnt ? 'not-applicable' : 'renderer-warmup';
+        if (!exactAnt && !skipShaderPreflight) {
           shaderLoadMode = 'preflight';
           shaderLoadStopwatch.start();
           await ui.FragmentProgram.fromAsset(module.shaderAsset);
@@ -285,8 +287,19 @@ void main() {
             ),
           );
 
-          // Let shader compile and render a stable frame.
-          if (auditFast) {
+          // Wait for the exact grid instead of capturing its loading surface.
+          if (exactAnt) {
+            final grid = find.byWidgetPredicate(
+              (widget) =>
+                  widget is CustomPaint && widget.painter is LangtonAntPainter,
+            );
+            for (var frame = 0;
+                frame < 120 && grid.evaluate().isEmpty;
+                frame++) {
+              await tester.pump(const Duration(milliseconds: 16));
+            }
+            expect(grid, findsOneWidget);
+          } else if (auditFast) {
             await tester.pump(const Duration(milliseconds: 120));
             await tester.pump(const Duration(milliseconds: 80));
           } else {

@@ -42,7 +42,7 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
 
       final ts = DateTime.now().millisecondsSinceEpoch;
       final reportFile = await _exportService.saveBytes(
-        Uint8List.fromList(reportText.codeUnits),
+        utf8.encode(reportText),
         filename: 'gpu_debug_${controller.module.id}_$ts.json',
       );
 

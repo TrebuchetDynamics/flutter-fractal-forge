@@ -2,6 +2,8 @@ import 'builders/fibonacci_complex_module.dart';
 import 'burning_ship_degrees.dart';
 import 'fractals/perron_tree_module.dart';
 import 'fractals/recaman_arcs_module.dart';
+import 'fractals/sacks_spiral_module.dart';
+import 'fractals/ulam_spiral_module.dart';
 import 'fractals/zeta_critical_strip_module.dart';
 import 'fractals/milnor_brieskorn_module.dart';
 import 'package:flutter/foundation.dart';
@@ -28,6 +30,7 @@ import 'package:flutter_fractals/core/modules/fractals/mandelbox_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/nova_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/number_wall_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/langton_ant_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/phoenix_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/quaternion_julia_3d_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/recursive_sine_sphere_module.dart';
@@ -117,6 +120,8 @@ class ModuleRegistry {
       buildJuliabulb3DModule(),
       buildRecursiveSineSphereModule(),
       buildRecamanArcsModule(),
+      buildUlamSpiralModule(),
+      buildSacksSpiralModule(),
       buildZetaCriticalStripModule(),
     ];
 
@@ -145,6 +150,10 @@ class ModuleRegistry {
     final novaJuliaIdx = catalogModules.indexWhere((m) => m.id == 'nova_julia');
 
     for (int i = 0; i < catalogModules.length; i++) {
+      // Keep the exact ant in its original catalog slot beside Turmite.
+      if (catalogModules[i].id == 'turmite') {
+        result.add(buildLangtonAntModule());
+      }
       // Insert Nova right before Nova Julia
       if (i == novaJuliaIdx) {
         final nova = customModules.where((m) => m.id == 'nova');

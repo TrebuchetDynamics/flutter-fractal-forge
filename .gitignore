@@ -84,8 +84,11 @@ flutter_*.log
 .pi/
 **/.pi/
 .pi-subagents/
-.claude/
-**/.claude/
+/.claude/*
+!/.claude/skills/
+/.claude/skills/*
+!/.claude/skills/run-flutter-fractal-forge/
+*/**/.claude/
 .claude-flow/
 **/.claude-flow/
 .superpowers/

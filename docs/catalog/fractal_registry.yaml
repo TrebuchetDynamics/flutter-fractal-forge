@@ -958,16 +958,16 @@ fractals:
       confidence: 1.0
   - id: langton_ant
     name: "Langton's Ant"
-    shader: shaders/cellular_and_stochastic/langton_ant_gpu.frag
+    shader: ""
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
     defaultCenterX: 0.0
     defaultCenterY: 0.0
-    defaultIterations: 260
-    defaultBailout: 4.0
+    defaultRule: RL
+    defaultSteps: 11000
     defaultColorScheme: 0
-    hasThumbnail: true
+    hasThumbnail: false
     implemented: true
     presets: []
     variants: []
@@ -50389,16 +50389,12 @@ fractals:
       confidence: 0.9
   - id: f0792_ulam_spiral
     name: Ulam Spiral
-    shader: shaders/f0792_ulam_spiral_gpu.frag
+    shader: shaders/number_theory/ulam_spiral_gpu.frag
     category: Number-Theory Fractals
     dimension: 2D
-    defaultPower: 2.0
-    defaultIterations: 100000.0
-    defaultSteps: 0.0
-    defaultBailout: 2.0
-    defaultColorScheme: 0
+    defaultColorScheme: 1
     hasThumbnail: true
-    implemented: false
+    implemented: true
     presets:
       - default
     variants: []
@@ -50407,10 +50403,11 @@ fractals:
         title: A visual display of some properties of the distribution of primes
         year: 1964
         url: https://mathworld.wolfram.com/PrimeSpiral.html
-    tier: reference
+    tier: implemented
     formula_hash: sha256:1dfb984b09687bf0160042e3461b139affd83c23bc320c16174f8dda6ffbe57f
     aliases:
       - Ulam spiral
+      - ulam_spiral
     canonical_name: Ulam Spiral
     quality:
       formula_hash: sha256:1dfb984b09687bf0160042e3461b139affd83c23bc320c16174f8dda6ffbe57f
@@ -50434,16 +50431,12 @@ fractals:
       confidence: 0.9
   - id: f0793_sacks_spiral
     name: Sacks Spiral
-    shader: shaders/f0793_sacks_spiral_gpu.frag
+    shader: shaders/number_theory/sacks_spiral_gpu.frag
     category: Number-Theory Fractals
     dimension: 2D
-    defaultPower: 2.0
-    defaultIterations: 100000.0
-    defaultSteps: 0.0
-    defaultBailout: 2.0
-    defaultColorScheme: 0
+    defaultColorScheme: 1
     hasThumbnail: true
-    implemented: false
+    implemented: true
     presets:
       - default
     variants: []
@@ -50452,9 +50445,10 @@ fractals:
         title: Number spiral
         year: 1994
         url: http://www.numberspiral.com/
-    tier: reference
+    tier: implemented
     formula_hash: sha256:85e5e960c78d6a4a361f60ba7df0163f8d2f757c945dd92f25c6b9e2c7730331
-    aliases: []
+    aliases:
+      - sacks_spiral
     canonical_name: Sacks Spiral
     quality:
       formula_hash: sha256:85e5e960c78d6a4a361f60ba7df0163f8d2f757c945dd92f25c6b9e2c7730331

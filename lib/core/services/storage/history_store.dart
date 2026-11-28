@@ -51,22 +51,6 @@ class HistoryStore {
     await _enqueueWrite(() => _saveEntries(_favoritesSlot, favorites));
   }
 
-  /// Adds an entry to favorites.
-  Future<void> addFavorite(HistoryEntry entry) async {
-    final favorites = loadFavorites();
-    // Check if already exists by ID
-    if (favorites.any((f) => f.id == entry.id)) return;
-    favorites.add(entry);
-    await saveFavorites(favorites);
-  }
-
-  /// Removes an entry from favorites by ID.
-  Future<void> removeFavorite(String entryId) async {
-    final favorites = loadFavorites();
-    final updated = favorites.where((f) => f.id != entryId).toList();
-    await saveFavorites(updated);
-  }
-
   /// Clears all navigation history.
   Future<void> clearHistory() async {
     await _enqueueWrite(() async {

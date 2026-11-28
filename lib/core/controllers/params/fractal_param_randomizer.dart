@@ -41,6 +41,7 @@ Object randomFractalParamValue(FractalParameter param, Random random) {
       }
       return param.defaultValue;
     case FractalParamType.decimalInteger:
+    case FractalParamType.turnRule:
       return param.defaultValue;
     case FractalParamType.boolean:
       return random.nextBool();

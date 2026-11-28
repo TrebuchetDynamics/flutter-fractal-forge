@@ -3451,8 +3451,8 @@
   },
   {
     "id": "langton_ant",
-    "shaderAsset": "shaders/cellular_and_stochastic/langton_ant_gpu.frag",
-    "capability": "static"
+    "shaderAsset": "",
+    "capability": "stepDriven"
   },
   {
     "id": "lattes_map_julia",
@@ -4555,6 +4555,11 @@
     "capability": "static"
   },
   {
+    "id": "sacks_spiral",
+    "shaderAsset": "shaders/number_theory/sacks_spiral_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "sakarya",
     "shaderAsset": "shaders/strange_attractors/sakarya_gpu.frag",
     "capability": "static"
@@ -5177,6 +5182,11 @@
   {
     "id": "twin_dragon",
     "shaderAsset": "shaders/ifs_and_geometric/twin_dragon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ulam_spiral",
+    "shaderAsset": "shaders/number_theory/ulam_spiral_gpu.frag",
     "capability": "static"
   },
   {

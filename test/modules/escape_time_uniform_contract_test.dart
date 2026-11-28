@@ -10,8 +10,9 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/widgets/canvas/fractal_canvas.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const _samplerExclusions = {
+const _uniformAuditExclusions = {
   'number_wall', // The viewer generates and binds the grid outside the setter.
+  'langton_ant', // The exact Canvas view has no shader uniforms.
 };
 
 void main() {
@@ -26,7 +27,7 @@ void main() {
     final skipped = <String>{};
 
     for (final module in registry.modules) {
-      if (_samplerExclusions.contains(module.id)) {
+      if (_uniformAuditExclusions.contains(module.id)) {
         skipped.add(module.id);
         continue;
       }
@@ -70,7 +71,7 @@ void main() {
       }
     }
 
-    expect(skipped, _samplerExclusions);
+    expect(skipped, _uniformAuditExclusions);
     expect(failures, isEmpty, reason: failures.join('\n'));
   }, timeout: const Timeout(Duration(minutes: 2)));
 

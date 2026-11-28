@@ -218,6 +218,30 @@ class FractalMathematics {
       qualification =
           'Numerical ζ for −10 ≤ Re(s) ≤ 10 and |Im(s)| ≤ 50. Colours meet at zeros: the trivial zeros lie at negative even integers on the real axis. The non-trivial zeros shown on Re(s) = ½ illustrate the Riemann hypothesis; this is not a proof.';
     }
+    if (module.id == 'langton_ant') {
+      family = 'Cellular automata and growth';
+      algebra = 'Discrete';
+      view = 'Square grid';
+      method = 'Exact multicolour ant walk';
+      qualification = 'Finite walk on a bounded grid';
+      relationship = 'Turn-rule variants of one ant';
+    }
+    if (module.id == 'ulam_spiral') {
+      family = 'Number Theory';
+      algebra = 'Integers';
+      view = 'Square spiral of integers';
+      method = 'Ulam prime spiral';
+      qualification =
+          'Prime distribution on a finite square spiral, not a self-similar fractal';
+    }
+    if (module.id == 'sacks_spiral') {
+      family = 'Number Theory';
+      algebra = 'Integers';
+      view = 'Archimedean spiral of integers';
+      method = 'Sacks number spiral';
+      qualification =
+          'Prime distribution on a finite spiral, not a self-similar fractal';
+    }
     if (module.id == 'recaman_arcs') {
       family = 'Number Theory';
       algebra = 'Integers';
@@ -250,6 +274,18 @@ class FractalMathematics {
     }
     if (_module.id == 'zeta_critical_strip') {
       return 'ζ(s) = η(s)/(1 − 2^(1−s)), reflected for Re(s) < ½. Hue shows arg ζ(s); optional bands show log|ζ(s)|. The bright guide marks Re(s) = ½, the dim guides mark Re(s) = 0 and 1.';
+    }
+    if (_module.id == 'langton_ant') {
+      final rule = params['rule'] ?? _module.defaultPreset.params['rule'];
+      return 'Turn by $rule[k], set colour to (k + 1) mod rule length, then move one cell';
+    }
+    if (_module.id == 'ulam_spiral') {
+      final raw = params['startValue'];
+      final start = raw is num && raw.isFinite ? raw.clamp(1, 100).round() : 1;
+      return 'n = $start + k − 1; k = 1 at the centre, then right, up, left, and down in expanding square rings. Primality is exact by trial division in rings 0–500.';
+    }
+    if (_module.id == 'sacks_spiral') {
+      return 'n at radius √n, angle 2π√n; squares on the positive x-axis';
     }
     if (_module.id == 'recaman_arcs') {
       return 'a(0) = 0; a(n) = a(n−1) − n if positive and unused, otherwise a(n−1) + n';

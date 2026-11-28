@@ -222,6 +222,15 @@ void main() {
       visualDefaultsTask,
       mandelbrotDf2Task,
       exportCaptureSizeLimitTask,
+      diagnosticShareUtf8Task,
+      contactSheetAspectTask,
+      wallpaperStyleWorkerTask,
+      unusedHelpersTask,
+      langtonAntTask,
+      langtonAntPlaybackTask,
+      ulamSpiralTask,
+      pascalUlamPrimesTask,
+      sacksSpiralTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -268,6 +277,28 @@ void main() {
         candidates.singleWhere((s) => s['task'] == exportCaptureSizeLimitTask);
     expect(captureLimit['semantic_deltas'], isEmpty);
     expect(captureLimit['compiled_artifacts'], isEmpty);
+    final diagnosticShare =
+        candidates.singleWhere((s) => s['task'] == diagnosticShareUtf8Task);
+    expect(diagnosticShare['semantic_deltas'], isEmpty);
+    expect(diagnosticShare['compiled_artifacts'], isEmpty);
+    final contactSheet =
+        candidates.singleWhere((s) => s['task'] == contactSheetAspectTask);
+    expect(contactSheet['semantic_deltas'], isEmpty);
+    expect(contactSheet['compiled_artifacts'], isEmpty);
+    final wallpaperStyleWorker =
+        candidates.singleWhere((s) => s['task'] == wallpaperStyleWorkerTask);
+    expect(wallpaperStyleWorker['semantic_deltas'], isEmpty);
+    expect(wallpaperStyleWorker['compiled_artifacts'], isEmpty);
+    final unusedHelpers =
+        candidates.singleWhere((s) => s['task'] == unusedHelpersTask);
+    expect(unusedHelpers['semantic_deltas'], isEmpty);
+    expect(unusedHelpers['compiled_artifacts'], isEmpty);
+    final antPlayback =
+        candidates.singleWhere((s) => s['task'] == langtonAntPlaybackTask);
+    final ulam = candidates.singleWhere((s) => s['task'] == ulamSpiralTask);
+    final pascalUlamPrimes =
+        candidates.singleWhere((s) => s['task'] == pascalUlamPrimesTask);
+    final sacks = candidates.singleWhere((s) => s['task'] == sacksSpiralTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -303,6 +334,15 @@ void main() {
         defaults,
         df2,
         captureLimit,
+        diagnosticShare,
+        contactSheet,
+        wallpaperStyleWorker,
+        unusedHelpers,
+        candidates.singleWhere((s) => s['task'] == langtonAntTask),
+        antPlayback,
+        ulam,
+        pascalUlamPrimes,
+        sacks,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -328,7 +368,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            captureLimit['binding_maps'][id]['after'] as Map,
+            sacks['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }

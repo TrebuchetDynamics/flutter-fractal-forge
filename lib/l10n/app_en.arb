@@ -225,6 +225,25 @@
   "dimension3d": "3D",
   "dimensionKaleidoscope": "Kaleidoscope",
   "paramIterations": "Iterations",
+  "langtonAntRule": "Turn rule (L/R)",
+  "langtonAntInvalidRule": "Enter 2–20 letters, using only L or R.",
+  "langtonAntComputing": "Computing ant grid…",
+  "langtonAntBoundary": "Stopped at step {steps}: grid boundary reached.",
+  "@langtonAntBoundary": {
+    "placeholders": {
+      "steps": {
+        "type": "int"
+      }
+    }
+  },
+  "langtonAntCurrentStep": "Current step: {steps}",
+  "@langtonAntCurrentStep": {
+    "placeholders": {
+      "steps": {
+        "type": "int"
+      }
+    }
+  },
   "paramSteps": "Steps",
   "paramBailout": "Bailout",
   "paramPower": "Power",
@@ -800,7 +819,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1053 fractals",
+  "homeFractalCountBadge": "1055 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogCategoriesScrollForward": "More categories",
@@ -929,7 +948,7 @@
   "exportResolutionCustom": "Custom",
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1055 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",
@@ -997,6 +1016,15 @@
   "zetaGpuOnly": "This zeta plot requires its shader. Switch to the GPU renderer to view it; no CPU substitute is available.",
   "zetaGuides": "Strip and window guides",
   "moduleRecamanArcs": "Recamán's Sequence",
+  "moduleSacksSpiral": "Sacks Spiral",
+  "sacksMarks": "Marks",
+  "sacksPrimes": "Primes",
+  "sacksPrimesAndSquares": "Primes and squares",
+  "moduleUlamSpiral": "Ulam Spiral",
+  "ulamStartValue": "Centre value",
+  "ulamPattern": "Pattern",
+  "ulamPrimes": "Primes",
+  "ulamRandom": "Random with prime density",
   "recamanTerms": "Terms",
   "recamanLineWidth": "Line width (px)",
   "recamanLayout": "Arc layout",

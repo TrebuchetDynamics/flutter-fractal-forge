@@ -444,6 +444,19 @@ void main() {
       testPng = Uint8List.fromList(img.encodePng(testImage));
     });
 
+    for (final style in ['plain', 'homeOptimized', 'lockOptimized']) {
+      test('$style produces identical PNG bytes in the worker', () async {
+        const service = ExportService();
+        final expected = service.applyWallpaperStyle(testPng, style: style);
+        final styled = await service.applyWallpaperStyleInWorker(
+          testPng,
+          style: style,
+          cancellationToken: ExportCancellationToken(),
+        );
+        expect(styled, orderedEquals(expected));
+      });
+    }
+
     test('plain style returns original bytes unchanged', () {
       final result = service.applyWallpaperStyle(testPng, style: 'plain');
       expect(result, same(testPng));

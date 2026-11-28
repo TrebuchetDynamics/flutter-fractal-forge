@@ -338,6 +338,8 @@ impl PhysicalState {
                         self.accepted = true;
                         self.begin(&mut out)?;
                         self.started = true;
+                        self.start_view = Some(c.view);
+                        self.start_focal = focal;
                         self.history.clear();
                     }
                     if self.pointers.len() == 2 && phase == PointerPhase::Down {

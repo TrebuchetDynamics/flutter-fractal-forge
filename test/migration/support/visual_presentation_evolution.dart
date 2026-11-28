@@ -42,6 +42,28 @@ const historyReplayModuleIdTask = 'HISTORY-REPLAY-MODULE-ID-75';
 const androidGallerySaveTask = 'ANDROID-GALLERY-SAVE-76';
 const mandelbrotDf2Task = 'MANDELBROT-DF2-73';
 const exportCaptureSizeLimitTask = 'EXPORT-CAPTURE-SIZE-LIMIT-77';
+const diagnosticShareUtf8Task = 'DIAGNOSTIC-SHARE-UTF8-78';
+const contactSheetAspectTask = 'CONTACT-SHEET-ASPECT-79';
+const wallpaperStyleWorkerTask = 'WALLPAPER-STYLE-WORKER-80';
+const unusedHelpersTask = 'UNUSED-HELPERS-82';
+const langtonAntTask = 'LANGTON-ANT-96';
+const langtonAntPlaybackTask = 'LANGTON-ANT-97';
+const ulamSpiralTask = 'ULAM-SPIRAL-111';
+const pascalUlamPrimesTask = 'PASCAL-ULAM-PRIMES-112';
+const sacksSpiralTask = 'SACKS-SPIRAL-113';
+const _ulamShader = 'shaders/number_theory/ulam_spiral_gpu.frag';
+const _sacksShader = 'shaders/number_theory/sacks_spiral_gpu.frag';
+const _langtonAntPlaybackBase = 'b22c6f494e038a8f5d81c6e38902c8de1bf79350';
+// Authorize the complete module replacement independently of its stage seal.
+const _antPlaybackDeltaHash =
+    'd5907c9207f2e12c076fcba7b6646d78643baa26cdae3d9456ab41cd6f886d4a';
+const _langtonAntBase = 'df7183703bd6cb8e54744ae49fbbaff766bb4487';
+const _removedAntShader =
+    'shaders/cellular_and_stochastic/langton_ant_gpu.frag';
+// Independent of the candidate seal. Re-sealing cannot approve a different
+// module, shader record, preset, or parameter value in this successor.
+const _langtonAntDeltaHash =
+    'fac26c84b2d387fe47093ac6b658742d5fe334900e8dba1bb56d631a4be157a7';
 
 // This stage may only append these inputs in shader order and add their
 // defaults to the generated Default/Classic presets. Existing data is fixed.
@@ -102,6 +124,38 @@ const _catalogAdditionPolicies = {
       'lib/core/modules/module_registry.dart',
       'lib/features/renderer/cpu/formulas/cpu_formulas.dart',
       'lib/features/viewer/rendering/cpu_fallback_pane.dart',
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+      'pubspec.yaml',
+      'test/migration/support/visual_presentation_evolution.dart',
+    ],
+  },
+  ulamSpiralTask: {
+    'added_module_ids': ['ulam_spiral'],
+    'added_paths': [
+      'lib/core/modules/fractals/ulam_spiral_module.dart',
+      _ulamShader,
+    ],
+    'changed_paths': [
+      'lib/core/modules/fractal_mathematics.dart',
+      'lib/core/modules/module_registry.dart',
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+      'pubspec.yaml',
+      'test/migration/support/visual_presentation_evolution.dart',
+    ],
+  },
+  sacksSpiralTask: {
+    'added_module_ids': ['sacks_spiral'],
+    'added_paths': [
+      'lib/core/modules/fractals/sacks_spiral_module.dart',
+      _sacksShader,
+    ],
+    'changed_paths': [
+      'lib/core/modules/fractal_mathematics.dart',
+      'lib/core/modules/module_registry.dart',
       'lib/l10n/app_localizations.dart',
       'lib/l10n/app_localizations_en.dart',
       'lib/l10n/app_localizations_es.dart',
@@ -356,6 +410,11 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    pascalUlamPrimesTask => const [
+        'shaders/number_theory/pascal_ulam_gpu.frag',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     escapeTimeUniformDefaultsTask => const [
         'lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart',
         'lib/core/modules/builders/escape_time_catalog/families/kaleidoscopes.dart',
@@ -400,6 +459,70 @@ void validateVisualStage(Map stage) {
         'test/migration/support/provenance_transition.dart',
         'test/migration/support/visual_presentation_evolution.dart',
       ],
+    diagnosticShareUtf8Task => const [
+        'lib/features/viewer/diagnostics/viewer_debug_report.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    contactSheetAspectTask => const [
+        'lib/core/services/export/batch_export_service.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    wallpaperStyleWorkerTask => const [
+        'lib/core/services/export/export_service.dart',
+        'lib/features/viewer/export/viewer_export_actions.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    unusedHelpersTask => const [
+        'lib/core/modules/escape_time_perturb_module.dart',
+        'lib/core/services/export/export_coordinator.dart',
+        'lib/core/services/rendering/palette/palette_service.dart',
+        'lib/core/services/storage/history_store.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    langtonAntTask => const [
+        'lib/core/controllers/fractal_controller.dart',
+        'lib/core/controllers/params/fractal_param_randomizer.dart',
+        'lib/core/controllers/params/fractal_param_value_normalizer.dart',
+        'lib/core/models/fractal_parameter.dart',
+        'lib/core/modules/builders/escape_time_catalog/families/cellular_stochastic.dart',
+        'lib/core/modules/fractal_mathematics.dart',
+        'lib/core/modules/fractal_module.dart',
+        'lib/core/modules/module_registry.dart',
+        'lib/core/widgets/catalog_thumbnail.dart',
+        'lib/features/controls/param_control_plan.dart',
+        'lib/features/renderer/cpu/formulas/cpu_formulas.dart',
+        'lib/features/renderer/widgets/renderer/fractal_renderer.dart',
+        'lib/features/export/batch_export_dialog.dart',
+        'lib/features/viewer/chrome/fractal_controls_hud.dart',
+        'lib/features/viewer/chrome/viewer_tools.dart',
+        'lib/features/viewer/diagnostics/viewer_gpu_health.dart',
+        'lib/features/viewer/dialogs/viewer_dialogs.dart',
+        'lib/features/viewer/export/viewer_export_actions.dart',
+        'lib/features/viewer/fractal_viewer_screen.dart',
+        'lib/l10n/app_localizations.dart',
+        'lib/l10n/app_localizations_en.dart',
+        'lib/l10n/app_localizations_es.dart',
+        'pubspec.yaml',
+        'test/migration/support/baseline_inventory.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
+    langtonAntPlaybackTask => const [
+        'lib/core/modules/fractal_module.dart',
+        'lib/core/modules/fractals/langton_ant_frame.dart',
+        'lib/core/modules/fractals/langton_ant_module.dart',
+        'lib/features/renderer/widgets/renderer/fractal_renderer.dart',
+        'lib/features/viewer/langton_ant_view.dart',
+        'lib/l10n/app_localizations.dart',
+        'lib/l10n/app_localizations_en.dart',
+        'lib/l10n/app_localizations_es.dart',
+        'test/migration/support/provenance_transition.dart',
+        'test/migration/support/visual_presentation_evolution.dart',
+      ],
     _ when catalogPolicy != null => const <String>[],
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
@@ -421,8 +544,22 @@ void validateVisualStage(Map stage) {
       stage['task'] == perturbationOrbitCacheKeyTask ||
       stage['task'] == historyReplayModuleIdTask ||
       stage['task'] == androidGallerySaveTask ||
-      stage['task'] == exportCaptureSizeLimitTask;
+      stage['task'] == exportCaptureSizeLimitTask ||
+      stage['task'] == diagnosticShareUtf8Task ||
+      stage['task'] == contactSheetAspectTask ||
+      stage['task'] == wallpaperStyleWorkerTask ||
+      stage['task'] == unusedHelpersTask ||
+      stage['task'] == pascalUlamPrimesTask;
   final precisionChange = stage['task'] == mandelbrotDf2Task;
+  final exactAnt = stage['task'] == langtonAntTask;
+  final antPlayback = stage['task'] == langtonAntPlaybackTask;
+  if (exactAnt) {
+    visualRequire(stage['base_revision'] == _langtonAntBase, 'exact ant base');
+  }
+  if (antPlayback) {
+    visualRequire(
+        stage['base_revision'] == _langtonAntPlaybackBase, 'ant playback base');
+  }
   final maps = stage['binding_maps'] as Map;
   visualRequire(
       _equal.equals(maps.keys.toSet(), {
@@ -455,30 +592,56 @@ void validateVisualStage(Map stage) {
                   (v) => v is String && RegExp(r'^[a-f0-9]{64}$').hasMatch(v)),
           'binding hash format');
     }
-    visualRequire(before.keys.toSet().difference(after.keys.toSet()).isEmpty,
-        'removed binding');
-    // These oracles follow the controller's local import graph. The
-    // physical-events oracle already reached both files through the viewer.
-    final addedAliases = stage['task'] == historyReplayModuleIdTask &&
-            const {
-              'state-replay',
-              'precision-replay',
-              'param-interpolation',
-              'randomization',
-              'reference',
-            }.contains(entry.key)
-        ? const {
-            'lib/core/services/storage/preset_store.dart',
-            'lib/core/services/storage/preset_storage_slot.dart',
-          }
-        : const <String>{};
+    final removed = before.keys.toSet().difference(after.keys.toSet());
+    if (exactAnt) {
+      final expectedAdded = {
+        'lib/core/modules/fractals/langton_ant_module.dart',
+        'lib/core/modules/fractals/langton_ant_frame.dart',
+        if (entry.key == 'reference' || entry.key == 'physical-events')
+          'lib/features/viewer/langton_ant_view.dart',
+        if (entry.key == 'physical-events')
+          'lib/features/controls/widgets/langton_ant_rule_control.dart',
+      };
+      visualRequire(
+          _equal.equals(after.keys.toSet().difference(before.keys.toSet()),
+                  expectedAdded) &&
+              _equal.equals(removed, {
+                if (baselineNames.contains(entry.key) ||
+                    entry.key == 'reference')
+                  _removedAntShader,
+              }),
+          'exact ant binding key sets');
+    } else {
+      visualRequire(removed.isEmpty, 'removed binding');
+    }
+    // The reference renderer newly reaches the ant's accessibility setting.
+    // Physical-events already reached it through the full viewer.
+    final addedDependencies = switch (stage['task']) {
+      langtonAntPlaybackTask when entry.key == 'reference' => const {
+          'lib/core/services/platform/accessibility_service.dart',
+        },
+      historyReplayModuleIdTask
+          when const {
+            'state-replay',
+            'precision-replay',
+            'param-interpolation',
+            'randomization',
+            'reference',
+          }.contains(entry.key) =>
+        const {
+          'lib/core/services/storage/preset_store.dart',
+          'lib/core/services/storage/preset_storage_slot.dart',
+        },
+      _ => const <String>{},
+    };
     if (maintenance ||
+        antPlayback ||
         precisionChange ||
         stage['task'] == juliaUniformOrderTask ||
         stage['task'] == escapeTimeUniformDefaultsTask) {
       visualRequire(
-          _equal.equals(
-              after.keys.toSet().difference(before.keys.toSet()), addedAliases),
+          _equal.equals(after.keys.toSet().difference(before.keys.toSet()),
+              addedDependencies),
           'maintenance binding key sets');
     }
     if (catalogPolicy != null) {
@@ -490,7 +653,10 @@ void validateVisualStage(Map stage) {
     for (final key in after.keys.cast<String>()) {
       if (before[key] == after[key]) continue;
       changed = true;
-      if (addedAliases.contains(key)) continue;
+      if (addedDependencies.contains(key) ||
+          (exactAnt && !before.containsKey(key))) {
+        continue; // Additions have already been checked against exact sets.
+      }
       if (catalogPolicy == null) {
         visualRequire(allowed.contains(key), 'undeclared path $key');
       } else if (before.containsKey(key)) {
@@ -517,6 +683,12 @@ void validateVisualStage(Map stage) {
         catalogPolicy['added_module_ids']!.toSet(),
         addedPaths,
         maps['shader-contracts']['after'] as Map);
+  } else if (exactAnt) {
+    visualRequire(visualHash(deltas) == _langtonAntDeltaHash,
+        'unapproved exact ant semantic deltas');
+  } else if (antPlayback) {
+    visualRequire(visualHash(deltas) == _antPlaybackDeltaHash,
+        'unapproved ant playback semantic deltas');
   } else if (precisionChange) {
     visualRequire(
         _equal
@@ -698,24 +870,97 @@ void validateVisualSourceChain(
     String name, Map historical, Map current, List<Map> stages) {
   Map cursor = historical;
   final ordered = orderedVisualStages(stages);
-  for (final stage in ordered) {
-    final record = stage['binding_maps'][name] as Map;
-    if (name == 'shader-contracts' &&
-        stage['task'] == visualSurfaceTask &&
-        record['before']['pubspec.yaml'] != record['after']['pubspec.yaml']) {
-      final original = Process.runSync('timeout',
-          ['10', 'git', 'show', '${stage['base_revision']}:pubspec.yaml']);
-      visualRequire(original.exitCode == 0,
-          'cannot read base pubspec: ${original.stderr}');
-      final before = original.stdout as String;
-      final after = File('pubspec.yaml').readAsStringSync();
+  String pubspecAt(Object? revision) {
+    final result = Process.runSync(
+        'timeout', ['10', 'git', 'show', '$revision:pubspec.yaml']);
+    visualRequire(
+        result.exitCode == 0, 'cannot read base pubspec: ${result.stderr}');
+    return result.stdout as String;
+  }
+
+  if (name == 'shader-contracts') {
+    String? beforeAnt;
+    for (final stage in ordered.where((s) => s['task'] == langtonAntTask)) {
+      final record = stage['binding_maps'][name] as Map;
+      beforeAnt = pubspecAt(stage['base_revision']);
+      final afterAnt = beforeAnt.replaceFirst('    - $_removedAntShader\n', '');
       visualRequire(
-          sha256.convert(utf8.encode(before)).toString() ==
+          beforeAnt != afterAnt &&
+              sha256.convert(utf8.encode(beforeAnt)).toString() ==
+                  record['before']['pubspec.yaml'] &&
+              sha256.convert(utf8.encode(afterAnt)).toString() ==
+                  record['after']['pubspec.yaml'],
+          'exact ant removes only its retired shader registration');
+    }
+    const ulamRegistration = '    - $_ulamShader\n';
+    for (final stage in ordered.where((s) => s['task'] == ulamSpiralTask)) {
+      final record = stage['binding_maps'][name] as Map;
+      final before = pubspecAt(stage['base_revision']);
+      const recamanRegistration =
+          '    - shaders/number_theory/recaman_arcs_gpu.frag\n';
+      final after = before
+          .replaceFirst(
+              recamanRegistration, '$recamanRegistration$ulamRegistration')
+          .replaceFirst('1053 production fractals', '1054 production fractals');
+      visualRequire(
+          !before.contains(ulamRegistration) &&
+              after.contains(ulamRegistration) &&
+              sha256.convert(utf8.encode(before)).toString() ==
                   record['before']['pubspec.yaml'] &&
               sha256.convert(utf8.encode(after)).toString() ==
                   record['after']['pubspec.yaml'],
+          'Ulam adds only its shader registration and bumps the count');
+    }
+    const sacksRegistration = '    - $_sacksShader\n';
+    for (final stage in ordered.where((s) => s['task'] == sacksSpiralTask)) {
+      final record = stage['binding_maps'][name] as Map;
+      final before = pubspecAt(stage['base_revision']);
+      final after = before
+          .replaceFirst(ulamRegistration, '$ulamRegistration$sacksRegistration')
+          .replaceFirst('1054 production fractals', '1055 production fractals');
+      visualRequire(
+          !before.contains(sacksRegistration) &&
+              after.contains(sacksRegistration) &&
+              sha256.convert(utf8.encode(before)).toString() ==
+                  record['before']['pubspec.yaml'] &&
+              sha256.convert(utf8.encode(after)).toString() ==
+                  record['after']['pubspec.yaml'],
+          'Sacks adds only its shader registration and bumps the count');
+    }
+    // After #96, the pre-retirement bytes are the historical witness for
+    // the fixture insertion, even when a test verifies just a chain prefix.
+    // Reverse the exact spiral additions for these historical prefix checks.
+    var pubspec = File('pubspec.yaml').readAsStringSync();
+    if (pubspec.contains(sacksRegistration)) {
+      pubspec = pubspec
+          .replaceFirst(sacksRegistration, '')
+          .replaceFirst('1055 production fractals', '1054 production fractals');
+    }
+    final currentPubspec = pubspec.contains(ulamRegistration)
+        ? pubspec.replaceFirst(ulamRegistration, '').replaceFirst(
+            '1054 production fractals', '1053 production fractals')
+        : pubspec;
+    const antRegistration = '    - $_removedAntShader\n';
+    var fixturePubspec = currentPubspec;
+    if (!currentPubspec.contains(antRegistration)) {
+      fixturePubspec = beforeAnt ?? pubspecAt(_langtonAntBase);
+      visualRequire(
+          currentPubspec == fixturePubspec.replaceFirst(antRegistration, ''),
+          'stale pubspec source binding after exact ant');
+    }
+    for (final stage in ordered.where((s) => s['task'] == visualSurfaceTask)) {
+      final record = stage['binding_maps'][name] as Map;
+      if (record['before']['pubspec.yaml'] == record['after']['pubspec.yaml']) {
+        continue;
+      }
+      final before = pubspecAt(stage['base_revision']);
+      visualRequire(
+          sha256.convert(utf8.encode(before)).toString() ==
+                  record['before']['pubspec.yaml'] &&
+              sha256.convert(utf8.encode(fixturePubspec)).toString() ==
+                  record['after']['pubspec.yaml'],
           'stale pubspec source binding');
-      validateVisualFixtureRegistration(before, after);
+      validateVisualFixtureRegistration(before, fixturePubspec);
     }
   }
   for (final stage in ordered) {
@@ -1025,8 +1270,10 @@ Map evolveVisualDocument(String name, Map historical, List<Map> stages) {
         continue;
       }
       visualRequire(
-          // orderedVisualStages already verified the exact runtime bundle.
-          (stage['task'] == visualDefaultsTask &&
+          // orderedVisualStages already verified these exact bundles.
+          stage['task'] == langtonAntTask ||
+              stage['task'] == langtonAntPlaybackTask ||
+              (stage['task'] == visualDefaultsTask &&
                   _curatedRuntimeDocuments.contains(name)) ||
               _allowedDelta(name, document, delta, stage['task'] as String),
           'undeclared semantic delta $name ${delta['path']}');
@@ -1036,7 +1283,12 @@ Map evolveVisualDocument(String name, Map historical, List<Map> stages) {
           'stale/no-op semantic delta');
       final parent = _at(document, path.take(path.length - 1).toList());
       if (parent is List) {
-        parent[int.parse(path.last)] = delta['after'];
+        final index = int.parse(path.last);
+        if (stage['task'] == langtonAntTask && name == 'shader-contracts') {
+          parent.removeAt(index); // Verified retired shader record above.
+        } else {
+          parent[index] = delta['after'];
+        }
       } else {
         (parent as Map)[path.last] = delta['after'];
       }

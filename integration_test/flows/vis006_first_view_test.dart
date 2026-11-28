@@ -14,6 +14,7 @@ import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dar
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/viewer/langton_ant_view.dart';
 import 'package:flutter_fractals/main.dart';
 
 import '../helpers/ui_test_helpers.dart';
@@ -50,7 +51,10 @@ void main() {
   ];
 
   for (final item in cases) {
-    testWidgets('${item.id} Explore launch shows configured GPU first view',
+    final exactAnt = item.id == 'langton_ant';
+    final backend = exactAnt ? 'exact Canvas' : 'GPU';
+    testWidgets(
+        '${item.id} Explore launch shows configured $backend first view',
         (tester) async {
       await tester.pumpWidget(
         FlutterFractalsApp(
@@ -71,21 +75,40 @@ void main() {
       await tester.tap(moduleCard);
 
       final renderer = find.byType(FractalRenderer);
-      LogEntry? firstFrame;
-      for (var frame = 0; frame < 600 && firstFrame == null; frame++) {
-        await tester.pump(const Duration(milliseconds: 16));
-        for (final entry in AppLogger.instance.entries.reversed) {
-          if (entry.category == 'perf' &&
-              entry.message == 'gpu_first_frame' &&
-              entry.data?['module'] == item.id) {
-            firstFrame = entry;
-            break;
+      if (exactAnt) {
+        final grid = find.descendant(
+          of: renderer,
+          matching: find.byWidgetPredicate(
+            (widget) =>
+                widget is CustomPaint && widget.painter is LangtonAntPainter,
+          ),
+        );
+        for (var frame = 0; frame < 600 && grid.evaluate().isEmpty; frame++) {
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+        expect(grid, findsOneWidget);
+        final painter =
+            tester.widget<CustomPaint>(grid).painter! as LangtonAntPainter;
+        expect(painter.frame.rule, 'RL');
+        expect(painter.frame.completedSteps, 11000);
+        expect(painter.frame.cells, isNotEmpty);
+      } else {
+        LogEntry? firstFrame;
+        for (var frame = 0; frame < 600 && firstFrame == null; frame++) {
+          await tester.pump(const Duration(milliseconds: 16));
+          for (final entry in AppLogger.instance.entries.reversed) {
+            if (entry.category == 'perf' &&
+                entry.message == 'gpu_first_frame' &&
+                entry.data?['module'] == item.id) {
+              firstFrame = entry;
+              break;
+            }
           }
         }
+        expect(firstFrame, isNotNull,
+            reason: '${item.id} GPU first frame was not logged');
+        expect(firstFrame!.data?['backend'], 'gpu');
       }
-      expect(firstFrame, isNotNull,
-          reason: '${item.id} GPU first frame was not logged');
-      expect(firstFrame!.data?['backend'], 'gpu');
       expect(renderer, findsOneWidget);
       final controller = Provider.of<FractalController>(
         tester.element(renderer),

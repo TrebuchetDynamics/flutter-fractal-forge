@@ -695,6 +695,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paramIterations => 'Iterations';
 
   @override
+  String get langtonAntRule => 'Turn rule (L/R)';
+
+  @override
+  String get langtonAntInvalidRule => 'Enter 2–20 letters, using only L or R.';
+
+  @override
+  String get langtonAntComputing => 'Computing ant grid…';
+
+  @override
+  String langtonAntBoundary(int steps) {
+    return 'Stopped at step $steps: grid boundary reached.';
+  }
+
+  @override
+  String langtonAntCurrentStep(int steps) {
+    return 'Current step: $steps';
+  }
+
+  @override
   String get paramSteps => 'Steps';
 
   @override
@@ -1912,7 +1931,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1053 fractals';
+  String get homeFractalCountBadge => '1055 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -2236,7 +2255,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1053 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1055 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';
@@ -2386,6 +2405,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moduleRecamanArcs => 'Recamán\'s Sequence';
+
+  @override
+  String get moduleSacksSpiral => 'Sacks Spiral';
+
+  @override
+  String get sacksMarks => 'Marks';
+
+  @override
+  String get sacksPrimes => 'Primes';
+
+  @override
+  String get sacksPrimesAndSquares => 'Primes and squares';
+
+  @override
+  String get moduleUlamSpiral => 'Ulam Spiral';
+
+  @override
+  String get ulamStartValue => 'Centre value';
+
+  @override
+  String get ulamPattern => 'Pattern';
+
+  @override
+  String get ulamPrimes => 'Primes';
+
+  @override
+  String get ulamRandom => 'Random with prime density';
 
   @override
   String get recamanTerms => 'Terms';

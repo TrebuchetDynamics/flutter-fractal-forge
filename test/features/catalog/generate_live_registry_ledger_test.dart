@@ -38,6 +38,11 @@ void main() {
       (entry) => entry['stable_id'] == 'life_like_b000_s000',
     );
     expect(lifeLike['family'], 'cellular_automata');
+    final ant = decodedEntries.singleWhere(
+      (entry) => entry['stable_id'] == 'langton_ant',
+    );
+    expect(ant['family'], 'cellular_automata');
+    expect(ant['renderer_path'], 'lib/features/viewer/langton_ant_view.dart');
     expect(
       decodedEntries.any((entry) => entry['stable_id'] == 'hydrogen_orbital'),
       isFalse,

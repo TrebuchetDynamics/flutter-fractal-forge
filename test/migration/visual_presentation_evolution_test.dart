@@ -136,6 +136,50 @@ void main() {
     });
   }
 
+  test('Ulam Spiral is the catalog-only successor to Langton Ant playback', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.singleWhere((s) => s['task'] == ulamSpiralTask);
+    expect(stages[stages.indexOf(stage) - 1]['task'], langtonAntPlaybackTask);
+    expect(stage['kind'], 'catalog-addition');
+    expect(stage['added_module_ids'], ['ulam_spiral']);
+    expect(stage['compiled_artifacts'], isEmpty);
+  });
+
+  test('Pascal/Ulam prime correction is adjacent and source-only', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final prior = stages.singleWhere((s) => s['task'] == ulamSpiralTask);
+    final stage = stages.singleWhere((s) => s['task'] == pascalUlamPrimesTask);
+    expect(stages[stages.indexOf(stage) - 1], prior);
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    final maps = stage['binding_maps'] as Map;
+    expect(maps.length, 11);
+    final changed = <String>{};
+    for (final id in maps.keys) {
+      final before = maps[id]['before'] as Map;
+      final after = maps[id]['after'] as Map;
+      expect(before, prior['binding_maps'][id]['after'], reason: '$id');
+      expect(after.keys.toSet(), before.keys.toSet(), reason: '$id');
+      changed.addAll(
+          before.keys.cast<String>().where((p) => before[p] != after[p]));
+    }
+    expect(changed, {
+      'shaders/number_theory/pascal_ulam_gpu.frag',
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    });
+  });
+
+  test('Sacks Spiral is the catalog-only successor to Pascal/Ulam primes', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    expect(stage['task'], sacksSpiralTask);
+    expect(stages[stages.length - 2]['task'], pascalUlamPrimesTask);
+    expect(stage['kind'], 'catalog-addition');
+    expect(stage['added_module_ids'], ['sacks_spiral']);
+    expect(stage['compiled_artifacts'], isEmpty);
+  });
+
   test('phone slider successor binds exactly HUD and provenance helpers', () {
     final stages = orderedVisualStages(readVisualStages());
     final stage = stages.singleWhere((s) => s['task'] == phoneSliderTask);
@@ -239,6 +283,9 @@ void main() {
             '9c5e65894fd164774228fe278b37007a7cc604e3e8eed6d2e05a6a3c7882db1e',
         'test/migration/support/visual_presentation_evolution.dart':
             '0cdbb662905521af1ca7b7190e097a74e24e72bb2154e51f74fddad229ddc974',
+        // #96 hides the camera loop for the exact ant; keep the #31 hash.
+        'lib/features/viewer/chrome/viewer_tools.dart':
+            '590b91a22ba371147ecbd7d1f596c5692d10febfae067d1378743dc9e68b6c37',
         // Changed again by STATE-MACHINE-FIXES-49-60.
         'lib/features/viewer/fractal_viewer_screen.dart':
             'd9470c4555166f74fb764e66f35f74b5bfd5ac706865bc3d40e4d9ea41f89788',
@@ -345,7 +392,9 @@ void main() {
               'test/migration/support/visual_presentation_evolution.dart',
           },
           reason: entry.key as String);
-      const historicalHelpers = {
+      const historicalHashes = {
+        'lib/core/services/rendering/palette/palette_service.dart':
+            '76f2b893127fcb7d336937648a07360d5f6831d1c6339230e996c3181530753c',
         'test/migration/support/provenance_transition.dart':
             'c61dc40134e09adfb37ebb3b9482b1675c39e73d674e9514a42e19dcfd580cc0',
         'test/migration/support/visual_presentation_evolution.dart':
@@ -354,7 +403,7 @@ void main() {
       for (final path
           in before.keys.cast<String>().where((p) => before[p] != after[p])) {
         final current = sha256.convert(File(path).readAsBytesSync()).toString();
-        expect(after[path], historicalHelpers[path] ?? current);
+        expect(after[path], historicalHashes[path] ?? current);
         expect(stages.last['binding_maps'][entry.key]['after'][path], current);
       }
     }
@@ -437,6 +486,10 @@ void main() {
       const historicalSources = {
         'lib/features/viewer/fractal_viewer_screen.dart':
             '130d18a56639d9e1f65eb25a6cbdf5593ee4df8126a4df0b6992f3aadb6f1242',
+        'lib/features/renderer/widgets/renderer/fractal_renderer.dart':
+            '3a70c4b712befe36f08181d5dbc2ecf80a9ca7557b8564bf227f52c4adc1cb7a',
+        'lib/features/viewer/diagnostics/viewer_gpu_health.dart':
+            '42e7e59ed45c3a3da26aecdbc3be1117bfc7a81e7157023459762cef3088303f',
         'lib/core/controllers/fractal_controller.dart':
             '8bf7f233db1606f779ba59231c4026c46f12e446b734e5c5373f45a400561f1d',
         'test/migration/support/provenance_transition.dart':

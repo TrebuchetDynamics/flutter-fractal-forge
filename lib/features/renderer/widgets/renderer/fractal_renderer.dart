@@ -31,6 +31,7 @@ import '../../policy/render_plan.dart';
 import '../canvas/attractor_trajectory_canvas.dart';
 import '../canvas/fractal_canvas.dart';
 import 'number_wall_exact_renderer.dart';
+import 'package:flutter_fractals/features/viewer/langton_ant_view.dart';
 import '../effects/fluid_warp_effect.dart';
 import 'shaders/shader_error_policy.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -152,9 +153,7 @@ class FractalRenderer extends StatefulWidget {
   /// Called when the user ends a continuous gesture (drag/pinch).
   final VoidCallback? onUserInteractionEnd;
 
-  /// Whether time-based animation should advance.
-  ///
-  /// When false, rendering uses a fixed time (frame is frozen).
+  /// Whether animation should advance. When false, the frame is frozen.
   final bool animationEnabled;
 
   /// Optional child override that keeps full gesture handling while
@@ -395,6 +394,17 @@ class _FractalRendererState extends State<FractalRenderer>
     final module = controller.module;
 
     // Exact fields must win over generic CPU/precision overrides as well.
+    if (module.id == 'langton_ant') {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
+      return LangtonAntView(
+        key: ObjectKey(controller),
+        boundaryKey: widget.boundaryKey,
+        controller: controller,
+        animationEnabled: widget.animationEnabled,
+        controlsEnabled: widget.gesturesEnabled,
+        wrapCanvas: _wrapWithGestures,
+      );
+    }
     if (module.id == 'number_wall') {
       _stopAnimationTicker(reset: !widget.animationEnabled);
       final mode = context.watch<RendererSettingsService?>()?.backendMode ??

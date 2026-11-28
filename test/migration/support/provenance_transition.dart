@@ -336,6 +336,13 @@ void verifySourceStages(String id, Map before, Map current,
           s['task'] == androidGallerySaveTask ||
           s['task'] == mandelbrotDf2Task ||
           s['task'] == exportCaptureSizeLimitTask ||
+          s['task'] == diagnosticShareUtf8Task ||
+          s['task'] == contactSheetAspectTask ||
+          s['task'] == wallpaperStyleWorkerTask ||
+          s['task'] == unusedHelpersTask ||
+          s['task'] == langtonAntTask ||
+          s['task'] == langtonAntPlaybackTask ||
+          s['task'] == pascalUlamPrimesTask ||
           isCatalogAdditionTask(s['task']))
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
