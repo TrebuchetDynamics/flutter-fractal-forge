@@ -91,6 +91,13 @@ changelog="$(cat "$FASTLANE_SOURCE/changelogs/$BUILD_NUMBER.txt")"
 (( ${#changelog} <= 500 )) || {
   echo "[fdroid] ERROR: F-Droid changelog exceeds 500 characters" >&2; exit 1;
 }
+# F-Droid looks changelogs up by its per-ABI version codes (base * 10 + 1..3).
+for abi_code in 1 2 3; do
+  abi_changelog="changelogs/$((BUILD_NUMBER * 10 + abi_code)).txt"
+  cmp -s "$FASTLANE_SOURCE/changelogs/$BUILD_NUMBER.txt" "$FASTLANE_SOURCE/$abi_changelog" || {
+    echo "[fdroid] ERROR: $abi_changelog must exist and match changelogs/$BUILD_NUMBER.txt" >&2; exit 1;
+  }
+done
 
 OUTPUT_DIR="$(mkdir -p "$OUTPUT_DIR" && cd "$OUTPUT_DIR" && pwd -P)"
 FDROIDDATA_DIR="$OUTPUT_DIR/fdroiddata"

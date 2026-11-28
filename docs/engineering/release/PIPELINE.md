@@ -227,7 +227,8 @@ consumed-code check.
 ## Release ritual
 
 1. Decide the version code from `scripts/ci/play-status.sh`, not from memory.
-2. Commit `fdroid/version.properties` + `fastlane/metadata/android/en-US/changelogs/<build>.txt`.
+2. Commit `fdroid/version.properties` + `fastlane/metadata/android/en-US/changelogs/<build>.txt`,
+   plus identical F-Droid copies `<build>1.txt`, `<build>2.txt` and `<build>3.txt`.
 3. `scripts/release-play.sh --dry-run --play-status-json <status.json>` to see the
    plan and the version-code verdict without touching anything.
 4. Run the real pipeline; keep the artifact directory.

@@ -104,6 +104,13 @@ teardown() {
   ! grep -Fq "$OUTPUT_DIR/" "$archive.sha256"
 }
 
+@test "release changelog has identical copies for each F-Droid ABI version code" {
+  changelogs="$REPO_ROOT/fastlane/metadata/android/en-US/changelogs"
+  for abi_code in 1 2 3; do
+    cmp "$changelogs/$RELEASE_BUILD_NUMBER.txt" "$changelogs/$RELEASE_BUILD_NUMBER$abi_code.txt"
+  done
+}
+
 @test "pipeline rejects a release identity absent from the tracked F-Droid marker" {
   run "$REPO_ROOT/scripts/build-fdroid.sh" \
     --metadata-only \
