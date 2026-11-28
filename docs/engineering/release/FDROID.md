@@ -81,7 +81,7 @@ Outputs are written below `release-artifacts/fdroid/`:
 Before creating each release tag:
 
 1. Update `fdroid/version.properties` so `versionName=X.Y.Z` and `versionCode=Z` match the repository's release policy.
-2. Add `fastlane/metadata/android/en-US/changelogs/Z.txt` with at most 500 characters.
+2. Add `fastlane/metadata/android/en-US/changelogs/Z.txt` with at most 500 characters, plus identical copies named `Z1.txt`, `Z2.txt` and `Z3.txt`. F-Droid looks changelogs up by its per-ABI version codes, and `scripts/build-fdroid.sh` refuses to run without the three copies.
 3. Update the Fastlane title/descriptions when store-facing text changes. The short description must be at most 80 characters and must not end with a period.
 4. Commit these changes before running the release orchestrator. The official metadata uses the full tagged commit, never a branch name.
 
