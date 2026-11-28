@@ -145,6 +145,32 @@ void main() {
     expect(stage['compiled_artifacts'], isEmpty);
   });
 
+  test('Pascal/Ulam prime correction is adjacent and source-only', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final prior = stages.singleWhere((s) => s['task'] == ulamSpiralTask);
+    final stage = stages.last;
+    expect(stage['task'], pascalUlamPrimesTask);
+    expect(stages[stages.length - 2], prior);
+    expect(stage['semantic_deltas'], isEmpty);
+    expect(stage['compiled_artifacts'], isEmpty);
+    final maps = stage['binding_maps'] as Map;
+    expect(maps.length, 11);
+    final changed = <String>{};
+    for (final id in maps.keys) {
+      final before = maps[id]['before'] as Map;
+      final after = maps[id]['after'] as Map;
+      expect(before, prior['binding_maps'][id]['after'], reason: '$id');
+      expect(after.keys.toSet(), before.keys.toSet(), reason: '$id');
+      changed.addAll(
+          before.keys.cast<String>().where((p) => before[p] != after[p]));
+    }
+    expect(changed, {
+      'shaders/number_theory/pascal_ulam_gpu.frag',
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    });
+  });
+
   test('phone slider successor binds exactly HUD and provenance helpers', () {
     final stages = orderedVisualStages(readVisualStages());
     final stage = stages.singleWhere((s) => s['task'] == phoneSliderTask);

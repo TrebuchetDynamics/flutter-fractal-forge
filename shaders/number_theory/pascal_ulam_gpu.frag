@@ -1,6 +1,7 @@
 #include <flutter/runtime_effect.glsl>
 
 precision highp float;
+precision highp int;
 
 uniform float uTime;
 uniform vec2  uResolution;
@@ -52,12 +53,14 @@ float pascalOdd(float n, float k) {
 }
 
 bool isPrime(int n) {
-  if (n < 2) return false;
-  if (n == 2) return true;
-  if ((n / 2) * 2 == n) return false;
-  for (int d = 3; d < 128; d += 2) {
+  if (n < 4) return n >= 2;
+  if ((n / 2) * 2 == n || (n / 3) * 3 == n) return false;
+  // Ring 500 ends at 1001²; only 6m ± 1 can be prime beyond 3.
+  for (int d = 5; d <= 1001; d += 6) {
     if (d * d > n) break;
     if ((n / d) * d == n) return false;
+    int next = d + 2;
+    if (next * next <= n && (n / next) * next == n) return false;
   }
   return true;
 }
@@ -103,7 +106,7 @@ void main() {
     float odd = pascalOdd(n, k) * inside;
     float t = fract(n * 0.015 + k * 0.021 + uTime * 0.00004);
     color = mix(color, palette(t, uColorScheme), odd * gridLine);
-  } else {
+  } else if (max(abs(grid.x), abs(grid.y)) <= 500.0) {
     int x = int(grid.x);
     int y = int(grid.y);
     int n = ulamIndex(x, y);
