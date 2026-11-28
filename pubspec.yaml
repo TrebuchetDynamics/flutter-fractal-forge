@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1054 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1055 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -602,6 +602,7 @@ flutter:
     - shaders/number_theory/gaussian_prime_lattice_gpu.frag
     - shaders/number_theory/recaman_arcs_gpu.frag
     - shaders/number_theory/ulam_spiral_gpu.frag
+    - shaders/number_theory/sacks_spiral_gpu.frag
     - shaders/number_theory/zeta_critical_strip_gpu.frag
     - shaders/number_theory/thomae_popcorn_field_gpu.frag
     - shaders/lyapunov_and_stability/arnold_tongues_gpu.frag

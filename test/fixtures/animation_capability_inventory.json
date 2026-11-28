@@ -4555,6 +4555,11 @@
     "capability": "static"
   },
   {
+    "id": "sacks_spiral",
+    "shaderAsset": "shaders/number_theory/sacks_spiral_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "sakarya",
     "shaderAsset": "shaders/strange_attractors/sakarya_gpu.frag",
     "capability": "static"

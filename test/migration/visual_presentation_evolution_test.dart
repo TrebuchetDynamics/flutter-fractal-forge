@@ -148,9 +148,8 @@ void main() {
   test('Pascal/Ulam prime correction is adjacent and source-only', () {
     final stages = orderedVisualStages(readVisualStages());
     final prior = stages.singleWhere((s) => s['task'] == ulamSpiralTask);
-    final stage = stages.last;
-    expect(stage['task'], pascalUlamPrimesTask);
-    expect(stages[stages.length - 2], prior);
+    final stage = stages.singleWhere((s) => s['task'] == pascalUlamPrimesTask);
+    expect(stages[stages.indexOf(stage) - 1], prior);
     expect(stage['semantic_deltas'], isEmpty);
     expect(stage['compiled_artifacts'], isEmpty);
     final maps = stage['binding_maps'] as Map;
@@ -169,6 +168,16 @@ void main() {
       'test/migration/support/provenance_transition.dart',
       'test/migration/support/visual_presentation_evolution.dart',
     });
+  });
+
+  test('Sacks Spiral is the catalog-only successor to Pascal/Ulam primes', () {
+    final stages = orderedVisualStages(readVisualStages());
+    final stage = stages.last;
+    expect(stage['task'], sacksSpiralTask);
+    expect(stages[stages.length - 2]['task'], pascalUlamPrimesTask);
+    expect(stage['kind'], 'catalog-addition');
+    expect(stage['added_module_ids'], ['sacks_spiral']);
+    expect(stage['compiled_artifacts'], isEmpty);
   });
 
   test('phone slider successor binds exactly HUD and provenance helpers', () {

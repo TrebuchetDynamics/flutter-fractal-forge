@@ -234,6 +234,14 @@ class FractalMathematics {
       qualification =
           'Prime distribution on a finite square spiral, not a self-similar fractal';
     }
+    if (module.id == 'sacks_spiral') {
+      family = 'Number Theory';
+      algebra = 'Integers';
+      view = 'Archimedean spiral of integers';
+      method = 'Sacks number spiral';
+      qualification =
+          'Prime distribution on a finite spiral, not a self-similar fractal';
+    }
     if (module.id == 'recaman_arcs') {
       family = 'Number Theory';
       algebra = 'Integers';
@@ -275,6 +283,9 @@ class FractalMathematics {
       final raw = params['startValue'];
       final start = raw is num && raw.isFinite ? raw.clamp(1, 100).round() : 1;
       return 'n = $start + k − 1; k = 1 at the centre, then right, up, left, and down in expanding square rings. Primality is exact by trial division in rings 0–500.';
+    }
+    if (_module.id == 'sacks_spiral') {
+      return 'n at radius √n, angle 2π√n; squares on the positive x-axis';
     }
     if (_module.id == 'recaman_arcs') {
       return 'a(0) = 0; a(n) = a(n−1) − n if positive and unused, otherwise a(n−1) + n';

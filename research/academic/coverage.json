@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1062,
+    "app": 1063,
     "planned": 1,
     "reference": 200,
     "registry": 1623
@@ -7295,6 +7295,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.rule90_linear_ca",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.sacks_spiral",
       "name": "",
       "namespace": "app",
       "paper_ids": [],
