@@ -50431,16 +50431,12 @@ fractals:
       confidence: 0.9
   - id: f0793_sacks_spiral
     name: Sacks Spiral
-    shader: shaders/f0793_sacks_spiral_gpu.frag
+    shader: shaders/number_theory/sacks_spiral_gpu.frag
     category: Number-Theory Fractals
     dimension: 2D
-    defaultPower: 2.0
-    defaultIterations: 100000.0
-    defaultSteps: 0.0
-    defaultBailout: 2.0
-    defaultColorScheme: 0
+    defaultColorScheme: 1
     hasThumbnail: true
-    implemented: false
+    implemented: true
     presets:
       - default
     variants: []
@@ -50449,9 +50445,10 @@ fractals:
         title: Number spiral
         year: 1994
         url: http://www.numberspiral.com/
-    tier: reference
+    tier: implemented
     formula_hash: sha256:85e5e960c78d6a4a361f60ba7df0163f8d2f757c945dd92f25c6b9e2c7730331
-    aliases: []
+    aliases:
+      - sacks_spiral
     canonical_name: Sacks Spiral
     quality:
       formula_hash: sha256:85e5e960c78d6a4a361f60ba7df0163f8d2f757c945dd92f25c6b9e2c7730331

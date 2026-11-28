@@ -50,7 +50,9 @@ const langtonAntTask = 'LANGTON-ANT-96';
 const langtonAntPlaybackTask = 'LANGTON-ANT-97';
 const ulamSpiralTask = 'ULAM-SPIRAL-111';
 const pascalUlamPrimesTask = 'PASCAL-ULAM-PRIMES-112';
+const sacksSpiralTask = 'SACKS-SPIRAL-113';
 const _ulamShader = 'shaders/number_theory/ulam_spiral_gpu.frag';
+const _sacksShader = 'shaders/number_theory/sacks_spiral_gpu.frag';
 const _langtonAntPlaybackBase = 'b22c6f494e038a8f5d81c6e38902c8de1bf79350';
 // Authorize the complete module replacement independently of its stage seal.
 const _antPlaybackDeltaHash =
@@ -134,6 +136,22 @@ const _catalogAdditionPolicies = {
     'added_paths': [
       'lib/core/modules/fractals/ulam_spiral_module.dart',
       _ulamShader,
+    ],
+    'changed_paths': [
+      'lib/core/modules/fractal_mathematics.dart',
+      'lib/core/modules/module_registry.dart',
+      'lib/l10n/app_localizations.dart',
+      'lib/l10n/app_localizations_en.dart',
+      'lib/l10n/app_localizations_es.dart',
+      'pubspec.yaml',
+      'test/migration/support/visual_presentation_evolution.dart',
+    ],
+  },
+  sacksSpiralTask: {
+    'added_module_ids': ['sacks_spiral'],
+    'added_paths': [
+      'lib/core/modules/fractals/sacks_spiral_module.dart',
+      _sacksShader,
     ],
     'changed_paths': [
       'lib/core/modules/fractal_mathematics.dart',
@@ -893,11 +911,31 @@ void validateVisualSourceChain(
                   record['after']['pubspec.yaml'],
           'Ulam adds only its shader registration and bumps the count');
     }
+    const sacksRegistration = '    - $_sacksShader\n';
+    for (final stage in ordered.where((s) => s['task'] == sacksSpiralTask)) {
+      final record = stage['binding_maps'][name] as Map;
+      final before = pubspecAt(stage['base_revision']);
+      final after = before
+          .replaceFirst(ulamRegistration, '$ulamRegistration$sacksRegistration')
+          .replaceFirst('1054 production fractals', '1055 production fractals');
+      visualRequire(
+          !before.contains(sacksRegistration) &&
+              after.contains(sacksRegistration) &&
+              sha256.convert(utf8.encode(before)).toString() ==
+                  record['before']['pubspec.yaml'] &&
+              sha256.convert(utf8.encode(after)).toString() ==
+                  record['after']['pubspec.yaml'],
+          'Sacks adds only its shader registration and bumps the count');
+    }
     // After #96, the pre-retirement bytes are the historical witness for
     // the fixture insertion, even when a test verifies just a chain prefix.
-    // Reverse the exact Ulam addition for historical prefix checks. The
-    // current bytes are bound separately by the terminal Ulam stage.
-    final pubspec = File('pubspec.yaml').readAsStringSync();
+    // Reverse the exact spiral additions for these historical prefix checks.
+    var pubspec = File('pubspec.yaml').readAsStringSync();
+    if (pubspec.contains(sacksRegistration)) {
+      pubspec = pubspec
+          .replaceFirst(sacksRegistration, '')
+          .replaceFirst('1055 production fractals', '1054 production fractals');
+    }
     final currentPubspec = pubspec.contains(ulamRegistration)
         ? pubspec.replaceFirst(ulamRegistration, '').replaceFirst(
             '1054 production fractals', '1053 production fractals')

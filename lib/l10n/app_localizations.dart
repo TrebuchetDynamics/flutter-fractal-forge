@@ -3612,7 +3612,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1054 fractals'**
+  /// **'1055 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -4200,7 +4200,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1054 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1055 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
@@ -4472,6 +4472,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recamán\'s Sequence'**
   String get moduleRecamanArcs;
+
+  /// No description provided for @moduleSacksSpiral.
+  ///
+  /// In en, this message translates to:
+  /// **'Sacks Spiral'**
+  String get moduleSacksSpiral;
+
+  /// No description provided for @sacksMarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Marks'**
+  String get sacksMarks;
+
+  /// No description provided for @sacksPrimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Primes'**
+  String get sacksPrimes;
+
+  /// No description provided for @sacksPrimesAndSquares.
+  ///
+  /// In en, this message translates to:
+  /// **'Primes and squares'**
+  String get sacksPrimesAndSquares;
 
   /// No description provided for @moduleUlamSpiral.
   ///

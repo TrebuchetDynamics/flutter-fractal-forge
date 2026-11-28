@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1062,
+    "explore_core": 1063,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -927,6 +927,7 @@
       "core.rucklidge",
       "core.rule150_linear_ca",
       "core.rule90_linear_ca",
+      "core.sacks_spiral",
       "core.sakarya",
       "core.sandpile",
       "core.schottky_limit_set",

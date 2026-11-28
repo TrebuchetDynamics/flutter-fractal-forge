@@ -230,6 +230,7 @@ void main() {
       langtonAntPlaybackTask,
       ulamSpiralTask,
       pascalUlamPrimesTask,
+      sacksSpiralTask,
     });
     final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
     final recovery =
@@ -297,6 +298,7 @@ void main() {
     final ulam = candidates.singleWhere((s) => s['task'] == ulamSpiralTask);
     final pascalUlamPrimes =
         candidates.singleWhere((s) => s['task'] == pascalUlamPrimesTask);
+    final sacks = candidates.singleWhere((s) => s['task'] == sacksSpiralTask);
     expect(
         recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
     expect(recovery['semantic_deltas'], isEmpty);
@@ -340,6 +342,7 @@ void main() {
         antPlayback,
         ulam,
         pascalUlamPrimes,
+        sacks,
       ]);
       for (final id in maps.keys.cast<String>()) {
         final record = maps[id] as Map;
@@ -365,7 +368,7 @@ void main() {
         verifySourceStages(
             id,
             historical.first['binding_maps'][id]['before'] as Map,
-            pascalUlamPrimes['binding_maps'][id]['after'] as Map,
+            sacks['binding_maps'][id]['after'] as Map,
             stages: [...order, ...historical.reversed]);
       }
     }
